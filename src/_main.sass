@@ -1,0 +1,28 @@
+@use './styles/variables'
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap')
+
+html, body
+    margin: 0
+    padding: 0
+
+*
+    box-sizing: border-box
+    font-family: 'Ubuntu'
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+p, a
+    font-size: 1.5vh
+    text-decoration: none
+    text-transform: capitalize
+
+::-webkit-scrollbar
+    width: 2px
+
+::-webkit-scrollbar-track
+    box-shadow: none
+    background: variables.$white
+
+::-webkit-scrollbar-thumb
+    background: variables.$secondary

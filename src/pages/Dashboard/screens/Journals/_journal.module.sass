@@ -1,0 +1,126 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.mainSection
+    width: 100%
+
+.sideSection
+    width: 36vh
+    min-width: 300px
+    height: 100vh
+    background-color: white
+    border-right: 1px solid rgba(variables.$black, 0.15)
+
+.sideSectionHeader
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+    height: 10vh
+
+.sectionIcon
+    all: unset
+    height: 100%
+    width: 100%
+    +mixins.center
+    color: variables.$secondary
+    border-bottom: 1px solid rgba(variables.$black, 0.15)
+    border-top: 1px solid rgba(variables.$black, 0.15)
+    cursor: pointer
+
+.sectionIcon svg
+    width: 5vh
+    height: 5vh
+    padding: 1.25vh
+    
+.sectionIcon:nth-child(2)
+    border-left: 1px solid rgba(variables.$black, 0.15)
+    border-right: 1px solid rgba(variables.$black, 0.15)
+
+.activeSectionIcon
+    background: variables.$white
+
+.sideSectionSlot
+    width: 100%
+    height: 10vh
+    display: flex
+    align-items: center
+    padding: 0 4vh
+    border-bottom: 1px solid rgba(variables.$black, 0.15)
+    color: variables.$secondary
+
+.activeSectionSlot
+    background: variables.$white
+
+.bookSection
+    padding: 0 3vh
+    height: 100vh
+    background-color: white
+    border-right: 1px solid rgba(variables.$black, 0.15)
+
+.noteSelect
+    height: 90vh
+    width: 12vh
+    display: flex
+    flex-flow: column
+    justify-content: center
+    border-left: 1px solid rgba(variables.$black, 0.15)
+    button
+        all: unset
+        cursor: pointer
+        color: variables.$secondary
+        white-space: nowrap
+        height: 10vh
+        display: flex
+        flex-flow: column
+        justify-content: center
+        align-items: center
+        border-radius: 1.25vh 1.25vh
+        margin: 2vh 0
+
+.plusIcon
+    font-size: 2vh
+    font-weight: 300
+    background-color: variables.$white
+    color: variables.$secondary
+    border-radius: 100vh 100vh
+    width: 3vh
+    height: 3vh
+    +mixins.center
+    margin-bottom: 1vh
+
+.noteSection
+    width: 100%
+    height: 90vh
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    grid-template-rows: 1fr 1fr 1fr
+    overflow-y: auto
+    grid-gap: 2.5vh
+    padding: 2.5vh
+
+.note
+    min-height: 35vh
+    width: 100%
+    border-radius: 2.5vh 2.5vh
+    padding: 2.5vh
+    background-color: variables.$white
+    text-decoration: none
+    color: variables.$black
+
+.noteEditor
+    width: 100%
+    height: 100%
+
+.noteArea
+    margin: 2.5vh
+    height: calc( 100% - 25vh )
+    width: calc(100% - 15vh)
+
+.noteArea textarea
+    all: unset
+    width: 100%
+    height: 100%
+    background-color: variables.$white
+    padding: 5vh
+    +mixins.text

@@ -1,0 +1,54 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+    
+aside
+    width: 12vh
+    min-width: 100px
+    height: 100vh
+    background-color: variables.$white
+    +mixins.center
+    position: relative
+    border-right: 1px solid rgba(variables.$black, 0.15)
+
+.iconButton 
+    all: unset
+    color: variables.$secondary
+    margin-bottom: 3vh
+    +mixins.center
+    cursor: pointer
+
+.iconButton svg
+    background-color: white
+    padding: 1.25vh
+    width: 5vh
+    height: 5vh
+    border-radius: 1.25vh 1.25vh
+
+.iconButton p
+    margin: 0
+    padding: 0
+    margin-top: 1.5vh
+    text-transform: capitalize
+
+.iconButton:first-child p
+    display: none
+
+.iconButton:first-child svg
+    background: transparent
+    stroke: white
+    
+.iconButton:first-child
+    position: absolute
+    top: 0
+    width: 100%
+    height: 10vh
+    background-color: variables.$black
+
+.iconButton:last-child
+    position: absolute
+    bottom: 0
+
+.activeIconButton svg
+    background-color: variables.$primary
+    color: white
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1)
