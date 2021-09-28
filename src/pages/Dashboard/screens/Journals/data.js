@@ -14,6 +14,7 @@ const data = [
                         slots: [
                             {
                                 id: 0,
+                                title: '',
                                 subsections: [
                                     {
                                         name: 'brain dump',

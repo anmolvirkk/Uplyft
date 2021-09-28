@@ -8,14 +8,18 @@ header
     border-bottom: 1px solid rgba(variables.$black, 0.15)
     display: flex
     align-items: center
-    justify-content: flex-end
+    justify-content: space-between
     color: variables.$black
+    padding: 2.5vh
 
 header button   
     all: unset
     cursor: pointer
     height: 100%
     margin-right: 3vh
+
+header button:last-child
+    margin-right: 0
 
 header p
     line-height: 0
@@ -24,3 +28,6 @@ header p
 
 header svg
     height: 1.75vh
+
+.date
+    font-size: 1.25vh
