@@ -16,13 +16,13 @@ const MoreMenu = ({styles}) => {
     });
 
     const toggleMenu = () => {
-        setVisible('block')
+        visible==='none' ? setVisible('block') : setVisible('none')
     }
 
     return (
-        <div className={styles.moreMenuIcon} onClick={toggleMenu}>
+        <div className={styles.moreMenuIcon} onClick={toggleMenu} id="moreMenu">
             <MoreVertical />
-            <ul className={styles.moreMenu} id="moreMenu" style={{display: visible}}>
+            <ul className={styles.moreMenu} style={{display: visible}}>
                 <li>rename</li>
                 <li>delete</li>
             </ul>
