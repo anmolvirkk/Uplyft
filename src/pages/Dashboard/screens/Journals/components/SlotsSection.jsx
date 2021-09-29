@@ -1,36 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
-import AddButton from './AddButton'
-import {MoreVertical} from 'react-feather'
+import MoreMenu from '../../../components/MoreMenu'
+import AddButton from '../../../components/AddButton'
+import {ArrowDown} from 'react-feather'
 
-const MoreMenu = ({styles}) => {
-
-    const [visible, setVisible] = useState('block');
-    
-    
-    document.addEventListener('mouseup', function(e) {
-        const moreMenu = document.getElementById('moreMenu');
-        if (!moreMenu.contains(e.target)) {
-            setVisible('none')
-        }
-    });
-
-    const toggleMenu = () => {
-        visible==='none' ? setVisible('block') : setVisible('none')
-    }
-
-    return (
-        <div className={styles.moreMenuIcon} onClick={toggleMenu} id="moreMenu">
-            <MoreVertical />
-            <ul className={styles.moreMenu} style={{display: visible}}>
-                <li>rename</li>
-                <li>delete</li>
-            </ul>
-        </div>
-    )
-}
-
-const SlotsSection = ({styles, journalData, currentBook, currentSection, setCurrentSection, setCurrentSlot}) => (
+const SlotsSection = ({styles, journalData, setJournalData, currentBook, currentSection, setCurrentSection, setCurrentSlot}) => (
     <div className={styles.sideSection}>
         <div className={styles.sideSectionHeader}>
             {journalData[currentBook].sections.map((props)=>(
@@ -41,14 +15,15 @@ const SlotsSection = ({styles, journalData, currentBook, currentSection, setCurr
         </div>
         <div className={styles.slotSection}>
             {currentSection==="notes" ? journalData[currentBook].sections[0].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? 'Untitled' : props.title}</p><MoreMenu styles={styles} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
                 }) : currentSection==="tasks" ? journalData[currentBook].sections[1].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? 'Untitled' : props.title}</p><MoreMenu styles={styles} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
                 }) : journalData[currentBook].sections[2].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? 'Untitled' : props.title}</p><MoreMenu styles={styles} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
             })}
+            {journalData[currentBook].sections[0].slots.length<=0 ? <div className={styles.helperTextAddEntry}><p>Add your first journal entry!</p><ArrowDown /></div> : null}
         </div>
-        <AddButton name="section" styles={styles} />
+        <AddButton name="entry" journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} />
     </div>
 )
 

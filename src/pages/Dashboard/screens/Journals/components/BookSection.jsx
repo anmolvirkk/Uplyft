@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './_book.scss'
-import AddButton from './AddButton'
+import AddButton from '../../../components/AddButton'
 
 const BookSection = ({ styles, journalData, setCurrentBook}) => {
 
@@ -27,7 +27,7 @@ const BookSection = ({ styles, journalData, setCurrentBook}) => {
             </NavLink>
             ))}
         </div>
-        <AddButton name="journal" styles={styles} />
+        <AddButton name="journal" />
     </div>
 )
 }

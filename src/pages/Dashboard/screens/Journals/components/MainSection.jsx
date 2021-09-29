@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../../../components/Header'
 import NoteEditor from './NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
+import {ArrowRight, Edit} from 'react-feather'
 
 const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData}) => {
 
@@ -44,12 +45,14 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
         })
     }
 
-    journalData[currentBook].sections[0].slots[currentSlot].subsections.forEach((props)=>{
-        props.data.forEach((props2)=>{
-            let tempObj = {...props2}
-            notes.push(tempObj)
+    if(journalData[currentBook].sections[0].slots.length>0) {
+        journalData[currentBook].sections[0].slots[currentSlot].subsections.forEach((props)=>{
+            props.data.forEach((props2)=>{
+                let tempObj = {...props2}
+                notes.push(tempObj)
+            })
         })
-    })
+    }
 
     return (
         <div className={styles.mainSection}>
@@ -61,21 +64,32 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                 <Header />
                             
                                 <div style={{display: 'flex'}}>
-                                    <div className={styles.noteSection}>
+                                    
+                                    {
+                                        notes.length <= 0 && journalData[currentBook].sections[0].slots.length>0 ? <div className={styles.helperTextAddNote}><p>Add your first note!</p><ArrowRight /></div> 
+                                        : 
+                                        <div className={styles.noteSection}>
 
-                                        {
-                                            notes.map((props)=>(
-                                                <Link key={props.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props.id}`} style={{backgroundColor: props.color}} className={styles.note}>
-                                                    <h3>{props.name}</h3>
-                                                    <h1>{props.title}</h1>
-                                                    <p>{props.body}</p>
-                                                </Link>
-                                            ))
-                                        }
+                                            {
+                                                notes.map((props)=>(
+                                                    <Link key={props.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props.id}`} style={{backgroundColor: props.color}} className={styles.note}>
+                                                        {props.title==='' && props.body==='' ? <div className={styles.helperTextEditNote}><Edit /></div>
+                                                        : 
+                                                        <div>
+                                                            <h3>{props.name}</h3>
+                                                            <h1>{props.title}</h1>
+                                                            <p>{props.body}</p>
+                                                        </div>
+                                                        }
+                                                    </Link>
+                                                ))
+                                            }
                                         
-                                    </div>
+                                        </div>
+                                    }
+
                                     <div className={styles.noteSelect}>
-                                        {currentSection==="notes" ? journalData[currentBook].sections[0].slots[currentSlot].subsections.map((props)=>(
+                                        {currentSection==="notes" && journalData[currentBook].sections[0].slots.length>0 ? journalData[currentBook].sections[0].slots[currentSlot].subsections.map((props)=>(
                                             <button onClick={()=>addNote(journalData, currentBook, currentSlot, setJournalData, props.name)} key={props.id}><span className={styles.plusIcon} style={{backgroundColor: props.color}} />{props.name}</button>
                                         ))  : null
                                         }

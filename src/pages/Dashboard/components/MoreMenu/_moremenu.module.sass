@@ -1,0 +1,18 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+    
+.moreMenuIcon
+    position: relative
+    +mixins.center
+    .moreMenu
+        position: absolute
+        top: 3.5vh
+        right: -3.5vh
+        background: variables.$black
+        color: variables.$white
+        list-style: none
+        +mixins.center
+        li
+            border-bottom: 1px solid rgba(variables.$white, 0.15)
+            width: 100%
+            padding: 1.25vh 3.5vh
