@@ -2,15 +2,17 @@ import React, {useState} from 'react'
 import {MoreVertical} from 'react-feather'
 import styles from './_moremenu.module.sass'
 
-const MoreMenu = ({items}) => {
+const MoreMenu = ({items, id}) => {
 
     const [visible, setVisible] = useState('none');
     
     
     document.addEventListener('mouseup', function(e) {
-        const moreMenu = document.getElementById('moreMenu');
-        if (!moreMenu.contains(e.target)) {
-            setVisible('none')
+        const moreMenu = document.getElementById(id);
+        if(moreMenu){
+            if (!moreMenu.contains(e.target)) {
+                setVisible('none')
+            }
         }
     });
 
@@ -19,7 +21,7 @@ const MoreMenu = ({items}) => {
     }
 
     return (
-        <div className={styles.moreMenuIcon} onClick={toggleMenu} id="moreMenu">
+        <div className={styles.moreMenuIcon} onClick={toggleMenu} id={id}>
             <MoreVertical />
             <ul className={styles.moreMenu} style={{display: visible}}>
                 {items.map((name, index)=><li key={index}>{name}</li>)}

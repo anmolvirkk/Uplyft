@@ -17,11 +17,13 @@ p, a
     text-transform: capitalize
 
 ::-webkit-scrollbar
-    width: 2px
+    width: 14px
 
 ::-webkit-scrollbar-track
     box-shadow: none
-    background: variables.$white
 
 ::-webkit-scrollbar-thumb
-    background: variables.$secondary
+  border: 4px solid transparent
+  background-clip: padding-box
+  border-radius: 9999px
+  background-color: rgba(variables.$black, 0.5)

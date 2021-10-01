@@ -15,11 +15,11 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
         </div>
         <div className={styles.slotSection}>
             {currentSection==="notes" ? journalData[currentBook].sections[0].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} id={`moremenu${props.id}`} /></NavLink>
                 }) : currentSection==="tasks" ? journalData[currentBook].sections[1].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} id={`moremenu${props.id}`} /></NavLink>
                 }) : journalData[currentBook].sections[2].slots.map((props)=>{
-                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} /></NavLink>
+                    return <NavLink onClick={()=>setCurrentSlot(props.id)} key={props.id} to={`/journals/${currentBook}/${currentSection}/${props.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props.title ==='' ? props.date : props.title}</p><MoreMenu items={["rename", "delete"]} id={`moremenu${props.id}`} /></NavLink>
             })}
             {journalData[currentBook].sections[0].slots.length<=0 ? <div className={styles.helperTextAddEntry}><p>Add your first journal entry!</p><ArrowDown /></div> : null}
         </div>
