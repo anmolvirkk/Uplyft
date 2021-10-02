@@ -25,32 +25,90 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
     }
     
     const addNote = (journalData, currentBook, currentSlot, setJournalData, subsection) => {
-        journalData[currentBook].sections[0].slots[currentSlot].subsections.forEach((props)=>{
-            let date = new Date()
-            let formattedDate = date.toDateString()
-            if(props.name === subsection){
-                let note = {
-                    id: props.name.replace(/\s/g, "")+props.data.length,
-                    title: '',
-                    body: '',
-                    date: formattedDate,
-                    edited: formattedDate,
-                    name: props.name,
-                    color: props.color,
-                    setNote: setNote
-                }
-                props.data.push(note)
-                setJournalData([...journalData])
-            }
-        })
-    }
 
-    if(journalData[currentBook].sections[0].slots.length>0) {
-        journalData[currentBook].sections[0].slots[currentSlot].subsections.forEach((props)=>{
-            props.data.forEach((props2)=>{
-                let tempObj = {...props2}
-                notes.push(tempObj)
+        if(journalData.length > 0){
+            journalData.forEach((props)=>{
+                if(currentBook === props.id){
+    
+                    props.sections.forEach((props2)=>{
+                        
+                        if(currentSection === 'notes'){
+    
+                            if(props2.slots.length > 0){
+    
+                                props2.slots.forEach((props3)=>{
+    
+                                    if(currentSlot === props3.id && props3.subsections){
+    
+                                        props3.subsections.forEach((props4)=>{
+                                        
+                                            let date = new Date()
+                                            let formattedDate = date.toDateString()
+                                            if(props4.name === subsection){
+                                                let note = {
+                                                    id: date.valueOf(),
+                                                    title: '',
+                                                    body: '',
+                                                    date: formattedDate,
+                                                    edited: formattedDate,
+                                                    name: props4.name,
+                                                    color: props4.color,
+                                                    setNote: setNote
+                                                }
+                                                props4.data.push(note)
+                                                setJournalData([...journalData])
+                                            }
+        
+                                        })
+    
+                                    }
+    
+                                })
+    
+                            }
+    
+                        }
+    
+                    })
+    
+                }
             })
+        }
+    }
+    if(journalData.length > 0){
+        journalData.forEach((props)=>{
+            if(currentBook === props.id){
+
+                props.sections.forEach((props2)=>{
+                    
+                    if(currentSection === 'notes'){
+
+                        if(props2.slots.length > 0){
+
+                            props2.slots.forEach((props3)=>{
+
+                                if(currentSlot === props3.id && props3.subsections){
+
+                                    props3.subsections.forEach((props4)=>{
+                                    
+                                        props4.data.forEach((props5)=>{
+                                            let tempObj = {...props5}
+                                            notes.push(tempObj)
+                                        })
+    
+                                    })
+
+                                }
+
+                            })
+
+                        }
+
+                    }
+
+                })
+
+            }
         })
     }
 
@@ -64,35 +122,90 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                 <Header />
                             
                                 <div style={{display: 'flex'}}>
-                                    
                                     {
-                                        notes.length <= 0 && journalData[currentBook].sections[0].slots.length>0 ? <div className={styles.helperTextAddNote}><p>Add your first note!</p><ArrowRight /></div> 
-                                        : 
-                                        <div className={styles.noteSection}>
+                                        journalData.length > 0 ? 
+                                        journalData.map((props)=>{
+                                            if(currentBook === props.id){
+                                
+                                                return props.sections.map((props2)=>{
+                                                    
+                                                    if(props2.name === 'notes'){
+                                
+                                                        if(notes.length > 0){
+                                
+                                                            return <div key={props2.id} className={styles.noteSection}>
 
-                                            {
-                                                notes.map((props)=>(
-                                                    <Link key={props.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props.id}`} style={{backgroundColor: props.color}} className={styles.note}>
-                                                        {props.title==='' && props.body==='' ? <div className={styles.helperTextEditNote}><Edit /></div>
-                                                        : 
-                                                        <div>
-                                                            <h3>{props.name}</h3>
-                                                            <h1>{props.title}</h1>
-                                                            <p>{props.body}</p>
-                                                        </div>
-                                                        }
-                                                    </Link>
-                                                ))
-                                            }
+                                                                {
+                                                                    notes.map((props3)=>(
+                                                                        <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`} style={{backgroundColor: props3.color}} className={styles.note}>
+                                                                            {props3.title==='' && props3.body==='' ? <div className={styles.helperTextEditNote}><Edit /></div>
+                                                                            : 
+                                                                            <div>
+                                                                                <h3>{props3.name}</h3>
+                                                                                <h1>{props3.title}</h1>
+                                                                                <p>{props3.body}</p>
+                                                                            </div>
+                                                                        }
+                                                                        </Link>
+                                                                    ))
+                                                                }
                                         
-                                        </div>
+                                                            </div>
+                                
+                                                        }else{
+                                                            return <div key={props2.id} className={styles.helperTextAddNote}><p>Add your first note!</p><ArrowRight /></div>
+                                                        }
+                                
+                                                    }
+
+                                                    return null
+                                
+                                                })
+                                
+                                            }
+                                            return null
+                                        }) : null
                                     }
 
                                     <div className={styles.noteSelect}>
-                                        {currentSection==="notes" && journalData[currentBook].sections[0].slots.length>0 ? journalData[currentBook].sections[0].slots[currentSlot].subsections.map((props)=>(
-                                            <button onClick={()=>addNote(journalData, currentBook, currentSlot, setJournalData, props.name)} key={props.id}><span className={styles.plusIcon} style={{backgroundColor: props.color}} />{props.name}</button>
-                                        ))  : null
-                                        }
+                                        {
+                                        journalData.length > 0 ?
+                                        journalData.map((props)=>{
+                                            if(currentBook === props.id){
+                                
+                                                return props.sections.map((props2)=>{
+                                                    
+                                                    if(props2.name === 'notes'){
+                                
+                                                        if(props2.slots.length > 0){
+                                
+                                                            return props2.slots.map((props3)=>{
+                                                                
+                                                                if(currentSlot === props3.id){
+
+                                                                    return props3.subsections.map((props4)=>{
+                                                                    
+                                                                        return <button onClick={()=>addNote(journalData, currentBook, currentSlot, setJournalData, props4.name)} key={props4.id}><span className={styles.plusIcon} style={{backgroundColor: props4.color}} />{props4.name}</button>
+                                    
+                                                                    })
+
+                                                                }
+
+                                                                return null
+                                
+                                                            })
+                                
+                                                        }
+                                
+                                                    }
+
+                                                    return null
+                                
+                                                })
+                                
+                                            }
+                                            return null
+                                        }) : null}
                                     </div>
                                 </div>
 

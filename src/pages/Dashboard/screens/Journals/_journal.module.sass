@@ -66,6 +66,7 @@
     flex-flow: column
     justify-content: center
     border-left: 1px solid rgba(variables.$black, 0.15)
+    font-size: 1.5vh
     button
         all: unset
         cursor: pointer
@@ -159,11 +160,12 @@
 
 .helperTextAddEntry
     height: 100%
-    width: 100%
+    min-width: 24vh
     +mixins.center
     color: variables.$secondary
     p
         margin-bottom: 2.5vh
+        line-height: 1.5
 
 .helperTextAddNote
     height: 90vh
@@ -181,3 +183,7 @@
     color: variables.$black
     mix-blend-mode: color-burn
     opacity: 0.5
+
+.moreMenuBook
+    position: absolute
+    bottom: 0

@@ -3,17 +3,15 @@ import styles from './_addbutton.module.sass'
 import {ArrowUp, Plus} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star, File, Check, Calendar} from 'react-feather'
 
-const AddButton = ({name, journalData, setJournalData, currentBook, currentSection}) => {
+const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
   
     let date = new Date()
     let formattedDate = date.toDateString()
 
-    const section = currentSection==='notes' ? 0 : currentSection==='tasks' ? 1 : 2
-
     const slot = {
-        id: journalData[currentBook] ? journalData[currentBook].sections[section].slots.length : 0,
+        id: date.valueOf(),
         title: '',
         date: formattedDate,
         subsections: [
@@ -57,11 +55,30 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
     }
     
     const addSlotSection = () => {
-        journalData[currentBook].sections[section].slots.push(slot)
-        setJournalData([...journalData])
+
+        if(journalData.length > 0){
+            journalData.forEach((props)=>{
+                if(currentBook === props.id){
+    
+                    props.sections.forEach((props2)=>{
+                        
+                        if(currentSection === props2.name){
+    
+                                props2.slots.push(slot)
+                                setJournalData([...journalData])
+                                setCurrentSlot(slot.id)
+    
+    
+                        }
+    
+                    })
+    
+                }
+            })
+        }
     }
 
-    const colors = ['rgb(126, 217, 86)', 'rgb(155, 170, 211)', 'rgb(152, 221, 202)', 'rgb(213, 236, 194)', 'rgb(255, 211, 180)', 'rgb(255, 170, 167)']
+    const colors = ['rgb(126, 217, 86)', '#A3DE83', '#28DF99', '#6DDCCF', 'rgb(155, 170, 211)', '#916BBF', '#FE8F8F', '#FF926B', '#F2A154', '#FFD36B']
     const icons = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
 
     const [journalColor, setJournalColor] = useState(0)
@@ -87,7 +104,7 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
 
     const addJournal = () => {
         let newJournal = {
-                id: journalData.length,
+                id: date.valueOf(),
                 icon: icons[journalIcon],
                 color: colors[journalColor],
                 sections: 
@@ -127,6 +144,7 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
         journalData.push(newJournal)
         setJournalData([...journalData])
         setJournalTabOpen(false)
+        setCurrentBook(newJournal.id)
     }
     
     const JournalTab = () => {
@@ -161,12 +179,11 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
         }
     });
     
-    const journalText = journalTabOpen ? 'Cancel' : `Add ${name}`
     const journalButtonIcon = journalTabOpen ? <Plus /> : <ArrowUp />
 
     const journalClick = journalTabOpen ? addJournal : openJournalTab
 
-    const text = name==='journal' ? <div onClick={journalClick} className={styles.clickButton}><p>{journalText}</p>{journalButtonIcon}</div> : <div className={styles.clickButton} onClick={addSlotSection}><p>Add {name}</p><Plus /></div>
+    const text = name==='journal' ? <div onClick={journalClick} className={styles.clickButton}><p>Add {name}</p>{journalButtonIcon}</div> : <div className={styles.clickButton} onClick={addSlotSection}><p>Add {name}</p><Plus /></div>
 
     return (
         <button className={styles.addButton} id="addButton" >

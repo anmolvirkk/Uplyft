@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {MoreVertical} from 'react-feather'
 import styles from './_moremenu.module.sass'
 
-const MoreMenu = ({items, id}) => {
+const MoreMenu = ({items, id, pos}) => {
 
     const [visible, setVisible] = useState('none');
     
@@ -23,8 +23,8 @@ const MoreMenu = ({items, id}) => {
     return (
         <div className={styles.moreMenuIcon} onClick={toggleMenu} id={id}>
             <MoreVertical />
-            <ul className={styles.moreMenu} style={{display: visible}}>
-                {items.map((name, index)=><li key={index}>{name}</li>)}
+            <ul className={styles.moreMenu} style={{display: visible, right: pos.right, top: pos.top}}>
+                {items.map((props, index)=><li onClick={props.function} key={index}>{props.name}</li>)}
             </ul>
         </div>
     )

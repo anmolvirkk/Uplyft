@@ -2,30 +2,46 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './_book.scss'
 import AddButton from '../../../components/AddButton'
+import MoreMenu from '../../../components/MoreMenu'
+import {ArrowDown} from 'react-feather'
+ 
+const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, currentBook}) => {
 
-const BookSection = ({ styles, journalData, setJournalData, setCurrentBook}) => {
+    const deleteJournal = () => {
+        const newJournalData = journalData.filter((value)=>value.id!==currentBook)
+        setJournalData([...newJournalData])
+        const setBook = journalData[currentBook + 1] !== undefined ? currentBook+1 : currentBook-1
+        setCurrentBook(setBook)
+    }
+    const editJournal = () => {
+        console.log('edit journal')
+    }
 
     return (
     <div className={styles.journals}>
-        <div className={styles.bookSection}>
-            {journalData.map((props)=>(
-                <NavLink onClick={()=>setCurrentBook(props.id)} key={props.id} to={`/journals/${props.id}/`} activeClassName="activeBook">
-                <div className="book">
-                <div className="book-back book-inner">
-                    <div className="book-face" style={{backgroundColor: props.color}}></div>
-                </div>
-                <div className="book-pages book-inner"></div>
-                <div className="book-pages book-inner"></div>
-                <div className="book-pages book-inner"></div>
-                <div className="book-pages book-inner"></div>
-                <div className="book-cover book-inner">
-                    <div className="book-face" style={{backgroundColor: props.color}}>
-                        {props.icon}
+        <div className={styles.bookSection} id="bookSection">
+            {
+            journalData.length > 0 ?
+            journalData.map((props)=>(
+                <NavLink onClick={()=>setCurrentBook(props.id)} key={props.id} to={`/journals/${props.id}/`} activeClassName="activeBook" style={{display: 'flex'}}>
+                    <div className="book">
+                        <div className="book-back book-inner">
+                            <div className="book-face" style={{backgroundColor: props.color}}></div>
+                        </div>
+                        <div className="book-pages book-inner"></div>
+                        <div className="book-pages book-inner"></div>
+                        <div className="book-pages book-inner"></div>
+                        <div className="book-pages book-inner"></div>
+                        <div className="book-cover book-inner">
+                            <div className="book-face" style={{backgroundColor: props.color}}>
+                                {props.icon}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                </div>
-            </NavLink>
-            ))}
+                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '20vh'}} />
+                </NavLink>
+            )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
+            }
         </div>
         <AddButton name="journal" journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} />
     </div>

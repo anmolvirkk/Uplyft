@@ -16,12 +16,12 @@ const Journals = () => {
         return (
         <div style={{display: 'flex'}}>
 
-            <Redirect from="/journals" to={`/journals/${currentBook}/${currentSection}/0`} />
-            <Redirect from={`/journals/${currentBook}/${currentSection}`} to={`/journals/${currentBook}/${currentSection}/0`} />
+            <Redirect from="/journals" to={`/journals/${currentBook}/${currentSection}/${currentSlot}`} />
+            <Redirect from={`/journals/${currentBook}/${currentSection}`} to={`/journals/${currentBook}/${currentSection}/${currentSlot}`} />
 
-            <BookSection styles={styles} journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} />
+            <BookSection styles={styles} journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} currentBook={currentBook} />
 
-            <SlotsSection styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} />
+            <SlotsSection styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
 
             <MainSection styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
 
