@@ -104,11 +104,21 @@
     min-height: 35vh
     width: 100%
     border-radius: 1.25vh 1.25vh
-    padding: 2.5vh
     background-color: variables.$white
     text-decoration: none
     color: variables.$black
     overflow: hidden
+    position: relative
+    cursor: pointer
+    .noteLink
+        height: 100%
+        width: 100%
+        a
+            height: 100%
+            width: 100%
+            all: unset
+        .noteContent
+            padding: 2.5vh
     h1
         white-space: nowrap
         overflow: hidden
@@ -205,8 +215,23 @@
     width: 100%
     +mixins.center
     color: variables.$black
-    opacity: 0.5
+
+.editIcon
     mix-blend-mode: color-burn
+    opacity: 0.5
+
+.removeNote
+    position: absolute
+    bottom: 2.5vh
+    right: 3vh
+    border-radius: 100%
+    width: 5vh
+    height: 5vh
+    +mixins.center
+    background-color: white
+    svg
+        height: 50%
+        width: 50%
 
 .moreMenuBook
     position: absolute

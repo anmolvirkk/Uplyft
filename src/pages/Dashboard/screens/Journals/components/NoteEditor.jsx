@@ -1,15 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import Header from '../../../components/Header'
 import {List, Bold, Underline, Image, Trash2} from 'react-feather'
 import { Redirect } from 'react-router'
 
 const NoteEditor = ({styles, ...props}) => {
-
-    const [deleteNote, setDeleteNote] = useState(false)
-
-    const removeThisNote = () => {
-        Promise.resolve(setDeleteNote(true)).then(()=>props.removeNote(props.id, props.name))
-    }
     
     const headerItems = [
         {
@@ -39,9 +33,7 @@ const NoteEditor = ({styles, ...props}) => {
         },
         {
             type: 'icon',
-            icon: <Trash2 />,
-            function: removeThisNote,
-            className: 'removeNote'
+            icon: <Trash2 />
         }
     ]
 
@@ -64,7 +56,8 @@ const NoteEditor = ({styles, ...props}) => {
 
     return (
         <div className={styles.noteEditor}>
-            {deleteNote ? <Redirect to={`/journals/${props.currentBook}/${props.currentSection}/${props.currentSlot}`} /> : null}
+            {console.log(props.deleteNote)}
+            {props.deleteNote ? <Redirect to={`/journals/${props.currentBook}/${props.currentSection}/${props.currentSlot}`} /> : null}
             <Header type="editor" items={headerItems} edited={props.edited} />
             <div className={styles.noteArea}>
                 <div className={styles.textArea}>

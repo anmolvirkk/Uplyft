@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../../../components/Header'
 import NoteEditor from './NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
-import {ArrowRight, Edit} from 'react-feather'
+import {ArrowRight, Edit, Trash2} from 'react-feather'
 
 const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData}) => {
 
@@ -57,7 +57,6 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
             
         }
     }
-
     
     const removeNote = (id, subsection) => {
         if(journalData.length > 0){
@@ -222,16 +221,29 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
 
                                                                 {
                                                                     notes.map((props3)=>(
-                                                                        <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`} style={{backgroundColor: `${props3.color}BF`}} className={styles.note}>
-                                                                            {props3.title==='' && props3.body==='' ? <div className={styles.helperTextEditNote}><Edit /></div>
-                                                                            : 
-                                                                            <div>
-                                                                                <h1>{props3.title}</h1>
-                                                                                <p>{props3.body}</p>
-                                                                                <h3>{props3.date}</h3>
+                                                                        <div className={styles.note} style={{backgroundColor: `${props3.color}BF`}}>
+                                                                            {props3.title==='' && props3.body==='' ? 
+                                                                            <div className={styles.noteLink}>
+                                                                                <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
+                                                                                    <div className={styles.helperTextEditNote}>
+                                                                                        <div className={styles.editIcon}><Edit /></div>
+                                                                                    </div>
+                                                                                </Link>
+                                                                                <div onClick={()=>removeNote(props3.id, props3.name)} className={styles.removeNote} style={{color: props3.color}}><Trash2 /></div>
                                                                             </div>
-                                                                        }
-                                                                        </Link>
+                                                                                :
+                                                                            <div className={styles.noteLink}>
+                                                                                <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
+                                                                                    <div className={styles.noteContent}>
+                                                                                        <h1>{props3.title}</h1>
+                                                                                        <p>{props3.body}</p>
+                                                                                        <h3>{props3.date}</h3>
+                                                                                    </div>
+                                                                                </Link>
+                                                                                <div onClick={()=>removeNote(props3.id, props3.name)} className={styles.removeNote} style={{color: props3.color}}><Trash2 /></div>
+                                                                            </div>
+                                                                            }
+                                                                        </div>
                                                                     ))
                                                                 }
                                         
