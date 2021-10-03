@@ -13,7 +13,7 @@ const Header = ({type, items, edited}) => {
                                 case 'dropdown':
                                     return <button key={index}><p>{items.options[0]}<span><ChevronDown /></span></p></button>
                                 case 'icon':
-                                    return <button key={index}>{items.icon}</button>
+                                    return <button onClick={items.function} key={index}>{items.icon}</button>
                                 default:
                                     return null
                                 }

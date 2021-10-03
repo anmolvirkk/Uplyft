@@ -28,19 +28,19 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
                 data: []
             },
             {
-                name: 'future',
-                color: '#02D3FF',
+                name: 'reflection',
+                color: '#FF9B73',
                 id: 2,
                 data: []
             },
             {
-                name: 'past',
-                color: '#FF9B73',
+                name: 'aspiration',
+                color: '#02D3FF',
                 id: 3,
                 data: []
             },
             {
-                name: 'feelings',
+                name: 'memory',
                 color: '#B692FE',
                 id: 4,
                 data: []
