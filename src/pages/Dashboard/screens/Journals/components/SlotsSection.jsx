@@ -7,10 +7,39 @@ import {ArrowDown} from 'react-feather'
 const SlotsSection = ({styles, journalData, setJournalData, currentBook, currentSection, setCurrentSection, setCurrentSlot, currentSlot}) => {
     
     const deleteSlot = () => {
-        const section = currentSection==='notes' ? 0 : currentSection==='tasks' ? 1 : 2    
-        const newSlots = journalData[currentBook].sections[section].slots.filter((value)=>value.id!==currentSlot)
-        journalData[currentBook].sections[section].slots = [...newSlots]
-        setJournalData([...journalData])
+
+        if(journalData.length > 0){
+            journalData.forEach((props)=>{
+                if(currentBook === props.id){
+    
+                    props.sections.forEach((props2)=>{
+                        
+                        if(currentSection === 'notes'){
+    
+                            if(props2.slots.length > 0){
+    
+                                props2.slots.forEach((props3)=>{
+    
+                                    if(currentSlot === props3.id){
+
+                                        const newSlots = props2.slots.filter((value)=>value.id!==currentSlot)
+                                        props2.slots = [...newSlots]
+                                        setJournalData([...journalData])
+    
+                                    }
+    
+                                })
+    
+                            }
+    
+                        }
+    
+                    })
+    
+                }
+            })
+        }
+        
     }
 
     const renameSlot = (setCurrentSlot) => {

@@ -1,71 +1,43 @@
-import React, {useEffect, useRef} from 'react'
-import Header from '../../../components/Header'
-import {List, Bold, Underline, Image, Trash2} from 'react-feather'
-import { Redirect } from 'react-router'
+import React, {useState, useRef, useEffect} from 'react'
+import JoditEditor from "jodit-react";
+import './textEditor.sass'
 
-const NoteEditor = ({styles, ...props}) => {
-    
-    const headerItems = [
-        {
-            type: 'dropdown',
-            options:[
-                'Normal Text',
-                'Small Header',
-                'Medium Header',
-                'Large Header'
-            ]
-        },
-        {
-            type: 'icon',
-            icon: <List />
-        },
-        {
-            type: 'icon',
-            icon: <Bold />
-        },
-        {
-            type: 'icon',
-            icon: <Underline />
-        },
-        {
-            type: 'icon',
-            icon: <Image />
-        },
-        {
-            type: 'icon',
-            icon: <Trash2 />
-        }
-    ]
+const NoteEditor = ({styles, id, setNote, name, ...props}) => {
 
-    const titleRef = useRef()
-    const textareaRef = useRef()
+    const editor = useRef(null)
+    const [content, setContent] = useState(props.body ? props.body : '')
 
-    const focus = () => titleRef.current.value === '' ? titleRef.current.focus() : null
-    
+    const config = {
+      readonly: false // all options from https://xdsoft.net/jodit/doc/
+    }
+
     useEffect(()=>{
-        titleRef.current.value = props.title
-        textareaRef.current.value = props.body
-        focus()
-    })
+      let date = new Date()
+      let formattedDate = date.toDateString()
+      setNote(id, content, formattedDate, name)
+      console.log('save')
+    }, [content, id, name, setNote])
     
-    const updateNote = () => {
-        let date = new Date()
-        let formattedDate = date.toDateString()
-        props.setNote(props.id, titleRef.current.value, textareaRef.current.value, formattedDate, props.name)
+    let saveTimeout;
+
+    const saveAfterInactivity = (newContent) => {
+      clearTimeout(saveTimeout)
+      saveTimeout = setTimeout(()=>setContent(newContent), 500)
+      console.log('new content')
     }
 
     return (
         <div className={styles.noteEditor}>
-            {console.log(props.deleteNote)}
-            {props.deleteNote ? <Redirect to={`/journals/${props.currentBook}/${props.currentSection}/${props.currentSlot}`} /> : null}
-            <Header type="editor" items={headerItems} edited={props.edited} />
-            <div className={styles.noteArea}>
-                <div className={styles.textArea}>
-                    <input onChange={updateNote} placeholder="Title" type="text" className={styles.textAreaTitle} ref={titleRef} />
-                    <p className={styles.date}>Created on {props.date}</p>
-                    <textarea onChange={updateNote} ref={textareaRef} placeholder="What's on your mind?" />
-                </div>
-            </div>
+          <div id="textEditor">
+          <JoditEditor
+            	ref={editor}
+                value={content}
+                config={config}
+		            tabIndex={1} // tabIndex of textarea
+                onChange={(newContent)=>saveAfterInactivity(newContent)}
+		            onBlur={newContent => setContent(newContent)}
+            />
+          </div>
         </div>
     )
 }

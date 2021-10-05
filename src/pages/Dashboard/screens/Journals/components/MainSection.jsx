@@ -8,7 +8,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
 
     const notes = []
     
-        const setNote = (id, title, body, edited, subsection) => {
+        const setNote = (id, body, edited, subsection) => {
 
             if(journalData.length > 0){
                 journalData.forEach((props)=>{
@@ -28,7 +28,6 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                         
                                             if(props4.name === subsection){
                                                 let note = {
-                                                    title: title,
                                                     body: body,
                                                     edited: edited
                                                 }
@@ -135,10 +134,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                                     name: props4.name,
                                                     color: props4.color,
                                                     setNote: setNote,
-                                                    removeNote: removeNote,
-                                                    currentBook: currentBook,
-                                                    currentSection: currentSection,
-                                                    currentSlot: currentSlot
+                                                    removeNote: removeNote
                                                 }
                                                 props4.data.push(note)
                                                 setJournalData([...journalData])
@@ -221,10 +217,10 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
 
                                                                 {
                                                                     notes.map((props3)=>(
-                                                                        <div className={styles.note} style={{backgroundColor: `${props3.color}BF`}}>
+                                                                        <div key={props3.id} className={styles.note} style={{backgroundColor: `${props3.color}BF`}}>
                                                                             {props3.title==='' && props3.body==='' ? 
                                                                             <div className={styles.noteLink}>
-                                                                                <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
+                                                                                <Link to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
                                                                                     <div className={styles.helperTextEditNote}>
                                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                                     </div>
@@ -233,11 +229,10 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                                                             </div>
                                                                                 :
                                                                             <div className={styles.noteLink}>
-                                                                                <Link key={props3.id} to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
+                                                                                <Link to={`/journals/${currentBook}/notes/${currentSlot}/${props3.id}`}>
                                                                                     <div className={styles.noteContent}>
-                                                                                        <h1>{props3.title}</h1>
-                                                                                        <p>{props3.body}</p>
-                                                                                        <h3>{props3.date}</h3>
+                                                                                        <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: props3.body}}></div>
+                                                                                        <div className={styles.noteDate}>{props3.date}</div>
                                                                                     </div>
                                                                                 </Link>
                                                                                 <div onClick={()=>removeNote(props3.id, props3.name)} className={styles.removeNote} style={{color: props3.color}}><Trash2 /></div>
