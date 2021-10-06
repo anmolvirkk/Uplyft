@@ -15,7 +15,6 @@ const NoteEditor = ({styles, id, setNote, name, ...props}) => {
       let date = new Date()
       let formattedDate = date.toDateString()
       setNote(id, content, formattedDate, name)
-      console.log('save')
     }, [content, id, name, setNote])
     
     let saveTimeout;
@@ -23,7 +22,6 @@ const NoteEditor = ({styles, id, setNote, name, ...props}) => {
     const saveAfterInactivity = (newContent) => {
       clearTimeout(saveTimeout)
       saveTimeout = setTimeout(()=>setContent(newContent), 500)
-      console.log('new content')
     }
 
     return (

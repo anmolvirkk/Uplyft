@@ -1,0 +1,63 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+    
+.modal
+    height: 100%
+    width: 100%
+    position: absolute
+    background: rgba(variables.$secondary, 0.25)
+    left: 0
+    top: 0
+    +mixins.center
+
+.form
+    background: white
+    padding: 2.5vh
+    border-radius: 1.25vh 1.25vh
+    p
+        font-weight: 500
+        color: variables.$black
+        font-size: 2vh
+    svg
+        color: rgba(variables.$black, 0.5)
+        width: 2.5vh
+        height: 2.5vh
+    input
+        all: unset
+        padding-bottom: 1vh
+        margin: 2vh 0
+        border-bottom: 1px solid rgba(variables.$black, 0.75)
+        text-align: left
+        width: 35vh
+        font-size: 1.5vh
+        color: variables.$black
+
+.header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 1vh
+    svg
+        cursor: pointer
+
+.footer
+    display: flex
+    justify-content: flex-end
+    margin-top: 1vh
+    button
+        all: unset
+        border: 1px solid rgba(variables.$black, 0.75)
+        padding: 1vh 2vh
+        font-size: 1.35vh
+        border-radius: 0.5vh 0.5vh
+        cursor: pointer
+    button:first-child
+        margin-right: 0.75vh
+    .continueBtn:hover
+        background-color: variables.$primary
+        border-color: variables.$primary
+        color: variables.$white
+    .cancelBtn:hover
+        background-color: variables.$black
+        border-color: variables.$black
+        color: variables.$white

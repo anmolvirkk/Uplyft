@@ -4,7 +4,7 @@ import MoreMenu from '../../../components/MoreMenu'
 import AddButton from '../../../components/AddButton'
 import {ArrowDown} from 'react-feather'
 
-const SlotsSection = ({styles, journalData, setJournalData, currentBook, currentSection, setCurrentSection, setCurrentSlot, currentSlot}) => {
+const SlotsSection = ({styles, journalData, setJournalData, currentBook, currentSection, setCurrentSection, setCurrentSlot, currentSlot, openModal}) => {
     
     const deleteSlot = () => {
 
@@ -42,8 +42,36 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
         
     }
 
-    const renameSlot = (setCurrentSlot) => {
-        setCurrentSlot(0)
+    const renameSlot = () => {
+        if(journalData.length > 0){
+            journalData.forEach((props)=>{
+                if(currentBook === props.id){
+    
+                    props.sections.forEach((props2)=>{
+                        
+                        if(currentSection === 'notes'){
+    
+                            if(props2.slots.length > 0){
+    
+                                props2.slots.forEach((props3)=>{
+    
+                                    if(currentSlot === props3.id){
+                                        
+                                        openModal({...props3, journalData, setJournalData})
+    
+                                    }
+    
+                                })
+    
+                            }
+    
+                        }
+    
+                    })
+    
+                }
+            })
+        }
     }
 
     return (
