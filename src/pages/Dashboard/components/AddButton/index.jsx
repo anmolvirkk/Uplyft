@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import styles from './_addbutton.module.sass'
-import {ArrowUp, Plus} from 'react-feather'
-import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star, File, Check, Calendar} from 'react-feather'
+import {ArrowUp, Plus, File, Check, Calendar} from 'react-feather'
 
-const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot}) => {
+const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot, colors, icons}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
   
@@ -78,29 +77,8 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
         }
     }
 
-    const colors = ['rgb(126, 217, 86)', '#A3DE83', '#28DF99', '#6DDCCF', 'rgb(155, 170, 211)', '#916BBF', '#FE8F8F', '#FF926B', '#F2A154', '#FFD36B']
-    const icons = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
-
     const [journalColor, setJournalColor] = useState(0)
     const [journalIcon, setJournalIcon] = useState(0)
-
-    const setColors = colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div /></li>)
-    const setIcons = icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div />{icon}</li>)
-
-    useEffect(()=>{
-        const colorButtons = document.getElementsByClassName('colorButtons')
-        if(colorButtons[journalColor] !== undefined){
-            colorButtons[journalColor].childNodes[0].classList.add(styles.activeButton)
-        }
-    }, [setColors, journalColor])
-   
-
-    useEffect(()=>{
-        const iconButtons = document.getElementsByClassName('iconButtons')
-        if(iconButtons[journalIcon] !== undefined){
-            iconButtons[journalIcon].childNodes[0].classList.add(styles.activeButton)
-        }
-    }, [setIcons, journalIcon])
 
     const addJournal = () => {
         let newJournal = {
@@ -153,13 +131,13 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
                 <li>
                     <p>Color</p>
                     <ol className={styles.colors}>
-                        {setColors}
+                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div className={i===journalColor ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li> 
                 <li>
                     <p>Icon</p>
                     <ol>
-                        {setIcons}
+                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>)}
                     </ol>
                 </li>   
             </ul>

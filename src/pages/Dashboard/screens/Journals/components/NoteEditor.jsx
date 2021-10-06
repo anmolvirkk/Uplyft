@@ -28,7 +28,7 @@ const NoteEditor = ({styles, id, setNote, name, ...props}) => {
         <div className={styles.noteEditor}>
           <div id="textEditor">
           <JoditEditor
-            	ref={editor}
+            	  ref={editor}
                 value={content}
                 config={config}
 		            tabIndex={1} // tabIndex of textarea

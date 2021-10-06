@@ -5,7 +5,7 @@ import AddButton from '../../../components/AddButton'
 import MoreMenu from '../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
  
-const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, currentBook}) => {
+const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, currentBook, openModal, colors, icons}) => {
 
     const deleteJournal = () => {
         const newJournalData = journalData.filter((value)=>value.id!==currentBook)
@@ -13,8 +13,9 @@ const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, curr
         const setBook = journalData[currentBook + 1] !== undefined ? currentBook+1 : currentBook-1
         setCurrentBook(setBook)
     }
+
     const editJournal = () => {
-        console.log('edit journal')
+        openModal({type: 'journal', id: currentBook, journalData: journalData, setJournalData: setJournalData})
     }
 
     return (
@@ -43,7 +44,7 @@ const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, curr
             )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
             }
         </div>
-        <AddButton name="journal" journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} />
+        <AddButton colors={colors} icons={icons} name="journal" journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} />
     </div>
 )
 }
