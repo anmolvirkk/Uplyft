@@ -4,7 +4,7 @@ import NoteEditor from './NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowRight, Edit, Trash2} from 'react-feather'
 
-const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData}) => {
+const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors}) => {
 
     const notes = []
     
@@ -306,7 +306,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                             {
                                 notes.map((props)=>(
                                     <Route key={props.id} exact path={`/journals/${currentBook}/notes/${currentSlot}/${props.id}`}>
-                                        <NoteEditor styles={styles} {...props} />
+                                        <NoteEditor styles={styles} {...props} colors={colors} />
                                     </Route>
                                 ))
                             }

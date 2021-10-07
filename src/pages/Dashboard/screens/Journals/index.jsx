@@ -42,7 +42,7 @@ const Journals = () => {
 
             <SlotsSection openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
 
-            <MainSection styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
+            <MainSection colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
 
             {modalConfig.type==='entry' ? 
             <Modal modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} current={modalConfig.current} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 

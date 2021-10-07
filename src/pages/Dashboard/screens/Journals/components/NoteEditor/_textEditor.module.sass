@@ -1,0 +1,18 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.textEditor:empty:before
+    content: attr(data-placeholder)
+    opacity: 0.3
+
+.textEditor
+    height: calc(90vh - 5vh)
+    background-color: variables.$white
+    margin: 2.5vh
+    padding: 3vh
+    box-sizing: border-box
+    border: none
+    outline: none
+    overflow: hidden
+    overflow-y: auto
+    color: variables.$black
