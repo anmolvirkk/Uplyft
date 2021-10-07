@@ -22,9 +22,21 @@
     ul
         list-style: none
         position: absolute
-        visibility: hidden
         padding: 0
         margin: 0
+        background-color: variables.$white
+        color: variables.$black
+        box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
+        width: 100%
+        li
+            height: 5vh
+            padding: 0 2.5vh
+            border-bottom: 1px solid rgba(variables.$black, 0.15)
+            display: flex
+            justify-content: space-between
+            align-items: center
+        li:first-child
+            border-top: 1px solid rgba(variables.$black, 0.15)
 
 .textStyleOptions
     display: flex

@@ -15,7 +15,6 @@ const NoteEditor = ({id, setNote, name, colors, ...props}) => {
   const textEditor = useRef()
 
   useEffect(()=>{
-    textEditor.current.focus()
     let date = new Date()
     let formattedDate = date.toDateString()
     setNote(id, editorData, formattedDate, name)
@@ -24,7 +23,7 @@ const NoteEditor = ({id, setNote, name, colors, ...props}) => {
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          <div ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>saveAfterDelay(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorData}} className={styles.textEditor} />
+          <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>saveAfterDelay(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorData}} className={styles.textEditor} />
         </div>
     )
 }
