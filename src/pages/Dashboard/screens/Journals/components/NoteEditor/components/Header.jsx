@@ -43,45 +43,6 @@ const Header = ({colors, bold}) => {
         }
     }, false)
 
-    document.addEventListener('keyup', function() {
-        if(document.queryCommandState("bold")){
-            setIsBold(true)
-        }else{
-            setIsBold(false)
-        }
-        if(document.queryCommandState("italic")){
-            setIsItalic(true)
-        }else{
-            setIsItalic(false)
-        }
-        if(document.queryCommandState("underline")){
-            setIsUnderline(true)
-        }else{
-            setIsUnderline(false)
-        }
-        if(document.queryCommandState("insertUnorderedList")){
-            setIsList(true)
-        }else{
-            setIsList(false)
-        }
-        switch (document.queryCommandValue('formatBlock')) {
-            case 'h1':
-                setCurrentTextSize('Heading')
-            break
-            case 'h3':
-                setCurrentTextSize('Sub Heading')
-            break
-            case 'div':
-                setCurrentTextSize('Normal')
-            break
-            case 'p':
-                setCurrentTextSize('Normal')
-            break
-            default:
-                break;
-        }
-    }, false)
-
     const [isBold, setIsBold] = useState(false)
     const [isItalic, setIsItalic] = useState(false)
     const [isUnderline, setIsUnderline] = useState(false)
