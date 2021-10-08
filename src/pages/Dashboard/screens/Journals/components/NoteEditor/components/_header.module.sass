@@ -19,6 +19,7 @@
         width: 20vh
         height: 5vh
         padding: 0 2.5vh
+        font-size: 1.5vh
     ul
         list-style: none
         position: absolute
@@ -27,17 +28,23 @@
         background-color: variables.$white
         color: variables.$black
         box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
-        width: 100%
         z-index: 9
+        li:first-child
+            border-top: 1px solid rgba(variables.$black, 0.15)
         li
             height: 5vh
-            padding: 0 2.5vh
+            padding: 4vh 2vh
             border-bottom: 1px solid rgba(variables.$black, 0.15)
             display: flex
             justify-content: space-between
             align-items: center
-        li:first-child
-            border-top: 1px solid rgba(variables.$black, 0.15)
+            h1
+                font-size: 6vh
+                margin-right: 2.5vh
+            h3
+                font-size: 3vh
+            span
+                font-size: 1.5vh
 
 .textStyleOptions
     display: flex
