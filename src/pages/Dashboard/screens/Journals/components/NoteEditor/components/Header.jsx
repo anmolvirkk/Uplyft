@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Bold, Italic, Underline, List, ChevronDown, ChevronRight} from 'react-feather'
+import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, CornerUpLeft, CornerUpRight} from 'react-feather'
 import styles from './_header.module.sass'
 
 const TextStyleOptions = () => (
@@ -10,13 +10,32 @@ const TextStyleOptions = () => (
     </ul>
 )
 
-const Colors = ({colors}) => {
-    return <ul className={styles.colors}>
-            {colors.map((color, index)=>{
-                return <li key={index} style={{backgroundColor: color}} onMouseDown={()=>document.execCommand('foreColor', false, color)} />
-            })}
-        </ul>
+const Colors = ({colors}) => (
+    <ul className={styles.colors}>
+        {colors.map((color, index)=>{
+            return <li key={index} style={{backgroundColor: color}} onMouseDown={()=>document.execCommand('foreColor', false, color)} />
+        })}
+    </ul>
+)
+
+let undoInterval
+
+const undoStart = () => {
+    undoInterval = setInterval(()=>{document.execCommand('undo')}, 10)
 }
+
+let redoInterval
+
+const redoStart = () => {
+    redoInterval = setInterval(()=>{document.execCommand('redo')}, 10)
+}
+
+const TimeControl = () => (
+    <ul className={styles.textStyleOptions}>
+        <li onMouseDown={undoStart} onMouseUp={()=>clearInterval(undoInterval)}><CornerUpLeft /></li>
+        <li onMouseDown={redoStart} onMouseUp={()=>clearInterval(redoInterval)}><CornerUpRight /></li>
+    </ul>
+)
 
 const Header = ({colors, bold}) => {
 
@@ -30,7 +49,7 @@ const Header = ({colors, bold}) => {
                 setTextDropDown(false)
             }
         }
-    });
+    })
 
     const [currentTextSize, setCurrentTextSize] = useState('Normal')
 
@@ -68,7 +87,8 @@ const Header = ({colors, bold}) => {
                 <div className={styles.textOptions}>
                     <TextSizeDropDown />
                     <TextStyleOptions bold={bold} />
-                    <List className={styles.list}  onMouseDown={()=>document.execCommand('insertUnorderedList')} />
+                    <List className={styles.list} onMouseDown={()=>document.execCommand('insertUnorderedList')} />
+                    <TimeControl />
                 </div>
                 <Colors colors={colors} />
             </header>
