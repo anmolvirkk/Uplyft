@@ -2,28 +2,37 @@ import React, {useState, useEffect, useRef} from 'react'
 import styles from './_textEditor.module.sass'
 import Header from './components/Header'
 
+const TextEditor = ({value, onChange, setNote, id, name}) => {
+
+  const editorBody = useRef(value)
+  const textEditor = useRef()
+
+  useEffect(()=>{
+    textEditor.current.addEventListener('paste', function (event) {
+      event.preventDefault();
+      document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+    })
+  })
+
+  const handleInput = (val) => {
+    onChange(val)
+    let date = new Date()
+    let formattedDate = date.toDateString()
+    setNote(id, val, formattedDate, name)
+  }
+
+  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} />
+
+}
+
 const NoteEditor = ({id, setNote, name, colors, ...props}) => {
 
   const [editorData, setEditorData] = useState(props.body)
 
-  let editorSaveTimeout = null
-  const saveAfterDelay = (data) => {
-    clearTimeout(editorSaveTimeout)
-    editorSaveTimeout = setTimeout(()=>{setEditorData(data)}, 500)
-  }
-
-  const textEditor = useRef()
-
-  useEffect(()=>{
-    let date = new Date()
-    let formattedDate = date.toDateString()
-    setNote(id, editorData, formattedDate, name)
-  }, [editorData, id, name, setNote])
-
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>saveAfterDelay(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorData}} className={styles.textEditor} />
+          <TextEditor value={editorData} onChange={setEditorData} setNote={setNote} id={id} name={name} />
         </div>
     )
 }

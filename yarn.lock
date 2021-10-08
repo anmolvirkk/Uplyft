@@ -9210,6 +9210,14 @@ react-router@5.2.1:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-sane-contenteditable@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-sane-contenteditable/-/react-sane-contenteditable-1.6.1.tgz#ce2e0f5c37ccdbaf1fe061fe210da590e98f5133"
+  integrity sha512-nptNdC4ZWBRbkAeVVxnWrDQANLS08tDiNxCSJd/n+oZ1F+Rx0dkntstI5rG8zILy8+V9+WIqBPy+wwg0O21nsA==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    prop-types "^15.6.2"
+
 react-scripts@4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-4.0.3.tgz#b1cafed7c3fa603e7628ba0f187787964cb5d345"
