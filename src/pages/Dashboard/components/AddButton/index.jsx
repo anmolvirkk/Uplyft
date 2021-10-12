@@ -2,51 +2,73 @@ import React, {useState} from 'react'
 import styles from './_addbutton.module.sass'
 import {ArrowUp, Plus, File, Check, Calendar} from 'react-feather'
 
-const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot, colors, icons}) => {
+const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot, colors, icons, currentDate}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
   
     let date = new Date()
-    let formattedDate = date.toDateString()
+
+    const formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
 
     const slot = {
         id: date.valueOf(),
         title: '',
-        date: formattedDate,
+        date: formatAMPM(date),
         subsections: [
             {
                 name: 'brain dump',
-                color: '#E4EE90',
+                color: '#7ED956',
                 id: 0,
                 data: []
             },
             {
                 name: 'gratitude',
-                color: '#FFC972',
+                color: '#FFC107',
                 id: 1,
                 data: []
             },
             {
                 name: 'reflection',
-                color: '#FF9B73',
+                color: '#F50057',
                 id: 2,
                 data: []
             },
             {
                 name: 'aspiration',
-                color: '#02D3FF',
+                color: '#03A9F4',
                 id: 3,
                 data: []
             },
             {
                 name: 'memory',
-                color: '#B692FE',
+                color: '#673AB7',
+                id: 4,
+                data: []
+            },
+            {
+                name: 'forgive',
+                color: '#E54304',
+                id: 4,
+                data: []
+            },
+            {
+                name: 'letter',
+                color: '#393D46',
                 id: 4,
                 data: []
             },
             {
                 name: 'note',
-                color: '#EFF1F8',
+                color: '#CFD8DC',
                 id: 5,
                 data: []
             }
@@ -58,18 +80,21 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
         if(journalData.length > 0){
             journalData.forEach((props)=>{
                 if(currentBook === props.id){
-    
-                    props.sections.forEach((props2)=>{
+                    props.dates.forEach((date)=>{
+                        if(date.date.toDateString() === currentDate.toDateString()) {
+                            date.sections.forEach((props2)=>{
                         
-                        if(currentSection === props2.name){
-    
-                                props2.slots.push(slot)
-                                setJournalData([...journalData])
-                                setCurrentSlot(slot.id)
-    
-    
+                                if(currentSection === props2.name){
+            
+                                        props2.slots.push(slot)
+                                        setJournalData([...journalData])
+                                        setCurrentSlot(slot.id)
+            
+            
+                                }
+            
+                            })
                         }
-    
                     })
     
                 }
@@ -85,38 +110,31 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
                 id: date.valueOf(),
                 icon: icons[journalIcon],
                 color: colors[journalColor],
-                sections: 
-                [
-                            {
-                                id: 0,
-                                icon: <File />,
-                                name: 'notes',
-                                slots: []
-                            },
-                            {
-                                id: 1,
-                                icon: <Check />,
-                                name: 'tasks',
-                                slots: [
-                                    {
-                                        id: 0,
-                                        title: 'Title',
-                                        body: 'loriem ipsum'
-                                    }
+                dates: [
+                    {
+                        date: new Date(),
+                        sections: 
+                                [
+                                            {
+                                                id: 0,
+                                                icon: <File />,
+                                                name: 'notes',
+                                                slots: []
+                                            },
+                                            {
+                                                id: 1,
+                                                icon: <Check />,
+                                                name: 'tasks',
+                                                slots: []
+                                            },
+                                            {
+                                                id: 2,
+                                                icon: <Calendar />,
+                                                name: 'events',
+                                                slots: []
+                                            }
                                 ]
-                            },
-                            {
-                                id: 2,
-                                icon: <Calendar />,
-                                name: 'events',
-                                slots: [
-                                    {
-                                        id: 0,
-                                        title: 'Title',
-                                        body: 'loriem ipsum'
-                                    }
-                                ]
-                            }
+                    }
                 ]
         }
         journalData.push(newJournal)

@@ -2,44 +2,95 @@ import React, {useState} from 'react'
 import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, CornerUpLeft, CornerUpRight} from 'react-feather'
 import styles from './_header.module.sass'
 
-const Header = ({colors, bold}) => {
+const Header = ({colors}) => {
+    
+    document.addEventListener('mouseup', function(e) {
+        let prompts = document.getElementById('prompts')
+        if(prompts){
+            if(!prompts.contains(e.target) && e.target !== prompts){
+                if(document.queryCommandState("bold")){
+                    setIsBold(true)
+                }else{
+                    setIsBold(false)
+                }
+                if(document.queryCommandState("italic")){
+                    setIsItalic(true)
+                }else{
+                    setIsItalic(false)
+                }
+                if(document.queryCommandState("underline")){
+                    setIsUnderline(true)
+                }else{
+                    setIsUnderline(false)
+                }
+                if(document.queryCommandState("insertUnorderedList")){
+                    setIsList(true)
+                }else{
+                    setIsList(false)
+                }
+                switch (document.queryCommandValue('formatBlock')) {
+                    case 'h1':
+                        setCurrentTextSize('Heading')
+                    break
+                    case 'h3':
+                        setCurrentTextSize('Sub Heading')
+                    break
+                    case 'div':
+                        setCurrentTextSize('Normal')
+                    break
+                    case 'p':
+                        setCurrentTextSize('Normal')
+                    break
+                    default:
+                        break;
+                }
+            }
+        }
+    }, false)
 
-    document.addEventListener('mouseup', function() {
-        if(document.queryCommandState("bold")){
-            setIsBold(true)
-        }else{
-            setIsBold(false)
-        }
-        if(document.queryCommandState("italic")){
-            setIsItalic(true)
-        }else{
-            setIsItalic(false)
-        }
-        if(document.queryCommandState("underline")){
-            setIsUnderline(true)
-        }else{
-            setIsUnderline(false)
-        }
-        if(document.queryCommandState("insertUnorderedList")){
-            setIsList(true)
-        }else{
-            setIsList(false)
-        }
-        switch (document.queryCommandValue('formatBlock')) {
-            case 'h1':
-                setCurrentTextSize('Heading')
-            break
-            case 'h3':
-                setCurrentTextSize('Sub Heading')
-            break
-            case 'div':
-                setCurrentTextSize('Normal')
-            break
-            case 'p':
-                setCurrentTextSize('Normal')
-            break
-            default:
-                break;
+    document.addEventListener('keyup', function(e) {
+        if(e.key === 'Enter' || e.key === 'Backspace' || e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowDown'){
+            let prompts = document.getElementById('prompts')
+            if(prompts){
+                if(!prompts.contains(e.target) && e.target !== prompts){
+                    if(document.queryCommandState("bold")){
+                        setIsBold(true)
+                    }else{
+                        setIsBold(false)
+                    }
+                    if(document.queryCommandState("italic")){
+                        setIsItalic(true)
+                    }else{
+                        setIsItalic(false)
+                    }
+                    if(document.queryCommandState("underline")){
+                        setIsUnderline(true)
+                    }else{
+                        setIsUnderline(false)
+                    }
+                    if(document.queryCommandState("insertUnorderedList")){
+                        setIsList(true)
+                    }else{
+                        setIsList(false)
+                    }
+                    switch (document.queryCommandValue('formatBlock')) {
+                        case 'h1':
+                            setCurrentTextSize('Heading')
+                        break
+                        case 'h3':
+                            setCurrentTextSize('Sub Heading')
+                        break
+                        case 'div':
+                            setCurrentTextSize('Normal')
+                        break
+                        case 'p':
+                            setCurrentTextSize('Normal')
+                        break
+                        default:
+                            break;
+                    }
+                }
+            }
         }
     }, false)
 
@@ -47,7 +98,6 @@ const Header = ({colors, bold}) => {
     const [isItalic, setIsItalic] = useState(false)
     const [isUnderline, setIsUnderline] = useState(false)
     const [isList, setIsList] = useState(false)
-
 
     const TextStyleOptions = () => (
         <ul className={styles.textStyleOptions}>
@@ -130,7 +180,7 @@ const Header = ({colors, bold}) => {
     return <header className={styles.textEditorHeader}>
                 <div className={styles.textOptions}>
                     <TextSizeDropDown />
-                    <TextStyleOptions bold={bold} />
+                    <TextStyleOptions />
                     <List onMouseDown={()=>document.execCommand('insertUnorderedList')}  className={isList ?  `${styles.activeBtn} ${styles.list}` : styles.list} />
                     <TimeControl />
                 </div>

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
-const Modal = ({current, id, journalData, setJournalData, currentBook, currentSection, setModalConfig, modalConfig, colors, icons}) => {
+const Modal = ({current, id, journalData, setJournalData, currentBook, currentSection, setModalConfig, modalConfig, colors, icons, currentDate}) => {
 
     
     
@@ -21,30 +21,32 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
         if(journalData.length > 0){
             journalData.forEach((props)=>{
                 if(currentBook === props.id){
-    
-                    props.sections.forEach((props2)=>{
-                        
-                        if(currentSection === 'notes'){
-    
-                            if(props2.slots.length > 0){
-    
-                                props2.slots.forEach((props3)=>{
-    
-                                    if(id === props3.id){
-                                        
-                                        props3.title = renameText
-                                        setJournalData([...journalData])
-                                        setModalConfig({type: ''})
+                    props.dates.forEach((date)=>{
+                        if(date.date.toDateString() === currentDate.toDateString()){
+                            date.sections.forEach((props2)=>{
+                                
+                                if(currentSection === 'notes'){
+            
+                                    if(props2.slots.length > 0){
+            
+                                        props2.slots.forEach((props3)=>{
+            
+                                            if(id === props3.id){
+                                                
+                                                props3.title = renameText
+                                                setJournalData([...journalData])
+                                                setModalConfig({type: ''})
+                                            }
+            
+                                        })
+            
                                     }
-    
-                                })
-    
-                            }
-    
+            
+                                }
+            
+                            })
                         }
-    
                     })
-    
                 }
             })
         }

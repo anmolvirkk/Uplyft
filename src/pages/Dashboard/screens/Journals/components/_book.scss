@@ -1,11 +1,11 @@
 .book {
-	width: 25vh;
-	height: 35vh;
+	width: 170px;
+	height: 250px;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
 	perspective: 1000px;
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
 	transform: scale(0.75);
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 	transition: transform 0.2s ease-in !important;
@@ -16,11 +16,11 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
   }
   
   .book-back {
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
   }
   
   .book-inner,
@@ -31,7 +31,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
   
 	transform-origin: left center;
 	transition: transform 0.2s ease-in;
@@ -43,13 +43,13 @@
   }
   
   .book-pages {
-	transform: scale(0.96, 0.9);
+	transform: scale(0.96, 0.94);
 	perspective: 3000px;
   
 	&::before,
 	&::after {
 	  background-color: #f0f0f0;
-	  background-image: linear-gradient(to right, rgba(#000, 0.1), rgba(#000, 0.2) 95%, transparent);
+	  background-image: linear-gradient(to right, rgba(#000, 0.1), rgba(#000, 0.2) 93%, transparent);
 	  box-shadow: 1px 4px 5px 0 rgba(#000, 0.05);
 	  content: "";
 	}
@@ -62,7 +62,7 @@
 	left: -10px;
 	right: 0;
 	bottom: 0;
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
   }
   
   .book-back,
@@ -159,7 +159,7 @@
   .book-face {
 	height: 100%;
 	width: 100%;
-	border-radius: 1vh 3vh 3vh 1vh;
+	border-radius: 10px 30px 30px 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

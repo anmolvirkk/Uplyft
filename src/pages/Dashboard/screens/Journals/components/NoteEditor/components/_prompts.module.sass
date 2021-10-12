@@ -1,0 +1,61 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.prompts
+    height: 5vh
+    margin: 5vh
+    width: calc( 100% - 10vh )
+    overflow: hidden
+    color: variables.$secondary
+    position: absolute
+    cursor: pointer
+    z-index: 8
+    h3    
+        background-color: variables.$background
+        border-bottom: none
+        position: sticky
+        top: 0
+        padding: 0 2.5vh
+        height: 5vh
+        display: flex
+        justify-content: space-between
+        align-items: center
+        +mixins.center
+        flex-flow: row
+        justify-content: space-between
+        font-weight: 300
+        font-size: 1.5vh
+    ul
+        list-style: none
+        height: 77.5vh
+        li
+            font-size: 2vh
+            font-weight: 300
+            height: 5vh
+            display: flex
+            justify-content: space-between
+            align-items: center
+            padding: 0 2.5vh
+            background-color: variables.$white
+            border-bottom: 1px solid rgba(variables.$black, 0.15)
+            p
+                width: 95%
+                white-space: nowrap
+                overflow: hidden
+                overflow-x: auto
+            p::-webkit-scrollbar
+                height: 10px
+
+            p::-webkit-scrollbar-track
+                box-shadow: none
+
+            p::-webkit-scrollbar-thumb
+                border: none
+                border-top: 8px solid transparent
+                background-clip: padding-box
+                border-radius: 0
+                background-color: rgba(variables.$black, 0.5)
+.promptsOpen
+    overflow: visible
+    ul
+        overflow-y: auto

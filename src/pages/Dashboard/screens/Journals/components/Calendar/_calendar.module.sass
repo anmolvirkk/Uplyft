@@ -1,0 +1,43 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.calendar
+    height: 100vh
+    min-width: 80px
+    padding: 12px 0
+    background-color: variables.$white
+    border-left: 1px solid rgba(variables.$black, 0.15)
+    list-style: none
+    overflow: hidden
+    overflow-y: auto
+    +mixins.center
+    justify-content: flex-start
+    li
+        cursor: pointer
+        +mixins.center
+        h1
+            font-size: 1.25rem
+            margin-bottom: 0.5vh
+            width: 55px
+            height: 55px
+            border-radius: 10px 10px
+            font-weight: 300
+            +mixins.center
+            color: variables.$secondary
+            background-color: variables.$background
+            box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
+            opacity: 0.7
+        p
+            font-size: 1.35vh
+            color: variables.$secondary
+            margin-top: 1.25vh
+        span
+            opacity: 0.75
+    .activeDate
+        opacity: 1
+        span
+            color: variables.$primary
+    
+
+.calendar::-webkit-scrollbar
+    width: 0

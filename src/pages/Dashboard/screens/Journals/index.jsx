@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import data from './data'
 import styles from './_journal.module.sass'
 import { Redirect } from 'react-router-dom'
 import BookSection from './components/BookSection'
@@ -13,8 +12,9 @@ const Journals = () => {
     const [currentBook, setCurrentBook] = useState(0)
     const [currentSection, setCurrentSection] = useState('notes')
     const [currentSlot, setCurrentSlot] = useState(0)
-    const [journalData, setJournalData] = useState(data)
+    const [journalData, setJournalData] = useState([])
     const [modalConfig, setModalConfig] = useState({type: '', current: '', id: null, journalData: null, setJournalData: null})
+    const [currentDate, setCurrentDate] = useState(new Date())
 
     
     const colors = ['rgb(126, 217, 86)', '#28DF99', '#6DDCCF', 'rgb(155, 170, 211)', '#916BBF', '#FE8F8F', '#FF926B', '#F2A154', '#FFD36B', '#393D46']
@@ -35,19 +35,19 @@ const Journals = () => {
         return (
         <div style={{display: 'flex'}}>
 
-            <Redirect from="/journals" to={`/journals/${currentBook}/${currentSection}/${currentSlot}`} />
-            <Redirect from={`/journals/${currentBook}/${currentSection}`} to={`/journals/${currentBook}/${currentSection}/${currentSlot}`} />
+            <Redirect from="/journals" to={`/journals/${currentBook}/${currentDate.valueOf()}/${currentSection}/${currentSlot}`} />
+            <Redirect from={`/journals/${currentBook}/${currentDate.valueOf()}/${currentSection}`} to={`/journals/${currentBook}/${currentDate.valueOf()}/${currentSection}/${currentSlot}`} />
 
-            <BookSection colors={colors} icons={icons} openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} currentBook={currentBook} />
+            <BookSection currentDate={currentDate} colors={colors} icons={icons} openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} setCurrentBook={setCurrentBook} currentBook={currentBook} />
 
-            <SlotsSection openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
+            <SlotsSection currentDate={currentDate} openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
 
-            <MainSection colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
+            <MainSection setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
 
             {modalConfig.type==='entry' ? 
-            <Modal modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} current={modalConfig.current} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
+            <Modal currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} current={modalConfig.current} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
             : modalConfig.type==='journal' ?
-            <Modal colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
+            <Modal currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
             : null}
 
         </div>

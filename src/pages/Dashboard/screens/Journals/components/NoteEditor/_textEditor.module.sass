@@ -1,6 +1,9 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+.noteEditor
+    position: relative
+
 .textEditor:empty:before
     content: attr(data-placeholder)
     opacity: 0.3
@@ -10,6 +13,7 @@
     background-color: variables.$white
     margin: 2.5vh
     padding: 3vh
+    padding-top: 10vh
     box-sizing: border-box
     border: none
     outline: none
@@ -20,14 +24,17 @@
     line-height: 2
     p  
         font-size: 1.5vh
+        margin: 0
     h1
         line-height: 1.25
         font-size: 6vh
         margin-left: -1vh
+        margin: 0
     h3
         line-height: 1.5
         font-size: 3vh
         margin-left: -0.25vh
+        margin: 0
     li
         margin-left: 2vh
 
