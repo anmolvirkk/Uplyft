@@ -39,7 +39,7 @@ const BookSection = ({ styles, journalData, setJournalData, setCurrentBook, curr
                             </div>
                         </div>
                     </div>
-                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '20vh'}} />
+                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '150px'}} />
                 </NavLink>
             )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
             }
