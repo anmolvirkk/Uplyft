@@ -88,6 +88,8 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
         if(e.target.classList.contains(styles.sideSectionSlot)){
             if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
                  e.target.classList.add(styles.overflownSlot)
+            }else if(e.target.classList.contains(styles.overflownSlot)) {
+                e.target.classList.remove(styles.overflownSlot)
             }
         }
     });
