@@ -7,6 +7,7 @@ import Calendar from './Calendar'
 const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors, currentDate}) => {
 
     const notes = []
+    const allPrompts = {}
     
         const setNote = (id, body, prompt,subsection) => {
 
@@ -188,6 +189,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                         if(currentSlot === props3.id && props3.subsections){
         
                                             props3.subsections.forEach((props4)=>{
+                                                allPrompts[props4.name] = props4.prompts
                                                 props4.data.forEach((props5)=>{
                                                     let tempObj = {...props5}
                                                     notes.push(tempObj)
@@ -337,7 +339,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                             {
                                 notes.map((props)=>(
                                     <Route key={props.id} exact path={`/journals/${currentBook}/${currentDate.valueOf()}/notes/${currentSlot}/${props.id}`}>
-                                        <NoteEditor styles={styles} {...props} colors={colors} />
+                                        <NoteEditor allPrompts={allPrompts} styles={styles} {...props} colors={colors} />
                                     </Route>
                                 ))
                             }
