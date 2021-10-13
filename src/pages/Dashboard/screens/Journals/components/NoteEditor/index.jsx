@@ -19,8 +19,6 @@ const TextEditor = ({prompt, value, onChange, setNote, id, name, prompts}) => {
 
 const NoteEditor = ({id, setNote, name, colors, allPrompts, ...props}) => {
 
-  console.log(name)
-
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)
 
@@ -32,7 +30,6 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, ...props}) => {
   let prompts
 
   for(let key in allPrompts){
-    console.log(key)
     if(key === name){
       prompts = allPrompts[key]
     }

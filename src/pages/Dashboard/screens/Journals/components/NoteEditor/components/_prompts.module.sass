@@ -1,30 +1,17 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
-.prompts
+.promptContainer
     height: 5vh
     margin: 5vh
     width: calc( 100% - 10vh )
-    overflow: hidden
-    color: variables.$secondary
     position: absolute
-    cursor: pointer
     z-index: 8
-    h3    
-        background-color: variables.$background
-        border-bottom: none
-        position: sticky
-        top: 0
-        padding: 0 2.5vh
-        height: 5vh
-        display: flex
-        justify-content: space-between
-        align-items: center
-        +mixins.center
-        flex-flow: row
-        justify-content: space-between
-        font-weight: 300
-        font-size: 1.5vh
+
+.prompts
+    display: none
+    color: variables.$secondary
+    cursor: pointer
     ul
         list-style: none
         height: 77.5vh
@@ -38,24 +25,55 @@
             padding: 0 2.5vh
             background-color: variables.$white
             border-bottom: 1px solid rgba(variables.$black, 0.15)
+            position: relative
             p
                 width: 95%
                 white-space: nowrap
                 overflow: hidden
-                overflow-x: auto
-            p::-webkit-scrollbar
-                height: 10px
-
-            p::-webkit-scrollbar-track
-                box-shadow: none
-
-            p::-webkit-scrollbar-thumb
-                border: none
-                border-top: 8px solid transparent
-                background-clip: padding-box
-                border-radius: 0
-                background-color: rgba(variables.$black, 0.5)
+                text-overflow: ellipsis
 .promptsOpen
-    overflow: visible
+    display: block
     ul
         overflow-y: auto
+
+.currentPrompt 
+        background-color: variables.$background
+        color: variables.$secondary
+        border-bottom: none
+        padding: 0 2.5vh
+        height: 5vh
+        display: flex
+        justify-content: space-between
+        align-items: center
+        +mixins.center
+        flex-flow: row
+        justify-content: space-between
+        font-weight: 300
+        font-size: 1.5vh
+        cursor: pointer
+        p
+            width: 95%
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+            text-align: left
+
+.overflownPrompt:hover::before
+    content: attr(data-item)
+    position: absolute
+    padding: 10px
+    background: variables.$black
+    color: #fff
+    font-size: 1.35vh
+    z-index: 99
+    width: 90%
+    line-height: 1.5
+    top: 50px
+    text-align: left
+.overflownPrompt:hover::after
+    content: ''
+    position: absolute
+    top: 30px
+    border: 8px solid transparent  
+    border-bottom: 8px solid variables.$black
+    z-index: 99
