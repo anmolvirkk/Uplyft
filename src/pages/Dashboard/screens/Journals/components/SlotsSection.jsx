@@ -82,6 +82,16 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
         }
     }
 
+    
+
+    document.addEventListener('mouseover', function(e) {
+        if(e.target.classList.contains(styles.sideSectionSlot)){
+            if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
+                 e.target.classList.add(styles.overflownSlot)
+            }
+        }
+    });
+
     return (
             <div className={styles.sideSection}>
                 <div className={styles.sideSectionHeader}>
@@ -126,7 +136,7 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
                     
                                                 return props2.slots.map((props3)=>{
                                                     
-                                                    return <NavLink onClick={()=>setCurrentSlot(props3.id)} key={props3.id} to={`/journals/${currentBook}/${currentDate.valueOf()}/${currentSection}/${props3.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{props3.title ==='' ? props3.date : props3.title}</p><MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${props3.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
+                                                    return <NavLink onClick={()=>setCurrentSlot(props3.id)} key={props3.id} to={`/journals/${currentBook}/${currentDate.valueOf()}/${currentSection}/${props3.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={props3.title}><p>{props3.title ==='' ? props3.date : props3.title}</p><MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${props3.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                     
                                                 })
                     
