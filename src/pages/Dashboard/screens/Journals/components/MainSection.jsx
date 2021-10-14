@@ -4,7 +4,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
 import Calendar from './Calendar'
 
-const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors, currentDate, allPrompts}) => {
+const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors, currentDate, allPrompts, openModal}) => {
 
     const notes = []
     
@@ -337,7 +337,7 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                             {
                                 notes.map((props)=>(
                                     <Route key={props.id} exact path={`/journals/${currentBook}/${currentDate.valueOf()}/notes/${currentSlot}/${props.id}`}>
-                                        <NoteEditor allPrompts={allPrompts} styles={styles} {...props} colors={colors} />
+                                        <NoteEditor allPrompts={allPrompts} openModal={openModal} styles={styles} {...props} colors={colors} />
                                     </Route>
                                 ))
                             }

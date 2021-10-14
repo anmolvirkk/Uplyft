@@ -17,7 +17,7 @@ const TextEditor = ({prompt, value, onChange, setNote, id, name, prompts}) => {
 
 }
 
-const NoteEditor = ({id, setNote, name, colors, allPrompts, ...props}) => {
+const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, ...props}) => {
 
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)
@@ -38,7 +38,7 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, ...props}) => {
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {prompts.length<=0 ? null : <Prompts updatePrompt={updatePrompt} prompts={prompts} prompt={prompt} />}
+          {prompts.length<=0 ? null : <Prompts updatePrompt={updatePrompt} prompts={prompts} prompt={prompt} openModal={openModal} name={name} />}
           <TextEditor prompts={prompts} value={editorData} onChange={setEditorData} setNote={setNote} id={id} name={name} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )

@@ -62,7 +62,7 @@ const SlotsSection = ({styles, journalData, setJournalData, currentBook, current
                                         props2.slots.forEach((props3)=>{
             
                                             if(currentSlot === props3.id){
-                                                
+                                                console.log(props3)
                                                 openModal({...props3, journalData, setJournalData, type: 'entry'})
             
                                             }

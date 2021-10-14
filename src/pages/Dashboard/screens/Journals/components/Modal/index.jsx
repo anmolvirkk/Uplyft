@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
-const Modal = ({current, id, journalData, setJournalData, currentBook, currentSection, setModalConfig, modalConfig, colors, icons, currentDate}) => {
+const Modal = ({current, id, journalData, setJournalData, currentBook, currentSection, setModalConfig, modalConfig, colors, icons, currentDate, allPrompts, setAllPrompts}) => {
 
     
     
@@ -111,12 +111,48 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
             </div>
     )
 
+    const [newPrompt, setNewPrompt] = useState('')
+
+    const addPrompt = () => {
+        
+        for(let key in allPrompts){
+            if(key === modalConfig.name.replace(/\s/g, "")){
+                let prompts = allPrompts[key]
+                let newPrompts = [...prompts, newPrompt]
+                allPrompts[key] = newPrompts
+            }
+        }
+
+        setAllPrompts({...allPrompts})
+        modalConfig.updatePrompt(newPrompt)
+        setModalConfig({type: ''})
+
+    }
+
+    const AddPrompt = () => (
+        <div className={styles.form} id='modalForm'>
+                <div className={styles.header}>
+                    <p>Add Prompt</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                <div className={styles.renameEntry}>
+                    <input autoFocus type="text" placeholder='Enter Prompt' value={newPrompt} onChange={e => setNewPrompt(e.target.value)} />
+                </div>
+                <div className={styles.footer}>
+                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                    <button className={styles.continueBtn} onClick={addPrompt}>Continue</button>
+                </div>
+            </div>
+    )
+
     return (
         <div className={styles.modal}>
             {modalConfig.type === 'entry' ? 
             <RenameEntry /> 
             : modalConfig.type === 'journal' ?
             <EditJournal />
+            : modalConfig.type === 'prompt' ?
+            <AddPrompt />
             : null
             }
         </div>

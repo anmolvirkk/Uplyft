@@ -13,15 +13,14 @@ const Journals = () => {
     const [currentSection, setCurrentSection] = useState('notes')
     const [currentSlot, setCurrentSlot] = useState(0)
     const [journalData, setJournalData] = useState([])
-    const [modalConfig, setModalConfig] = useState({type: '', current: '', id: null, journalData: null, setJournalData: null})
+    const [modalConfig, setModalConfig] = useState({type: '', current: '', id: null, journalData: null, setJournalData: null, updatePrompt: null, name: null})
     const [currentDate, setCurrentDate] = useState(new Date())
 
     
     const colors = ['rgb(126, 217, 86)', '#28DF99', '#6DDCCF', 'rgb(155, 170, 211)', '#916BBF', '#FE8F8F', '#FF926B', '#F2A154', '#FFD36B', '#393D46']
     const icons = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
 
-    
-    const allPrompts = {
+    const [allPrompts, setAllPrompts] = useState({
         braindump: [
             'What have you been worried about?',
             `What do you keep forgetting to do?`,
@@ -429,7 +428,7 @@ const Journals = () => {
             `Who is someone important to you? Write them a letter telling them what they mean to you.`
         ],
         note: []
-    }
+    })
 
     const openModal  = ({...props}) => {
         switch (props.type) {
@@ -438,6 +437,9 @@ const Journals = () => {
             break
             case 'journal':
                 setModalConfig({type: props.type, id: props.id, journalData: props.journalData, setJournalData: props.setJournalData})
+            break
+            case 'prompt':
+                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, name: props.name})
             break
             default: return null
         }
@@ -453,12 +455,14 @@ const Journals = () => {
 
             <SlotsSection currentDate={currentDate} openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
 
-            <MainSection allPrompts={allPrompts} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
+            <MainSection allPrompts={allPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
 
             {modalConfig.type==='entry' ? 
             <Modal currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} current={modalConfig.current} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
             : modalConfig.type==='journal' ?
             <Modal currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
+            : modalConfig.type==='prompt' ?
+            <Modal allPrompts={allPrompts} setAllPrompts={setAllPrompts} modalConfig={modalConfig} setModalConfig={setModalConfig} /> 
             : null}
 
         </div>
