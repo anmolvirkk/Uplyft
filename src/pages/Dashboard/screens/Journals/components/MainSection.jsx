@@ -4,10 +4,9 @@ import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
 import Calendar from './Calendar'
 
-const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors, currentDate}) => {
+const MainSection = ({styles, journalData, currentBook, currentSection, currentSlot, setJournalData, colors, currentDate, allPrompts}) => {
 
     const notes = []
-    const allPrompts = {}
     
         const setNote = (id, body, prompt,subsection) => {
 
@@ -189,7 +188,6 @@ const MainSection = ({styles, journalData, currentBook, currentSection, currentS
                                         if(currentSlot === props3.id && props3.subsections){
         
                                             props3.subsections.forEach((props4)=>{
-                                                allPrompts[props4.name] = props4.prompts
                                                 props4.data.forEach((props5)=>{
                                                     let tempObj = {...props5}
                                                     notes.push(tempObj)

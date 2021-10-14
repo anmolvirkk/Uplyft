@@ -30,7 +30,7 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, ...props}) => {
   let prompts
 
   for(let key in allPrompts){
-    if(key === name){
+    if(key === name.replace(/\s/g, "")){
       prompts = allPrompts[key]
     }
   }
