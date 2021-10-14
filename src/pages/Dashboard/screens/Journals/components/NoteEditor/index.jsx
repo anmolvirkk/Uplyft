@@ -17,7 +17,7 @@ const TextEditor = ({prompt, value, onChange, setNote, id, name, prompts}) => {
 
 }
 
-const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, ...props}) => {
+const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPrompts, ...props}) => {
 
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)
@@ -35,10 +35,25 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, ...props}
     }
   }
 
+  const deletePrompt = (name, prompt) => {
+    for(let key in allPrompts){
+        if(key === name.replace(/\s/g, "")){
+            allPrompts[key].forEach((item, index)=>{
+                if(item === prompt){
+                    let newPrompts = allPrompts[key].filter((val, i)=>i!==index)
+                    allPrompts[key] = [...newPrompts]
+                }
+            })
+        }
+    }
+    
+    setAllPrompts({...allPrompts})
+}
+
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {prompts.length<=0 ? null : <Prompts updatePrompt={updatePrompt} prompts={prompts} prompt={prompt} openModal={openModal} name={name} />}
+          {prompts.length<=0 ? null : <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={prompts} prompt={prompt} openModal={openModal} name={name} />}
           <TextEditor prompts={prompts} value={editorData} onChange={setEditorData} setNote={setNote} id={id} name={name} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )

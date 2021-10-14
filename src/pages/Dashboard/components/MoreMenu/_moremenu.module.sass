@@ -6,6 +6,7 @@
     +mixins.center
     color: variables.$secondary
     .moreMenu
+        all: unset
         position: absolute
         z-index: 99
         background: variables.$black
@@ -13,9 +14,17 @@
         list-style: none
         +mixins.center
         li
+            all: unset
             border-bottom: 1px solid rgba(variables.$permWhite, 0.15)
             width: 100%
             padding: 1.25vh 3.5vh
+            font-size: 1.5vh
+        li:hover
+            all: unset
+            border-bottom: 1px solid rgba(variables.$permWhite, 0.15)
+            width: 100%
+            padding: 1.25vh 3.5vh
+            font-size: 1.5vh
 
 .modal
     position: absolute

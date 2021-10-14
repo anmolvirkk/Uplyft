@@ -441,6 +441,9 @@ const Journals = () => {
             case 'prompt':
                 setModalConfig({type: props.type, updatePrompt: props.updatePrompt, name: props.name})
             break
+            case 'editprompt':
+                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, name: props.name, current: props.current})
+            break
             default: return null
         }
     }
@@ -455,13 +458,15 @@ const Journals = () => {
 
             <SlotsSection currentDate={currentDate} openModal={openModal} styles={styles} journalData={journalData} setJournalData={setJournalData} currentBook={currentBook} currentSection={currentSection} setCurrentSection={setCurrentSection} setCurrentSlot={setCurrentSlot} currentSlot={currentSlot} />
 
-            <MainSection allPrompts={allPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
+            <MainSection allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} journalData={journalData} currentBook={currentBook} currentSection={currentSection} currentSlot={currentSlot} setJournalData={setJournalData} />
 
             {modalConfig.type==='entry' ? 
             <Modal currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} current={modalConfig.current} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
             : modalConfig.type==='journal' ?
             <Modal currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} currentBook={currentBook} currentSection={currentSection} id={modalConfig.id} journalData={modalConfig.journalData} setJournalData={modalConfig.setJournalData} /> 
             : modalConfig.type==='prompt' ?
+            <Modal allPrompts={allPrompts} setAllPrompts={setAllPrompts} modalConfig={modalConfig} setModalConfig={setModalConfig} /> 
+            : modalConfig.type==='editprompt' ?
             <Modal allPrompts={allPrompts} setAllPrompts={setAllPrompts} modalConfig={modalConfig} setModalConfig={setModalConfig} /> 
             : null}
 

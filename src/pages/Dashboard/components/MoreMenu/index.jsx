@@ -17,7 +17,7 @@ const MoreMenu = ({items, id, pos}) => {
     });
 
     const toggleMenu = () => {
-        visible==='none' ? setVisible('block') : setVisible('none')
+        visible==='none' ? setVisible('flex') : setVisible('none')
     }
 
     return (

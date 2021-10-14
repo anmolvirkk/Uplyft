@@ -145,6 +145,49 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
             </div>
     )
 
+    const [editedPrompt, setEditedPrompt] = useState(modalConfig.current)
+    const [editPromptPlaceholder, setEditPromptPlaceholder] = useState('Enter Prompt')
+
+    const editPrompt = () => {
+        if(editedPrompt.replace(/\s/g, "") !== ''){
+            
+            for(let key in allPrompts){
+                if(key === modalConfig.name.replace(/\s/g, "")){
+                    let prompts = allPrompts[key]
+                    prompts.forEach((item, index)=>{
+                        if(item === modalConfig.current){
+                            allPrompts[key][index] = editedPrompt
+                        }
+                    })
+                }
+            }
+            
+            setAllPrompts({...allPrompts})
+            modalConfig.updatePrompt(editedPrompt)
+            setModalConfig({type: ''})
+            setEditPromptPlaceholder('Enter Prompt')
+
+        }else{
+            setEditPromptPlaceholder('Prompt Cannot Be Empty')
+        }
+    }
+
+    const EditPrompt = () => (
+        <div className={styles.form} id='modalForm'>
+                <div className={styles.header}>
+                    <p>Edit Prompt</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                <div className={styles.renameEntry}>
+                    <input autoFocus type="text" placeholder={editPromptPlaceholder} value={editedPrompt} onChange={e => setEditedPrompt(e.target.value)} />
+                </div>
+                <div className={styles.footer}>
+                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                    <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
+                </div>
+            </div>
+    )
+
     return (
         <div className={styles.modal}>
             {modalConfig.type === 'entry' ? 
@@ -153,6 +196,8 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
             <EditJournal />
             : modalConfig.type === 'prompt' ?
             <AddPrompt />
+            : modalConfig.type === 'editprompt' ?
+            <EditPrompt />
             : null
             }
         </div>
