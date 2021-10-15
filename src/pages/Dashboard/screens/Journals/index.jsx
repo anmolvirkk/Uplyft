@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import BookSection from './components/BookSection'
 import SlotsSection from './components/SlotsSection'
 import MainSection from './components/MainSection'
-import Modal from './components/Modal'
+import Modal from '../../components/Modal'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 const Journals = () => {
