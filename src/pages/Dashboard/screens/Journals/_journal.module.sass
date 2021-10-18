@@ -92,15 +92,14 @@
     width: 100%
     height: calc( 100vh - 80px )
     display: grid
-    grid-template-columns: 1fr 1fr 1fr
-    grid-template-rows: 1fr 1fr 1fr
+    grid-template-rows: repeat(auto-fill, minmax(40vh, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
     overflow-y: auto
     grid-gap: 2.5vh
     padding: 2.5vh
 
 .note
     min-height: 40vh
-    width: 100%
     border-radius: 1.25vh 1.25vh
     background-color: variables.$white
     text-decoration: none
