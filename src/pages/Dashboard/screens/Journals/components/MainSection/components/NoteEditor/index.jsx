@@ -17,15 +17,10 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, prompts}) 
 
 }
 
-const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPrompts, notes, allRoutes, ...props}) => {
+const NoteEditor = ({id, setNote, colors, allPrompts, openModal, setAllPrompts, notes, allRoutes, ...props}) => {
 
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)
-
-  const updatePrompt = (val) => {
-    setPrompt(val)
-    setNote(id, editorData, val, name)
-  }
 
   let category
 
@@ -34,6 +29,11 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPro
       category = item.category
     }
   })
+  
+  const updatePrompt = (val) => {
+    setPrompt(val)
+    setNote(id, editorData, val, category)
+  }
 
   const deletePrompt = (name, prompt) => {
     for(let key in allPrompts){
@@ -53,8 +53,8 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPro
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {allPrompts[category] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category]} prompt={prompt} openModal={openModal} name={name} /> : null}
-          <TextEditor prompts={allPrompts[category]} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} name={name} prompt={prompt} setPrompt={setPrompt} />
+          {allPrompts[category] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category]} prompt={prompt} openModal={openModal} category={category} /> : null}
+          <TextEditor prompts={allPrompts[category]} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )
 }

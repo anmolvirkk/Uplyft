@@ -148,7 +148,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                 
                                     : null
                                 }
-                                {allRoutes&&allRoutes['book']&&allRoutes[allRoutes['book']]&&allRoutes[allRoutes['book']].slot!==null?<Calendar slots={slots} allRoutes={allRoutes} currentDate={currentDate} dates={dates} setDates={setDates} />:null}
+                                {allRoutes&&allRoutes['book']&&allRoutes[allRoutes['book']]&&allRoutes[allRoutes['book']].slot!==null?<Calendar slots={slots} allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} dates={dates} setDates={setDates} />:null}
                             </div>
 
                             </Route>
@@ -157,7 +157,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                 notes[allRoutes[allRoutes['book']].slot]?
                                 notes[allRoutes[allRoutes['book']].slot].map((props)=>(
                                     <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}/${props.id}`}>
-                                        <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} />
+                                        <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))
                                 : null

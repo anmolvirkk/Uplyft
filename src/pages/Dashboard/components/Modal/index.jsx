@@ -102,7 +102,7 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
     const addPrompt = () => {
         
         for(let key in allPrompts){
-            if(key === modalConfig.name.replace(/\s/g, "")){
+            if(key === modalConfig.category.replace(/\s/g, "")){
                 let prompts = allPrompts[key]
                 let newPrompts = [...prompts, newPrompt]
                 allPrompts[key] = newPrompts

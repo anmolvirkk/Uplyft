@@ -4,24 +4,29 @@ import BookSection from './components/BookSection'
 import SlotsSection from './components/SlotsSection'
 import MainSection from './components/MainSection'
 import Modal from '../../components/Modal'
-import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 import SideBar from '../../components/SideBar'
 
 const Journals = ({allRoutes, setAllRoutes}) => {
 
-    const [currentSection, setCurrentSection] = useState('notes')
     const [modalConfig, setModalConfig] = useState({type: '', current: '', id: null, updatePrompt: null, name: null})
     const [currentDate, setCurrentDate] = useState(new Date())
 
-    const [books, setBooks] = useState([])
-    const [slots, setSlots] = useState({})
-    const [dates, setDates] = useState({})
-    const [notes, setNotes] = useState([])
+    const [books, setBooks] = useState(localStorage['books']&&JSON.parse(localStorage['books']).length!==0?JSON.parse(localStorage['books']):[])
+    localStorage['books'] = JSON.stringify(books)
+    
+    const [slots, setSlots] = useState(localStorage['slots']&&Object.entries(JSON.parse(localStorage['slots'])).length!==0?JSON.parse(localStorage['slots']):{})
+    localStorage['slots'] = JSON.stringify(slots)
+
+    const [dates, setDates] = useState(localStorage['dates']&&Object.entries(JSON.parse(localStorage['dates'])).length!==0?JSON.parse(localStorage['dates']):{})
+    localStorage['dates'] = JSON.stringify(dates)
+
+    const [notes, setNotes] = useState(localStorage['notes']&&localStorage['notes'] !== '[]'?JSON.parse(localStorage['notes']):[])
+    localStorage['notes'] = JSON.stringify(notes)
 
     const colors = ['rgb(126, 217, 86)', '#28DF99', '#6DDCCF', 'rgb(155, 170, 211)', '#916BBF', '#FE8F8F', '#FF926B', '#F2A154', '#FFD36B', '#393D46']
-    const icons = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
+    const icons = ['Activity', 'AlertTriangle', 'Anchor', 'Aperture', 'Archive', 'Award', 'BarChart', 'BatteryCharging', 'Bell', 'Book', 'Box', 'Briefcase', 'Camera', 'Clock', 'CloudLightning', 'Code', 'Coffee', 'Command', 'Compass', 'Crosshair', 'DollarSign', 'Droplet', 'Dribbble', 'Eye', 'Feather', 'Flag', 'GitHub', 'Gitlab', 'Globe', 'Grid', 'Hash', 'Headphones', 'Heart', 'Key', 'LifeBuoy', 'Map', 'Moon', 'Smile', 'Sun', 'Star']
 
-    const [allPrompts, setAllPrompts] = useState({
+    const [allPrompts, setAllPrompts] = useState(localStorage['allPrompts']&&Object.entries(JSON.parse(localStorage['allPrompts'])).length!==0?JSON.parse(localStorage['allPrompts']):{
         braindump: [
             'What have you been worried about?',
             `What do you keep forgetting to do?`,
@@ -596,6 +601,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
         ],
         note: []
     })
+    localStorage['allPrompts'] = JSON.stringify(allPrompts)
 
     const openModal  = ({...props}) => {
         switch (props.type) {
@@ -606,10 +612,10 @@ const Journals = ({allRoutes, setAllRoutes}) => {
                 setModalConfig({type: props.type, id: props.id})
             break
             case 'prompt':
-                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, name: props.name})
+                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, category: props.category})
             break
             case 'editprompt':
-                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, name: props.name, current: props.current})
+                setModalConfig({type: props.type, updatePrompt: props.updatePrompt, category: props.category, current: props.current})
             break
             default: return null
         }
@@ -621,14 +627,14 @@ const Journals = ({allRoutes, setAllRoutes}) => {
 
             <BookSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} currentDate={currentDate} colors={colors} icons={icons} openModal={openModal} styles={styles} />
 
-            <SlotsSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} slots={slots} setSlots={setSlots} currentDate={currentDate} openModal={openModal} styles={styles} currentSection={currentSection} setCurrentSection={setCurrentSection} />
+            <SlotsSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} slots={slots} setSlots={setSlots} currentDate={currentDate} openModal={openModal} styles={styles} />
 
-            <MainSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} notes={notes} setNotes={setNotes} dates={dates} setDates={setDates} slots={slots} allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} currentSection={currentSection} />
+            <MainSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} notes={notes} setNotes={setNotes} dates={dates} setDates={setDates} slots={slots} allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} />
 
             {modalConfig.type==='entry' ? 
-            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} currentSection={currentSection} slots={slots} setSlots={setSlots} /> 
+            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} slots={slots} setSlots={setSlots} /> 
             : modalConfig.type==='journal' ?
-            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} currentSection={currentSection} books={books} setBooks={setBooks} /> 
+            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} books={books} setBooks={setBooks} /> 
             : modalConfig.type==='prompt' ?
             <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} allPrompts={allPrompts} setAllPrompts={setAllPrompts} modalConfig={modalConfig} setModalConfig={setModalConfig} /> 
             : modalConfig.type==='editprompt' ?

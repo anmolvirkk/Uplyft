@@ -4,6 +4,7 @@ import './_book.scss'
 import AddButton from '../../../../components/AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
+import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
  
 const BookSection = ({ styles, openModal, colors, icons, currentDate, books, setBooks, allRoutes, setAllRoutes}) => {
 
@@ -49,6 +50,19 @@ const BookSection = ({ styles, openModal, colors, icons, currentDate, books, set
         setAllRoutes({...allRoutes})
     }
 
+    const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
+    
+    const selectIcon = (name) => {
+
+        return iconsSvg.map((icon, index)=>{
+            if(icon.type.render.displayName === name){
+                return <div className="bookIcon" key={index}>{iconsSvg[index]}</div>
+            }
+            return null
+        })
+
+    }
+
     return (
     <div className={styles.journals}>
         <div className={styles.bookSection} id="bookSection">
@@ -66,7 +80,7 @@ const BookSection = ({ styles, openModal, colors, icons, currentDate, books, set
                         <div className="book-pages book-inner"></div>
                         <div className="book-cover book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}>
-                                {props.icon}
+                                {selectIcon(props.icon)}
                             </div>
                         </div>
                     </div>

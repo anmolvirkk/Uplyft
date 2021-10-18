@@ -18,6 +18,14 @@
 	display: block;
 	border-radius: 10px 30px 30px 10px;
   }
+
+  .bookIcon {
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+  }
   
   .book-back {
 	border-radius: 10px 30px 30px 10px;

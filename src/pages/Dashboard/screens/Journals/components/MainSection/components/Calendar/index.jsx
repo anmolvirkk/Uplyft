@@ -1,48 +1,45 @@
 import React, {useEffect} from 'react'
 import styles from './_calendar.module.sass'
 
-const Calendar = ({currentBook, currentDate, dates, setDates, slots}) => {
+const Calendar = ({currentDate, dates, setDates, slots, allRoutes, setAllRoutes}) => {
     
-    let date = {
-        date: new Date()
-    }
-
-    const addDate = () => {
-        if(dates[currentBook]){
-            dates[currentBook].push(date)
-            setDates({...dates})
-        }else{
-            dates[currentBook] = []
-            dates[currentBook].push(date)
-            setDates({...dates})
-        }
-    }
-
     useEffect(()=>{
-        if(Object.entries(dates).length !== 0){
-            for(let key in dates){
-                if(parseInt(key) === currentBook){
-                    let todaysDate = new Date()
-                    if(dates[key].length !== 0){
-                        if(dates[key][dates[key].length-1].date.toDateString() !== todaysDate.toDateString()){
-                            addDate()
-                        }
-                    }else{
-                        addDate()
-                    }
-                }
+
+        let date = new Date()
+
+        const addDate = () => {
+            if(dates[allRoutes['book']]){
+                dates[allRoutes['book']].push(date)
+                setDates({...dates})
+            }else{
+                dates[allRoutes['book']] = []
+                dates[allRoutes['book']].push(date)
+                setDates({...dates})
             }
+        }
+
+        if(dates[allRoutes['book']]){
+
+            dates[allRoutes['book']].forEach((item)=>{
+                let todaysDate = new Date()
+                let storedDate = new Date(item)
+                if(todaysDate.toDateString() !== storedDate.toDateString()){
+                    addDate()
+                }
+            })
+            
         }else{
             addDate()
         }
-    })
+    }, [allRoutes, dates, setDates])
 
     if(slots.length !== 0) {
 
         return <ul className={styles.calendar}>
                     <li className={styles.calendarTitle}>Day</li>
-                    {dates[currentBook] ? dates[currentBook].map((item, index)=>{
-                        return <li key={index}><h1 className={currentDate.toDateString() === item.date.toDateString() ? styles.activeDate : null}>{index+1}</h1><p>{item.date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></li>
+                    {dates[allRoutes['book']] ? dates[allRoutes['book']].map((item, index)=>{
+                        let date = new Date(item)
+                        return <li key={index}><h1 className={currentDate.toDateString() === date.toDateString() ? styles.activeDate : null}>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></li>
                     }) : null}
                 </ul>
 

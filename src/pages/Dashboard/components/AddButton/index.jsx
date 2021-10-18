@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styles from './_addbutton.module.sass'
 import {ArrowUp, Plus} from 'react-feather'
 import { Redirect } from 'react-router'
+import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRoutes, setAllRoutes, currentDate}) => {
     
@@ -63,6 +64,19 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
         setAllRoutes({...allRoutes})
         setOpenBook(newBook.id)
     }
+
+    const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
+    
+    const selectIcon = (name) => {
+
+        return iconsSvg.map((icon, index)=>{
+            if(icon.type.render.displayName === name){
+                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
+            }
+            return null
+        })
+
+    }
     
     const JournalTab = () => {
         return (
@@ -76,7 +90,7 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
                 <li>
                     <p>Icon</p>
                     <ol>
-                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>)}
+                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
                     </ol>
                 </li>   
             </ul>

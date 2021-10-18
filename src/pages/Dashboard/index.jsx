@@ -7,7 +7,8 @@ import Journals from './screens/Journals'
 import Settings from './screens/Settings'
 
 const Dashboard = () => {
-    const [allRoutes, setAllRoutes] = useState({})
+    const [allRoutes, setAllRoutes] = useState(localStorage['allRoutes']?JSON.parse(localStorage['allRoutes']):{})
+    localStorage['allRoutes'] = JSON.stringify(allRoutes)
 
     return (
     <React.Fragment>

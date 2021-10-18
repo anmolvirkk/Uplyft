@@ -1,15 +1,9 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
-.calendarTitle
-    color: variables.$secondary
-    font-weight: 100
-    font-size: 2.5vh
-
 .calendar
     height: 100vh
     min-width: 80px
-    padding: 12px 0
     background-color: variables.$white
     border-left: 1px solid rgba(variables.$black, 0.15)
     list-style: none
@@ -17,6 +11,18 @@
     overflow-y: auto
     +mixins.center
     justify-content: flex-start
+    .calendarTitle
+        color: variables.$secondary
+        font-weight: 100
+        font-size: 2.5vh
+        position: sticky
+        top: 0
+        z-index: 8
+        background-color: variables.$white
+        width: 100%
+        padding-top: 1.5vh
+        padding-bottom: 1.5vh
+        margin-bottom: 1.5vh
     li
         cursor: pointer
         +mixins.center
