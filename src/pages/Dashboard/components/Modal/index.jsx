@@ -1,10 +1,22 @@
 import React, {useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
+import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPrompts, books, setBooks, slots, setSlots, allRoutes}) => {
 
+    const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
     
+    const selectIcon = (name) => {
+
+        return iconsSvg.map((icon, index)=>{
+            if(icon.type.render.displayName === name){
+                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
+            }
+            return null
+        })
+
+    }
     
     document.addEventListener('mouseup', function(e) {
         const modalForm = document.getElementById('modalForm');
@@ -85,7 +97,7 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
                         <li>
                             <p>Icon</p>
                             <ol>
-                                {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>)}
+                                {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
                             </ol>
                         </li>   
                     </ul>
