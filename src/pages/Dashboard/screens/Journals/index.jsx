@@ -5,6 +5,7 @@ import SlotsSection from './components/SlotsSection'
 import MainSection from './components/MainSection'
 import Modal from '../../components/Modal'
 import SideBar from '../../components/SideBar'
+import { Redirect } from 'react-router'
 
 const Journals = ({allRoutes, setAllRoutes}) => {
 
@@ -623,6 +624,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     
         return (
         <div style={{display: 'flex'}}>
+            <Redirect to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']]}`} />
             <SideBar allRoutes={allRoutes} currentDate={currentDate} />
 
             <BookSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} currentDate={currentDate} colors={colors} icons={icons} openModal={openModal} styles={styles} />
