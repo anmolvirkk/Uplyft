@@ -3,7 +3,7 @@ import styles from './_textEditor.module.sass'
 import Header from './components/Header'
 import Prompts from './components/Prompts'
 
-const TextEditor = ({prompt, value, setEditorData, setNote, id, name, prompts}) => {
+const TextEditor = ({prompt, value, setEditorData, setNote, id, name, allPrompts, category}) => {
 
   const editorBody = useRef(value)
   const textEditor = useRef()
@@ -12,8 +12,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, prompts}) 
     setEditorData(val)
     setNote(id, val, prompt, name)
   }
-
-  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: prompts.length<=0 ? '2.5vh' : null}} />
+  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
@@ -53,8 +52,8 @@ const NoteEditor = ({id, setNote, colors, allPrompts, openModal, setAllPrompts, 
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {allPrompts[category] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category]} prompt={prompt} openModal={openModal} category={category} /> : null}
-          <TextEditor prompts={allPrompts[category]} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
+          {allPrompts[category.replace(/ /g, "")] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} openModal={openModal} category={category} /> : null}
+          <TextEditor allPrompts={allPrompts} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )
 }

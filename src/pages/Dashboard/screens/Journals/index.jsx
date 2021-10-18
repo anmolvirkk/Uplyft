@@ -624,7 +624,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     
         return (
         <div style={{display: 'flex'}}>
-            <Redirect to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']]}`} />
+            <Redirect to={Object.entries(allRoutes).length!==0?`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']]}`:`/journals`} />
             <SideBar allRoutes={allRoutes} currentDate={currentDate} />
 
             <BookSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} currentDate={currentDate} colors={colors} icons={icons} openModal={openModal} styles={styles} />
