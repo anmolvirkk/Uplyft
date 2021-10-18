@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import styles from './_calendar.module.sass'
+import { NavLink } from 'react-router-dom'
 
 const Calendar = ({currentDate, dates, setDates, slots, allRoutes, setAllRoutes}) => {
     
@@ -16,6 +17,8 @@ const Calendar = ({currentDate, dates, setDates, slots, allRoutes, setAllRoutes}
                 dates[allRoutes['book']].push(date)
                 setDates({...dates})
             }
+            allRoutes['date'] = date.valueOf()
+            setAllRoutes({...allRoutes})
         }
 
         if(dates[allRoutes['book']]){
@@ -31,7 +34,12 @@ const Calendar = ({currentDate, dates, setDates, slots, allRoutes, setAllRoutes}
         }else{
             addDate()
         }
-    }, [allRoutes, dates, setDates])
+    }, [allRoutes, dates, setDates, setAllRoutes])
+
+    const setDateRoute = (date) => {
+        allRoutes['date'] = date
+        setAllRoutes({...allRoutes})
+    }
 
     if(slots.length !== 0) {
 
@@ -39,7 +47,7 @@ const Calendar = ({currentDate, dates, setDates, slots, allRoutes, setAllRoutes}
                     <li className={styles.calendarTitle}>Day</li>
                     {dates[allRoutes['book']] ? dates[allRoutes['book']].map((item, index)=>{
                         let date = new Date(item)
-                        return <li key={index}><h1 className={currentDate.toDateString() === date.toDateString() ? styles.activeDate : null}>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></li>
+                        return <NavLink onMouseDown={()=>setDateRoute(date.valueOf())} to={`/journals/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']].slot}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
                     }) : null}
                 </ul>
 

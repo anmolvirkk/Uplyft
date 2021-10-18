@@ -92,7 +92,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
         <div className={styles.mainSection}>
 
                     <Switch>
-                            <Route exact path={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}`}>
+                            <Route exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}`}>
                             
                             <div style={{display: 'flex'}}>
                                 {
@@ -108,7 +108,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                                         <div key={item.id} className={styles.note} style={{backgroundColor: `${item.color}99`}}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -117,7 +117,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>
@@ -156,7 +156,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                             {
                                 notes[allRoutes[allRoutes['book']].slot]?
                                 notes[allRoutes[allRoutes['book']].slot].map((props)=>(
-                                    <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}/${props.id}`}>
+                                    <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${props.id}`}>
                                         <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))

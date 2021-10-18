@@ -118,8 +118,8 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
 
     return (
         <button className={styles.addButton} id="addButton" >
-            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${openBook}/${currentDate.valueOf()}/${allRoutes[openBook].slot}`:`/journals/${openBook}/`} />:null}
-            {openSlot?<Redirect to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${openSlot}`} />:null}
+            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/journals/${openBook}/`} />:null}
+            {openSlot?<Redirect to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
             {text}
             {journalTabOpen ? <JournalTab /> : null}
         </button>

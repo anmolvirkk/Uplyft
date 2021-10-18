@@ -69,7 +69,7 @@ const BookSection = ({ styles, openModal, colors, icons, currentDate, books, set
             {
             books.length > 0 ?
             books.map((props)=>(
-                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes[props.id]&&allRoutes[props.id].slot?`/journals/${props.id}/${currentDate.valueOf()}/${allRoutes[props.id].slot}`:`/journals/${props.id}/`} activeClassName="activeBook" style={{display: 'flex'}}>
+                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes[props.id]&&allRoutes[props.id].slot?`/journals/${props.id}/${allRoutes['date']}/${allRoutes[props.id].slot}`:`/journals/${props.id}/`} activeClassName="activeBook" style={{display: 'flex'}}>
                     <div className="book">
                         <div className="book-back book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}></div>
