@@ -3,13 +3,13 @@ import styles from './_textEditor.module.sass'
 import Header from './components/Header'
 import Prompts from './components/Prompts'
 
-const TextEditor = ({prompt, value, onChange, setNote, id, name, prompts}) => {
+const TextEditor = ({prompt, value, setEditorData, setNote, id, name, prompts}) => {
 
   const editorBody = useRef(value)
   const textEditor = useRef()
 
   const handleInput = (val) => {
-    onChange(val)
+    setEditorData(val)
     setNote(id, val, prompt, name)
   }
 
@@ -17,7 +17,7 @@ const TextEditor = ({prompt, value, onChange, setNote, id, name, prompts}) => {
 
 }
 
-const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPrompts, ...props}) => {
+const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPrompts, notes, allRoutes, ...props}) => {
 
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)
@@ -27,13 +27,13 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPro
     setNote(id, editorData, val, name)
   }
 
-  let prompts
+  let category
 
-  for(let key in allPrompts){
-    if(key === name.replace(/\s/g, "")){
-      prompts = allPrompts[key]
+  notes[allRoutes[allRoutes['book']].slot].forEach((item)=>{
+    if(item.id === id){
+      category = item.category
     }
-  }
+  })
 
   const deletePrompt = (name, prompt) => {
     for(let key in allPrompts){
@@ -53,8 +53,8 @@ const NoteEditor = ({id, setNote, name, colors, allPrompts, openModal, setAllPro
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {prompts.length<=0 ? null : <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={prompts} prompt={prompt} openModal={openModal} name={name} />}
-          <TextEditor prompts={prompts} value={editorData} onChange={setEditorData} setNote={setNote} id={id} name={name} prompt={prompt} setPrompt={setPrompt} />
+          {allPrompts[category] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category]} prompt={prompt} openModal={openModal} name={name} /> : null}
+          <TextEditor prompts={allPrompts[category]} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} name={name} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )
 }

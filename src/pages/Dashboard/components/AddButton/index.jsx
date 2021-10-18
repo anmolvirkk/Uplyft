@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import styles from './_addbutton.module.sass'
-import {ArrowUp, Plus, File, Check, Calendar} from 'react-feather'
+import {ArrowUp, Plus} from 'react-feather'
+import { Redirect } from 'react-router'
 
-const AddButton = ({name, journalData, setJournalData, currentBook, currentSection, setCurrentBook, setCurrentSlot, colors, icons, currentDate}) => {
+const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRoutes, setAllRoutes, currentDate}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
   
@@ -22,125 +23,45 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
     const slot = {
         id: date.valueOf(),
         title: '',
-        date: formatAMPM(date),
-        subsections: [
-            {
-                name: 'brain dump',
-                color: '#7ED956',
-                id: 0,
-                data: []
-            },
-            {
-                name: 'gratitude',
-                color: '#FFC107',
-                id: 1,
-                data: []
-            },
-            {
-                name: 'reflection',
-                color: '#F50057',
-                id: 2,
-                data: []
-            },
-            {
-                name: 'aspiration',
-                color: '#03A9F4',
-                id: 3,
-                data: []
-            },
-            {
-                name: 'memory',
-                color: '#7986CB',
-                id: 4,
-                data: []
-            },
-            {
-                name: 'forgive',
-                color: '#673AB7',
-                id: 5,
-                data: []
-            },
-            {
-                name: 'letter',
-                color: '#393D46',
-                id: 6,
-                data: []
-            },
-            {
-                name: 'note',
-                color: '#CFD8DC',
-                id: 7,
-                data: []
-            }
-        ]
+        time: formatAMPM(date)
     }
-    
-    const addSlotSection = () => {
 
-        if(journalData.length > 0){
-            journalData.forEach((props)=>{
-                if(currentBook === props.id){
-                    props.dates.forEach((date)=>{
-                        if(date.date.toDateString() === currentDate.toDateString()) {
-                            date.sections.forEach((props2)=>{
-                        
-                                if(currentSection === props2.name){
-            
-                                        props2.slots.push(slot)
-                                        setJournalData([...journalData])
-                                        setCurrentSlot(slot.id)
-            
-            
-                                }
-            
-                            })
-                        }
-                    })
-    
-                }
-            })
+    const [openSlot, setOpenSlot] = useState()
+
+    const addNoteSlot = () => {
+        if(slots[allRoutes['book']]){
+            slots[allRoutes['book']].push(slot)
+            setSlots({...slots})
+        }else{
+            slots[allRoutes['book']] = []
+            slots[allRoutes['book']].push(slot)
+            setSlots({...slots})
         }
+        
+        allRoutes[allRoutes['book']] = {slot: slot.id}
+        setAllRoutes({...allRoutes})
+        setOpenSlot(slot.id)
     }
 
     const [journalColor, setJournalColor] = useState(0)
     const [journalIcon, setJournalIcon] = useState(0)
 
-    const addJournal = () => {
-        let newJournal = {
-                id: date.valueOf(),
-                icon: icons[journalIcon],
-                color: colors[journalColor],
-                dates: [
-                    {
-                        date: new Date(),
-                        sections: 
-                                [
-                                            {
-                                                id: 0,
-                                                icon: <File />,
-                                                name: 'notes',
-                                                slots: []
-                                            },
-                                            {
-                                                id: 1,
-                                                icon: <Check />,
-                                                name: 'tasks',
-                                                slots: []
-                                            },
-                                            {
-                                                id: 2,
-                                                icon: <Calendar />,
-                                                name: 'events',
-                                                slots: []
-                                            }
-                                ]
-                    }
-                ]
+    const [openBook, setOpenBook] = useState()
+
+    const addBook = () => {
+        let newBook = {
+            id: date.valueOf(),
+            icon: icons[journalIcon],
+            color: colors[journalColor]
         }
-        journalData.push(newJournal)
-        setJournalData([...journalData])
+        books.push(newBook)
+        setBooks([...books])
         setJournalTabOpen(false)
-        setCurrentBook(newJournal.id)
+
+        allRoutes[newBook.id] = {}
+        allRoutes['book'] = newBook.id
+        setAllRoutes({...allRoutes})
+        setOpenBook(newBook.id)
     }
     
     const JournalTab = () => {
@@ -177,12 +98,14 @@ const AddButton = ({name, journalData, setJournalData, currentBook, currentSecti
     
     const journalButtonIcon = journalTabOpen ? <Plus /> : <ArrowUp />
 
-    const journalClick = journalTabOpen ? addJournal : openJournalTab
+    const journalClick = journalTabOpen ? addBook : openJournalTab
 
-    const text = name==='journal' ? <div onClick={journalClick} className={styles.clickButton}><p>Add {name}</p>{journalButtonIcon}</div> : <div className={styles.clickButton} onClick={addSlotSection}><p>Add {name}</p><Plus /></div>
+    const text = name==='journal' ? <div onClick={journalClick} className={styles.clickButton}><p>Add {name}</p>{journalButtonIcon}</div> : <div className={styles.clickButton} onClick={addNoteSlot}><p>Add {name}</p><Plus /></div>
 
     return (
         <button className={styles.addButton} id="addButton" >
+            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${openBook}/${currentDate.valueOf()}/${allRoutes[openBook].slot}`:`/journals/${openBook}/`} />:null}
+            {openSlot?<Redirect to={`/journals/${allRoutes['book']}/${currentDate.valueOf()}/${openSlot}`} />:null}
             {text}
             {journalTabOpen ? <JournalTab /> : null}
         </button>

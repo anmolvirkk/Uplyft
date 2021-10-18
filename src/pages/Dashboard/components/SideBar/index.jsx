@@ -3,10 +3,17 @@ import styles from './_sidebar.module.sass'
 import {Home, Book, RefreshCcw, Activity, Settings, Power, Menu} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
-const IconButton = ({name, icon}) => (
+const IconButton = ({name, icon, allRoutes, currentDate}) => {
+    return (
     name!=="menu" && name!=="logout" ?
     name==="home" ?
     <NavLink exact className={styles.iconButton} to={`/`} activeClassName={styles.activeIconButton}>
+        {icon}
+        <p>{name}</p>
+    </NavLink>
+    :
+    name==="journals" ?
+    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['book']&&allRoutes[allRoutes['book']]&&allRoutes[allRoutes['book']].slot?`/${name}/${allRoutes['book']}/${currentDate.valueOf()}/${allRoutes[allRoutes['book']].slot}`:`/${name}`} activeClassName={styles.activeIconButton}>
         {icon}
         <p>{name}</p>
     </NavLink>
@@ -21,6 +28,7 @@ const IconButton = ({name, icon}) => (
         <p>{name}</p>
     </button>
 )
+}
 
 const SidebarButtons = [
     {
@@ -53,12 +61,14 @@ const SidebarButtons = [
     }
 ]
 
-const SideBar = () => (
-    <aside>
-        {SidebarButtons.map((props)=>{
-            return <IconButton {...props} key={props.name} />
-        })}
-    </aside>
-)
+const SideBar = ({currentDate, allRoutes}) => {
+    return (
+        <aside>
+            {SidebarButtons.map((props)=>{
+                return <IconButton {...props} key={props.name} currentDate={currentDate} allRoutes={allRoutes} />
+            })}
+        </aside>
+    )
+}
 
 export default SideBar

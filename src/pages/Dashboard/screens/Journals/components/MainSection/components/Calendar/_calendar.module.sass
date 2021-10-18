@@ -1,6 +1,11 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+.calendarTitle
+    color: variables.$secondary
+    font-weight: 100
+    font-size: 2.5vh
+
 .calendar
     height: 100vh
     min-width: 80px
@@ -15,28 +20,27 @@
     li
         cursor: pointer
         +mixins.center
+        margin-bottom: 3vh
         h1
-            font-size: 1.25rem
+            font-size: 1.2rem
             margin-bottom: 0.5vh
-            width: 55px
-            height: 55px
+            width: 45px
+            height: 46px
             border-radius: 10px 10px
-            font-weight: 300
+            font-weight: 400
             +mixins.center
             color: variables.$secondary
             background-color: variables.$background
-            box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
             opacity: 0.7
         p
             font-size: 1.35vh
             color: variables.$secondary
             margin-top: 1.25vh
-        span
-            opacity: 0.75
     .activeDate
+        color: variables.$background
+        background-color: variables.$primary
+        box-shadow: 0 10px 10px rgba(variables.$black, 0.1)
         opacity: 1
-        span
-            color: variables.$primary
     
 
 .calendar::-webkit-scrollbar

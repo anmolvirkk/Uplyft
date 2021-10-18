@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
-const Modal = ({current, id, journalData, setJournalData, currentBook, currentSection, setModalConfig, modalConfig, colors, icons, currentDate, allPrompts, setAllPrompts}) => {
+const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPrompts, books, setBooks, slots, setSlots, allRoutes}) => {
 
     
     
@@ -15,41 +15,27 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
         }
     });
 
-    const [renameText, setRenameText] = useState(current)
+    let currentSlotTitle
+    if(slots){
+
+        slots[allRoutes['book']].forEach((item)=>{
+            if(item.id === allRoutes[allRoutes['book']].slot){
+                currentSlotTitle = item.title
+            }
+        })
+
+    }
+
+    const [renameText, setRenameText] = useState(currentSlotTitle)
 
     const renameEntry = () => {
-        if(journalData.length > 0){
-            journalData.forEach((props)=>{
-                if(currentBook === props.id){
-                    props.dates.forEach((date)=>{
-                        if(date.date.toDateString() === currentDate.toDateString()){
-                            date.sections.forEach((props2)=>{
-                                
-                                if(currentSection === 'notes'){
-            
-                                    if(props2.slots.length > 0){
-            
-                                        props2.slots.forEach((props3)=>{
-            
-                                            if(id === props3.id){
-                                                
-                                                props3.title = renameText
-                                                setJournalData([...journalData])
-                                                setModalConfig({type: ''})
-                                            }
-            
-                                        })
-            
-                                    }
-            
-                                }
-            
-                            })
-                        }
-                    })
-                }
-            })
-        }
+        slots[allRoutes['book']].forEach((item)=>{
+            if(item.id === allRoutes[allRoutes['book']].slot){
+                item.title = renameText
+                setSlots({...slots})
+                setModalConfig({type: ''})
+            }
+        })
     }
 
     const RenameEntry = () => (
@@ -72,11 +58,11 @@ const Modal = ({current, id, journalData, setJournalData, currentBook, currentSe
     const [journalIcon, setJournalIcon] = useState(0)
 
     const editJournal = () => {
-        journalData.forEach((props)=>{
-            if(props.id === currentBook) {
+        books.forEach((props)=>{
+            if(props.id === allRoutes['book']) {
                 props.icon = icons[journalIcon]
                 props.color = colors[journalColor]
-                setJournalData([...journalData])
+                setBooks([...books])
                 setModalConfig({type: ''})
             }
         })

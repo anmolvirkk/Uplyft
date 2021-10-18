@@ -1,7 +1,7 @@
 import React, {useState} from 'react' 
 import styles from './_prompts.module.sass'
 import {ChevronDown, ChevronRight, ChevronUp, Plus} from 'react-feather'
-import MoreMenu from '../../../../../components/MoreMenu'
+import MoreMenu from '../../../../../../../../components/MoreMenu'
 
 const Prompts = ({prompts, prompt, updatePrompt, openModal, name, deletePrompt}) => {
 
