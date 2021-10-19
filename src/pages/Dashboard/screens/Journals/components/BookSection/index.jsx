@@ -6,7 +6,7 @@ import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
  
-const BookSection = ({ styles, openModal, colors, icons, currentDate, books, setBooks, allRoutes, setAllRoutes}) => {
+const BookSection = ({ styles, openModal, colors, icons, books, setBooks, allRoutes, setAllRoutes, setDate}) => {
 
     const [newBook, setNewBook] = useState(null)
 
@@ -69,7 +69,7 @@ const BookSection = ({ styles, openModal, colors, icons, currentDate, books, set
             {
             books.length > 0 ?
             books.map((props)=>(
-                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes[props.id]&&allRoutes[props.id].slot?`/journals/${props.id}/${allRoutes['date']}/${allRoutes[props.id].slot}`:`/journals/${props.id}/`} activeClassName="activeBook" style={{display: 'flex'}}>
+                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes[props.id]&&allRoutes[allRoutes['date']][allRoutes['book']]?`/journals/${allRoutes['date']}/${props.id}/${allRoutes[allRoutes['date']][allRoutes['book']]}`:`/journals/${allRoutes['date']}/${props.id}/`} activeClassName="activeBook" style={{display: 'flex'}}>
                     <div className="book">
                         <div className="book-back book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}></div>
@@ -89,8 +89,8 @@ const BookSection = ({ styles, openModal, colors, icons, currentDate, books, set
             )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
             }
         </div>
-        <AddButton allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} colors={colors} icons={icons} name="journal" books={books} setBooks={setBooks} />
-        {newBook ? <Redirect to={`/journals/${newBook}/`} /> : null}
+        <AddButton setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} colors={colors} icons={icons} name="journal" books={books} setBooks={setBooks} />
+        {newBook ? <Redirect to={`/journals/${allRoutes['date']}/${newBook}/`} /> : null}
     </div>
 )
 }

@@ -2,9 +2,8 @@ import React from 'react'
 import NoteEditor from './components/NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
-import Calendar from './components/Calendar'
 
-const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAllPrompts, slots, dates, setDates, notes, setNotes, allRoutes, setAllRoutes}) => {
+const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, notes, setNotes, allRoutes}) => {
     
     const noteCategories = [
         {
@@ -42,7 +41,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
     ]
     
     const setNote = (id, body, prompt) => {
-        notes[allRoutes[allRoutes['book']].slot].forEach((item)=>{
+        notes[allRoutes[allRoutes['date']][allRoutes['book']]].forEach((item)=>{
             if(item.id === id){
                 item.body = body
                 item.prompt = prompt
@@ -52,8 +51,8 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
     }
     
     const removeNote = (id) => {
-        let newNotes = notes[allRoutes[allRoutes['book']].slot].filter((value)=>value.id!==id)
-        notes[allRoutes[allRoutes['book']].slot] = [...newNotes]
+        let newNotes = notes[allRoutes[allRoutes['date']][allRoutes['book']]].filter((value)=>value.id!==id)
+        notes[allRoutes[allRoutes['date']][allRoutes['book']]] = [...newNotes]
         setNotes({...notes})
     }
     
@@ -76,12 +75,12 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
             removeNote: removeNote,
             color: noteColor
         }
-        if(notes[allRoutes[allRoutes['book']].slot]){
-            notes[allRoutes[allRoutes['book']].slot].push(note)
+        if(notes[allRoutes[allRoutes['date']][allRoutes['book']]]){
+            notes[allRoutes[allRoutes['date']][allRoutes['book']]].push(note)
             setNotes({...notes})
         }else{
-            notes[allRoutes[allRoutes['book']].slot] = []
-            notes[allRoutes[allRoutes['book']].slot].push(note)
+            notes[allRoutes[allRoutes['date']][allRoutes['book']]] = []
+            notes[allRoutes[allRoutes['date']][allRoutes['book']]].push(note)
             setNotes({...notes})
         }
     }
@@ -90,25 +89,23 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
 
     return (
         <div className={styles.mainSection}>
-
-                    <Switch>
-                            <Route exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}`}>
-                            
+                        <Switch>
+                            <Route exact path={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`}>
                             <div style={{display: 'flex'}}>
                                 {
-                                    allRoutes[allRoutes['book']]&&allRoutes[allRoutes['book']].slot ?
+                                allRoutes[allRoutes['date']][allRoutes['book']] ?
                                 <div style={{width: '100%'}}>
                                     {
-                                        notes[allRoutes[allRoutes['book']].slot]?
-                                        notes[allRoutes[allRoutes['book']].slot].length > 0 ?
+                                        notes[allRoutes[allRoutes['date']][allRoutes['book']]]?
+                                        notes[allRoutes[allRoutes['date']][allRoutes['book']]].length > 0 ?
                                 
                                             <div className={styles.noteSection}>
                                                 {
-                                                    notes[allRoutes[allRoutes['book']].slot].map((item)=>(
+                                                    notes[allRoutes[allRoutes['date']][allRoutes['book']]].map((item)=>(
                                                         <div key={item.id} className={styles.note} style={{backgroundColor: `${item.color}99`}}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -117,7 +114,7 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>
@@ -148,15 +145,14 @@ const MainSection = ({styles, colors, currentDate, allPrompts, openModal, setAll
                                 
                                     : null
                                 }
-                                {allRoutes&&allRoutes['book']&&allRoutes[allRoutes['book']]&&allRoutes[allRoutes['book']].slot!==null?<Calendar slots={slots} allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} dates={dates} setDates={setDates} />:null}
                             </div>
 
                             </Route>
 
                             {
-                                notes[allRoutes[allRoutes['book']].slot]?
-                                notes[allRoutes[allRoutes['book']].slot].map((props)=>(
-                                    <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']].slot}/${props.id}`}>
+                                notes[allRoutes[allRoutes['date']][allRoutes['book']]]?
+                                notes[allRoutes[allRoutes['date']][allRoutes['book']]].map((props)=>(
+                                    <Route key={props.id} exact path={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${props.id}`}>
                                         <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))

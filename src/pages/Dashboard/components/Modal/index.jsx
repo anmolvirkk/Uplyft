@@ -31,7 +31,7 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
     if(slots){
 
         slots[allRoutes['book']].forEach((item)=>{
-            if(item.id === allRoutes[allRoutes['book']].slot){
+            if(item.id === allRoutes[allRoutes['date']][allRoutes['book']]){
                 currentSlotTitle = item.title
             }
         })
@@ -42,7 +42,7 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
 
     const renameEntry = () => {
         slots[allRoutes['book']].forEach((item)=>{
-            if(item.id === allRoutes[allRoutes['book']].slot){
+            if(item.id === allRoutes[allRoutes['date']][allRoutes['book']]){
                 item.title = renameText
                 setSlots({...slots})
                 setModalConfig({type: ''})

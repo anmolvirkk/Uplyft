@@ -4,7 +4,7 @@ import {ArrowUp, Plus} from 'react-feather'
 import { Redirect } from 'react-router'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
-const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRoutes, setAllRoutes, currentDate}) => {
+const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRoutes, setAllRoutes, setDate}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
   
@@ -39,9 +39,12 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
             setSlots({...slots})
         }
         
-        allRoutes[allRoutes['book']] = {slot: slot.id}
-        setAllRoutes({...allRoutes})
-        setOpenSlot(slot.id)
+        setDate().then(()=>{
+            allRoutes[allRoutes['date']][allRoutes['book']] = slot.id
+            setAllRoutes({...allRoutes})
+            setOpenSlot(slot.id)
+        })
+        
     }
 
     const [journalColor, setJournalColor] = useState(0)
@@ -59,10 +62,15 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
         setBooks([...books])
         setJournalTabOpen(false)
 
-        allRoutes[newBook.id] = {}
-        allRoutes['book'] = newBook.id
-        setAllRoutes({...allRoutes})
-        setOpenBook(newBook.id)
+        setDate().then(()=>{
+            if(!allRoutes[allRoutes['date']]){
+                allRoutes[allRoutes['date']] = {}
+            }
+            allRoutes[allRoutes['date']][newBook.id] = null
+            allRoutes['book'] = newBook.id
+            setAllRoutes({...allRoutes})
+            setOpenBook(newBook.id)
+        })
     }
 
     const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
@@ -118,8 +126,8 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
 
     return (
         <button className={styles.addButton} id="addButton" >
-            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/journals/${openBook}/`} />:null}
-            {openSlot?<Redirect to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
+            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${allRoutes['date']}/${openBook}/${allRoutes[openBook].slot}`:`/journals/${allRoutes['date']}/${openBook}/`} />:null}
+            {openSlot?<Redirect to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${openSlot}`} />:null}
             {text}
             {journalTabOpen ? <JournalTab /> : null}
         </button>

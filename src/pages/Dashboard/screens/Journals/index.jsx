@@ -6,11 +6,11 @@ import MainSection from './components/MainSection'
 import Modal from '../../components/Modal'
 import SideBar from '../../components/SideBar'
 import { Redirect } from 'react-router'
+import Calendar from './components/Calendar'
 
 const Journals = ({allRoutes, setAllRoutes}) => {
 
     const [modalConfig, setModalConfig] = useState({type: '', current: '', id: null, updatePrompt: null, name: null})
-    const [currentDate, setCurrentDate] = useState(new Date())
 
     const [books, setBooks] = useState(localStorage['books']&&JSON.parse(localStorage['books']).length!==0?JSON.parse(localStorage['books']):[])
     localStorage['books'] = JSON.stringify(books)
@@ -18,7 +18,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     const [slots, setSlots] = useState(localStorage['slots']&&Object.entries(JSON.parse(localStorage['slots'])).length!==0?JSON.parse(localStorage['slots']):{})
     localStorage['slots'] = JSON.stringify(slots)
 
-    const [dates, setDates] = useState(localStorage['dates']&&Object.entries(JSON.parse(localStorage['dates'])).length!==0?JSON.parse(localStorage['dates']):{})
+    const [dates, setDates] = useState(localStorage['dates']&&JSON.parse(localStorage['dates']).length!==0?JSON.parse(localStorage['dates']):[])
     localStorage['dates'] = JSON.stringify(dates)
 
     const [notes, setNotes] = useState(localStorage['notes']&&localStorage['notes'] !== '[]'?JSON.parse(localStorage['notes']):[])
@@ -604,6 +604,37 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     })
     localStorage['allPrompts'] = JSON.stringify(allPrompts)
 
+    const setDate = async () => {
+        let date = new Date()
+
+        const addDate = () => {
+            if(dates){
+                dates.push(date)
+                setDates([...dates])
+            }
+            allRoutes['date'] = date.valueOf()
+            setAllRoutes({...allRoutes})
+        }
+
+        if(dates){
+            if(dates.length !== 0){
+
+                dates.forEach((item)=>{
+                    let todaysDate = new Date()
+                    let storedDate = new Date(item)
+                    if(todaysDate.toDateString() !== storedDate.toDateString()){
+                        addDate()
+                    }
+                })
+
+            }else {
+                addDate()
+            }
+        }else{
+            addDate()
+        }
+    }
+
     const openModal  = ({...props}) => {
         switch (props.type) {
             case 'entry':
@@ -624,19 +655,21 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     
         return (
         <div style={{display: 'flex'}}>
-            <Redirect to={Object.entries(allRoutes).length!==0?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']]}`:`/journals`} />
-            <SideBar allRoutes={allRoutes} currentDate={currentDate} />
+            <Redirect to={allRoutes[allRoutes['date']]&&Object.entries(allRoutes).length!==0?`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`:`/journals`} />
+            <SideBar allRoutes={allRoutes} />
 
-            <BookSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} currentDate={currentDate} colors={colors} icons={icons} openModal={openModal} styles={styles} />
+            <BookSection setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} colors={colors} icons={icons} openModal={openModal} styles={styles} />
 
-            <SlotsSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} slots={slots} setSlots={setSlots} currentDate={currentDate} openModal={openModal} styles={styles} />
+            <SlotsSection setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} slots={slots} setSlots={setSlots} openModal={openModal} styles={styles} />
 
-            <MainSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} notes={notes} setNotes={setNotes} dates={dates} setDates={setDates} slots={slots} allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} setCurrentDate={setCurrentDate} currentDate={currentDate} colors={colors} styles={styles} />
+            <MainSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} notes={notes} setNotes={setNotes} dates={dates} slots={slots} allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} colors={colors} styles={styles} />
+
+            {allRoutes&&allRoutes['book']&&allRoutes[allRoutes['date']][allRoutes['book']]!==null?<Calendar slots={slots} allRoutes={allRoutes} setAllRoutes={setAllRoutes} dates={dates} />:null}
 
             {modalConfig.type==='entry' ? 
-            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} modalConfig={modalConfig} setModalConfig={setModalConfig} slots={slots} setSlots={setSlots} /> 
+            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} modalConfig={modalConfig} setModalConfig={setModalConfig} slots={slots} setSlots={setSlots} /> 
             : modalConfig.type==='journal' ?
-            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} currentDate={currentDate} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} books={books} setBooks={setBooks} /> 
+            <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} colors={colors} icons={icons} modalConfig={modalConfig} setModalConfig={setModalConfig} books={books} setBooks={setBooks} /> 
             : modalConfig.type==='prompt' ?
             <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} allPrompts={allPrompts} setAllPrompts={setAllPrompts} modalConfig={modalConfig} setModalConfig={setModalConfig} /> 
             : modalConfig.type==='editprompt' ?
