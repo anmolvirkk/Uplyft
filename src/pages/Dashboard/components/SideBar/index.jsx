@@ -13,7 +13,7 @@ const IconButton = ({name, icon, allRoutes}) => {
     </NavLink>
     :
     name==="journals" ?
-    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['book']&&allRoutes[allRoutes['date']][allRoutes['book']]?`/${name}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`:`/${name}`} activeClassName={styles.activeIconButton}>
+    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes[allRoutes['date']][allRoutes['book']]?`/${name}/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`:`/${name}`} activeClassName={styles.activeIconButton}>
         {icon}
         <p>{name}</p>
     </NavLink>
