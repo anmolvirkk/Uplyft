@@ -608,10 +608,8 @@ const Journals = ({allRoutes, setAllRoutes}) => {
         let date = new Date()
 
         const addDate = () => {
-            if(dates){
-                dates.push(date)
-                setDates([...dates])
-            }
+            dates.push(date)
+            setDates([...dates])
             allRoutes['date'] = date.valueOf()
             setAllRoutes({...allRoutes})
         }
@@ -619,19 +617,34 @@ const Journals = ({allRoutes, setAllRoutes}) => {
         if(dates){
             if(dates.length !== 0){
 
-                dates.forEach((item)=>{
+                let shouldAddDate = false
+
+                let checkShouldAddDate = async () => {
+
                     let todaysDate = new Date()
-                    let storedDate = new Date(item)
-                    if(todaysDate.toDateString() !== storedDate.toDateString()){
+                    
+                    dates.forEach((item)=>{
+                        let storedDate = new Date(item)
+                        if(todaysDate.toDateString() !== storedDate.toDateString()){
+                            shouldAddDate = true
+                        }
+                    })
+
+                }
+
+                checkShouldAddDate().then(()=>{
+                    if(shouldAddDate){
                         addDate()
+                        let calendarElement = document.getElementById('journalCalendar')
+                        if(calendarElement){
+                            calendarElement.scrollTo(0,calendarElement.scrollHeight)
+                        }
                     }
                 })
 
             }else {
                 addDate()
             }
-        }else{
-            addDate()
         }
     }
 
@@ -655,7 +668,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
     
         return (
         <div style={{display: 'flex'}}>
-            <Redirect to={allRoutes[allRoutes['date']]&&Object.entries(allRoutes).length!==0?`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`:`/journals`} />
+            <Redirect to={Object.entries(allRoutes).length!==0?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/journals`} />
             <SideBar allRoutes={allRoutes} />
 
             <BookSection setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} books={books} setBooks={setBooks} colors={colors} icons={icons} openModal={openModal} styles={styles} />
@@ -664,7 +677,7 @@ const Journals = ({allRoutes, setAllRoutes}) => {
 
             <MainSection allRoutes={allRoutes} setAllRoutes={setAllRoutes} notes={notes} setNotes={setNotes} dates={dates} slots={slots} allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} colors={colors} styles={styles} />
 
-            {allRoutes&&allRoutes['book']&&allRoutes[allRoutes['date']][allRoutes['book']]!==null?<Calendar slots={slots} allRoutes={allRoutes} setAllRoutes={setAllRoutes} dates={dates} />:null}
+            {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar slots={slots} allRoutes={allRoutes} setAllRoutes={setAllRoutes} dates={dates} />:null}
 
             {modalConfig.type==='entry' ? 
             <Modal allRoutes={allRoutes} setAllRoutes={setAllRoutes} modalConfig={modalConfig} setModalConfig={setModalConfig} slots={slots} setSlots={setSlots} /> 

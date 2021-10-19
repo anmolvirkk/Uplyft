@@ -41,7 +41,7 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
     ]
     
     const setNote = (id, body, prompt) => {
-        notes[allRoutes[allRoutes['date']][allRoutes['book']]].forEach((item)=>{
+        notes[allRoutes[allRoutes['book']][allRoutes['date']]].forEach((item)=>{
             if(item.id === id){
                 item.body = body
                 item.prompt = prompt
@@ -51,8 +51,8 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
     }
     
     const removeNote = (id) => {
-        let newNotes = notes[allRoutes[allRoutes['date']][allRoutes['book']]].filter((value)=>value.id!==id)
-        notes[allRoutes[allRoutes['date']][allRoutes['book']]] = [...newNotes]
+        let newNotes = notes[allRoutes[allRoutes['book']][allRoutes['date']]].filter((value)=>value.id!==id)
+        notes[allRoutes[allRoutes['book']][allRoutes['date']]] = [...newNotes]
         setNotes({...notes})
     }
     
@@ -75,12 +75,12 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
             removeNote: removeNote,
             color: noteColor
         }
-        if(notes[allRoutes[allRoutes['date']][allRoutes['book']]]){
-            notes[allRoutes[allRoutes['date']][allRoutes['book']]].push(note)
+        if(notes[allRoutes[allRoutes['book']][allRoutes['date']]]){
+            notes[allRoutes[allRoutes['book']][allRoutes['date']]].push(note)
             setNotes({...notes})
         }else{
-            notes[allRoutes[allRoutes['date']][allRoutes['book']]] = []
-            notes[allRoutes[allRoutes['date']][allRoutes['book']]].push(note)
+            notes[allRoutes[allRoutes['book']][allRoutes['date']]] = []
+            notes[allRoutes[allRoutes['book']][allRoutes['date']]].push(note)
             setNotes({...notes})
         }
     }
@@ -90,22 +90,22 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
     return (
         <div className={styles.mainSection}>
                         <Switch>
-                            <Route exact path={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}`}>
+                            <Route exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
                             <div style={{display: 'flex'}}>
                                 {
-                                allRoutes[allRoutes['date']][allRoutes['book']] ?
+                                allRoutes[allRoutes['book']][allRoutes['date']] ?
                                 <div style={{width: '100%'}}>
                                     {
-                                        notes[allRoutes[allRoutes['date']][allRoutes['book']]]?
-                                        notes[allRoutes[allRoutes['date']][allRoutes['book']]].length > 0 ?
+                                        notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
+                                        notes[allRoutes[allRoutes['book']][allRoutes['date']]].length > 0 ?
                                 
                                             <div className={styles.noteSection}>
                                                 {
-                                                    notes[allRoutes[allRoutes['date']][allRoutes['book']]].map((item)=>(
+                                                    notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
                                                         <div key={item.id} className={styles.note} style={{backgroundColor: `${item.color}99`}}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -114,7 +114,7 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink}>
-                                                                <Link to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${item.id}`}>
+                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>
@@ -150,9 +150,9 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
                             </Route>
 
                             {
-                                notes[allRoutes[allRoutes['date']][allRoutes['book']]]?
-                                notes[allRoutes[allRoutes['date']][allRoutes['book']]].map((props)=>(
-                                    <Route key={props.id} exact path={`/journals/${allRoutes['date']}/${allRoutes['book']}/${allRoutes[allRoutes['date']][allRoutes['book']]}/${props.id}`}>
+                                notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
+                                notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((props)=>(
+                                    <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${props.id}`}>
                                         <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))

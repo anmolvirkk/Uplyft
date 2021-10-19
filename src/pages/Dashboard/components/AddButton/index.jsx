@@ -40,7 +40,10 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
         }
         
         setDate().then(()=>{
-            allRoutes[allRoutes['date']][allRoutes['book']] = slot.id
+            if(!allRoutes[allRoutes['book']]){
+                allRoutes[allRoutes['book']] = {}
+            }
+            allRoutes[allRoutes['book']][allRoutes['date']] = slot.id
             setAllRoutes({...allRoutes})
             setOpenSlot(slot.id)
         })
@@ -62,15 +65,14 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
         setBooks([...books])
         setJournalTabOpen(false)
 
-        setDate().then(()=>{
-            if(!allRoutes[allRoutes['date']]){
-                allRoutes[allRoutes['date']] = {}
-            }
-            allRoutes[allRoutes['date']][newBook.id] = null
-            allRoutes['book'] = newBook.id
-            setAllRoutes({...allRoutes})
-            setOpenBook(newBook.id)
-        })
+        allRoutes['book'] = newBook.id
+        if(!allRoutes['date']){
+            allRoutes['date'] = newBook.id
+        }
+        allRoutes[allRoutes['book']] = {}
+        allRoutes[allRoutes['book']][allRoutes['date']] = null
+        setAllRoutes({...allRoutes})
+        setOpenBook(newBook.id)
     }
 
     const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
@@ -126,8 +128,8 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
 
     return (
         <button className={styles.addButton} id="addButton" >
-            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${allRoutes['date']}/${openBook}/${allRoutes[openBook].slot}`:`/journals/${allRoutes['date']}/${openBook}/`} />:null}
-            {openSlot?<Redirect to={`/journals/${allRoutes['date']}/${allRoutes['book']}/${openSlot}`} />:null}
+            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/journals/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/journals/${openBook}/${allRoutes['date']}`} />:null}
+            {openSlot?<Redirect to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
             {text}
             {journalTabOpen ? <JournalTab /> : null}
         </button>

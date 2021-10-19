@@ -14,15 +14,16 @@
     .calendarTitle
         color: variables.$secondary
         font-weight: 100
-        font-size: 2.5vh
+        font-size: 2.25vh
         position: sticky
         top: 0
         z-index: 8
-        background-color: variables.$white
+        background-color: variables.$black
+        color: variables.$white
+        min-height: 80px
+        +mixins.center
         width: 100%
-        padding-top: 1.5vh
-        padding-bottom: 1.5vh
-        margin-bottom: 1.5vh
+        margin-bottom: 3vh
     a
         cursor: pointer
         +mixins.center
