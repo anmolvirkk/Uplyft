@@ -23,7 +23,7 @@ const NoteEditor = ({id, setNote, colors, allPrompts, openModal, setAllPrompts, 
 
   let category
 
-  notes[allRoutes[allRoutes['book']].slot].forEach((item)=>{
+  notes[allRoutes[allRoutes['date']][allRoutes['book']]].forEach((item)=>{
     if(item.id === id){
       category = item.category
     }
