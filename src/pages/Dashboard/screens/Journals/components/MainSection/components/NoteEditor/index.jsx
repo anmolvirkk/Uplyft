@@ -20,7 +20,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
 }
 
-const NoteEditor = ({id, setNote, colors, openModal, notes, ...props}) => {
+const NoteEditor = ({id, setNote, colors, notes, ...props}) => {
 
   const [allRoutes] = useRecoilState(allRoutesAtom)
   const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
@@ -59,7 +59,7 @@ const NoteEditor = ({id, setNote, colors, openModal, notes, ...props}) => {
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {allPrompts[category.replace(/ /g, "")] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} openModal={openModal} category={category} /> : null}
+          {allPrompts[category.replace(/ /g, "")] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} category={category} /> : null}
           <TextEditor allPrompts={allPrompts} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )

@@ -2,7 +2,9 @@ import React, {useState} from 'react'
 import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, CornerUpLeft, CornerUpRight} from 'react-feather'
 import styles from './_header.module.sass'
 
-const Header = ({colors}) => {
+import { colors } from '../../../../../../variables/journalConfig'
+
+const Header = () => {
     
     document.addEventListener('mouseup', function(e) {
         let prompts = document.getElementById('prompts')

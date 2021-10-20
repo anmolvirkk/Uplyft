@@ -8,12 +8,18 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
 import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
+import datesAtom from '../../screens/Journals/recoil-atoms/datesAtom'
 
-const AddButton = ({name, colors, icons, setDate}) => {
+import setDate from '../../screens/Journals/functions/setDate'
+
+import { colors, icons } from '../../screens/Journals/variables/journalConfig'
+
+const AddButton = ({name}) => {
     
     const [journalTabOpen, setJournalTabOpen] = useState(false)
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [dates, setDates] = useRecoilState(datesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
   
@@ -45,7 +51,7 @@ const AddButton = ({name, colors, icons, setDate}) => {
             setSlots({...slots, [allRoutes['book']]: [...slots[allRoutes['book']], slot]})
         }
         
-        setDate().then(()=>{
+        setDate(allRoutes, setAllRoutes, dates, setDates).then(()=>{
             if(!allRoutes[allRoutes['book']]){
                 allRoutes[allRoutes['book']] = {}
             }
@@ -78,7 +84,7 @@ const AddButton = ({name, colors, icons, setDate}) => {
 
         setJournalTabOpen(false)
 
-        setDate().then(()=>{
+        setDate(allRoutes, setAllRoutes, dates, setDates).then(()=>{
             let bookObj = {}
             const bookObjSet = async () => {
                 bookObj[newBook.id] = {}

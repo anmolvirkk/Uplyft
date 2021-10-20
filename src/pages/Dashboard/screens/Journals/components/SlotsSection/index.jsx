@@ -4,12 +4,17 @@ import MoreMenu from '../../../../components/MoreMenu'
 import AddButton from '../../../../components/AddButton'
 import {ArrowDown} from 'react-feather'
 
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
 
-const SlotsSection = ({styles, openModal, setDate}) => {
+import openModal from '../../functions/openModal'
+import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
+
+const SlotsSection = ({styles}) => {
+
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)
@@ -47,7 +52,7 @@ const SlotsSection = ({styles, openModal, setDate}) => {
     }
 
     const renameSlot = () => {
-        openModal({type: 'entry'})
+        openModal({type: 'entry', setModalConfig: setModalConfig})
     }
 
     const setRoute = (id) => {
@@ -78,7 +83,7 @@ const SlotsSection = ({styles, openModal, setDate}) => {
                         <MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                     }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
                 </div>
-                <AddButton setDate={setDate} name="entry" />
+                <AddButton name="entry" />
                 {newSlot ? <Redirect to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${newSlot}`} /> : null}
                 {allRoutes['book']?<Redirect from={`/journals/${allRoutes['book']}/${allRoutes['date']}`} to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} />:null}
             </div>

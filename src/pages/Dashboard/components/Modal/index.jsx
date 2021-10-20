@@ -9,7 +9,13 @@ import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
 import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
 import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
 
-const Modal = ({setModalConfig, modalConfig, colors, icons}) => {
+import { colors, icons } from '../../screens/Journals/variables/journalConfig'
+
+import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
+
+const Modal = () => {
+
+    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)

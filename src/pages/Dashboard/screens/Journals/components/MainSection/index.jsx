@@ -7,7 +7,7 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../recoil-atoms/allPromptsAtom'
 
-const MainSection = ({styles, colors, openModal}) => {
+const MainSection = ({styles}) => {
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
@@ -86,7 +86,6 @@ const MainSection = ({styles, colors, openModal}) => {
             color: noteColor
         }
         if(notes[allRoutes[allRoutes['book']][allRoutes['date']]]){
-            console.log(notes)
             setNotes({...notes, [allRoutes[allRoutes['book']][allRoutes['date']]]: [...notes[allRoutes[allRoutes['book']][allRoutes['date']]], note]})
         }else{
             let emptyArray = []
@@ -162,7 +161,7 @@ const MainSection = ({styles, colors, openModal}) => {
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((props)=>(
                                     <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${props.id}`}>
-                                        <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} openModal={openModal} styles={styles} {...props} colors={colors} notes={notes} allRoutes={allRoutes} setNote={setNote} />
+                                        <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} styles={styles} {...props} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))
                                 : null

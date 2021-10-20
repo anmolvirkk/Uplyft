@@ -6,13 +6,17 @@ import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
-import {useRecoilState} from 'recoil' 
+import {useRecoilState, useSetRecoilState} from 'recoil' 
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
 
-const BookSection = ({ styles, openModal, colors, icons, setDate}) => {
+import openModal from '../../functions/openModal'
+import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
+
+const BookSection = ({ styles }) => {
 
     const [newBook, setNewBook] = useState(null)
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
@@ -47,7 +51,7 @@ const BookSection = ({ styles, openModal, colors, icons, setDate}) => {
     }
 
     const editJournal = () => {
-        openModal({type: 'journal'})
+        openModal({type: 'journal', setModalConfig: setModalConfig})
     }
 
     const setBookRoute = (id) => {
@@ -93,7 +97,7 @@ const BookSection = ({ styles, openModal, colors, icons, setDate}) => {
             )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
             }
         </div>
-        <AddButton setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} colors={colors} icons={icons} name="journal" books={books} setBooks={setBooks} />
+        <AddButton allRoutes={allRoutes} setAllRoutes={setAllRoutes} name="journal" books={books} setBooks={setBooks} />
         {newBook ? <Redirect to={`/journals/${newBook}/${allRoutes['date']}/`} /> : null}
     </div>
 )
