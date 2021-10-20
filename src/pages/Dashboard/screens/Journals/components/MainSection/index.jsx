@@ -1,9 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import NoteEditor from './components/NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
 
-const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, notes, setNotes, allRoutes}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
+import allPromptsAtom from '../../recoil-atoms/allPromptsAtom'
+
+const MainSection = ({styles, colors, openModal}) => {
+
+    const [allRoutes] = useRecoilState(allRoutesAtom)
+    const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
+    
+    const [notes, setNotes] = useState(localStorage['notes']&&localStorage['notes'] !== '[]'?JSON.parse(localStorage['notes']):[])
+    localStorage['notes'] = JSON.stringify(notes)
     
     const noteCategories = [
         {
@@ -76,12 +86,11 @@ const MainSection = ({styles, colors, allPrompts, openModal, setAllPrompts, note
             color: noteColor
         }
         if(notes[allRoutes[allRoutes['book']][allRoutes['date']]]){
-            notes[allRoutes[allRoutes['book']][allRoutes['date']]].push(note)
-            setNotes({...notes})
+            console.log(notes)
+            setNotes({...notes, [allRoutes[allRoutes['book']][allRoutes['date']]]: [...notes[allRoutes[allRoutes['book']][allRoutes['date']]], note]})
         }else{
-            notes[allRoutes[allRoutes['book']][allRoutes['date']]] = []
-            notes[allRoutes[allRoutes['book']][allRoutes['date']]].push(note)
-            setNotes({...notes})
+            let emptyArray = []
+            setNotes({...notes, [allRoutes[allRoutes['book']][allRoutes['date']]]: [...emptyArray, note]})
         }
     }
 

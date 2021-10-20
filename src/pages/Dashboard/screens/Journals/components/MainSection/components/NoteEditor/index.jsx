@@ -3,7 +3,11 @@ import styles from './_textEditor.module.sass'
 import Header from './components/Header'
 import Prompts from './components/Prompts'
 
-const TextEditor = ({prompt, value, setEditorData, setNote, id, name, allPrompts, category}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
+import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
+
+const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts}) => {
 
   const editorBody = useRef(value)
   const textEditor = useRef()
@@ -16,7 +20,10 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, allPrompts
 
 }
 
-const NoteEditor = ({id, setNote, colors, allPrompts, openModal, setAllPrompts, notes, allRoutes, ...props}) => {
+const NoteEditor = ({id, setNote, colors, openModal, notes, ...props}) => {
+
+  const [allRoutes] = useRecoilState(allRoutesAtom)
+  const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
 
   const [editorData, setEditorData] = useState(props.body)
   const [prompt, setPrompt] = useState(props.prompt)

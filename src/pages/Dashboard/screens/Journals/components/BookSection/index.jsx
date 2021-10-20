@@ -5,10 +5,17 @@ import AddButton from '../../../../components/AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
- 
-const BookSection = ({ styles, openModal, colors, icons, books, setBooks, allRoutes, setAllRoutes, setDate}) => {
+
+import {useRecoilState} from 'recoil' 
+import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
+import booksAtom from '../../recoil-atoms/booksAtom'
+
+const BookSection = ({ styles, openModal, colors, icons, setDate}) => {
 
     const [newBook, setNewBook] = useState(null)
+
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [books, setBooks] = useRecoilState(booksAtom)
 
     const deleteJournal = () => {
         let newBooks = books.filter((value)=>value.id!==allRoutes['book'])
@@ -22,8 +29,7 @@ const BookSection = ({ styles, openModal, colors, icons, books, setBooks, allRou
     
             resetBook().then(()=>{
                 setNewBook(newBooks[newBooks.length - 1].id)
-                allRoutes['book'] = newBooks[newBooks.length - 1].id
-                setAllRoutes({...allRoutes})
+                setAllRoutes({...allRoutes, book: newBooks[newBooks.length - 1].id})
             })
 
         }else{
@@ -33,8 +39,7 @@ const BookSection = ({ styles, openModal, colors, icons, books, setBooks, allRou
             }
 
             resetBook().then(()=>{
-                allRoutes['book'] = null
-                setAllRoutes({...allRoutes})
+                setAllRoutes({...allRoutes, book: null})
             })
 
         }
@@ -46,8 +51,7 @@ const BookSection = ({ styles, openModal, colors, icons, books, setBooks, allRou
     }
 
     const setBookRoute = (id) => {
-        allRoutes['book'] = id
-        setAllRoutes({...allRoutes})
+        setAllRoutes({...allRoutes, book: id})
     }
 
     const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]

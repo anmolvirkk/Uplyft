@@ -3,7 +3,11 @@ import styles from './_sidebar.module.sass'
 import {Home, Book, RefreshCcw, Activity, Settings, Power, Menu} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
-const IconButton = ({name, icon, allRoutes}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
+
+const IconButton = ({name, icon}) => {
+    const [allRoutes] = useRecoilState(allRoutesAtom)
     return (
     name!=="menu" && name!=="logout" ?
     name==="home" ?
@@ -61,11 +65,11 @@ const SidebarButtons = [
     }
 ]
 
-const SideBar = ({allRoutes}) => {
+const SideBar = () => {
     return (
         <aside>
             {SidebarButtons.map((props)=>{
-                return <IconButton {...props} key={props.name} allRoutes={allRoutes} />
+                return <IconButton {...props} key={props.name} />
             })}
         </aside>
     )

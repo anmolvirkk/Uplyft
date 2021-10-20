@@ -4,15 +4,23 @@ import MoreMenu from '../../../../components/MoreMenu'
 import AddButton from '../../../../components/AddButton'
 import {ArrowDown} from 'react-feather'
 
-const SlotsSection = ({styles, currentSection, openModal, slots, setSlots, books, allRoutes, setAllRoutes, setDate}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
+import slotsAtom from '../../recoil-atoms/slotsAtom'
+import booksAtom from '../../recoil-atoms/booksAtom'
+
+const SlotsSection = ({styles, openModal, setDate}) => {
+
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [slots, setSlots] = useRecoilState(slotsAtom)
+    const [books] = useRecoilState(booksAtom)
 
     const [newSlot, setNewSlot] = useState()
     
     const deleteSlot = () => {
 
         let newSlots = slots[allRoutes['book']].filter((val)=>val.id!==allRoutes[allRoutes['book']][allRoutes['date']])
-        slots[allRoutes['book']] = newSlots
-        setSlots({...slots})
+        setSlots({...slots, [allRoutes['book']]: newSlots})
         if(newSlots[newSlots.length - 1]){
             
             let resetSlot = async () => {
@@ -21,8 +29,7 @@ const SlotsSection = ({styles, currentSection, openModal, slots, setSlots, books
     
             resetSlot().then(()=>{
                 setNewSlot(newSlots[newSlots.length - 1].id)
-                allRoutes[allRoutes['book']][allRoutes['date']] = newSlots[newSlots.length - 1].id
-                setAllRoutes({...allRoutes})
+                setAllRoutes({...allRoutes, [allRoutes['book']]:{[allRoutes['date']]: newSlots[newSlots.length - 1].id}})
             })
 
         }else{
@@ -32,8 +39,7 @@ const SlotsSection = ({styles, currentSection, openModal, slots, setSlots, books
             }
 
             resetSlot().then(()=>{
-                allRoutes[allRoutes['book']][allRoutes['date']] = null
-                setAllRoutes({...allRoutes})
+                setAllRoutes({...allRoutes, [allRoutes['book']]:{[allRoutes['date']]: null}})
             })
 
         }
@@ -45,8 +51,11 @@ const SlotsSection = ({styles, currentSection, openModal, slots, setSlots, books
     }
 
     const setRoute = (id) => {
-        allRoutes[allRoutes['book']][allRoutes['date']] = id
-        setAllRoutes({...allRoutes})
+        setAllRoutes({ ...allRoutes,
+            [allRoutes['book']]: {
+                [[allRoutes['date']]] : id
+            }
+        })
     }
     
 
@@ -69,7 +78,7 @@ const SlotsSection = ({styles, currentSection, openModal, slots, setSlots, books
                         <MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                     }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
                 </div>
-                <AddButton setDate={setDate} allRoutes={allRoutes} setAllRoutes={setAllRoutes} name="entry" currentSection={currentSection} slots={slots} setSlots={setSlots} />
+                <AddButton setDate={setDate} name="entry" />
                 {newSlot ? <Redirect to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${newSlot}`} /> : null}
                 {allRoutes['book']?<Redirect from={`/journals/${allRoutes['book']}/${allRoutes['date']}`} to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} />:null}
             </div>

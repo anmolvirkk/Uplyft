@@ -1,9 +1,12 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import './_main.sass'
-import Dashboard from './pages/Dashboard/index'
+import App from './App'
+import {RecoilRoot} from 'recoil'
 
 ReactDom.render(
-    <Dashboard />, 
+    <RecoilRoot>
+        <App />
+    </RecoilRoot>, 
     document.getElementById('root')
 )

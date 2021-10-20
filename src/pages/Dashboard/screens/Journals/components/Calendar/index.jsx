@@ -2,7 +2,16 @@ import React, {useState} from 'react'
 import styles from './_calendar.module.sass'
 import { NavLink, Redirect } from 'react-router-dom'
 
-const Calendar = ({dates, slots, allRoutes, setAllRoutes}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
+import datesAtom from '../../recoil-atoms/datesAtom'
+import slotsAtom from '../../recoil-atoms/slotsAtom'
+
+const Calendar = () => {
+
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [dates] = useRecoilState(datesAtom)
+    const [slots] = useRecoilState(slotsAtom)
 
     const [newDate, setNewDate] = useState(null)
 
@@ -12,8 +21,7 @@ const Calendar = ({dates, slots, allRoutes, setAllRoutes}) => {
    
     const setDateRoute = (date) => {
         resetDate().then(()=>{
-            allRoutes['date'] = date
-            setAllRoutes({...allRoutes})    
+            setAllRoutes({...allRoutes, date: date})    
             setNewDate(date.valueOf())
         })
     }

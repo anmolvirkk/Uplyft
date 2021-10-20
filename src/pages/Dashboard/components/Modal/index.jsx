@@ -3,7 +3,18 @@ import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
-const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPrompts, books, setBooks, slots, setSlots, allRoutes}) => {
+import {useRecoilState} from 'recoil'
+import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
+import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
+import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
+import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
+
+const Modal = ({setModalConfig, modalConfig, colors, icons}) => {
+
+    const [allRoutes] = useRecoilState(allRoutesAtom)
+    const [slots, setSlots] = useRecoilState(slotsAtom)
+    const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
+    const [books, setBooks] = useRecoilState(booksAtom)
 
     const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
     
@@ -28,7 +39,7 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
     });
 
     let currentSlotTitle
-    if(slots){
+    if(slots&&slots[allRoutes['book']]){
 
         slots[allRoutes['book']].forEach((item)=>{
             if(item.id === allRoutes[allRoutes['book']][allRoutes['date']]){
@@ -41,13 +52,15 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
     const [renameText, setRenameText] = useState(currentSlotTitle)
 
     const renameEntry = () => {
-        slots[allRoutes['book']].forEach((item)=>{
-            if(item.id === allRoutes[allRoutes['book']][allRoutes['date']]){
-                item.title = renameText
-                setSlots({...slots})
-                setModalConfig({type: ''})
+        let newSlots = slots[allRoutes['book']].map((data)=>{
+            let newData = {...data}
+            if(data.id === allRoutes[allRoutes['book']][allRoutes['date']]){
+                newData.title = renameText
             }
+            return newData
         })
+        setSlots({...slots, [allRoutes['book']]: newSlots})
+        setModalConfig({type: ''})
     }
 
     const RenameEntry = () => (
@@ -70,14 +83,16 @@ const Modal = ({setModalConfig, modalConfig, colors, icons, allPrompts, setAllPr
     const [journalIcon, setJournalIcon] = useState(0)
 
     const editJournal = () => {
-        books.forEach((props)=>{
-            if(props.id === allRoutes['book']) {
-                props.icon = icons[journalIcon]
-                props.color = colors[journalColor]
-                setBooks([...books])
-                setModalConfig({type: ''})
-            }
+        let newBooks = books.map((data)=>{
+            let newData = {...data}
+                if(data.id === allRoutes['book']) {
+                    newData.icon = icons[journalIcon]
+                    newData.color = colors[journalColor]
+                }
+            return newData
         })
+        setBooks([...newBooks])
+        setModalConfig({type: ''})
     }
 
     const EditJournal = () => (
