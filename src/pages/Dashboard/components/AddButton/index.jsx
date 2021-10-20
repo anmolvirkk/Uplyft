@@ -64,11 +64,9 @@ const AddButton = ({name, colors, icons, books, setBooks, slots, setSlots, allRo
         books.push(newBook)
         setBooks([...books])
         setJournalTabOpen(false)
-
+        
+        setDate()
         allRoutes['book'] = newBook.id
-        if(!allRoutes['date']){
-            allRoutes['date'] = newBook.id
-        }
         allRoutes[allRoutes['book']] = {}
         allRoutes[allRoutes['book']][allRoutes['date']] = null
         setAllRoutes({...allRoutes})

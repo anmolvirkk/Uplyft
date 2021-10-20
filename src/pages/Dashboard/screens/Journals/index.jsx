@@ -614,38 +614,37 @@ const Journals = ({allRoutes, setAllRoutes}) => {
             setAllRoutes({...allRoutes})
         }
 
-        if(dates){
-            if(dates.length !== 0){
+        if(dates.length !== 0){
 
-                let shouldAddDate = false
+            let shouldAddDate = false
 
-                let checkShouldAddDate = async () => {
+            let checkShouldAddDate = async () => {
 
-                    let todaysDate = new Date()
-                    
-                    dates.forEach((item)=>{
-                        let storedDate = new Date(item)
-                        if(todaysDate.toDateString() !== storedDate.toDateString()){
-                            shouldAddDate = true
-                        }
-                    })
-
-                }
-
-                checkShouldAddDate().then(()=>{
-                    if(shouldAddDate){
-                        addDate()
-                        let calendarElement = document.getElementById('journalCalendar')
-                        if(calendarElement){
-                            calendarElement.scrollTo(0,calendarElement.scrollHeight)
-                        }
+                let todaysDate = new Date()
+                
+                dates.forEach((item)=>{
+                    let storedDate = new Date(item)
+                    if(todaysDate.toDateString() !== storedDate.toDateString()){
+                        shouldAddDate = true
                     }
                 })
 
-            }else {
-                addDate()
             }
+
+            checkShouldAddDate().then(()=>{
+                if(shouldAddDate){
+                    addDate()
+                    let calendarElement = document.getElementById('journalCalendar')
+                    if(calendarElement){
+                        calendarElement.scrollTo(0,calendarElement.scrollHeight)
+                    }
+                }
+            })
+
+        }else {
+            addDate()
         }
+
     }
 
     const openModal  = ({...props}) => {
