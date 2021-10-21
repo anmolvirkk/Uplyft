@@ -45,10 +45,10 @@ const AddButton = ({name}) => {
     const [openSlot, setOpenSlot] = useState()
 
     const addNoteSlot = () => {
-        if(!slots[allRoutes['book']]){
-            setSlots({...slots, [allRoutes['book']]: [slot]})
+        if(!slots[allRoutes['book']][allRoutes['date']]){
+            setSlots({...slots, [allRoutes['book']]: {[allRoutes['date']]: [slot]}})
         }else{
-            setSlots({...slots, [allRoutes['book']]: [...slots[allRoutes['book']], slot]})
+            setSlots({...slots, [allRoutes['book']]: {[allRoutes['date']]: [...slots[allRoutes['book']][allRoutes['date']], slot]}})
         }
         
         setDate(allRoutes, setAllRoutes, dates, setDates).then(()=>{

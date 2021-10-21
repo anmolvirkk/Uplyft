@@ -23,6 +23,7 @@ const Calendar = () => {
         resetDate().then(()=>{
             setAllRoutes({...allRoutes, date: date})    
             setNewDate(date.valueOf())
+            console.log(date.valueOf())
         })
     }
 

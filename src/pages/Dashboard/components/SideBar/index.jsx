@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Home, Book, RefreshCcw, Activity, Settings, Power, Menu} from 'react-feather'
+import {Home, Book, Clock, Activity, Settings, Power, Menu} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
@@ -48,8 +48,8 @@ const SidebarButtons = [
         icon: <Book />
     },
     {
-        name: 'habits',
-        icon: <RefreshCcw />
+        name: 'schedule',
+        icon: <Clock />
     },
     {
         name: 'fitness',
