@@ -1,0 +1,55 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.calendar
+    width: calc( 100vw - 500px - 80px )
+    height: calc( 100vh - 80px )
+    display: flex
+    width: 100%
+    justify-content: space-between
+
+.time
+    min-width: 80px
+    margin-top: 79px
+    height:  calc( 100vh - 80px )
+    display: flex
+    flex-flow: column
+    justify-content: space-between
+    border-top: 1px solid rgba(variables.$black, 0.15)
+    border-right: 1px solid rgba(variables.$black, 0.15)
+    opacity: 0.75
+
+.timeTile
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    width: 100%
+    p
+        text-transform: lowercase
+        margin-right: 10px
+    hr
+        all: unset
+        height: 1px
+        width: 15px
+        background: variables.$black
+
+.week
+    width: 100%
+
+.weekTitle
+    height: 80px
+    width: 100%
+    +mixins.center
+    border-bottom: 1px solid rgba(variables.$black, 0.15)
+    color: variables.$black
+    p
+        font-size: 1.5vh
+        opacity: 0.75
+    h3
+        font-size: 2.25vh
+        font-weight: 400
+
+.weekContent
+    width: 100%
+    height: 100%
+    border-right: 1px solid rgba(variables.$black, 0.15)
