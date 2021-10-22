@@ -1,2 +1,19 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
+
+.sectionHeader
+    display: flex
+    justify-content: space-between
+    height: 80px
+    width: 100%
+    border-bottom: 1px solid rgba(variables.$border, 0.15)
+    svg
+        +mixins.center
+        color: variables.$secondary
+        cursor: pointer
+        width: 100%
+        height: 100%
+        padding: 30px
+        border-right: 1px solid rgba(variables.$border, 0.15)
+    svg:last-child
+        border-right: none

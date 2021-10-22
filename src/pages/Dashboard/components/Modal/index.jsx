@@ -45,9 +45,9 @@ const Modal = () => {
     });
 
     let currentSlotTitle
-    if(slots&&slots[allRoutes['book']]){
+    if(slots&&slots[allRoutes['book']][allRoutes['date']]){
 
-        slots[allRoutes['book']].forEach((item)=>{
+        slots[allRoutes['book']][allRoutes['date']].forEach((item)=>{
             if(item.id === allRoutes[allRoutes['book']][allRoutes['date']]){
                 currentSlotTitle = item.title
             }
@@ -58,14 +58,14 @@ const Modal = () => {
     const [renameText, setRenameText] = useState(currentSlotTitle)
 
     const renameEntry = () => {
-        let newSlots = slots[allRoutes['book']].map((data)=>{
+        let newSlots = slots[allRoutes['book']][allRoutes['date']].map((data)=>{
             let newData = {...data}
             if(data.id === allRoutes[allRoutes['book']][allRoutes['date']]){
                 newData.title = renameText
             }
             return newData
         })
-        setSlots({...slots, [allRoutes['book']]: newSlots})
+        setSlots({...slots, [allRoutes['book']]: {[allRoutes['date']]: [...newSlots]}})
         setModalConfig({type: ''})
     }
 
