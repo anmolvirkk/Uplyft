@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
 import './_book.scss'
-import AddButton from '../../../../components/AddButton'
+import AddButton from '../AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'

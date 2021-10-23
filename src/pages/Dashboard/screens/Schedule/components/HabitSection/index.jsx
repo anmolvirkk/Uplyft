@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import AddButton from '../../../../components/AddButton'
+import AddButton from '../AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 import journalStyles from '../../../Journals/_journal.module.sass'

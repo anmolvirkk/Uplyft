@@ -3,9 +3,14 @@ import styles from './_prompts.module.sass'
 import {ChevronDown, ChevronRight, ChevronUp, Plus} from 'react-feather'
 import MoreMenu from '../../../../../../../../components/MoreMenu'
 
-const Prompts = ({prompts, prompt, updatePrompt, openModal, category, deletePrompt}) => {
+import openModal from '../../../../../../functions/openModal'
+import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
+import {useSetRecoilState} from 'recoil' 
+
+const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt}) => {
 
     const [promptsOpen, setPromptsOpen] = useState(false)
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
 
      
     document.addEventListener('mouseup', function(e) {
@@ -26,7 +31,7 @@ const Prompts = ({prompts, prompt, updatePrompt, openModal, category, deleteProm
     })
 
     const editPrompt = () => {
-        openModal({type: 'editprompt', updatePrompt: updatePrompt, category: category, current: prompt})
+        openModal({type: 'editprompt', updatePrompt: updatePrompt, category: category, current: prompt, setModalConfig: setModalConfig})
     }
 
     return (
@@ -41,7 +46,7 @@ const Prompts = ({prompts, prompt, updatePrompt, openModal, category, deleteProm
                         <div onClick={()=>setPromptsOpen(true)}><MoreMenu items={[{name: "edit", function: editPrompt}, {name: "delete", function: ()=>deletePrompt(category, prompt)}]} id={`promptMoreMenu${index}`} pos={{right: '2.5vh', top: '1vh'}} /></div>
                         </li>
                     })}
-                    <li className={styles.addBtn} onClick={()=>openModal({type: 'prompt', updatePrompt: updatePrompt, category: category})}><p>Add</p><Plus /></li>
+                    <li className={styles.addBtn} onClick={()=>openModal({type: 'prompt', updatePrompt: updatePrompt, category: category, setModalConfig: setModalConfig})}><p>Add</p><Plus /></li>
                 </ul>
         </div>
         </div>

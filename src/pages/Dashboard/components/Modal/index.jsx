@@ -137,12 +137,9 @@ const Modal = () => {
         for(let key in allPrompts){
             if(key === modalConfig.category.replace(/\s/g, "")){
                 let prompts = allPrompts[key]
-                let newPrompts = [...prompts, newPrompt]
-                allPrompts[key] = newPrompts
+                setAllPrompts({...allPrompts, [key]: [...prompts, newPrompt]})
             }
         }
-
-        setAllPrompts({...allPrompts})
         modalConfig.updatePrompt(newPrompt)
         setModalConfig({type: ''})
 
@@ -169,19 +166,17 @@ const Modal = () => {
 
     const editPrompt = () => {
         if(editedPrompt.replace(/\s/g, "") !== ''){
-            
-            for(let key in allPrompts){
-                if(key === modalConfig.name.replace(/\s/g, "")){
-                    let prompts = allPrompts[key]
-                    prompts.forEach((item, index)=>{
-                        if(item === modalConfig.current){
-                            allPrompts[key][index] = editedPrompt
-                        }
-                    })
+
+            let newPrompts = allPrompts[modalConfig.category.replace(/\s/g, "")].map((data)=>{
+                let newData = data
+                if(modalConfig.current === data){
+                    newData = editedPrompt
                 }
-            }
+                return newData
+            })
+
             
-            setAllPrompts({...allPrompts})
+            setAllPrompts({...allPrompts, [modalConfig.category.replace(/\s/g, "")]: [...newPrompts]})
             modalConfig.updatePrompt(editedPrompt)
             setModalConfig({type: ''})
             setEditPromptPlaceholder('Enter Prompt')

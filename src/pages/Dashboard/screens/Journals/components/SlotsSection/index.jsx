@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
 import MoreMenu from '../../../../components/MoreMenu'
-import AddButton from '../../../../components/AddButton'
+import AddButton from '../AddButton'
 import {ArrowDown} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'

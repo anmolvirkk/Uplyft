@@ -3,20 +3,16 @@ import styles from './_journal.module.sass'
 import BookSection from './components/BookSection'
 import SlotsSection from './components/SlotsSection'
 import MainSection from './components/MainSection'
-import Modal from '../../components/Modal'
 import SideBar from '../../components/SideBar'
 import { Redirect } from 'react-router'
 import Calendar from './components/Calendar'
 
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from './recoil-atoms/allRoutesAtom'
-import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 
 const Journals = () => {
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
-
-    const [modalConfig] = useRecoilState(modalConfigAtom)
 
         return (
         <div style={{display: 'flex'}}>
@@ -30,10 +26,6 @@ const Journals = () => {
             <MainSection styles={styles} />
 
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar />:null}
-
-            {modalConfig.type!=='' ? 
-            <Modal />
-            : null}
 
         </div>
     )

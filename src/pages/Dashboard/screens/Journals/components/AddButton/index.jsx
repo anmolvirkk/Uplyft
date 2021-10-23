@@ -5,14 +5,14 @@ import { Redirect } from 'react-router'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 import {useRecoilState} from 'recoil'
-import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
-import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
-import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
-import datesAtom from '../../screens/Journals/recoil-atoms/datesAtom'
+import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
+import slotsAtom from '../../recoil-atoms/slotsAtom'
+import booksAtom from '../../recoil-atoms/booksAtom'
+import datesAtom from '../../recoil-atoms/datesAtom'
 
-import setDate from '../../screens/Journals/functions/setDate'
+import setDate from '../../functions/setDate'
 
-import { colors, icons } from '../../screens/Journals/variables/journalConfig'
+import { colors, icons } from '../../variables/journalConfig'
 
 const AddButton = ({name}) => {
     
