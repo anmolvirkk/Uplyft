@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './_journal.module.sass'
 import BookSection from './components/BookSection'
 import SlotsSection from './components/SlotsSection'
@@ -10,9 +10,17 @@ import Calendar from './components/Calendar'
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from './recoil-atoms/allRoutesAtom'
 
+import setDate from './functions/setDate'
+import datesAtom from './recoil-atoms/datesAtom'
+
 const Journals = () => {
 
-    const [allRoutes] = useRecoilState(allRoutesAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [dates, setDates] = useRecoilState(datesAtom)
+
+    useEffect(()=>{
+        setDate(allRoutes, setAllRoutes, dates, setDates)
+    }, [allRoutes, setAllRoutes, dates, setDates])
 
         return (
         <div style={{display: 'flex'}}>

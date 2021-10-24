@@ -13,6 +13,8 @@ import { colors, icons } from '../../screens/Journals/variables/journalConfig'
 
 import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
 
+import AddRoutine from './components/AddRoutine'
+
 const Modal = () => {
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
@@ -212,6 +214,8 @@ const Modal = () => {
             <AddPrompt />
             : modalConfig.type === 'editprompt' ?
             <EditPrompt />
+            : modalConfig.type === 'addroutine' ?
+            <AddRoutine />
             : null
             }
         </div>

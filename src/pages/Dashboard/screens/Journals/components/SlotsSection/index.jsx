@@ -56,11 +56,7 @@ const SlotsSection = ({styles}) => {
     }
 
     const setRoute = (id) => {
-        setAllRoutes({ ...allRoutes,
-            [allRoutes['book']]: {
-                [[allRoutes['date']]] : id
-            }
-        })
+        setAllRoutes({...allRoutes, [allRoutes['book']]: {...allRoutes[allRoutes['book']], [allRoutes['date']]: id}})
     }
     
 

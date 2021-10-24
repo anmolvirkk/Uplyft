@@ -8,9 +8,6 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
-import datesAtom from '../../recoil-atoms/datesAtom'
-
-import setDate from '../../functions/setDate'
 
 import { colors, icons } from '../../variables/journalConfig'
 
@@ -19,7 +16,6 @@ const AddButton = ({name}) => {
     const [journalTabOpen, setJournalTabOpen] = useState(false)
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
-    const [dates, setDates] = useRecoilState(datesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
   
@@ -45,26 +41,13 @@ const AddButton = ({name}) => {
     const [openSlot, setOpenSlot] = useState()
 
     const addNoteSlot = () => {
-        if(slots[allRoutes['book']]){
-            setSlots({...slots, [allRoutes['book']]: {[allRoutes['date']]: [...slots[allRoutes['book']][allRoutes['date']], slot]}})
+        if(slots[allRoutes['book']] && slots[allRoutes['book']][allRoutes['date']]){
+            setSlots({...slots, [allRoutes['book']]: {...slots[allRoutes['book']], [allRoutes['date']]: [...slots[allRoutes['book']][allRoutes['date']], slot]}})
         }else{
-            setSlots({...slots, [allRoutes['book']]: {[allRoutes['date']]: [slot]}})
+            setSlots({...slots, [allRoutes['book']]: {...slots[allRoutes['book']], [allRoutes['date']]: [slot]}})
         }
-        
-        setDate(allRoutes, setAllRoutes, dates, setDates).then(()=>{
-            if(!allRoutes[allRoutes['book']]){
-                allRoutes[allRoutes['book']] = {}
-            }
-            let slotObj = {}
-            const setSlotObj = async () => {
-                slotObj[allRoutes['book']] = {}
-                slotObj[allRoutes['book']][allRoutes['date']] = slot.id
-            }
-            setSlotObj().then(()=>{
-                setAllRoutes({...allRoutes, ...slotObj})
-                setOpenSlot(slot.id)
-            })
-        })
+        setAllRoutes({...allRoutes, [allRoutes['book']]: {...allRoutes[allRoutes['book']], [allRoutes['date']]: slot.id}})
+        setOpenSlot(slot.id)
     }
 
     const [journalColor, setJournalColor] = useState(0)
@@ -83,16 +66,14 @@ const AddButton = ({name}) => {
 
         setJournalTabOpen(false)
 
-        setDate(allRoutes, setAllRoutes, dates, setDates).then(()=>{
-            let bookObj = {}
-            const bookObjSet = async () => {
-                bookObj[newBook.id] = {}
-                bookObj[newBook.id][allRoutes['date']] = null
-            }
-            bookObjSet().then(()=>{
-                setAllRoutes({...allRoutes, book: newBook.id ,...bookObj})
-                setOpenBook(newBook.id)
-            })
+        let bookObj = {}
+        const bookObjSet = async () => {
+            bookObj[newBook.id] = {}
+            bookObj[newBook.id][allRoutes['date']] = null
+        }
+        bookObjSet().then(()=>{
+            setAllRoutes({...allRoutes, book: newBook.id ,...bookObj})
+            setOpenBook(newBook.id)
         })
 
     }

@@ -12,29 +12,22 @@ import {useRecoilState, useSetRecoilState} from 'recoil'
 import routinesAtom from '../../../../recoil-atoms/routinesAtom'
 
 const Routines = () => {
-    const [routines, setRoutines] = useRecoilState(routinesAtom)
+    const [routines] = useRecoilState(routinesAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const openRoutineModal = () => {
-        openModal({type: 'routine', setModalConfig: setModalConfig})
-    }
-
-    const addRoutine = () => {
-        const newRoutine = {
-
-        }
-        setRoutines([...routines, newRoutine])
+        openModal({type: 'addroutine', setModalConfig: setModalConfig})
     }
 
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {routines.length!==0 ? routines.map((item)=>{
-                    return <NavLink key={item.id} to={`/schedule/tasks`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.title}><p>{item.title}</p>
+                    return <NavLink key={item.id} to={`/schedule/routines/${item.id}`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.title}><p>{item.title}</p>
                     <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
             </div>
-            <AddButton name="routine" addRoutine={addRoutine} openRoutineModal={openRoutineModal} />
+            <AddButton name="routine" openRoutineModal={openRoutineModal} />
         </div>
     )
 }

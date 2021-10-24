@@ -1,13 +1,12 @@
 const setDate = async (allRoutes, setAllRoutes, dates, setDates) => {
 
-    let date = new Date()
-
     const addDate = () => {
+        let date = new Date()
         setDates([...dates, date])
         if(!allRoutes['date']){
             allRoutes['date'] = date.valueOf()
         } 
-        setAllRoutes({date: date.valueOf(), ...allRoutes})
+        setAllRoutes({...allRoutes, date: date.valueOf(), [allRoutes['book']]: {...allRoutes[allRoutes['book']], [date.valueOf()]: null}})
     }
 
     if(dates.length !== 0){
