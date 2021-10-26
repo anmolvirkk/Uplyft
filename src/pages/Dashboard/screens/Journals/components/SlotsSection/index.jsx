@@ -9,7 +9,7 @@ import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
 
-import openModal from '../../functions/openModal'
+import openModal from '../../../../functions/openModal'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 
 const SlotsSection = ({styles}) => {

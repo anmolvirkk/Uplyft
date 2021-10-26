@@ -3,17 +3,18 @@ import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
+
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
 import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
 import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
 
-import { colors, icons } from '../../screens/Journals/variables/journalConfig'
+import { colors, icons } from '../../variables/journalConfig'
 
 import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
 
-import AddRoutine from './components/AddRoutine'
+import AddHabit from './components/AddHabit'
 
 const Modal = () => {
 
@@ -47,7 +48,7 @@ const Modal = () => {
     });
 
     let currentSlotTitle
-    if(slots&&slots[allRoutes['book']][allRoutes['date']]){
+    if(slots&&slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]){
 
         slots[allRoutes['book']][allRoutes['date']].forEach((item)=>{
             if(item.id === allRoutes[allRoutes['book']][allRoutes['date']]){
@@ -214,8 +215,8 @@ const Modal = () => {
             <AddPrompt />
             : modalConfig.type === 'editprompt' ?
             <EditPrompt />
-            : modalConfig.type === 'addroutine' ?
-            <AddRoutine />
+            : modalConfig.type === 'addhabit' ?
+            <AddHabit icons={iconsSvg} />
             : null
             }
         </div>

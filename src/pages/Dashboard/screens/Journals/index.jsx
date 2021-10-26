@@ -10,7 +10,7 @@ import Calendar from './components/Calendar'
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from './recoil-atoms/allRoutesAtom'
 
-import setDate from './functions/setDate'
+import setDate from '../../functions/setDate'
 import datesAtom from './recoil-atoms/datesAtom'
 
 const Journals = () => {

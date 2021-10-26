@@ -12,7 +12,7 @@ const openModal  = ({setModalConfig, ...props}) => {
         case 'editprompt':
             setModalConfig({type: props.type, updatePrompt: props.updatePrompt, category: props.category, current: props.current})
         break
-        case 'addroutine':
+        case 'addhabit':
             setModalConfig({type: props.type})
         break
         default: return null

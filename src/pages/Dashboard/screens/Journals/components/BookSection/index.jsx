@@ -10,7 +10,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
 
-import openModal from '../../functions/openModal'
+import openModal from '../../../../functions/openModal'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 
 const BookSection = ({ styles }) => {

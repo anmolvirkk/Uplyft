@@ -5,7 +5,7 @@ import journalStyles from '../../../../../Journals/_journal.module.sass'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
-import openModal from '../../../../../Journals/functions/openModal'
+import openModal from '../../../../../../functions/openModal'
 import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
 
 import {useRecoilState, useSetRecoilState} from 'recoil' 
@@ -15,8 +15,8 @@ const Routines = () => {
     const [routines] = useRecoilState(routinesAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
-    const openRoutineModal = () => {
-        openModal({type: 'addroutine', setModalConfig: setModalConfig})
+    const openHabitModal = () => {
+        openModal({type: 'addhabit', setModalConfig: setModalConfig})
     }
 
     return (
@@ -27,7 +27,7 @@ const Routines = () => {
                     <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
             </div>
-            <AddButton name="routine" openRoutineModal={openRoutineModal} />
+            <AddButton name="habit" onclick={openHabitModal} />
         </div>
     )
 }

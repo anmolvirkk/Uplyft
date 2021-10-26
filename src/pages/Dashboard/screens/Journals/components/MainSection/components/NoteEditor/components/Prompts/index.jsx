@@ -3,7 +3,7 @@ import styles from './_prompts.module.sass'
 import {ChevronDown, ChevronRight, ChevronUp, Plus} from 'react-feather'
 import MoreMenu from '../../../../../../../../components/MoreMenu'
 
-import openModal from '../../../../../../functions/openModal'
+import openModal from '../../../../../../../../functions/openModal'
 import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 import {useSetRecoilState} from 'recoil' 
 

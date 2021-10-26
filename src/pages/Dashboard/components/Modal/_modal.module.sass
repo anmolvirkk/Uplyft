@@ -15,6 +15,10 @@
     background: white
     padding: 2.5vh
     border-radius: 1.25vh 1.25vh
+    max-height: 95vh
+    overflow: hidden
+    overflow-y: auto
+    position: relative
     p
         font-weight: 500
         color: variables.$black
@@ -87,7 +91,8 @@
             margin: 0
             list-style: none
             display: grid
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+            grid-template-rows: repeat(auto-fill, minmax(4vh, 1fr))
+            grid-template-columns: repeat(auto-fill, minmax(4vh, 1fr))
             grid-gap: 1vh
             position: relative
             li
@@ -112,3 +117,196 @@
                     opacity: 0
             .activeButton
                 opacity: 1
+
+.habitCards
+    svg
+        height: 100%
+        width: 100%
+        mix-blend-mode: color-burn
+        opacity: 0.5
+        margin-left: 2vh
+        margin-top: 2vh
+    ul
+        display: grid
+        grid-template-rows: repeat(auto-fill, minmax(20vh, 1fr))
+        grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr))
+        grid-gap: 2vh
+        list-style: none
+        width: 70vh
+    p
+        font-size: 1.5vh
+        font-weight: 300
+        text-align: left
+        margin-bottom: 1.5vh
+        line-height: 1.5
+    li
+        cursor: pointer
+        height: 20vh
+        width: 20vh
+        padding: 2.5vh
+        background: variables.$white
+        margin-right: 2.5vh
+        border-radius: 10px 10px
+        position: relative
+        +mixins.center
+        p
+            z-index: 2
+            font-weight: 400
+            position: absolute
+            top: 1vh
+            left: 1vh
+            width: calc( 100% - 2vh )
+            height: calc( 100% - 2vh )
+            overflow: hidden
+            overflow-y: auto
+            opacity: 0.75
+
+.habitCards ul::-webkit-scrollbar
+    height: 12px
+
+.addHabit
+    input
+        all: unset
+        padding-bottom: 1vh
+        margin: 2vh 0
+        border-bottom: 1px solid rgba(variables.$black, 0.75)
+        text-align: left
+        width: 100%
+        font-size: 1.5vh
+        color: variables.$black
+    ul
+        list-style: none
+        width: 70vh
+        li
+            margin-bottom: 1.5vh
+        .tabselect
+            height: 4vh
+            +mixins.center
+            flex-flow: row
+            justify-content: space-between
+            background-color: variables.$white
+            border-radius: 5px 5px
+            div
+                height: 100%
+                width: 100%
+                +mixins.center
+                color: rgba(variables.$black, 0.75)
+                cursor: pointer
+                font-size: 1.5vh
+                p
+                    text-align: center
+            svg
+                height: 2vh
+                width: 2vh
+            .activeTab
+                color: variables.$white
+                background-color: variables.$black
+                margin: 0.5vh
+                height: calc( 100% - 1vh )
+                border-radius: 5px 5px
+                svg
+                    stroke: variables.$white
+        .habitAttractive
+            display: flex
+            align-items: center
+    
+.habitFooter
+    position: sticky
+    bottom: -25px
+    padding: 1vh 0.5vh
+    z-index: 9
+    background-color: variables.$background
+    width: 100%
+
+.habitProgress
+    font-size: 1.5vh
+    display: flex
+    justify-content: space-between
+    align-items: center
+    list-style: none
+    margin: 3vh 0
+    position: relative
+    hr
+        all: unset
+        position: absolute
+        width: 100%
+        height: 1px
+        background: rgba(variables.$black, 0.25)
+        margin-top: -2.5vh
+    li
+        +mixins.center
+        color: rgba(variables.$black, 0.75)
+        z-index: 9
+    .marker
+        margin-bottom: 1vh
+        height: 2.5vh
+        width: 2.5vh
+        background-color: variables.$white
+        border-radius: 100%
+        border: 2.5px solid variables.$white
+    .completedMarker 
+        color: variables.$primary
+        .marker
+            border: 1.5px solid variables.$primary
+            background-color: variables.$primary
+    .activeMarker 
+        color: variables.$black
+        .marker
+            background-color: variables.$background
+            border-color: variables.$primary
+
+.days
+    background-color: variables.$white
+    border-radius: 10px 10px
+.day
+    padding: 1.5vh
+.times
+    padding: 0 1.5vh
+    .time
+        display: flex
+        justify-content: space-between
+        background-color: variables.$black
+        margin: 1vh 0
+        border-radius: 10px 10px
+        div
+            padding: 1.5vh
+            .timeSelect 
+                display: flex
+                color: variables.$white
+                align-items: center
+                p
+                    background-color: variables.$white
+                    color: variables.$black
+                    padding: 0.5vh 1.5vh
+                    border-radius: 5px 5px
+                    font-weight: 400
+                    cursor: pointer
+                    margin: 0 0.5vh
+                p:first-child
+                    margin-left: 0
+                p:last-child
+                    margin-right: 0
+        p
+            color: variables.$white
+.daySelect
+    display: flex
+    justify-content: space-between
+    padding-bottom: 1.5vh
+    font-size: 1.5vh
+    div
+        height: 5vh
+        width: 5vh
+        +mixins.center
+        background-color: variables.$white
+        border-radius: 10px 10px
+        color: rgba(variables.$black, 0.75)
+        cursor: pointer    
+    .activeDay
+        background-color: variables.$primary
+        color: variables.$white
+
+.timeBtns
+    display: flex
+    justify-content: space-between
+    svg 
+        cursor: pointer

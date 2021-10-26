@@ -9,7 +9,7 @@ import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import booksAtom from '../../recoil-atoms/booksAtom'
 
-import { colors, icons } from '../../variables/journalConfig'
+import { colors, icons } from '../../../../variables/journalConfig'
 
 const AddButton = ({name}) => {
     
