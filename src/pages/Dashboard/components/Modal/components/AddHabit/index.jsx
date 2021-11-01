@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus } from 'react-feather'
+import { X, Plus, Minus, ArrowLeft, ArrowRight } from 'react-feather'
 
 import habitsAtom from '../../../../screens/Schedule/recoil-atoms/habitsAtom'
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
@@ -83,17 +83,44 @@ const AddHabit = ({icons}) => {
 
     }
 
+    let habitNumber = 0
+
+    const habitCardScroll = (dir) => {
+        if(dir==='left'){
+            if(habitNumber > 0){
+                habitNumber--
+            }
+        }else{
+            if(habitNumber < document.getElementById('habitCards').childNodes.length-4){
+                habitNumber++
+            }
+        }
+        document.getElementById('habitCards').style.transform = `translateX(${-21.5*habitNumber}vh)`
+    }
+
+    const setRecommendedHabit = (color, icon, name) => {
+        setHabit({...habit, color: color, icon: icon, name: name, times: 1})
+    }
+
     const RecommendedHabits = () => {
         return (
             <div className={styles.habitCards}>
-                <ul>
+                <ul id="habitCards">
                     {habitCards.map((item, index)=>(
-                        <li data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
+                        <li onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
                             {selectIconByName(item.icon)}
                             <p>{item.name}</p>
                         </li>
                     ))}
                 </ul>
+                    <div className={styles.habitCardArrows}>
+                        <div onClick={()=>habitCardScroll('left')}>
+                            <ArrowLeft />
+                        </div>
+                        <div onClick={()=>habitCardScroll('right')}>
+                            <ArrowRight />
+                        </div>
+                    </div>
             </div>
         )
     }

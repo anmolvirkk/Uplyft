@@ -145,8 +145,41 @@
 .habitCards
     margin-top: 2vh
     width: 90vh
+    position: relative
+    .habitCardArrows
+        position: absolute
+        top: 0
+        height: 7vh
+        width: calc( 100% + 2.5vh )
+        display: flex
+        justify-content: space-between
+        align-items: center
+        pointer-events: none
+        div
+            height: 100%
+            width: 6vh
+            padding: 1vh
+            cursor: pointer
+            opacity: 0
+            transition: 120ms
+            pointer-events: all
+            svg
+                stroke: variables.$secondary
+                height: 100%
+        div:first-child
+            background-image: linear-gradient(to right, variables.$white, variables.$white 25%, transparent 100%)
+            border-radius: 10px 0 0 10px
+            svg
+                margin-left: -3vh
+        div:last-child
+            background-image: linear-gradient(to left, variables.$white, variables.$white 25%, transparent 100%)
+            svg
+                margin-right: -3vh
+        div:hover
+            opacity: 1
     ul
         display: flex
+        transition: 120ms
     .habitCard
         position: relative
         cursor: pointer
@@ -454,4 +487,4 @@
                 width: 25vh
         li:last-child
             ol
-                width: 63vh
+                width: 60vh
