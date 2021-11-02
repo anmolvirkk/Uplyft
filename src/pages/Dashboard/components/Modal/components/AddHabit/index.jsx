@@ -56,10 +56,6 @@ const AddHabit = ({icons}) => {
 
     const [habits, setHabits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
-
-    const [habitColor, setHabitColor] = useState(0)
-    const [habitIcon, setHabitIcon] = useState(0)
-
     
     const selectIcon = (name) => {
 
@@ -83,6 +79,25 @@ const AddHabit = ({icons}) => {
 
     }
 
+    const setRecommendedHabit = (color, icon, name) => {
+        let colorIndex, iconIndex
+        const setIndex = async () => {
+            colors.forEach((val, i)=>{
+                if(val.toUpperCase() === color.toUpperCase()){
+                    colorIndex = i
+                }
+            })
+            icons.forEach((val, i)=>{
+                if(val.type.render.displayName === icon){
+                    iconIndex = i
+                }
+            })
+        }
+        setIndex().then(()=>{
+            setHabit({...habit, color: colorIndex, icon: iconIndex, name: name, times: 1})
+        })
+    }
+
     let habitNumber = 0
 
     const habitCardScroll = (dir) => {
@@ -98,14 +113,37 @@ const AddHabit = ({icons}) => {
         document.getElementById('habitCards').style.transform = `translateX(${-21.5*habitNumber}vh)`
     }
 
-    const setRecommendedHabit = (color, icon, name) => {
-        setHabit({...habit, color: color, icon: icon, name: name, times: 1})
+    const [habitCardScrollLeft, setHabitCardScrollLeft] = useState(0)
+      
+    useEffect(()=>{
+        document.getElementById('habitCards').scrollLeft = habitCardScrollLeft
+    })
+
+    let saveTimeout
+
+    const saveHabitCardScroll = () => {
+        clearTimeout(saveTimeout)
+        saveTimeout = setTimeout(()=>{
+            let goal = document.getElementById('habitCards').scrollLeft
+            let counts = []
+            const setCounts = async () => {
+                Object.entries(document.getElementById('habitCards').childNodes).forEach((item)=>{
+                    counts.push(item[1].offsetLeft)
+                })
+            }
+            setCounts().then(()=>{
+                const closest = counts.reduce(function(prev, curr) {
+                    return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev)
+                })
+                setHabitCardScrollLeft(closest)
+            })
+        }, 500)
     }
 
     const RecommendedHabits = () => {
         return (
             <div className={styles.habitCards}>
-                <ul id="habitCards">
+                <ul id="habitCards" onWheel={saveHabitCardScroll}>
                     {habitCards.map((item, index)=>(
                         <li onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
                             {selectIconByName(item.icon)}
@@ -132,13 +170,13 @@ const AddHabit = ({icons}) => {
                 <li>
                     <p>Color</p>
                     <ol className={styles.colors}>
-                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>setHabitColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div className={i===habitColor ? styles.activeButton : null} /></li>)}
+                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>setHabit({...habit, color: i})} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===habit.color ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li> 
                 <li>
                     <p>Icon</p>
                     <ol>
-                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setHabitIcon(i)} key={i} id={`icon${i}`}><div className={i===habitIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
+                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setHabit({...habit, icon: i})} key={i} id={`icon${i}`}>{selectIcon(icon)}<div className={i===habit.icon ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li>
             </ul>
@@ -452,10 +490,8 @@ const AddHabit = ({icons}) => {
                     <p>Add Habit</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <div className={styles.habitContainer}>
                     <RecommendedHabits />
                     <HabitForm />
-                </div>
             </div>
     )
 }
