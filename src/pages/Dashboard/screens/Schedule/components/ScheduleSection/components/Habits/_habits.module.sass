@@ -1,0 +1,82 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.helperTextAddEntry
+    height: 100%
+    min-width: 24vh
+    +mixins.center
+    color: variables.$secondary
+    p
+        margin-bottom: 2.5vh
+        line-height: 1.5
+
+.slotSection
+    height: calc( 100vh - 80px )
+    overflow-x: hidden
+    overflow-y: auto
+
+.slotSection 
+    a
+        display: flex
+        justify-content: space-between
+        align-items: center
+        position: relative
+    p
+        text-transform: none
+        width: 100%
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+    svg
+        width: 2vh
+    .overflownSlot:hover::before
+        content: attr(data-title)
+        position: absolute
+        padding: 10px
+        background: variables.$black
+        color: #fff
+        font-size: 1.35vh
+        z-index: 99
+        width: 75%
+        line-height: 1.5
+        top: 70px
+        text-align: left
+        border-radius: 7px 7px
+    .overflownSlot:hover::after
+        content: ''
+        position: absolute
+        top: 50px
+        border: 8px solid transparent  
+        border-bottom: 8px solid variables.$black
+        z-index: 99
+
+
+.sideSectionSlot
+    width: 100%
+    height: 80px
+    display: flex
+    align-items: center
+    padding: 0 2vh
+    border-bottom: 1px solid rgba(variables.$border, 0.15)
+    color: variables.$secondary
+
+.activeSectionSlot:first-child
+    border-top: 1px solid rgba(variables.$border, 0.15)
+
+.activeSectionSlot
+    background: variables.$white
+
+.slotContent
+    display: flex
+    align-items: center
+    width: calc( 100% - 2vh )
+    min-width: calc( 100% - 2vh )
+    div
+        border-radius: 100%
+        height: 3vh
+        +mixins.center
+        margin-right: 1vh
+        svg
+            stroke: white
+            width: 3vh
+            padding: 0.5vh

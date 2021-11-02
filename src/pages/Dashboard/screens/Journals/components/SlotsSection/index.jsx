@@ -68,7 +68,7 @@ const SlotsSection = ({styles}) => {
                 e.target.classList.remove(styles.overflownSlot)
             }
         }
-    });
+    })
 
     if(books.length !== 0 && allRoutes['book']){
         return (

@@ -19,11 +19,14 @@ document.addEventListener('mouseover', function(e) {
             e.target.classList.remove(styles.overflownModal)
         }
     }
-});
+})
 
 const AddHabit = ({icons}) => {
 
+    const date = new Date()
+
     const [habit, setHabit] = useState({
+        id: date.valueOf(),
         color: 0,
         icon: 0,
         name: '',
@@ -52,6 +55,7 @@ const AddHabit = ({icons}) => {
 
     const submitHabit = () => {
         setHabits([...habits, habit])
+        setModalConfig({type: ''})
     }
 
     const [habits, setHabits] = useRecoilState(habitsAtom)
@@ -98,19 +102,19 @@ const AddHabit = ({icons}) => {
         })
     }
 
-    let habitNumber = 0
+    let habitScrollTimeout
 
     const habitCardScroll = (dir) => {
-        if(dir==='left'){
-            if(habitNumber > 0){
-                habitNumber--
-            }
+        clearTimeout(habitScrollTimeout)
+        document.getElementById('habitCards').style.scrollBehavior = 'smooth'
+        if(dir === 'right'){
+            document.getElementById('habitCards').scrollLeft += 210
         }else{
-            if(habitNumber < document.getElementById('habitCards').childNodes.length-4){
-                habitNumber++
-            }
+            document.getElementById('habitCards').scrollLeft -= 210
         }
-        document.getElementById('habitCards').style.transform = `translateX(${-21.5*habitNumber}vh)`
+        setTimeout(()=>{
+            document.getElementById('habitCards').style.scrollBehavior = 'auto'
+        }, 500)
     }
 
     const [habitCardScrollLeft, setHabitCardScrollLeft] = useState(0)
@@ -296,7 +300,7 @@ const AddHabit = ({icons}) => {
                             <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, sun: habit.repeat.sun===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.sun!==null?styles.activeDay:null}>Sun</div>
                     </div>
 
-                    <div className={styles.days} style={{display: !habit.repeat.unique?'block':'none', padding: '1.5vh'}}>
+                    <div className={styles.days} style={{display: !habit.repeat.unique?'block':'none'}}>
                         {!habit.repeat.unique?
                         <div>
                             {habit.repeat.all.map((item, index)=>(
@@ -477,7 +481,7 @@ const AddHabit = ({icons}) => {
                 </li>
             </ul>
                 <div className={`${styles.footer} ${styles.habitFooter}`}>
-                    <button className={styles.cancelBtn}>Back</button>
+                    <button className={styles.cancelBtn} onClick={()=>setModalConfig({type: ''})}>Back</button>
                     <button className={styles.continueBtn} onClick={submitHabit}>Continue</button>
                 </div>
             </div>

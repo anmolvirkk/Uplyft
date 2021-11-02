@@ -115,7 +115,7 @@ const Modal = () => {
                         <li>
                             <p>Color</p>
                             <ol className={styles.colors}>
-                                {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div className={i===journalColor ? styles.activeButton : null} /></li>)}
+                                {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalColor ? styles.activeButton : null} /></li>)}
                             </ol>
                         </li> 
                         <li>
