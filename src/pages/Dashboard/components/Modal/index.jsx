@@ -4,7 +4,7 @@ import {X} from 'react-feather'
 import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
 import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
@@ -13,10 +13,14 @@ import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
 import { colors, icons } from '../../variables/journalConfig'
 
 import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
+import openBookAtom from '../../screens/Journals/recoil-atoms/openBookAtom'
 
 import AddHabit from './components/AddHabit'
 
 const Modal = () => {
+
+    const setAllRoutes = useSetRecoilState(allRoutesAtom)
+    const setOpenBook = useSetRecoilState(openBookAtom)
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
@@ -133,6 +137,31 @@ const Modal = () => {
             </div>
     )
 
+
+    const addJournal = () => {
+        let date = new Date()
+
+        let newBook = {
+            id: date.valueOf(),
+            icon: icons[journalIcon],
+            color: colors[journalColor]
+        }
+
+        setBooks([...books, newBook])
+
+        let bookObj = {}
+        const bookObjSet = async () => {
+            bookObj[newBook.id] = {}
+            bookObj[newBook.id][allRoutes['date']] = null
+        }
+        bookObjSet().then(()=>{
+            setAllRoutes({...allRoutes, book: newBook.id ,...bookObj})
+            setOpenBook(newBook.id)
+            setModalConfig({type: ''})
+        })
+
+    }
+
     const AddJournal = () => (
         <div className={styles.form} id='modalForm'>
                 <div className={styles.header}>
@@ -157,7 +186,7 @@ const Modal = () => {
                 </div>
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
-                    <button className={styles.continueBtn} onClick={editJournal}>Continue</button>
+                    <button className={styles.continueBtn} onClick={addJournal}>Continue</button>
                 </div>
             </div>
     )
@@ -236,7 +265,7 @@ const Modal = () => {
 
     return (
         <div className={styles.modal}>
-            {modalConfig.type === 'addJournal' ? 
+            {modalConfig.type === 'addjournal' ? 
             <AddJournal /> 
             : modalConfig.type === 'entry' ? 
             <RenameEntry /> 

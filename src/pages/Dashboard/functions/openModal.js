@@ -15,6 +15,9 @@ const openModal  = ({setModalConfig, ...props}) => {
         case 'addhabit':
             setModalConfig({type: props.type})
         break
+        case 'addjournal':
+            setModalConfig({type: props.type})
+        break
         default: return null
     }
 }
