@@ -6,9 +6,10 @@ import journalStyles from '../../../Journals/_journal.module.sass'
 import Habits from './components/Habits'
 import Tasks from './components/Tasks'
 import Events from './components/Events'
+import HabitDetails from './components/Habits/HabitDetails'
 
-const ScheduleSection = () => {
-    return (
+const SideSection = () => (
+    
     <div className={journalStyles.sideSection}>
         <div className={styles.sectionHeader}>
             <NavLink to={`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
@@ -21,6 +22,27 @@ const ScheduleSection = () => {
             <Route path="/schedule/events"><Events /></Route>
         </Switch>
     </div>
+
+)
+
+const DetailSection = () => (
+    
+    <div className={`${journalStyles.sideSection} ${journalStyles.detailSection}`}>
+        <Switch>
+            <Route path="/schedule/habits"><HabitDetails /></Route>
+            <Route path="/schedule/tasks"><Tasks /></Route>
+            <Route path="/schedule/events"><Events /></Route>
+        </Switch>
+    </div>
+
+)
+
+const ScheduleSection = () => {
+    return (
+        <React.Fragment>
+            <SideSection />
+            <DetailSection />
+        </React.Fragment>
 )
 }
 

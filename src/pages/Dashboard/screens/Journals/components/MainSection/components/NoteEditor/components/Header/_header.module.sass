@@ -11,7 +11,7 @@
     position: relative
     cursor: pointer
     p
-        background-color: variables.$white
+        background-color: var(--sideBar)
         line-height: 1
         display: flex
         justify-content: space-between
@@ -25,8 +25,8 @@
         position: absolute
         padding: 0
         margin: 0
-        background-color: variables.$white
-        color: variables.$black
+        background-color: var(--sideBar)
+        color: var(--text)
         box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
         z-index: 9
         li:first-child
@@ -55,19 +55,19 @@
     li
         height: 5vh
         width: 5vh
-        border: 1px solid rgba(variables.$black, 0.15 )
+        border: 1px solid var(--border)
         border-left: none
         +mixins.center
         cursor: pointer
     li:first-child
-        border-left: 1px solid rgba(variables.$black, 0.15 )
+        border-left: 1px solid var(--border)
 
 .list
     margin-left: 2vh
     height: 5vh
     width: 5vh
     padding: 1.25vh
-    border: 1px solid rgba(variables.$black, 0.15 )
+    border: 1px solid var(--border)
     +mixins.center
     cursor: pointer
 
@@ -82,4 +82,4 @@
         cursor: pointer
 
 .activeBtn
-    background-color: variables.$white
+    background-color: var(--sideBar)

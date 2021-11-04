@@ -4,7 +4,7 @@
 .calendar
     height: 100vh
     min-width: 80px
-    background-color: variables.$white
+    background-color: var(--sideBar)
     border-left: 1px solid rgba(variables.$black, 0.15)
     list-style: none
     overflow: hidden
@@ -37,7 +37,7 @@
             font-weight: 400
             +mixins.center
             color: variables.$secondary
-            background-color: variables.$background
+            background-color: var(--background)
             opacity: 0.7
         p
             font-size: 1.35vh

@@ -1,16 +1,16 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
-    
+
 .addButton
     all: unset
     cursor: pointer
     width: 250px
     height: 80px
     box-sizing: border-box
-    background-color: variables.$black
-    color: variables.$permWhite
+    background-color: var(--addBtn)
+    color: white
     text-transform: capitalize
-    border-left: 1px solid rgba(variables.$permWhite, 0.15 )
+    border-left: 1px solid var(--border)
     position: relative
     div
         display: flex
@@ -75,3 +75,7 @@
 .clickButton
     height: 100%
     width: 100%
+
+.addButton:first-child
+    border-color: red
+    background: red

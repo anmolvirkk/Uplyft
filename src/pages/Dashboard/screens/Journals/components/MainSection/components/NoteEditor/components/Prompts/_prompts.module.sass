@@ -15,7 +15,7 @@
     ul
         list-style: none
         height: 77.5vh
-        background-color: variables.$white
+        background-color: var(--background)
         li
             font-size: 2vh
             font-weight: 300
@@ -24,7 +24,7 @@
             justify-content: space-between
             align-items: center
             padding: 0 1.2vh 0 2.5vh
-            background-color: variables.$white
+            background-color: var(--background)
             border-bottom: 1px solid rgba(variables.$black, 0.15)
             position: relative
             p
@@ -37,17 +37,17 @@
         li:hover
             background-color: rgba(variables.$secondary, 0.1)
         .addBtn
-            background-color: variables.$black
+            background-color: var(--addBtn)
             color: variables.$white
         .addBtn:hover
-            background-color: variables.$black
+            background-color: var(--addBtn)
 .promptsOpen
     display: block
     ul
         overflow-y: auto
 
 .currentPrompt 
-        background-color: variables.$background
+        background-color: var(--background)
         color: variables.$secondary
         border-bottom: none
         padding: 0 2.5vh

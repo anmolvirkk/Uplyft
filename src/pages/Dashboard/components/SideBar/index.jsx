@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
+import DarkMode from './components/DarkMode'
 
 const IconButton = ({name, icon}) => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -36,10 +37,6 @@ const IconButton = ({name, icon}) => {
 
 const SidebarButtons = [
     {
-        name: 'menu',
-        icon: <Menu />
-    },
-    {
         name: 'home',
         icon: <Home />
     },
@@ -58,19 +55,27 @@ const SidebarButtons = [
     {
         name: 'settings',
         icon: <Settings />
-    },
-    {
-        name: 'logout',
-        icon: <Power />
     }
 ]
 
 const SideBar = () => {
     return (
         <aside>
-            {SidebarButtons.map((props)=>{
-                return <IconButton {...props} key={props.name} />
-            })}
+            <button className={styles.menuButton}>
+                <Menu />
+            </button>
+            <div className={styles.sideButtons}>
+                {SidebarButtons.map((props)=>{
+                    return <IconButton {...props} key={props.name} />
+                })}
+            </div>
+            <div className={styles.lastButtonSection}>
+                <DarkMode />
+                <button className={styles.iconButton}>
+                    <Power />
+                    <p>Logout</p>
+                </button>
+            </div>
         </aside>
     )
 }

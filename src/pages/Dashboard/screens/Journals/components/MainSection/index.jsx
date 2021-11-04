@@ -110,9 +110,9 @@ const MainSection = ({styles}) => {
                                             <div className={styles.noteSection}>
                                                 {
                                                     notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
-                                                        <div key={item.id} className={styles.note} style={{backgroundColor: `${item.color}99`}}>
+                                                        <div key={item.id} className={styles.note}>
                                                             {item.body==='' ? 
-                                                            <div className={styles.noteLink}>
+                                                            <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
                                                                 <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
@@ -121,7 +121,7 @@ const MainSection = ({styles}) => {
                                                                 <div onClick={()=>removeNote(item.id)} className={styles.removeNote} style={{color: item.color}}><Trash2 /></div>
                                                             </div>
                                                                 :
-                                                            <div className={styles.noteLink}>
+                                                            <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
                                                                 <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>

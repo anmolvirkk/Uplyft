@@ -11,8 +11,8 @@
     min-width: 250px
     width: 250px
     height: 100vh
-    background-color: variables.$background
-    border-right: 1px solid rgba(variables.$border, 0.15)
+    background-color: var(--background)
+    border-right: 1px solid var(--border)
 
 .sectionIcon
     all: unset
@@ -20,8 +20,8 @@
     width: 100%
     +mixins.center
     color: variables.$secondary
-    border-bottom: 1px solid rgba(variables.$border, 0.15)
-    border-top: 1px solid rgba(variables.$border, 0.15)
+    border-bottom: 1px solid var(--border)
+    border-top: 1px solid var(--border)
     cursor: pointer
 
 .sectionIcon svg
@@ -30,8 +30,8 @@
     padding: 1.25vh
     
 .sectionIcon:nth-child(2)
-    border-left: 1px solid rgba(variables.$border, 0.15)
-    border-right: 1px solid rgba(variables.$border, 0.15)
+    border-left: 1px solid var(--border)
+    border-right: 1px solid var(--border)
 
 .activeSectionIcon
     background: variables.$white
@@ -42,19 +42,19 @@
     display: flex
     align-items: center
     padding: 0 2vh
-    border-bottom: 1px solid rgba(variables.$border, 0.15)
+    border-bottom: 1px solid var(--border)
     color: variables.$secondary
 
 .activeSectionSlot:first-child
-    border-top: 1px solid rgba(variables.$border, 0.15)
+    border-top: 1px solid var(--border)
 
 .activeSectionSlot
-    background: variables.$white
+    background: var(--activeSlot)
 
 .bookSection
     padding: 0 3vh
     height: calc( 100vh - 80px )
-    border-right: 1px solid rgba(variables.$border, 0.15)
+    border-right: 1px solid var(--border)
     overflow-x: hidden
     overflow-y: auto
 
@@ -65,7 +65,7 @@
     align-items: center
     justify-content: space-between
     padding: 0 4vh
-    border-top: 1px solid rgba(variables.$border, 0.15)
+    border-top: 1px solid var(--border)
     font-size: 1.5vh
     button
         all: unset
@@ -112,8 +112,6 @@
         height: 100%
         width: 100%
         a
-            height: 100%
-            width: 100%
             all: unset
         svg
             height: 2.5vh
@@ -167,7 +165,7 @@
         content: attr(data-title)
         position: absolute
         padding: 10px
-        background: variables.$black
+        background: var(--tooltip)
         color: #fff
         font-size: 1.35vh
         z-index: 99
@@ -181,7 +179,7 @@
         position: absolute
         top: 50px
         border: 8px solid transparent  
-        border-bottom: 8px solid variables.$black
+        border-bottom: 8px solid var(--tooltip)
         z-index: 99
 
 .helperTextAddEntry

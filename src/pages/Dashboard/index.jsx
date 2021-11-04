@@ -8,13 +8,14 @@ import Settings from './screens/Settings'
 import Modal from './components/Modal'
 import modalConfigAtom from './screens/Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState } from 'recoil'
+import '../../_main.sass'
 
 const Dashboard = () => {
     const [modalConfig] = useRecoilState(modalConfigAtom)
     return (
     <React.Fragment>
         <Router>
-            <div style={{width: '100%', height: '100%'}}>
+            <div className="container">
                     
                 {modalConfig.type!=='' ? 
                 <Modal />

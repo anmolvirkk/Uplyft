@@ -5,14 +5,14 @@
     height: 100%
     width: 100%
     position: absolute
-    background: rgba(variables.$secondary, 0.25)
+    background: var(--overlay)
     left: 0
     top: 0
     +mixins.center
     z-index: 99
 
 .form
-    background: white
+    background: var(--background)
     padding: 2.5vh
     border-radius: 1.25vh 1.25vh
     max-height: 95vh
@@ -22,7 +22,7 @@
     scroll-behavior: smooth
     p
         font-weight: 500
-        color: variables.$black
+        color: var(--text)
         font-size: 2vh
     svg
         color: rgba(variables.$black, 0.5)
@@ -31,11 +31,11 @@
     input
         all: unset
         padding-bottom: 1vh
-        border-bottom: 1px solid rgba(variables.$black, 0.15)
+        border-bottom: 1px solid var(--border)
         text-align: left
         width: 35vh
         font-size: 1.5vh
-        color: variables.$black
+        color: var(--text)
 
 .header
     display: flex
@@ -51,11 +51,12 @@
     margin-top: 2vh
     button
         all: unset
-        border: 1px solid rgba(variables.$black, 0.75)
+        border: 1px solid var(--border)
         padding: 1vh 2vh
         font-size: 1.35vh
         border-radius: 0.5vh 0.5vh
         cursor: pointer
+        color: var(--text)
     button:first-child
         margin-right: 0.75vh
     .continueBtn:hover
@@ -71,15 +72,14 @@
     ul
         margin: 0
         list-style: none
-        border-bottom: 1px solid rgba(variables.$white, 0.15)
         width: 50vh
         svg
-            color: variables.$black
+            color: var(--text)
             width: 2.5vh
             height: 2.5vh
         p
             line-height: 2
-            color: variables.$black
+            color: var(--text)
             font-weight: 300
             width: 100%
             text-align: left
@@ -281,11 +281,12 @@
                 height: 100%
                 width: 100%
                 +mixins.center
-                color: rgba(variables.$black, 0.5)
+                color: var(--text)
                 cursor: pointer
                 font-size: 1.5vh
                 border-bottom: 2px solid transparent
                 margin-bottom: 1.5vh
+                opacity: 0.5
                 p
                     text-align: center
             svg
@@ -293,7 +294,7 @@
                 width: 2vh
             .activeTab
                 border-color: variables.$primary
-                color: variables.$black
+                opacity: 1
                 svg
                     stroke: variables.$white
         .habitAttractive
@@ -305,7 +306,7 @@
     bottom: -25px
     padding: 1vh 0.5vh
     z-index: 9
-    background-color: variables.$background
+    background-color: var(--background)
     width: 100%
 
 .habitProgress
@@ -346,7 +347,7 @@
             border-color: variables.$primary
 
 .days
-    background-color: variables.$white
+    background-color: var(--sideBar)
     border-radius: 10px 10px
     padding: 0.5vh 0
 .times
@@ -438,9 +439,9 @@
         height: 6vh
         width: 6vh
         +mixins.center
-        background-color: variables.$white
+        background-color: var(--textEditor)
         border-radius: 10px 10px
-        color: rgba(variables.$black, 0.5)
+        color: var(--text)
         cursor: pointer    
     .activeDay
         background-color: variables.$primary
@@ -460,7 +461,7 @@
     div
         display: flex
         align-items: center
-        color: rgba(variables.$black, 0.35)
+        color: var(--text)
         input
             background-color: variables.$black
             color: variables.$white
@@ -471,7 +472,7 @@
             border-radius: 5px 5px
     input
         margin-right: 1vh
-        color: variables.$black
+        color: var(--text)
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button
         -webkit-appearance: none

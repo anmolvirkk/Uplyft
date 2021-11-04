@@ -133,6 +133,35 @@ const Modal = () => {
             </div>
     )
 
+    const AddJournal = () => (
+        <div className={styles.form} id='modalForm'>
+                <div className={styles.header}>
+                    <p>Add Journal</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                <div className={styles.editJournal}>
+                    <ul>
+                        <li>
+                            <p>Color</p>
+                            <ol className={styles.colors}>
+                                {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalColor ? styles.activeButton : null} /></li>)}
+                            </ol>
+                        </li> 
+                        <li>
+                            <p>Icon</p>
+                            <ol>
+                                {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
+                            </ol>
+                        </li>   
+                    </ul>
+                </div>
+                <div className={styles.footer}>
+                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                    <button className={styles.continueBtn} onClick={editJournal}>Continue</button>
+                </div>
+            </div>
+    )
+
     const [newPrompt, setNewPrompt] = useState('')
 
     const addPrompt = () => {
@@ -207,7 +236,9 @@ const Modal = () => {
 
     return (
         <div className={styles.modal}>
-            {modalConfig.type === 'entry' ? 
+            {modalConfig.type === 'addJournal' ? 
+            <AddJournal /> 
+            : modalConfig.type === 'entry' ? 
             <RenameEntry /> 
             : modalConfig.type === 'journal' ?
             <EditJournal />
