@@ -3,11 +3,21 @@
 
 .checkBtn
     height: 100%
-    padding: 30.5px
+    width: 79.5px
     +mixins.center
     background-color: rgba(var(--lightrgb), 0.15)
     color: rgba(var(--lightrgb), 0.75)
     transition: 125ms
+    position: relative
+    svg
+        position: absolute
+        z-index: 2
+    .progress
+        position: absolute
+        left: 0
+        height: 100%
+        z-index: 1
+        background: variables.$primary
 
 .activeCheck
     background-color: variables.$primary
@@ -15,4 +25,10 @@
     box-sizing: border-box
     transform: scale(0.8)
     svg
+        position: static
+        mix-blend-mode: normal
         transform: scale(1.2)
+
+.timesIndicator
+    position: absolute
+    z-index: 2
