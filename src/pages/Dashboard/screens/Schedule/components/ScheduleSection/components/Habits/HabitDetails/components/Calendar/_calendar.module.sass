@@ -1,0 +1,39 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.calendar
+    background-color: variables.$black
+    padding: 1.5vh
+    margin: 1.5vh
+    color: white
+
+.header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    svg
+        cursor: pointer
+    
+.week
+    width: 100%
+    display: grid
+    grid-template-rows: repeat(auto-fill, minmax(27px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(27px, 1fr))
+    margin-top: 1.5vh
+    div
+        width: 27px
+        height: 27px
+        font-size: 1vh
+        +mixins.center
+        opacity: 0.5
+
+.dates
+    width: 100%
+    display: grid
+    grid-template-rows: repeat(auto-fill, minmax(27px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(27px, 1fr))
+    .date
+        width: 27px
+        height: 27px
+        font-size: 1.5vh
+        +mixins.center

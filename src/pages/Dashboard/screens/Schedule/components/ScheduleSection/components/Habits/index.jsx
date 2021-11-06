@@ -1,6 +1,6 @@
 import React from 'react'
 import MoreMenu from '../../../../../../components/MoreMenu'
-import {ArrowDown} from 'react-feather'
+import {ArrowDown, Check} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
@@ -13,6 +13,8 @@ import habitsAtom from '../../../../recoil-atoms/habitsAtom'
 import styles from './_habits.module.sass'
 
 import {colors, iconsSvg} from '../../../../../../variables/journalConfig'
+
+import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 
     
 document.addEventListener('mouseover', function(e) {
@@ -28,9 +30,15 @@ document.addEventListener('mouseover', function(e) {
 const Habits = () => {
     const [habits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const openHabitModal = () => {
         openModal({type: 'addhabit', setModalConfig: setModalConfig})
+    }
+
+    
+    const setRoute = (id) => {
+        setAllRoutes({...allRoutes, habit: id})
     }
 
     return (
@@ -38,7 +46,7 @@ const Habits = () => {
             <div className={styles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {habits.length!==0 ? habits.map((item)=>{
                     return (
-                        <NavLink key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                        <NavLink onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                            <div className={styles.slotContent}>
                                <div style={{backgroundColor: colors[item.color]}}>
                                     {iconsSvg[item.icon]}
@@ -46,6 +54,9 @@ const Habits = () => {
                                 <p>{item.name}</p>
                             </div>
                             <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} />
+                            <div className={styles.checkBtn}>
+                                <Check />
+                            </div>
                         </NavLink>
                     )
                 }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}

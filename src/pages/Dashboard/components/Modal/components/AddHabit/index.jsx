@@ -47,10 +47,7 @@ const AddHabit = ({icons}) => {
             sun: [{from: "00:00", to: "12:00"}]
         },
         times: 1,
-        datesCompleted: [],
-        streak: 0,
-        totalCompleted: 0,
-        successRate: 0
+        datesCompleted: []
     })
 
     const submitHabit = () => {

@@ -1,0 +1,162 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.card
+    background-color: var(--activeSlot)
+    padding: 1.5vh
+    margin: 1.5vh
+    color: var(--text)
+    ul
+        display: flex
+        justify-content: space-between
+        list-style: none
+        align-items: center
+        font-size: 1.25vh
+    p
+        font-size: 1.5vh
+
+.level
+    ul:first-child
+        li
+            font-size: 1vh
+            font-weight: 100
+            opacity: 0.75
+    ul:nth-child(2)
+        margin-top: 1vh
+        margin-bottom: 1vh
+        li
+            font-size: 1.5vh
+            opacity: 0.8
+    .progressList
+        svg
+            stroke: inherit
+        li:last-child
+            svg
+                stroke: var(--text)
+
+.progressbar
+    all: unset
+    height: 3px
+    width: 70%
+    background-color: var(--border)
+    hr
+        border: none
+        height: 100%
+
+.gradientCard
+    color: white
+    font-size: 1.5vh
+
+.nextLevelIn
+    background-color: variables.$black
+    color: white
+    font-size: 1.5vh
+    padding: 1vh
+    margin-top: 1vh
+
+.streaks
+    ul
+        display: flex
+        justify-content: space-between
+        list-style: none
+        margin: 1.5vh
+        li
+            background-color: variables.$black
+            color: white
+            width: calc( 50% - 0.75vh )
+            +mixins.center
+            padding: 1.5vh
+            line-height: 1.25
+            display: flex
+            align-items: center
+            flex-flow: row
+            p
+                font-size: 1.25vh
+                text-align: left
+                width: 70%
+                box-sizing: border-box
+                margin-right: 20%
+            h3
+                font-weight: 100
+                font-size: 2vh
+                line-height: 0.75
+                width: 30%
+            span
+                font-size: 1vh
+                opacity: 0.35
+
+.cardTitle
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: calc( 100% - 3vh )
+    p
+        text-align: left
+        color: rgb(var(--lightrgb))
+        font-size: 1.25vh
+
+.successRate
+    +mixins.center
+    position: relative
+    
+    .circlewrap 
+        margin: 1vh auto
+        width: 150px
+        height: 150px
+        background: rgba(var(--lightrgb), 0.2)
+        border-radius: 50%
+        margin-bottom: 2vh
+    
+
+        .circle .mask,
+        .circle .fill 
+            width: 150px
+            height: 150px
+            position: absolute
+            border-radius: 50%
+    
+
+        .circle .mask 
+            clip: rect(0px, 150px, 150px, 75px)
+    
+
+        .insidecircle 
+            width: 122px
+            height: 122px
+            border-radius: 50%
+            background: var(--background)
+            line-height: 120px
+            text-align: center
+            margin-top: 14px
+            margin-left: 14px
+            position: absolute
+            z-index: 100
+            font-weight: 100
+            font-size: 3vh
+            color: var(--text)
+    
+
+    /* color animation */
+
+    /* 3rd progress bar */
+    .mask .fill 
+        clip: rect(0px, 75px, 150px, 0px)
+    
+
+    .mask.full,
+    .circle .fill 
+        animation: fill ease-in-out 1s
+        transform: rotate(135deg)
+    
+
+    @keyframes fill
+        0% 
+            transform: rotate(0deg)
+        
+        100% 
+            transform: rotate(135deg)
+    
+.daysSkipped
+    color: rgba(var(--lightrgb), 0.75)
+    border: 1px solid rgba(var(--lightrgb), 0.5)
+    background-color: var(--background)
