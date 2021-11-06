@@ -1,6 +1,6 @@
 import React from 'react'
 import MoreMenu from '../../../../../../components/MoreMenu'
-import {ArrowDown, Check} from 'react-feather'
+import {ArrowDown} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
@@ -15,6 +15,8 @@ import styles from './_habits.module.sass'
 import {colors, iconsSvg} from '../../../../../../variables/journalConfig'
 
 import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
+
+import CheckBtn from './HabitDetails/components/CheckBtn'
 
     
 document.addEventListener('mouseover', function(e) {
@@ -54,9 +56,7 @@ const Habits = () => {
                                 <p>{item.name}</p>
                             </div>
                             <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} />
-                            <div className={styles.checkBtn}>
-                                <Check />
-                            </div>
+                            <CheckBtn />
                         </NavLink>
                     )
                 }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}

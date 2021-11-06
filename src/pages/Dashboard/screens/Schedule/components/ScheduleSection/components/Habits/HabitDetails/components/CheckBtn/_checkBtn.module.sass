@@ -1,0 +1,18 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.checkBtn
+    height: 100%
+    padding: 30.5px
+    +mixins.center
+    background-color: rgba(var(--lightrgb), 0.15)
+    color: rgba(var(--lightrgb), 0.75)
+    transition: 125ms
+
+.activeCheck
+    background-color: variables.$primary
+    color: white
+    box-sizing: border-box
+    transform: scale(0.8)
+    svg
+        transform: scale(1.2)
