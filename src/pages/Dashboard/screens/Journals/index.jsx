@@ -24,7 +24,7 @@ const Journals = () => {
 
         return (
         <div style={{display: 'flex'}}>
-            <Redirect to={Object.entries(allRoutes)?Object.entries(allRoutes).length!==0?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/journals`:null} />
+            <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/journals`} />
             <SideBar />
 
             <BookSection styles={styles} />

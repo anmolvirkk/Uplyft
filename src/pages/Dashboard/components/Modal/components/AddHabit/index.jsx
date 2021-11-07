@@ -27,6 +27,7 @@ const AddHabit = ({icons}) => {
 
     const [habit, setHabit] = useState({
         id: date.valueOf(),
+        created: {string: date.toDateString(), parse: Date.parse(date)},
         color: 0,
         icon: 0,
         name: '',

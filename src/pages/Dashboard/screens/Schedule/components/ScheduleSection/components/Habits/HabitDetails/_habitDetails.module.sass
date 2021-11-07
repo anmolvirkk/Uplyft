@@ -1,6 +1,10 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+:root
+    --dialpercent: 0deg       
+
+
 .card
     background-color: var(--activeSlot)
     padding: 1.5vh
@@ -145,7 +149,7 @@
     .mask.full,
     .circle .fill 
         animation: fill ease-in-out 1s
-        transform: rotate(135deg)
+        transform: rotate(var(--dialpercent))
     
 
     @keyframes fill
@@ -153,7 +157,7 @@
             transform: rotate(0deg)
         
         100% 
-            transform: rotate(135deg)
+            transform: rotate(var(--dialpercent))
     
 .daysSkipped
     color: rgba(var(--lightrgb), 0.75)

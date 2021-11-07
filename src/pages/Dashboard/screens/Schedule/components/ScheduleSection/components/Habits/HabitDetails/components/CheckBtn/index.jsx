@@ -7,59 +7,65 @@ import { Check } from 'react-feather'
 import habitsAtom from '../../../../../../../recoil-atoms/habitsAtom'
 import { useRecoilState } from 'recoil'
 
-const CheckBtn = ({times, id, timesCompleted}) => {
+const CheckBtn = ({times, id, timesCompleted, datesCompleted}) => {
 
     const [habits, setHabits] = useRecoilState(habitsAtom)
 
+    let date = new Date()
+
     const onClick = (e) => {
-        if(timesCompleted < times){
+                if(timesCompleted < times){
 
-            if(timesCompleted === times-1){
-                confetti({
-                    particleCount: 150,
-                    spread: 60,
-                    origin: {
-                        x: e.clientX/window.innerWidth,
-                        y: e.clientY/window.innerHeight
+                    if(timesCompleted === times-1){
+                        let newHabits = habits.map((data)=>{
+                            let newData = {...data}
+                                if(data.id === id) {
+                                    let dateObj = {
+                                        string: date.toDateString(),
+                                        val: date.valueOf(),
+                                        parse: Date.parse(date)
+                                    }
+                                    newData.datesCompleted = [...newData.datesCompleted, dateObj]
+                                    newData.timesCompleted = timesCompleted+1
+                                    confetti({
+                                        particleCount: 150,
+                                        spread: 60,
+                                        origin: {
+                                            x: e.clientX/window.innerWidth,
+                                            y: e.clientY/window.innerHeight
+                                        }
+                                    })
+                                }
+                            return newData
+                        })
+                        setHabits([...newHabits])
+                    }else{
+                        let newHabits = habits.map((data)=>{
+                            let newData = {...data}
+                                if(data.id === id) {
+                                    newData.timesCompleted = timesCompleted+1
+                                }
+                            return newData
+                        })
+                        setHabits([...newHabits])
                     }
-                })
-                let date = new Date()
-                let newHabits = habits.map((data)=>{
-                    let newData = {...data}
-                        if(data.id === id) {
-                            newData.datesCompleted = [...newData.datesCompleted, date]
-                            newData.timesCompleted = timesCompleted+1
-                        }
-                    return newData
-                })
-                setHabits([...newHabits])
-            }else{
-                let newHabits = habits.map((data)=>{
-                    let newData = {...data}
-                        if(data.id === id) {
-                            newData.timesCompleted = timesCompleted+1
-                        }
-                    return newData
-                })
-                setHabits([...newHabits])
-            }
-
-        }else {
-            
-            let newHabits = habits.map((data)=>{
-                let newData = {...data}
-                    if(data.id === id) {
-                        if(newData.datesCompleted.length > 1){
-                            newData.datesCompleted = newData.datesCompleted.filter(date=>date===newData.datesCompleted[newData.datesCompleted.length-1])
-                        }else{
-                            newData.datesCompleted = []
-                        }
-                        newData.timesCompleted = 0
-                    }
-                return newData
-            })
-            setHabits([...newHabits])
-        }
+        
+                }else {
+                    
+                    let newHabits = habits.map((data)=>{
+                        let newData = {...data}
+                            if(data.id === id) {
+                                if(newData.datesCompleted.length > 1){
+                                    newData.datesCompleted = newData.datesCompleted.filter(date=>date===newData.datesCompleted[newData.datesCompleted.length-1])
+                                }else{
+                                    newData.datesCompleted = []
+                                }
+                                newData.timesCompleted = 0
+                            }
+                        return newData
+                    })
+                    setHabits([...newHabits])
+                }
     }
 
     return (

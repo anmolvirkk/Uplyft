@@ -82,6 +82,39 @@ const HabitDetails = () => {
         )
 
     }
+    
+    let successRate = 0
+
+    const SkippedDates = (item) => {
+        const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
+        
+        let skippedDays = 0
+
+        let idealDays = []
+
+        if(item.datesCompleted[item.datesCompleted.length - 1]){
+            idealDays = getDatesInRange(new Date(item.created.string), new Date(item.datesCompleted[item.datesCompleted.length - 1].string))
+        }
+
+        if(idealDays.length > 0){
+            skippedDays = idealDays.length - item.datesCompleted.length
+        }else{
+            skippedDays = 0
+        }
+        
+        if(idealDays.length < 0){
+            successRate = item.datesCompleted.length - skippedDays / idealDays.length
+        }else{
+            if(item.datesCompleted.length > 0){
+                successRate = 100
+            }else{
+                successRate = 0
+            }
+        }
+        document.documentElement.style.setProperty('--dialpercent', `${successRate*1.8}deg`)
+
+        return <p>{skippedDays} days</p>
+    }
 
     return (
         <div className={styles.habitDetails}>
@@ -107,7 +140,7 @@ const HabitDetails = () => {
                                         <p>Days Skipped</p>
                                     </li>
                                     <li>
-                                        <p>{item.datesCompleted.length} days</p>
+                                        {SkippedDates(item)}
                                     </li>
                                 </ul>
                             </div>
@@ -126,7 +159,7 @@ const HabitDetails = () => {
                                     <div className={`${styles.mask} ${styles.half}`}>
                                         <div className={styles.fill} style={{backgroundColor: colors[item.color]}}></div>
                                     </div>
-                                    <div className={styles.insidecircle} style={{colors: colors[item.color]}}> 75% </div>
+                                    <div className={styles.insidecircle} style={{colors: colors[item.color]}}> {successRate}% </div>
                                     </div>
                                 </div>
                                 <div className={styles.cardTitle}>

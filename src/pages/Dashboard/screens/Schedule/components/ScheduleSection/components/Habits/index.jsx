@@ -56,7 +56,7 @@ const Habits = () => {
                                 <p>{item.name}</p>
                             </div>
                             <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                            <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} />
+                            <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
                         </NavLink>
                     )
                 }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
