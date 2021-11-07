@@ -1,18 +1,20 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styles from './_checkBtn.module.sass'
 import confetti from 'canvas-confetti'
 
 import { Check } from 'react-feather'
 
-const CheckBtn = ({times}) => {
+import habitsAtom from '../../../../../../../recoil-atoms/habitsAtom'
+import { useRecoilState } from 'recoil'
 
-    const [checked, setChecked] = useState(false)
+const CheckBtn = ({times, id, timesCompleted}) => {
 
-    const [timesCompleted, setTimesCompleted] = useState(0)
+    const [habits, setHabits] = useRecoilState(habitsAtom)
 
     const onClick = (e) => {
-        if(timesCompleted === times-1){
-            if(checked===false){
+        if(timesCompleted < times){
+
+            if(timesCompleted === times-1){
                 confetti({
                     particleCount: 150,
                     spread: 60,
@@ -21,20 +23,49 @@ const CheckBtn = ({times}) => {
                         y: e.clientY/window.innerHeight
                     }
                 })
-                setChecked(true)
+                let date = new Date()
+                let newHabits = habits.map((data)=>{
+                    let newData = {...data}
+                        if(data.id === id) {
+                            newData.datesCompleted = [...newData.datesCompleted, date]
+                            newData.timesCompleted = timesCompleted+1
+                        }
+                    return newData
+                })
+                setHabits([...newHabits])
             }else{
-                setChecked(false)
-                setTimesCompleted(0)
+                let newHabits = habits.map((data)=>{
+                    let newData = {...data}
+                        if(data.id === id) {
+                            newData.timesCompleted = timesCompleted+1
+                        }
+                    return newData
+                })
+                setHabits([...newHabits])
             }
-        }else{
-            setTimesCompleted(timesCompleted+1)
+
+        }else {
+            
+            let newHabits = habits.map((data)=>{
+                let newData = {...data}
+                    if(data.id === id) {
+                        if(newData.datesCompleted.length > 1){
+                            newData.datesCompleted = newData.datesCompleted.filter(date=>date===newData.datesCompleted[newData.datesCompleted.length-1])
+                        }else{
+                            newData.datesCompleted = []
+                        }
+                        newData.timesCompleted = 0
+                    }
+                return newData
+            })
+            setHabits([...newHabits])
         }
     }
 
     return (
-        <div className={`${styles.checkBtn} ${checked?styles.activeCheck:null}`} onMouseDown={(e)=>onClick(e)}>
+        <div className={`${styles.checkBtn} ${timesCompleted>=times?styles.activeCheck:null}`} onMouseDown={(e)=>onClick(e)}>
             <div className={styles.progress} style={{width: `${timesCompleted/times*100}%`}} />
-            {checked?<Check />:<div className={styles.timesIndicator}>{timesCompleted}/{times}</div>}
+            {timesCompleted>=times?<Check />:<div className={styles.timesIndicator}>{timesCompleted}/{times}</div>}
         </div>
     )
 }

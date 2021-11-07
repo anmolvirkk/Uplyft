@@ -47,6 +47,7 @@ const AddHabit = ({icons}) => {
             sun: [{from: "00:00", to: "12:00"}]
         },
         times: 1,
+        timesCompleted: 0,
         datesCompleted: []
     })
 
@@ -258,7 +259,6 @@ const AddHabit = ({icons}) => {
     }
 
     const timesBlur = (e) => {
-        console.log(e.target.value % 1 === 0)
         if(e.target.value > 0 && e.target.value % 1 === 0){
             setHabit({...habit, times: e.target.value})
         }else{
