@@ -2,10 +2,9 @@
 @use 'src/styles/_mixins'
 
 .calendar
-    background-color: variables.$black
-    padding: 1.5vh
+    background-color: var(--background)
     margin: 1.5vh
-    color: white
+    color: var(--text)
 
 .header
     display: flex
@@ -17,12 +16,12 @@
 .week
     width: 100%
     display: grid
-    grid-template-rows: repeat(auto-fill, minmax(27px, 1fr))
-    grid-template-columns: repeat(auto-fill, minmax(27px, 1fr))
+    grid-template-rows: repeat(auto-fill, minmax(30px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr))
     margin-top: 1.5vh
     div
-        width: 27px
-        height: 27px
+        width: 30px
+        height: 30px
         font-size: 1vh
         +mixins.center
         opacity: 0.5
@@ -30,10 +29,14 @@
 .dates
     width: 100%
     display: grid
-    grid-template-rows: repeat(auto-fill, minmax(27px, 1fr))
-    grid-template-columns: repeat(auto-fill, minmax(27px, 1fr))
+    grid-template-rows: repeat(auto-fill, minmax(30px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr))
+    --activeDate: variables.$primary
     .date
-        width: 27px
-        height: 27px
+        width: 30px
+        height: 30px
         font-size: 1.5vh
         +mixins.center
+    .activeDate
+        background-color: var(--activeDate)
+        color: white

@@ -24,6 +24,7 @@
     justify-content: flex-end
     align-items: center
     width: 100%
+    color: var(--text)
     p
         text-transform: lowercase
         margin-right: 15px
@@ -31,7 +32,7 @@
         all: unset
         height: 1px
         width: 10px
-        background: rgba(variables.$black, 0.25)
+        background: var(--border)
 
 .week
     width: 100%
@@ -41,7 +42,7 @@
     width: 100%
     +mixins.center
     border-bottom: 1px solid var(--border)
-    color: variables.$black
+    color: var(--text)
     p
         font-size: 1.5vh
         opacity: 0.75

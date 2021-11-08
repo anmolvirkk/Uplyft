@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './_calendar.module.sass'
 
 import { ChevronLeft, ChevronRight } from 'react-feather'
+import { colors } from '../../../../../../../../../variables/journalConfig'
 
 const getDaysInMonth = (month, year) => {
     var thisMonthDate = new Date(year, month, 1)
@@ -25,6 +26,8 @@ const Calendar = ({item}) => {
             console.log('year')
         }
     }
+    
+    let activeDateStyle = {'--activeDate': colors[item.color]}
 
     return (
         <div className={styles.calendar}>
@@ -42,9 +45,17 @@ const Calendar = ({item}) => {
                 <div>S</div>
                 <div>S</div>
             </div>
-            <div className={styles.dates}>
-                {getDaysInMonth(date.getMonth(), date.getFullYear()).map((item, index)=>{
-                    return <div className={styles.date} key={index}>{item.getDate()}</div>
+            <div className={styles.dates} style={activeDateStyle}>
+                {getDaysInMonth(date.getMonth(), date.getFullYear()).map((date, index)=>{
+                    let dateCompleted = false
+                    item.datesCompleted.forEach((dateComplete)=>{
+                        if(date.toDateString() === dateComplete.string){
+                            dateCompleted = true
+                        }else{
+                            dateCompleted = false
+                        }
+                    })
+                    return <div className={`${styles.date} ${dateCompleted?styles.activeDate:null}`} key={index}>{date.getDate()}</div>
                 })}
             </div>
         </div>

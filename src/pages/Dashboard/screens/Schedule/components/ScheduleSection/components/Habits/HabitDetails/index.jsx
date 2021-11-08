@@ -82,10 +82,8 @@ const HabitDetails = () => {
         )
 
     }
-    
-    let successRate = 0
 
-    const SkippedDates = (item) => {
+    const datesInfo = (item) => {
         const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
         
         let skippedDays = 0
@@ -102,6 +100,8 @@ const HabitDetails = () => {
             skippedDays = 0
         }
         
+        let successRate = 0
+            
         if(idealDays.length < 0){
             successRate = item.datesCompleted.length - skippedDays / idealDays.length
         }else{
@@ -111,9 +111,39 @@ const HabitDetails = () => {
                 successRate = 0
             }
         }
-        document.documentElement.style.setProperty('--dialpercent', `${successRate*1.8}deg`)
 
-        return <p>{skippedDays} days</p>
+        return {
+            successRate: successRate,
+            skippedDays: skippedDays
+        }
+    }
+
+    const SuccessRate = ({item}) => {
+        let rate = datesInfo(item).successRate
+        let dialStyle = {'--dialpercent': `${rate*1.8}deg`}
+        return (
+            <div className={styles.successRate}>
+                <div className={styles.cardTitle}>
+                    <p>Success Rate</p>
+                </div>
+                <div className={styles.circlewrap} style={dialStyle}>
+                    <div className={styles.circle}>
+                    <div className={`${styles.mask} ${styles.full}`}>
+                        <div className={styles.fill} style={{backgroundColor: colors[item.color]}}></div>
+                    </div>
+                    <div className={`${styles.mask} ${styles.half}`}>
+                        <div className={styles.fill} style={{backgroundColor: colors[item.color]}}></div>
+                    </div>
+                    <div className={styles.insidecircle} style={{colors: colors[item.color]}}> {rate}% </div>
+                    </div>
+                </div>
+                <div className={styles.cardTitle}>
+                    <p></p>
+                    <p>( resets every level )</p>
+                    <p></p>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -123,6 +153,23 @@ const HabitDetails = () => {
                 if(item.id === allRoutes['habit']){
                     return (
                         <div key={index}>
+                        <Calendar item={item} />
+                            
+                            <div className={`${styles.streaks}`}>
+                                <ul>
+                                    <li>
+                                        <p>Best Streak</p>
+                                        <h3>0 <span>days</span></h3>
+                                    </li>
+                                    <li>
+                                        <p>Current Streak</p>
+                                        <h3>0 <span>days</span></h3>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <SuccessRate item={item} />
+
                             <div className={`${styles.card} ${styles.gradientCard}`} style={{backgroundImage: `linear-gradient(to right, ${colors[item.color]}, ${colors[item.color]}B3)`}}>
                                 <ul>
                                     <li>
@@ -140,49 +187,12 @@ const HabitDetails = () => {
                                         <p>Days Skipped</p>
                                     </li>
                                     <li>
-                                        {SkippedDates(item)}
+                                        {<p>{datesInfo(item).skippedDays} days</p>}
                                     </li>
                                 </ul>
                             </div>
 
                             <Level item={item} />
-
-                            <div className={styles.successRate}>
-                                <div className={styles.cardTitle}>
-                                    <p>Success Rate</p>
-                                </div>
-                                <div className={styles.circlewrap}>
-                                    <div className={styles.circle}>
-                                    <div className={`${styles.mask} ${styles.full}`}>
-                                        <div className={styles.fill} style={{backgroundColor: colors[item.color]}}></div>
-                                    </div>
-                                    <div className={`${styles.mask} ${styles.half}`}>
-                                        <div className={styles.fill} style={{backgroundColor: colors[item.color]}}></div>
-                                    </div>
-                                    <div className={styles.insidecircle} style={{colors: colors[item.color]}}> {successRate}% </div>
-                                    </div>
-                                </div>
-                                <div className={styles.cardTitle}>
-                                    <p></p>
-                                    <p>( resets every level )</p>
-                                    <p></p>
-                                </div>
-                            </div>
-
-                            <Calendar item={item} />
-                            
-                            <div className={`${styles.streaks}`}>
-                                <ul>
-                                    <li>
-                                        <p>Best Streak</p>
-                                        <h3>0 <span>days</span></h3>
-                                    </li>
-                                    <li>
-                                        <p>Current Streak</p>
-                                        <h3>0 <span>days</span></h3>
-                                    </li>
-                                </ul>
-                            </div>
 
                             <div className={styles.card}>
                                 <div className={styles.cardTitle}>
