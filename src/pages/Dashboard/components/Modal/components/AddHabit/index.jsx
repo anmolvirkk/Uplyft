@@ -188,20 +188,26 @@ const AddHabit = ({icons}) => {
     }
 
     const setTimeForAll = (val, index, type) => {
-        let newTimes = habit.repeat.all.map((data, i)=>{
-            let newData = {...data}
-                if(i === index) {
-                    if(type === 'from'){
-                        newData.from = val
-                        newData.to = habit.repeat.all[index].to
-                    }else{
-                        newData.from = habit.repeat.all[index].from
-                        newData.to = val
-                    }
-                }
-            return newData
-        })
-        setHabit({...habit, repeat: {...habit.repeat, all: [...newTimes]}})
+        let newRepeat = {}
+        for(let key in habit.repeat){
+            if(habit.repeat[key] !== null && key!=='unique'){
+                let newTimes = habit.repeat[key].map((data, i)=>{
+                    let newData = {...data}
+                        if(i === index) {
+                            if(type === 'from'){
+                                newData.from = val
+                                newData.to = habit.repeat.all[index].to
+                            }else{
+                                newData.from = habit.repeat.all[index].from
+                                newData.to = val
+                            }
+                        }
+                    return newData
+                })
+                newRepeat = {...newRepeat, [key]: [...newTimes]}
+            }
+        }
+        setHabit({...habit, repeat: {...habit.repeat, ...newRepeat}})
     }
 
     const addAllTime = () => {

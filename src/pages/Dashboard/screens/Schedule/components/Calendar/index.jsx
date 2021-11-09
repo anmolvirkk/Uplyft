@@ -1,6 +1,10 @@
 import React from 'react'
 import styles from './_main.module.sass'
 
+import habitsAtom from '../../recoil-atoms/habitsAtom'
+import { useRecoilState } from 'recoil'
+import { colors } from '../../../../variables/journalConfig'
+
 const getTimes = () => {
     let times = []
     for(let i=0; i<24; i++){
@@ -34,7 +38,55 @@ const currentWeek = () => {
     return week
 }
 
+
+
+document.addEventListener('mouseover', function(e) {
+    if(e.target.classList.contains(styles.calendarItem)){
+        if(e.target.getElementsByTagName('h3')[0].scrollWidth > e.target.getElementsByTagName('h3')[0].offsetWidth){
+             e.target.classList.add(styles.overflownSlot)
+        }else if(e.target.classList.contains(styles.overflownSlot)) {
+            e.target.classList.remove(styles.overflownSlot)
+        }
+    }
+})
+
+const CalendarItem = ({color, time, name}) => {
+    let timeObj = {
+        from: {
+            h: time.from.split(':')[0],
+            m: time.from.split(':')[1]
+        },
+        to: {
+            h: time.to.split(':')[0],
+            m: time.to.split(':')[1]
+        }
+    }
+    const convertFrom = (time) => {
+        return `${(time.h/24+time.m/60)*100}%`
+    }
+    const convertTo = (timeTo, timeFrom) => {
+        return `calc(${((timeTo.h/24+timeTo.m/60)*100)-((timeFrom.h/24+timeFrom.m/60)*100)}% - 11px)`
+    }
+    const convertTimeFormat = (time24) => {
+        var ts = time24
+        var H = +ts.substr(0, 2)
+        var h = (H % 12) || 12
+        var ampm = H < 12 ? " am" : " pm"
+        ts = h + ts.substr(2, 3) + ampm
+        return ts
+      }
+    return (
+        <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertFrom(timeObj.from), height: convertTo(timeObj.to, timeObj.from)}}>
+            <h3>{name}</h3>
+            <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
+        </div>
+    )
+}
+
 const Calendar = () => {
+
+    const [habits] = useRecoilState(habitsAtom)
+
     return (
         <div className={styles.calendar}>
             <div className={styles.time}>
@@ -51,7 +103,14 @@ const Calendar = () => {
                         <h3>{item.toLocaleDateString('en-us', {day:"numeric"})}</h3>
                     </div>
                     <div className={styles.weekContent}>
-                        {item.toLocaleDateString('en-us', { month:"short", day:"numeric", year:"numeric"})}
+                        {habits.map((habit)=>{
+                            if(habit.repeat[item.toLocaleDateString('en-us', {weekday:"short"}).toLowerCase()]){
+                                return habit.repeat[item.toLocaleDateString('en-us', {weekday:"short"}).toLowerCase()].map((week, index)=>{
+                                    return <CalendarItem key={index} color={colors[habit.color]} time={week} name={habit.name} />
+                                })
+                            }
+                            return null
+                        })}
                     </div>
                 </div>
             ))}
