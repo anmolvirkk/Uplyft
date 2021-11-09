@@ -9,9 +9,7 @@ const getTimes = () => {
     let times = []
     for(let i=0; i<24; i++){
         if(i < 12){
-            if(i === 0){
-                times.push(`12 am`)
-            }else{
+            if(i !== 0){
                 times.push(`${i} am`)
             }
         }else{
@@ -51,21 +49,31 @@ document.addEventListener('mouseover', function(e) {
 })
 
 const CalendarItem = ({color, time, name}) => {
-    let timeObj = {
-        from: {
-            h: time.from.split(':')[0],
-            m: time.from.split(':')[1]
-        },
-        to: {
+    const convertTileLocation = () => {
+        let to = {
             h: time.to.split(':')[0],
             m: time.to.split(':')[1]
         }
-    }
-    const convertFrom = (time) => {
-        return `${(time.h/24+time.m/60)*100}%`
-    }
-    const convertTo = (timeTo, timeFrom) => {
-        return `calc(${((timeTo.h/24+timeTo.m/60)*100)-((timeFrom.h/24+timeFrom.m/60)*100)}% - 11px)`
+        let from = {
+            h: time.from.split(':')[0],
+            m: time.from.split(':')[1]
+        }
+        if(to.h < from.h){
+            return {
+                top: `${(from.h/24+from.m/60)*100}%`,
+                height: `calc(${(((24-from.h)/24+(to.m-from.m)/60)*100)}%)`,
+                extended: {
+                    top: `0%`,
+                    height: `calc(${(((to.h)/24+(to.m-from.m)/60)*100)}%)`
+                }
+            }
+        }else{
+            return {
+                top: `${(from.h/24+from.m/60)*100}%`,
+                height: `calc(${(((to.h-from.h)/24+(to.m-from.m)/60)*100)}%)`,
+                extended: null
+            }
+        }
     }
     const convertTimeFormat = (time24) => {
         var ts = time24
@@ -76,9 +84,17 @@ const CalendarItem = ({color, time, name}) => {
         return ts
       }
     return (
-        <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertFrom(timeObj.from), height: convertTo(timeObj.to, timeObj.from)}}>
-            <h3>{name}</h3>
-            <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
+        <div>
+            <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertTileLocation().top, height: convertTileLocation().height}}>
+                <h3>{name}</h3>
+                <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
+            </div>
+            {convertTileLocation().extended!==null?
+                <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertTileLocation().extended.top, height: convertTileLocation().extended.height}}>
+                    <h3>{name}</h3>
+                    <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
+                </div>
+            : null}
         </div>
     )
 }
@@ -90,11 +106,17 @@ const Calendar = () => {
     return (
         <div className={styles.calendar}>
             <div className={styles.time}>
+                <div className={styles.timeTile}>
+                    <p></p><hr />
+                </div>
                 {getTimes().map((item, index)=>(
                     <div className={styles.timeTile} key={index}>
                         <p>{item}</p><hr />
                     </div>
                 ))}
+                <div className={styles.timeTile}>
+                    <p></p><hr />
+                </div>
             </div>
             {currentWeek().map((item, index)=>(
                 <div key={index} className={styles.week}>
