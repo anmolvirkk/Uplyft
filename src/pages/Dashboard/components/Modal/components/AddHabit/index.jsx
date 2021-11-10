@@ -49,12 +49,48 @@ const AddHabit = ({icons}) => {
         },
         times: 1,
         timesCompleted: 0,
-        datesCompleted: []
+        datesCompleted: [],
+        width: 'calc(100% - 20px)',
+        zIndex: 1
     })
 
+    const setWidthAndIndex = async () => {
+        let from = {
+            h: habit.repeat.all[0].from.split(':')[0],
+            m: habit.repeat.all[0].from.split(':')[1]
+        }
+        let top = (from.h/24+from.m/60)*100
+
+        let items = document.getElementsByClassName('calendarItem')
+        let getWidth = (e) => e.getBoundingClientRect().width/(document.getElementById('weekColumn').getBoundingClientRect().width-20)*100
+        let getCoord = (e) => {
+            return {
+                top: e.getBoundingClientRect().top/document.getElementById('weekColumn').getBoundingClientRect().height*100, 
+                bottom: e.getBoundingClientRect().bottom/document.getElementById('weekColumn').getBoundingClientRect().height*100, 
+                height: e.getBoundingClientRect().height/document.getElementById('weekColumn').getBoundingClientRect().height*100
+            }
+        }
+
+        for(let i=0; i<items.length; i++){
+            if(top - getCoord(items[i]).top > 10){
+                habit.width = getWidth(items[i])*0.75
+                habit.zIndex = i+1
+                items[i].style.zIndex = 0
+            }else{
+                if(i-1 >= 0){
+                    habit.zIndex = i-1
+                }else{
+                    habit.zIndex = 0
+                }
+            }
+        }
+    }
+
     const submitHabit = () => {
-        setHabits([...habits, habit])
-        setModalConfig({type: ''})
+        setWidthAndIndex().then(()=>{
+            setHabits([...habits, habit])
+            setModalConfig({type: ''})
+        })
     }
 
     const [habits, setHabits] = useRecoilState(habitsAtom)

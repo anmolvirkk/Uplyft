@@ -30,7 +30,7 @@ const currentWeek = () => {
     for (let i = 0; i < 7; i++) {
         week.push(
             new Date(date)
-        );
+        )
         date.setDate(date.getDate() +1)
     }
     return week
@@ -48,16 +48,16 @@ document.addEventListener('mouseover', function(e) {
     }
 })
 
-const CalendarItem = ({color, time, name}) => {
+const CalendarItem = ({color, time, name, slot, width, zIndex}) => {
+    let to = {
+        h: time.to.split(':')[0],
+        m: time.to.split(':')[1]
+    }
+    let from = {
+        h: time.from.split(':')[0],
+        m: time.from.split(':')[1]
+    }
     const convertTileLocation = () => {
-        let to = {
-            h: time.to.split(':')[0],
-            m: time.to.split(':')[1]
-        }
-        let from = {
-            h: time.from.split(':')[0],
-            m: time.from.split(':')[1]
-        }
         if(to.h < from.h){
             return {
                 top: `${(from.h/24+from.m/60)*100}%`,
@@ -76,21 +76,22 @@ const CalendarItem = ({color, time, name}) => {
         }
     }
     const convertTimeFormat = (time24) => {
-        var ts = time24
-        var H = +ts.substr(0, 2)
-        var h = (H % 12) || 12
-        var ampm = H < 12 ? " am" : " pm"
+        let ts = time24
+        let H = +ts.substr(0, 2)
+        let h = (H % 12) || 12
+        let ampm = H < 12 ? " am" : " pm"
         ts = h + ts.substr(2, 3) + ampm
         return ts
-      }
+    }
+    
     return (
         <div>
-            <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertTileLocation().top, height: convertTileLocation().height}}>
+            <div data-title={name} className={`${styles.calendarItem} calendarItem`} id={`${slot.day}_${slot.habit}`} style={{backgroundColor: color, top: convertTileLocation().top, height: convertTileLocation().height, width: width, zIndex: zIndex}}>
                 <h3>{name}</h3>
                 <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
             </div>
             {convertTileLocation().extended!==null?
-                <div data-title={name} className={`${styles.calendarItem}`} style={{backgroundColor: color, top: convertTileLocation().extended.top, height: convertTileLocation().extended.height}}>
+                <div data-title={name} className={`${styles.calendarItem} calendarItem`} style={{backgroundColor: color, top: convertTileLocation().extended.top, height: convertTileLocation().extended.height, width: width, zIndex: zIndex}}>
                     <h3>{name}</h3>
                     <p>{convertTimeFormat(time.from)} - {convertTimeFormat(time.to)}</p>
                 </div>
@@ -119,16 +120,16 @@ const Calendar = () => {
                 </div>
             </div>
             {currentWeek().map((item, index)=>(
-                <div key={index} className={styles.week}>
+                <div key={index} className={styles.week} id="weekColumn">
                     <div className={styles.weekTitle}>
                         <p>{item.toLocaleDateString('en-us', { weekday:"short"})}</p>
                         <h3>{item.toLocaleDateString('en-us', {day:"numeric"})}</h3>
                     </div>
                     <div className={styles.weekContent}>
-                        {habits.map((habit)=>{
+                        {habits.map((habit, i)=>{
                             if(habit.repeat[item.toLocaleDateString('en-us', {weekday:"short"}).toLowerCase()]){
-                                return habit.repeat[item.toLocaleDateString('en-us', {weekday:"short"}).toLowerCase()].map((week, index)=>{
-                                    return <CalendarItem key={index} color={colors[habit.color]} time={week} name={habit.name} />
+                                return habit.repeat[item.toLocaleDateString('en-us', {weekday:"short"}).toLowerCase()].map((week)=>{
+                                    return <CalendarItem key={`${index}_${i}`} color={colors[habit.color]} time={week} name={habit.name} slot={{day: index, habit: i}} width={habit.width} zIndex={habit.zIndex} />
                                 })
                             }
                             return null

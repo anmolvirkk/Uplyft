@@ -19,7 +19,7 @@ const Journals = () => {
     const [dates, setDates] = useRecoilState(datesAtom)
 
     useEffect(()=>{
-        setDate(allRoutes, setAllRoutes, dates, setDates)
+            setDate(allRoutes, setAllRoutes, dates, setDates)
     }, [allRoutes, setAllRoutes, dates, setDates])
 
         return (
