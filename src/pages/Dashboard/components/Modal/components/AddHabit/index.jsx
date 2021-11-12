@@ -10,6 +10,7 @@ import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import { habitCards } from '../../../../variables/habitCards'
 
 import { useEffect } from 'react/cjs/react.development'
+import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEvents'
 
 document.addEventListener('mouseover', function(e) {
     if(e.target.classList.contains(styles.habitCard)){
@@ -49,48 +50,40 @@ const AddHabit = ({icons}) => {
         },
         times: 1,
         timesCompleted: 0,
-        datesCompleted: [],
-        width: 'calc(100% - 20px)',
-        zIndex: 1
+        datesCompleted: []
     })
 
-    const setWidthAndIndex = async () => {
-        let from = {
-            h: habit.repeat.all[0].from.split(':')[0],
-            m: habit.repeat.all[0].from.split(':')[1]
-        }
-        let top = (from.h/24+from.m/60)*100
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
 
-        let items = document.getElementsByClassName('calendarItem')
-        let getWidth = (e) => e.getBoundingClientRect().width/(document.getElementById('weekColumn').getBoundingClientRect().width-20)*100
-        let getCoord = (e) => {
-            return {
-                top: e.getBoundingClientRect().top/document.getElementById('weekColumn').getBoundingClientRect().height*100, 
-                bottom: e.getBoundingClientRect().bottom/document.getElementById('weekColumn').getBoundingClientRect().height*100, 
-                height: e.getBoundingClientRect().height/document.getElementById('weekColumn').getBoundingClientRect().height*100
+    const submitHabit = () => {setHabits([...habits, habit])
+        let times = {
+            from: {
+                h: parseInt(habit.repeat.all[0].from.split(':')[0]),
+                m: parseInt(habit.repeat.all[0].from.split(':')[1])
+            },
+            to: {
+                h: parseInt(habit.repeat.all[0].to.split(':')[0]),
+                m: parseInt(habit.repeat.all[0].to.split(':')[1])
             }
         }
-
-        for(let i=0; i<items.length; i++){
-            if(top - getCoord(items[i]).top > 10){
-                habit.width = getWidth(items[i])*0.75
-                habit.zIndex = i+1
-                items[i].style.zIndex = 0
-            }else{
-                if(i-1 >= 0){
-                    habit.zIndex = i-1
-                }else{
-                    habit.zIndex = 0
-                }
-            }
+        let fromDate = new Date()
+        fromDate.setHours(times.from.h)
+        fromDate.setMinutes(times.from.m)
+        let toDate = new Date()
+        toDate.setHours(times.to.h)
+        toDate.setMinutes(times.to.m)
+        if(times.to.h < times.from.h){
+            toDate.setDate(toDate.getDate()+1)
         }
-    }
-
-    const submitHabit = () => {
-        setWidthAndIndex().then(()=>{
-            setHabits([...habits, habit])
-            setModalConfig({type: ''})
-        })
+        console.log(fromDate)
+        console.log(toDate)
+        setAllCalendarEvents([...allCalendarEvents, {
+            title: habit.name,
+            start: fromDate,
+            end: toDate,
+            color: colors[habit.color]
+        }])
+        setModalConfig({type: ''})
     }
 
     const [habits, setHabits] = useRecoilState(habitsAtom)

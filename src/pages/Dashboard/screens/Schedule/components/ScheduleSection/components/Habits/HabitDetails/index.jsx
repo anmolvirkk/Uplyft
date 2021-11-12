@@ -196,7 +196,7 @@ const HabitDetails = () => {
 
                             <div className={styles.card}>
                                 <div className={styles.cardTitle}>
-                                    <p>Completion Rate</p>
+                                    <p>Completion Times</p>
                                 </div>
                             </div>
                         </div>
