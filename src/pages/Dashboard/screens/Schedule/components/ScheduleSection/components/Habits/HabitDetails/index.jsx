@@ -153,8 +153,9 @@ const HabitDetails = () => {
                 if(item.id === allRoutes['habit']){
                     return (
                         <div key={index}>
-                        <Calendar item={item} />
-                            
+
+                            <Calendar color={colors[item.color]} />
+
                             <div className={`${styles.streaks}`}>
                                 <ul>
                                     <li>

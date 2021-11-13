@@ -1,0 +1,36 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.streakCalendarWrapper
+    --selectedDay: variables.$primary
+
+.DayPicker
+    width: 100%
+
+.DayPicker-wrapper
+    padding: 0
+
+.DayPicker-Day--today
+    color: variables.$primary
+    font-weight: 400
+
+.DayPicker-NavButton
+    right: 1vh
+
+.DayPicker-NavButton--prev
+    margin-right: 4vh
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
+    background-color: var(--selectedDay)
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover
+    background-color: var(--selectedDay)
+
+.DayPicker-Day
+    text-shadow: 0 0 10px rgba(var(--lightrgb), 0.5)
+    border-radius: 0
+    font-size: 1.5vh
+
+.DayPicker-Caption > div
+    font-size: 1.5vh
+    font-weight: 300
