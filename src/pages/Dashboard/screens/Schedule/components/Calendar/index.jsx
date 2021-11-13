@@ -24,10 +24,16 @@ const MainCalendar = () => {
     }
     allCalendarEvents.forEach((item)=>{
         getWeek(new Date(item.start)).forEach((day)=>{
+            let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
+            endDate.setMonth(day.getMonth())
+            endDate.setDate(day.getDate())
+            if(endDate.getHours() < day.getHours()){
+                endDate.setDate(new Date(day.getDate() + 1))
+            }
             events.push({
                 title: item.title,
                 start: day,
-                end: new Date(new Date(item.end).setDate(day.getDate())),
+                end: endDate,
                 color: item.color,
                 id: day.valueOf()
             })
@@ -56,6 +62,9 @@ const MainCalendar = () => {
                                 let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
                                 endDate.setMonth(day.getMonth())
                                 endDate.setDate(day.getDate())
+                                if(endDate.getHours() < day.getHours()){
+                                    endDate.setDate(new Date(day.getDate() + 1))
+                                }
                                 events.push({
                                     title: item.title,
                                     start: startDate,
