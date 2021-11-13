@@ -75,8 +75,6 @@ const AddHabit = ({icons}) => {
         if(times.to.h < times.from.h){
             toDate.setDate(toDate.getDate()+1)
         }
-        console.log(fromDate)
-        console.log(toDate)
         setAllCalendarEvents([...allCalendarEvents, {
             title: habit.name,
             start: fromDate,

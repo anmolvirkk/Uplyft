@@ -11,15 +11,63 @@ const localizer = momentLocalizer(moment)
 const MainCalendar = () => {
 
     const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    
     let events = []
+    const getWeek = (date) => {
+        let week = []
+        for (let i = 0; i < 7; i++) {
+            let first = date.getDate() - date.getDay() + i 
+            let day = new Date(date.setDate(first))
+            week.push(day)
+        }
+        return week
+    }
     allCalendarEvents.forEach((item)=>{
-        events.push({
-            title: item.title,
-            start: new Date(item.start),
-            end: new Date(item.end),
-            color: item.color
+        getWeek(new Date(item.start)).forEach((day)=>{
+            events.push({
+                title: item.title,
+                start: day,
+                end: new Date(new Date(item.end).setDate(day.getDate())),
+                color: item.color,
+                id: day.valueOf()
+            })
         })
-    })
+    })   
+
+    const setRepeatEvents = (date) => {
+        if(date){
+            const shouldAddEvent = () => {
+                let addEvent = true
+                let weekDate = getWeek(new Date(new Date(date)))[0].toLocaleDateString("en-US", {day: '2-digit', month: 'long', year: 'numeric'})
+                events.forEach((item)=>{
+                    let eventDate = item.start.toLocaleDateString("en-US", {day: '2-digit', month: 'long', year: 'numeric'})
+                    if(weekDate === eventDate){
+                        addEvent = false
+                    }
+                })
+                return addEvent
+            }
+            if(shouldAddEvent()){
+                allCalendarEvents.forEach((item)=>{
+                        getWeek(new Date(new Date(date))).forEach((day)=>{
+                                let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
+                                startDate.setMonth(day.getMonth())
+                                startDate.setDate(day.getDate())
+                                let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
+                                endDate.setMonth(day.getMonth())
+                                endDate.setDate(day.getDate())
+                                events.push({
+                                    title: item.title,
+                                    start: startDate,
+                                    end: endDate,
+                                    color: item.color,
+                                    id: day.valueOf()
+                                })
+                        })
+                })  
+            } 
+        }
+    }
 
     const eventStyleGetter = (e) => {
         let style = {
@@ -41,6 +89,7 @@ const MainCalendar = () => {
             defaultView={Views.WEEK}
             views={[Views.WEEK, Views.DAY, Views.AGENDA]}
             eventPropGetter={(e)=>eventStyleGetter(e)}
+            onNavigate={(e)=>setRepeatEvents(e)}
         />
     )
 }
