@@ -33,7 +33,7 @@ const MainCalendar = () => {
             let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
             endDate.setMonth(day.getMonth())
             endDate.setDate(day.getDate())
-            if(endDate.getHours() < day.getHours()){
+            if(endDate.getHours() < startDate.getHours()){
                 endDate.setDate(new Date(day.getDate() + 1))
             }
             events.push({
@@ -68,7 +68,7 @@ const MainCalendar = () => {
                                 let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
                                 endDate.setMonth(day.getMonth())
                                 endDate.setDate(day.getDate())
-                                if(endDate.getHours() < day.getHours()){
+                                if(endDate.getHours() < startDate.getHours()){
                                     endDate.setDate(new Date(day.getDate() + 1))
                                 }
                                 events.push({
