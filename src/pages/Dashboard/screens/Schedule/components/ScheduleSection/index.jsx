@@ -7,23 +7,32 @@ import Habits from './components/Habits'
 import Tasks from './components/Tasks'
 import Events from './components/Events'
 import HabitDetails from './components/Habits/HabitDetails'
+import { useRecoilState } from 'recoil'
+import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 
-const SideSection = () => (
-    
-    <div className={journalStyles.sideSection}>
-        <div className={styles.sectionHeader}>
-            <NavLink to={`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
-            <NavLink to={`/schedule/tasks`} activeClassName={styles.activeSection}><Check /></NavLink>
-            <NavLink to={`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
+const SideSection = () => {
+
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+
+    const setRoute = (id) => {
+        setAllRoutes({...allRoutes, scheduleSection: id})
+    }
+
+    return (
+        <div className={journalStyles.sideSection}>
+            <div className={styles.sectionHeader}>
+                <NavLink onClick={()=>setRoute('habits')} to={allRoutes['habit']?`/schedule/habits/${allRoutes['habit']}`:`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
+                <NavLink onClick={()=>setRoute('tasks')} to={`/schedule/tasks`} activeClassName={styles.activeSection}><Check /></NavLink>
+                <NavLink onClick={()=>setRoute('events')} to={`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
+            </div>
+            <Switch>
+                <Route path="/schedule/habits"><Habits /></Route>
+                <Route path="/schedule/tasks"><Tasks /></Route>
+                <Route path="/schedule/events"><Events /></Route>
+            </Switch>
         </div>
-        <Switch>
-            <Route path="/schedule/habits"><Habits /></Route>
-            <Route path="/schedule/tasks"><Tasks /></Route>
-            <Route path="/schedule/events"><Events /></Route>
-        </Switch>
-    </div>
-
-)
+    )
+}
 
 const DetailSection = () => (
     

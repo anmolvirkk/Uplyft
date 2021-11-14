@@ -146,6 +146,24 @@ const HabitDetails = () => {
         )
     }
 
+    const getStreak = (habit) => {
+        let streak = {
+            best: 0,
+            current: 0
+        }
+        if(habit.datesCompleted.length > 0){
+            for(let i=0; i<habit.datesCompleted.length; i++){
+                for(let j=0; j<habit.datesCompleted.length; j++){
+                    if(i!==j){
+                        console.log(habit.datesCompleted[i])
+                        console.log(habit.datesCompleted[j])
+                    }
+                }
+            }
+        }
+        return streak
+    }
+
     return (
         <div className={styles.habitDetails}>
             {allRoutes.habit?
@@ -160,11 +178,11 @@ const HabitDetails = () => {
                                 <ul>
                                     <li>
                                         <p>Best Streak</p>
-                                        <h3>0 <span>days</span></h3>
+                                        <h3>{getStreak(item).best}<span>days</span></h3>
                                     </li>
                                     <li>
                                         <p>Current Streak</p>
-                                        <h3>0 <span>days</span></h3>
+                                        <h3>{getStreak(item).current}<span>days</span></h3>
                                     </li>
                                 </ul>
                             </div>

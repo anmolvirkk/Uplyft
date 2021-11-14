@@ -47,16 +47,30 @@ const CheckBtn = ({times, id, timesCompleted, datesCompleted}) => {
                                         val: date.valueOf(),
                                         parse: Date.parse(date)
                                     }
-                                    newData.datesCompleted = [...newData.datesCompleted, dateObj]
                                     newData.timesCompleted = timesCompleted+1
-                                    confetti({
-                                        particleCount: 150,
-                                        spread: 60,
-                                        origin: {
-                                            x: e.clientX/window.innerWidth,
-                                            y: e.clientY/window.innerHeight
+                                    if(newData.datesCompleted.length > 0){
+                                        if(newData.datesCompleted[newData.datesCompleted.length - 1].string !== dateObj.string){
+                                            newData.datesCompleted = [...newData.datesCompleted, dateObj]
+                                            confetti({
+                                                particleCount: 150,
+                                                spread: 60,
+                                                origin: {
+                                                    x: e.clientX/window.innerWidth,
+                                                    y: e.clientY/window.innerHeight
+                                                }
+                                            })
                                         }
-                                    })
+                                    }else{
+                                        newData.datesCompleted = [...newData.datesCompleted, dateObj]
+                                        confetti({
+                                            particleCount: 150,
+                                            spread: 60,
+                                            origin: {
+                                                x: e.clientX/window.innerWidth,
+                                                y: e.clientY/window.innerHeight
+                                            }
+                                        })
+                                    }
                                 }
                             return newData
                         })
