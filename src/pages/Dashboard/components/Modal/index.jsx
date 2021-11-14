@@ -276,7 +276,9 @@ const Modal = () => {
             : modalConfig.type === 'editprompt' ?
             <EditPrompt />
             : modalConfig.type === 'addhabit' ?
-            <AddHabit icons={iconsSvg} />
+            <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
+            : modalConfig.type === 'edithabit' ?
+            <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
             : null
             }
         </div>

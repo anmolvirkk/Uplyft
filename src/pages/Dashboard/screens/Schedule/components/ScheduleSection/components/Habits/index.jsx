@@ -4,7 +4,6 @@ import {ArrowDown} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
-import openModal from '../../../../../../functions/openModal'
 import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
 
 import {useRecoilState, useSetRecoilState} from 'recoil' 
@@ -17,6 +16,7 @@ import {colors, iconsSvg} from '../../../../../../variables/journalConfig'
 import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 
 import CheckBtn from './HabitDetails/components/CheckBtn'
+import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 
     
 document.addEventListener('mouseover', function(e) {
@@ -30,12 +30,25 @@ document.addEventListener('mouseover', function(e) {
 })
 
 const Habits = () => {
-    const [habits] = useRecoilState(habitsAtom)
+    const [habits, setHabits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const openHabitModal = () => {
-        openModal({type: 'addhabit', setModalConfig: setModalConfig})
+        setModalConfig({type: 'addhabit'})
+    }
+
+    const openEditHabitModal = (habit) => {
+        setModalConfig({type: 'edithabit', habit: habit})
+    }
+
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    
+    const deleteHabit = (id) => {
+        let newHabits = habits.filter((value)=>value.id!==id)
+        let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
+        setHabits([...newHabits])
+        setAllCalendarEvents([...newAllCalendarEvents])
     }
 
     
@@ -55,7 +68,7 @@ const Habits = () => {
                                 </div>
                                 <p>{item.name}</p>
                             </div>
-                            <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                            <MoreMenu items={[{name: "edit", function: ()=>openEditHabitModal(item)}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                             <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
                         </NavLink>
                     )

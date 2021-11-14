@@ -154,7 +154,7 @@ const HabitDetails = () => {
                     return (
                         <div key={index}>
 
-                            <Calendar color={colors[item.color]} />
+                            <Calendar color={colors[item.color]} index={index} />
 
                             <div className={`${styles.streaks}`}>
                                 <ul>

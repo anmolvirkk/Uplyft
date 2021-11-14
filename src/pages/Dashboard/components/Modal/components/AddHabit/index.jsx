@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, Plus, Minus, ArrowLeft, ArrowRight } from 'react-feather'
@@ -9,8 +9,7 @@ import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConf
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import { habitCards } from '../../../../variables/habitCards'
 
-import { useEffect } from 'react/cjs/react.development'
-import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEvents'
+import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 
 document.addEventListener('mouseover', function(e) {
     if(e.target.classList.contains(styles.habitCard)){
@@ -22,11 +21,21 @@ document.addEventListener('mouseover', function(e) {
     }
 })
 
-const AddHabit = ({icons}) => {
+const AddHabit = ({icons, type, currentHabit}) => {
 
     const date = new Date()
 
-    const [habit, setHabit] = useState({
+    const [habit, setHabit] = useState(currentHabit?{
+        id: currentHabit.id,
+        created: currentHabit.created,
+        color: currentHabit.color,
+        icon: currentHabit.icon,
+        name: currentHabit.name,
+        repeat: currentHabit.repeat,
+        times: currentHabit.times,
+        timesCompleted: currentHabit.timesCompleted,
+        datesCompleted: currentHabit.datesCompleted
+    }:{
         id: date.valueOf(),
         created: {string: date.toDateString(), parse: Date.parse(date)},
         color: 0,
@@ -55,7 +64,7 @@ const AddHabit = ({icons}) => {
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
 
-    const submitHabit = () => {setHabits([...habits, habit])
+    const submitHabit = () => {
         let times = {
             from: {
                 h: parseInt(habit.repeat.all[0].from.split(':')[0]),
@@ -75,12 +84,42 @@ const AddHabit = ({icons}) => {
         if(times.to.h < times.from.h){
             toDate.setDate(toDate.getDate()+1)
         }
-        setAllCalendarEvents([...allCalendarEvents, {
-            title: habit.name,
-            start: fromDate,
-            end: toDate,
-            color: colors[habit.color]
-        }])
+        if(type === 'add'){
+            setHabits([...habits, habit])
+            setAllCalendarEvents([...allCalendarEvents, {
+                title: habit.name,
+                start: fromDate,
+                end: toDate,
+                color: colors[habit.color],
+                id: habit.id
+            }])
+        }else if(type==='edit'){
+            let newHabits = habits.map((data)=>{
+                let newData = {...data}
+                    if(data.id === currentHabit.id) {
+                        newData.id = habit.id
+                        newData.color = habit.color
+                        newData.icon = habit.icon
+                        newData.name = habit.name
+                        newData.repeat = habit.repeat
+                        newData.times = habit.times
+                    }
+                return newData
+            })
+            setHabits([...newHabits])
+
+            let newAllCalendarEvents = allCalendarEvents.map((data)=>{
+                let newData = {...data}
+                    if(data.id === currentHabit.id) {
+                        newData.title = habit.name
+                        newData.start = fromDate
+                        newData.end = toDate
+                        newData.color = colors[habit.color]
+                    }
+                return newData
+            })
+            setAllCalendarEvents([...newAllCalendarEvents])
+        }
         setModalConfig({type: ''})
     }
 
@@ -522,7 +561,7 @@ const AddHabit = ({icons}) => {
     return (
         <div className={styles.form} id='modalForm'>
                 <div className={styles.header}>
-                    <p>Add Habit</p>
+                    <p>{type} Habit</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                     <RecommendedHabits />

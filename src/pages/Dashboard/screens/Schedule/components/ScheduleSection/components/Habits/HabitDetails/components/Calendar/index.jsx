@@ -1,23 +1,28 @@
-import React, {useState} from 'react'
-import DayPicker, { DateUtils } from 'react-day-picker'
+import React from 'react'
+import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
+import { useRecoilState } from 'recoil'
+import habitsAtom from '../../../../../../../recoil-atoms/habitsAtom'
 import './_main.sass'
 
-const Calendar = ({color}) => {
+const Calendar = ({color, index}) => {
 
     let calendarStyle = {'--selectedDay': color}
 
-    const [selectedDays, setSelectedDays] = useState([])
-    
-    const handleDayClick = (e) => {
-        setSelectedDays([...selectedDays, e])
+    const [habits] = useRecoilState(habitsAtom)
+
+    let getSelectedDays = () => {
+        let days = []
+        habits[index].datesCompleted.forEach((item)=>{
+            days.push(new Date(item.val))
+        })
+        return days
     }
 
     return (
         <div className='streakCalendarWrapper' style={calendarStyle}>
             <DayPicker
-                selectedDays={selectedDays}
-                onDayClick={(e)=>handleDayClick(e)}
+                selectedDays={getSelectedDays()}
             />
         </div>
     )

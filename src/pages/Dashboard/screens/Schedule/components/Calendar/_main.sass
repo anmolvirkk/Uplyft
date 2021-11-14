@@ -25,8 +25,9 @@
         border-bottom: none
     .rbc-time-header-content
         height: 2vh
+        border: none
     .rbc-time-header
-        height: 4vh
+        height: 35px
         pointer-events: none
     .rbc-toolbar button
         color: var(--text)
@@ -42,4 +43,22 @@
     .rbc-time-slot
         text-transform: lowercase
     .rbc-timeslot-group
-        min-height: 3.82vh
+        min-height: calc((100vh - 35px - 40px)/24)
+    .rbc-event-content
+        line-height: 1.25
+    .rbc-toolbar
+        margin: 0
+        height: 40px
+    .rbc-time-view .rbc-allday-cell
+        display: none
+    .rbc-header
+        height: 35px
+        +mixins.center
+        border-left: 1px solid rgba(var(--lightrgb), 0.1)
+    .rbc-btn-group
+        height: 100%
+        button
+            height: 100%
+            border: none
+            border-radius: 0
+            cursor: pointer

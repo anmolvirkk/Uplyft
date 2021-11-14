@@ -3,7 +3,7 @@ import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './_main.sass'
 import { useRecoilState } from 'recoil'
-import allCalendarEventsAtom from '../../recoil-atoms/allCalendarEvents'
+import allCalendarEventsAtom from '../../recoil-atoms/allCalendarEventsAtom'
 import moment from 'moment'
 
 const localizer = momentLocalizer(moment)
@@ -23,7 +23,13 @@ const MainCalendar = () => {
         return week
     }
     allCalendarEvents.forEach((item)=>{
-        getWeek(new Date(item.start)).forEach((day)=>{
+        let getWeekDate = new Date()
+        getWeekDate.setHours(new Date(item.start).getHours())
+        getWeekDate.setMinutes(new Date(item.start).getMinutes())
+        getWeek(new Date(getWeekDate)).forEach((day)=>{
+            let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
+            startDate.setMonth(day.getMonth())
+            startDate.setDate(day.getDate())
             let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
             endDate.setMonth(day.getMonth())
             endDate.setDate(day.getDate())
@@ -32,7 +38,7 @@ const MainCalendar = () => {
             }
             events.push({
                 title: item.title,
-                start: day,
+                start: startDate,
                 end: endDate,
                 color: item.color,
                 id: day.valueOf()

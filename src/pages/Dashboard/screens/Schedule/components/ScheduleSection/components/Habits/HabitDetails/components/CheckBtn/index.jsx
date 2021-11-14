@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './_checkBtn.module.sass'
 import confetti from 'canvas-confetti'
 
@@ -12,6 +12,28 @@ const CheckBtn = ({times, id, timesCompleted, datesCompleted}) => {
     const [habits, setHabits] = useRecoilState(habitsAtom)
 
     let date = new Date()
+    
+    const resetCheck = () => {
+        const resetTimes = () => {
+            let newHabits = habits.map((data)=>{
+                let newData = {...data}
+                if(data.id === id){
+                    newData.timesCompleted = 0
+                }
+                return newData
+            })
+            setHabits([...newHabits])
+        }
+        if(datesCompleted.length > 0){
+            if(new Date(datesCompleted[datesCompleted.length-1].val).toDateString() !== date.toDateString()){
+                resetTimes()
+            }
+        }
+    }
+
+    useEffect(()=>{
+        resetCheck()
+    })
 
     const onClick = (e) => {
                 if(timesCompleted < times){
