@@ -59,8 +59,10 @@ const Habits = () => {
     const [dropDownDay, setDropDownDay] = useState({day: 'All', open: false})
     
     document.addEventListener('mouseup', function(e) {
-        if(!document.getElementById('dayDropDownMenu').contains(e.target)){
-            setDropDownDay({...dropDownDay, open: false})
+        if(document.getElementById('dayDropDownMenu')){
+            if(!document.getElementById('dayDropDownMenu').contains(e.target)){
+                setDropDownDay({...dropDownDay, open: false})
+            }
         }
     })
 
