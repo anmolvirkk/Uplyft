@@ -151,16 +151,6 @@ const HabitDetails = () => {
             best: 0,
             current: 0
         }
-        if(habit.datesCompleted.length > 0){
-            for(let i=0; i<habit.datesCompleted.length; i++){
-                for(let j=0; j<habit.datesCompleted.length; j++){
-                    if(i!==j){
-                        console.log(habit.datesCompleted[i])
-                        console.log(habit.datesCompleted[j])
-                    }
-                }
-            }
-        }
         return streak
     }
 

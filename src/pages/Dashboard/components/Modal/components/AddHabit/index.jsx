@@ -277,7 +277,18 @@ const AddHabit = ({icons, type, currentHabit}) => {
     }
 
     const addAllTime = () => {
-        setHabit({...habit, repeat: {...habit.repeat, all: [...habit.repeat.all, {from: "00:00", to: "12:00"}]}})
+        let habitRepeat = {}
+        for(let key in habit.repeat){
+            if(key!=='unique'){
+                if(habit.repeat[key] !== null){
+                    let newData = [...habit.repeat[key], {from: "00:00", to: "12:00"}]
+                    habitRepeat = {...habitRepeat, [key]: [...newData]}
+                }
+            }else{
+                habitRepeat = {...habitRepeat, [key]: habit.repeat[key]}
+            }
+        }
+        setHabit({...habit, repeat: {...habit.repeat, ...habitRepeat}})
     }
 
     useEffect(()=>{

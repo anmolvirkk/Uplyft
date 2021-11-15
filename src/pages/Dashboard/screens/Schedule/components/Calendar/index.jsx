@@ -5,12 +5,14 @@ import './_main.sass'
 import { useRecoilState } from 'recoil'
 import allCalendarEventsAtom from '../../recoil-atoms/allCalendarEventsAtom'
 import moment from 'moment'
+import habitsAtom from '../../recoil-atoms/habitsAtom'
 
 const localizer = momentLocalizer(moment)
 
 const MainCalendar = () => {
 
     const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [habit] = useRecoilState(habitsAtom)
     
     let events = []
     const getWeek = (date) => {
@@ -27,22 +29,46 @@ const MainCalendar = () => {
         getWeekDate.setHours(new Date(item.start).getHours())
         getWeekDate.setMinutes(new Date(item.start).getMinutes())
         getWeek(new Date(getWeekDate)).forEach((day)=>{
-            let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
-            startDate.setMonth(day.getMonth())
-            startDate.setDate(day.getDate())
-            let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
-            endDate.setMonth(day.getMonth())
-            endDate.setDate(day.getDate())
-            if(endDate.getHours() < startDate.getHours()){
-                endDate.setDate(new Date(day.getDate() + 1))
+            let habitRepeat = habit.find((i)=>i.id === item.id).repeat
+            for(let key in habitRepeat){
+                if(habitRepeat[key] !== null && key!=='unique' && key!=='all'){
+                    console.log(habitRepeat)
+                    habitRepeat[key].forEach((repeat)=>{
+                        let times = {
+                            from: {
+                                h: parseInt(repeat.from.split(':')[0]),
+                                m: parseInt(repeat.from.split(':')[1])
+                            },
+                            to: {
+                                h: parseInt(repeat.to.split(':')[0]),
+                                m: parseInt(repeat.to.split(':')[1])
+                            }
+                        }
+                        if(key === day.toLocaleDateString('en-US', {weekday: 'short'}).toLowerCase()){
+                            let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
+                            startDate.setMonth(day.getMonth())
+                            startDate.setDate(day.getDate())
+                            startDate.setHours(new Date(times.from.h))
+                            startDate.setMinutes(new Date(times.from.m))
+                            let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
+                            endDate.setMonth(day.getMonth())
+                            endDate.setDate(day.getDate())
+                            endDate.setHours(new Date(times.to.h))
+                            endDate.setMinutes(new Date(times.to.m))
+                            if(endDate.getHours() < startDate.getHours()){
+                                endDate.setDate(new Date(day.getDate() + 1))
+                            }
+                            events.push({
+                                title: item.title,
+                                start: startDate,
+                                end: endDate,
+                                color: item.color,
+                                id: day.valueOf()
+                            })
+                        }
+                    })
+                }
             }
-            events.push({
-                title: item.title,
-                start: startDate,
-                end: endDate,
-                color: item.color,
-                id: day.valueOf()
-            })
         })
     })   
 
