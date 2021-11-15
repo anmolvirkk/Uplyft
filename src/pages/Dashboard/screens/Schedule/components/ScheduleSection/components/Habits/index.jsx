@@ -57,6 +57,12 @@ const Habits = () => {
     }
 
     const [dropDownDay, setDropDownDay] = useState({day: 'All', open: false})
+    
+    document.addEventListener('mouseup', function(e) {
+        if(!document.getElementById('dayDropDownMenu').contains(e.target)){
+            setDropDownDay({...dropDownDay, open: false})
+        }
+    })
 
     return (
         <div>
@@ -64,7 +70,7 @@ const Habits = () => {
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
                 <div>
                     <div className={styles.category}>
-                    <div className={styles.dropDown}>
+                    <div className={styles.dropDown} id="dayDropDownMenu">
                         <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span><ChevronDown /></h3>
                         {dropDownDay.open?
                         <ul>
