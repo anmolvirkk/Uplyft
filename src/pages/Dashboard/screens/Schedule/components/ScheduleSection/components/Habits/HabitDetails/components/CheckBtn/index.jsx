@@ -26,7 +26,13 @@ const CheckBtn = ({times, id, timesCompleted, datesCompleted}) => {
         }
         if(datesCompleted.length > 0){
             if(new Date(datesCompleted[datesCompleted.length-1].val).toDateString() !== date.toDateString()){
-                resetTimes()
+                habits.forEach((item)=>{
+                    if(item.id === id){
+                        if(parseInt(item.timesCompleted) === parseInt(item.times)){
+                            resetTimes()
+                        }
+                    }
+                })
             }
         }
     }
