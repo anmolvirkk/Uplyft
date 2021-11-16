@@ -4,6 +4,8 @@ import styles from './_header.module.sass'
 
 import { colors } from '../../../../../../../../variables/journalConfig'
 
+import OutsideClickHandler from 'react-outside-click-handler-lite'
+
 const Header = () => {
     
     document.addEventListener('mouseup', function(e) {
@@ -138,15 +140,6 @@ const Header = () => {
     
     const [textDropDown, setTextDropDown] = useState(false)
 
-    document.addEventListener('mouseup', function(e) {
-        const currentTextSize = document.getElementById('currentTextSize');
-        if(currentTextSize){
-            if (!currentTextSize.contains(e.target)) {
-                setTextDropDown(false)
-            }
-        }
-    })
-
     const [currentTextSize, setCurrentTextSize] = useState('Normal')
 
     const heading = () => {
@@ -165,18 +158,20 @@ const Header = () => {
     }
 
     const TextSizeDropDown = () => (
-        <div className={styles.textSizeDropDown} onMouseDown={()=>setTextDropDown(!textDropDown)}> 
-            <p id="currentTextSize"><span>{currentTextSize}</span><ChevronDown /></p>
-            {
-                textDropDown ? 
-                <ul className={styles.textSizeDropDown}>
-                    <li onMouseDown={heading}><h1>Heading</h1><ChevronRight /></li>
-                    <li onMouseDown={subheading}><h3>Sub Heading</h3><ChevronRight /></li>
-                    <li onMouseDown={normal}><span>Normal</span><ChevronRight /></li>
-                </ul>
-                : null
-            }
-        </div>
+        <OutsideClickHandler onOutsideClick={()=>setTextDropDown(false)}>
+            <div className={styles.textSizeDropDown} onMouseDown={()=>setTextDropDown(!textDropDown)}> 
+                <p id="currentTextSize"><span>{currentTextSize}</span><ChevronDown /></p>
+                {
+                    textDropDown ? 
+                    <ul className={styles.textSizeDropDown}>
+                        <li onMouseDown={heading}><h1>Heading</h1><ChevronRight /></li>
+                        <li onMouseDown={subheading}><h3>Sub Heading</h3><ChevronRight /></li>
+                        <li onMouseDown={normal}><span>Normal</span><ChevronRight /></li>
+                    </ul>
+                    : null
+                }
+            </div>
+        </OutsideClickHandler>
     )
 
     return <header className={styles.textEditorHeader}>

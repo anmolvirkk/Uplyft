@@ -12,11 +12,10 @@ import '../../_main.sass'
 
 const Dashboard = () => {
     const [modalConfig] = useRecoilState(modalConfigAtom)
+
     return (
-    <React.Fragment>
         <Router>
             <div className="container">
-                    
                 {modalConfig.type!=='' ? 
                 <Modal />
                 : null}
@@ -31,7 +30,6 @@ const Dashboard = () => {
                 </Switch>
             </div>
         </Router>
-    </React.Fragment>
 )
 }
 

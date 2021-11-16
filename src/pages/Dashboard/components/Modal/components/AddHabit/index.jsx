@@ -11,7 +11,7 @@ import { habitCards } from '../../../../variables/habitCards'
 
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 
-document.addEventListener('mouseover', function(e) {
+const addToolTipForHabitCards = (e) => {
     if(e.target.classList.contains(styles.habitCard)){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
              e.target.classList.add(styles.overflownModal)
@@ -19,7 +19,7 @@ document.addEventListener('mouseover', function(e) {
             e.target.classList.remove(styles.overflownModal)
         }
     }
-})
+}
 
 const AddHabit = ({icons, type, currentHabit}) => {
 
@@ -214,7 +214,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
             <div className={styles.habitCards}>
                 <ul id="habitCards" onWheel={saveHabitCardScroll}>
                     {habitCards.map((item, index)=>(
-                        <li onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
+                        <li onMouseEnter={(e)=>addToolTipForHabitCards(e)} onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
                             {selectIconByName(item.icon)}
                             <p>{item.name}</p>
                         </li>

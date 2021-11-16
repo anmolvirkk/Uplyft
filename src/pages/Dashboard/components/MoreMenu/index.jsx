@@ -1,32 +1,29 @@
 import React, {useState} from 'react'
 import {MoreVertical} from 'react-feather'
 import styles from './_moremenu.module.sass'
+import OutsideClickHandler from 'react-outside-click-handler-lite'
 
 const MoreMenu = ({items, id, pos}) => {
 
-    const [visible, setVisible] = useState('none');
-    
-    
-    document.addEventListener('mouseup', function(e) {
-        const moreMenu = document.getElementById(id);
-        if(moreMenu){
-            if (!moreMenu.contains(e.target)) {
-                setVisible('none')
-            }
-        }
-    })
+    const [visible, setVisible] = useState(false)
 
-    const toggleMenu = () => {
-        visible==='none' ? setVisible('flex') : setVisible('none')
+    const closeMenu = () => {
+        if(visible){
+            setVisible(false)
+        }
     }
 
     return (
-        <div className={styles.moreMenuIcon} onClick={toggleMenu} id={id}>
-            <MoreVertical />
-            <ul className={styles.moreMenu} style={{display: visible, right: pos.right, top: pos.top}}>
-                {items.map((props, index)=><li onClick={props.function} key={index}>{props.name}</li>)}
-            </ul>
-        </div>
+        <OutsideClickHandler onOutsideClick={closeMenu}>
+            <div className={styles.moreMenuIcon} onClick={()=>setVisible(!visible)} id={id}>
+                <MoreVertical />
+                {visible?
+                    <ul className={styles.moreMenu} style={{right: pos.right, top: pos.top}}>
+                        {items.map((props, index)=><li onClick={props.function} key={index}>{props.name}</li>)}
+                    </ul>
+                :null}
+            </div>
+        </OutsideClickHandler>
     )
 }
 

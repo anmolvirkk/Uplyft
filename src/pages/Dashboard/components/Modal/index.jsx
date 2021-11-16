@@ -41,15 +41,15 @@ const Modal = () => {
         })
 
     }
-    
-    document.addEventListener('mouseup', function(e) {
+
+    const closeModal = (e) => {
         const modalForm = document.getElementById('modalForm');
         if(modalForm){
             if (!modalForm.contains(e.target)) {
                 setModalConfig({type: ''})
             }
         }
-    });
+    }
 
     let currentSlotTitle
     if(slots&&slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]){
@@ -264,7 +264,7 @@ const Modal = () => {
     )
 
     return (
-        <div className={styles.modal}>
+        <div className={styles.modal} onMouseDown={(e)=>closeModal(e)}>
             {modalConfig.type === 'addjournal' ? 
             <AddJournal /> 
             : modalConfig.type === 'entry' ? 

@@ -17,17 +17,17 @@ import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 
 import CheckBtn from './HabitDetails/components/CheckBtn'
 import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
+import OutsideClickHandler from 'react-outside-click-handler-lite'
 
-    
-document.addEventListener('mouseover', function(e) {
+const addToolTipForHabits = (e) => {
     if(e.target.classList.contains(styles.sideSectionSlot)){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
-             e.target.classList.add(styles.overflownSlot)
+            e.target.classList.add(styles.overflownSlot)
         }else if(e.target.classList.contains(styles.overflownSlot)) {
             e.target.classList.remove(styles.overflownSlot)
         }
     }
-})
+}
 
 const Habits = () => {
     const [habits, setHabits] = useRecoilState(habitsAtom)
@@ -57,43 +57,37 @@ const Habits = () => {
     }
 
     const [dropDownDay, setDropDownDay] = useState({day: 'All', open: false})
-    
-    document.addEventListener('mouseup', function(e) {
-        if(document.getElementById('dayDropDownMenu')){
-            if(!document.getElementById('dayDropDownMenu').contains(e.target)){
-                setDropDownDay({...dropDownDay, open: false})
-            }
-        }
-    })
-
+   
     return (
         <div>
             <div className={styles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
                 <div>
                     <div className={styles.category}>
-                    <div className={styles.dropDown} id="dayDropDownMenu">
-                        <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span><ChevronDown /></h3>
-                        {dropDownDay.open?
-                        <ul>
-                            <li onClick={()=>setDropDownDay({day: 'All', open: false})}>All</li>
-                            <li onClick={()=>setDropDownDay({day: 'Monday', open: false})}>Monday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Tuesday', open: false})}>Tuesday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Wednesday', open: false})}>Wednesday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Thursday', open: false})}>Thursday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Friday', open: false})}>Friday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Saturday', open: false})}>Saturday</li>
-                            <li onClick={()=>setDropDownDay({day: 'Sunday', open: false})}>Sunday</li>
-                        </ul>
-                        :null}
-                    </div>
+                    <OutsideClickHandler onOutsideClick={()=>setDropDownDay({...dropDownDay, open: false})}>
+                        <div className={styles.dropDown} id="dayDropDownMenu">
+                            <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span><ChevronDown /></h3>
+                            {dropDownDay.open?
+                            <ul>
+                                <li onClick={()=>setDropDownDay({day: 'All', open: false})}>All</li>
+                                <li onClick={()=>setDropDownDay({day: 'Monday', open: false})}>Monday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Tuesday', open: false})}>Tuesday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Wednesday', open: false})}>Wednesday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Thursday', open: false})}>Thursday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Friday', open: false})}>Friday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Saturday', open: false})}>Saturday</li>
+                                <li onClick={()=>setDropDownDay({day: 'Sunday', open: false})}>Sunday</li>
+                            </ul>
+                            :null}
+                        </div>
+                    </OutsideClickHandler>
                     {habits.length!==0 ? habits.map((item)=>{
                         if(item.times !== item.timesCompleted){
                             for(let key in item.repeat){
                                 if(item.repeat[key] !== null){
                                     if(dropDownDay.day.substring(0, 3).toLowerCase() === key){
                                         return (
-                                            <NavLink onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                            <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                                 <div className={styles.slotContent}>
                                                 <div style={{backgroundColor: colors[item.color]}}>
                                                         {iconsSvg[item.icon]}
@@ -116,7 +110,7 @@ const Habits = () => {
                         {habits.length!==0 ? habits.map((item)=>{
                         if(item.times === item.timesCompleted){
                             return (
-                                <NavLink onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                     <div className={styles.slotContent}>
                                     <div style={{backgroundColor: colors[item.color]}}>
                                             {iconsSvg[item.icon]}
