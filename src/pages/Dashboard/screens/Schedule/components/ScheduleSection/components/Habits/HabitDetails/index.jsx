@@ -111,8 +111,12 @@ const HabitDetails = () => {
             }
         }
         const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
-        let idealDays = getDatesInRange(new Date(habit.created.string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
-        details.successRate = ((habit.datesCompleted.length-details.skipped)/idealDays.length)*100
+        let idealDays = getDatesInRange(new Date(habit.datesCompleted[0].string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
+        if(idealDays.length > 0){
+            details.successRate = ((habit.datesCompleted.length-details.skipped)/(idealDays.length+1))*100
+        }else{
+            details.successRate = ((habit.datesCompleted.length-details.skipped))*100
+        }
         return details
     }
 
@@ -150,7 +154,7 @@ const HabitDetails = () => {
             habits.map((item, index)=>{
                 if(item.id === allRoutes['habit']){
                     return (
-                        <div key={index}>
+                        <div key={index} className={styles.habitDetailSection}>
 
                             <Calendar color={colors[item.color]} index={index} />
 
@@ -168,6 +172,8 @@ const HabitDetails = () => {
                             </div>
                             
                             <SuccessRate item={item} />
+
+                            <Level item={item} />
 
                             <div className={`${styles.card} ${styles.gradientCard}`} style={{backgroundImage: `linear-gradient(to right, ${colors[item.color]}, ${colors[item.color]}B3)`}}>
                                 <ul>
@@ -189,14 +195,6 @@ const HabitDetails = () => {
                                         {<p>{getHabitDetails(item).skipped} days</p>}
                                     </li>
                                 </ul>
-                            </div>
-
-                            <Level item={item} />
-
-                            <div className={styles.card}>
-                                <div className={styles.cardTitle}>
-                                    <p>Completion Times</p>
-                                </div>
                             </div>
                         </div>
                     )
