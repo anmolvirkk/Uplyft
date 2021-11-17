@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, CornerUpLeft, CornerUpRight} from 'react-feather'
 import styles from './_header.module.sass'
 
@@ -7,8 +7,8 @@ import { colors } from '../../../../../../../../variables/journalConfig'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 
 const Header = () => {
-    
-    document.addEventListener('mouseup', function(e) {
+
+    const setTextTags = (e) => {
         let prompts = document.getElementById('prompts')
         if(prompts){
             if(!prompts.contains(e.target) && e.target !== prompts){
@@ -50,53 +50,18 @@ const Header = () => {
                 }
             }
         }
-    }, false)
+    }
 
-    document.addEventListener('keyup', function(e) {
-        if(e.key === 'Enter' || e.key === 'Backspace' || e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowDown'){
-            let prompts = document.getElementById('prompts')
-            if(prompts){
-                if(!prompts.contains(e.target) && e.target !== prompts){
-                    if(document.queryCommandState("bold")){
-                        setIsBold(true)
-                    }else{
-                        setIsBold(false)
-                    }
-                    if(document.queryCommandState("italic")){
-                        setIsItalic(true)
-                    }else{
-                        setIsItalic(false)
-                    }
-                    if(document.queryCommandState("underline")){
-                        setIsUnderline(true)
-                    }else{
-                        setIsUnderline(false)
-                    }
-                    if(document.queryCommandState("insertUnorderedList")){
-                        setIsList(true)
-                    }else{
-                        setIsList(false)
-                    }
-                    switch (document.queryCommandValue('formatBlock')) {
-                        case 'h1':
-                            setCurrentTextSize('Heading')
-                        break
-                        case 'h3':
-                            setCurrentTextSize('Sub Heading')
-                        break
-                        case 'div':
-                            setCurrentTextSize('Normal')
-                        break
-                        case 'p':
-                            setCurrentTextSize('Normal')
-                        break
-                        default:
-                            break;
-                    }
-                }
+    useEffect(()=>{
+        if(document.getElementById('textEditor')){
+            document.getElementById('textEditor').onclick = (e) => {
+                setTextTags(e)
+            }
+            document.getElementById('textEditor').onkeydown = (e) => {
+                setTextTags(e)
             }
         }
-    }, false)
+    })
 
     const [isBold, setIsBold] = useState(false)
     const [isItalic, setIsItalic] = useState(false)
