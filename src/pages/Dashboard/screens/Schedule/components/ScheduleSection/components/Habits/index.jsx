@@ -82,7 +82,7 @@ const Habits = () => {
                         </div>
                     </OutsideClickHandler>
                     {habits.length!==0 ? habits.map((item)=>{
-                        if(item.times !== item.timesCompleted){
+                        if(parseInt(item.times) !== parseInt(item.timesCompleted)){
                             for(let key in item.repeat){
                                 if(item.repeat[key] !== null){
                                     if(dropDownDay.day.substring(0, 3).toLowerCase() === key){
@@ -108,7 +108,7 @@ const Habits = () => {
                     <div className={styles.category}>
                         <h3><span>Completed</span><ChevronUp /></h3>
                         {habits.length!==0 ? habits.map((item)=>{
-                        if(item.times === item.timesCompleted){
+                        if(parseInt(item.times) === parseInt(item.timesCompleted)){
                             return (
                                 <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                     <div className={styles.slotContent}>

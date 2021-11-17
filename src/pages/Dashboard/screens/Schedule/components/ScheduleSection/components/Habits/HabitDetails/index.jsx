@@ -151,6 +151,23 @@ const HabitDetails = () => {
             best: 0,
             current: 0
         }
+        for(let i=0; i<habit.datesCompleted.length; i++){
+            if(habit.datesCompleted[i+1]){
+                let currentDatePlusOne = new Date(new Date(habit.datesCompleted[i].string).setDate(new Date(habit.datesCompleted[i].string).getDate()+1))
+                let nextDate = new Date(habit.datesCompleted[i+1].string)
+                if(currentDatePlusOne.toDateString() === nextDate.toDateString()){
+                    if(streak.current === 0){
+                        streak.current = 1
+                    }
+                    streak.current++
+                    if(streak.current > streak.best){
+                        streak.best = streak.current
+                    }
+                }else{
+                    streak.current = 0
+                }
+            }
+        }
         return streak
     }
 
