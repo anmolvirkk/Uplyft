@@ -83,43 +83,41 @@ const HabitDetails = () => {
 
     }
 
-    const datesInfo = (item) => {
-        const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
-        
-        let skippedDays = 0
-
-        let idealDays = []
-
-        if(item.datesCompleted[item.datesCompleted.length - 1]){
-            idealDays = getDatesInRange(new Date(item.created.string), new Date(item.datesCompleted[item.datesCompleted.length - 1].string))
+    const getHabitDetails = (habit) => {
+        let details = {
+            streak: {
+                best: 0,
+                current: 0
+            },
+            skipped: 0,
+            successRate: 0
         }
-
-        if(idealDays.length > 0){
-            skippedDays = idealDays.length - item.datesCompleted.length
-        }else{
-            skippedDays = 0
-        }
-        
-        let successRate = 0
-            
-        if(idealDays.length < 0){
-            successRate = item.datesCompleted.length - skippedDays / idealDays.length
-        }else{
-            if(item.datesCompleted.length > 0){
-                successRate = 100
-            }else{
-                successRate = 0
+        for(let i=0; i<habit.datesCompleted.length; i++){
+            if(habit.datesCompleted[i+1]){
+                let currentDatePlusOne = new Date(new Date(habit.datesCompleted[i].string).setDate(new Date(habit.datesCompleted[i].string).getDate()+1))
+                let nextDate = new Date(habit.datesCompleted[i+1].string)
+                if(currentDatePlusOne.toDateString() === nextDate.toDateString()){
+                    if(details.streak.current === 0){
+                        details.streak.current = 1
+                    }
+                    details.streak.current++
+                    if(details.streak.current > details.streak.best){
+                        details.streak.best = details.streak.current
+                    }
+                }else{
+                    details.streak.current = 0
+                    details.skipped++
+                }
             }
         }
-
-        return {
-            successRate: successRate,
-            skippedDays: skippedDays
-        }
+        const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
+        let idealDays = getDatesInRange(new Date(habit.created.string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
+        details.successRate = ((habit.datesCompleted.length-details.skipped)/idealDays.length)*100
+        return details
     }
 
     const SuccessRate = ({item}) => {
-        let rate = datesInfo(item).successRate
+        let rate = getHabitDetails(item).successRate
         let dialStyle = {'--dialpercent': `${rate*1.8}deg`}
         return (
             <div className={styles.successRate}>
@@ -146,31 +144,6 @@ const HabitDetails = () => {
         )
     }
 
-    const getStreak = (habit) => {
-        let streak = {
-            best: 0,
-            current: 0
-        }
-        for(let i=0; i<habit.datesCompleted.length; i++){
-            if(habit.datesCompleted[i+1]){
-                let currentDatePlusOne = new Date(new Date(habit.datesCompleted[i].string).setDate(new Date(habit.datesCompleted[i].string).getDate()+1))
-                let nextDate = new Date(habit.datesCompleted[i+1].string)
-                if(currentDatePlusOne.toDateString() === nextDate.toDateString()){
-                    if(streak.current === 0){
-                        streak.current = 1
-                    }
-                    streak.current++
-                    if(streak.current > streak.best){
-                        streak.best = streak.current
-                    }
-                }else{
-                    streak.current = 0
-                }
-            }
-        }
-        return streak
-    }
-
     return (
         <div className={styles.habitDetails}>
             {allRoutes.habit?
@@ -185,11 +158,11 @@ const HabitDetails = () => {
                                 <ul>
                                     <li>
                                         <p>Best Streak</p>
-                                        <h3>{getStreak(item).best}<span>days</span></h3>
+                                        <h3>{getHabitDetails(item).streak.best}<span>days</span></h3>
                                     </li>
                                     <li>
                                         <p>Current Streak</p>
-                                        <h3>{getStreak(item).current}<span>days</span></h3>
+                                        <h3>{getHabitDetails(item).streak.current}<span>days</span></h3>
                                     </li>
                                 </ul>
                             </div>
@@ -213,7 +186,7 @@ const HabitDetails = () => {
                                         <p>Days Skipped</p>
                                     </li>
                                     <li>
-                                        {<p>{datesInfo(item).skippedDays} days</p>}
+                                        {<p>{getHabitDetails(item).skipped} days</p>}
                                     </li>
                                 </ul>
                             </div>
