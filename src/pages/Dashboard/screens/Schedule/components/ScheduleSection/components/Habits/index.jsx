@@ -56,7 +56,8 @@ const Habits = () => {
         setAllRoutes({...allRoutes, habit: id})
     }
 
-    const [dropDownDay, setDropDownDay] = useState({day: 'All', open: false})
+    let date = new Date()
+    const [dropDownDay, setDropDownDay] = useState({day: date.toLocaleDateString('en-US', {weekday: 'long'}), open: false})
    
     return (
         <div>

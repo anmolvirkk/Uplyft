@@ -111,11 +111,13 @@ const HabitDetails = () => {
             }
         }
         const getDatesInRange = (min, max) => Array((max-min)/86400000).fill(0).map((_, i) => new Date((new Date()).setDate(min.getDate() + i)))
-        let idealDays = getDatesInRange(new Date(habit.datesCompleted[0].string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
-        if(idealDays.length > 0){
-            details.successRate = ((habit.datesCompleted.length-details.skipped)/(idealDays.length+1))*100
-        }else{
-            details.successRate = ((habit.datesCompleted.length-details.skipped))*100
+        if(habit.datesCompleted[0]){
+            let idealDays = getDatesInRange(new Date(habit.datesCompleted[0].string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
+            if(idealDays.length > 0){
+                details.successRate = ((habit.datesCompleted.length-details.skipped)/(idealDays.length+1))*100
+            }else{
+                details.successRate = ((habit.datesCompleted.length-details.skipped))*100
+            }
         }
         return details
     }
