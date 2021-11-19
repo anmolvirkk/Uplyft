@@ -16,6 +16,7 @@ import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom
 import openBookAtom from '../../screens/Journals/recoil-atoms/openBookAtom'
 
 import AddHabit from './components/AddHabit'
+import AddTask from './components/AddTask'
 
 const Modal = () => {
 
@@ -279,6 +280,8 @@ const Modal = () => {
             <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
             : modalConfig.type === 'edithabit' ?
             <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
+            : modalConfig.type === 'addTask' ?
+            <AddTask icons={iconsSvg} type="add" currentTask={null} />
             : null
             }
         </div>

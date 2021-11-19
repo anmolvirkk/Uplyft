@@ -9,6 +9,8 @@ import Events from './components/Events'
 import HabitDetails from './components/Habits/HabitDetails'
 import { useRecoilState } from 'recoil'
 import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
+import TaskDetails from './components/Tasks/TaskDetails'
+import EventDetails from './components/Events/EventDetails'
 
 const SideSection = () => {
 
@@ -39,8 +41,8 @@ const DetailSection = () => (
     <div className={`${journalStyles.sideSection} ${journalStyles.detailSection}`}>
         <Switch>
             <Route path="/schedule/habits"><HabitDetails /></Route>
-            <Route path="/schedule/tasks"><Tasks /></Route>
-            <Route path="/schedule/events"><Events /></Route>
+            <Route path="/schedule/tasks"><TaskDetails /></Route>
+            <Route path="/schedule/events"><EventDetails /></Route>
         </Switch>
     </div>
 

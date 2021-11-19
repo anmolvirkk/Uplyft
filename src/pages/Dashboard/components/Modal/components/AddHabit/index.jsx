@@ -27,7 +27,6 @@ const AddHabit = ({icons, type, currentHabit}) => {
 
     const [habit, setHabit] = useState(currentHabit?{
         id: currentHabit.id,
-        created: currentHabit.created,
         color: currentHabit.color,
         icon: currentHabit.icon,
         name: currentHabit.name,
@@ -37,7 +36,6 @@ const AddHabit = ({icons, type, currentHabit}) => {
         datesCompleted: currentHabit.datesCompleted
     }:{
         id: date.valueOf(),
-        created: {string: date.toDateString(), parse: Date.parse(date)},
         color: 0,
         icon: 0,
         name: '',

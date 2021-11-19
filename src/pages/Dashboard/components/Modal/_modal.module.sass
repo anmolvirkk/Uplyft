@@ -138,7 +138,7 @@
 
 .habitCards
     margin-top: 2vh
-    width: 90vh
+    width: 66vh
     position: relative
     .habitCardArrows
         position: fixed
@@ -270,8 +270,6 @@
     ul
         list-style: none
         width: 100%
-        li
-            margin-bottom: 1.5vh
         .tabselect
             height: 4vh
             +mixins.center
@@ -482,12 +480,29 @@
 
 .habitCustomize
     margin-top: 2vh
+    margin-bottom: 2vh
     ul
         display: flex
         justify-content: space-between
         li:first-child
             ol
-                width: 25vh
+                width: 10vh
+                margin-right: 5vh
         li:last-child
             ol
-                width: 60vh
+                width: 50vh
+
+.inputWithIcon
+    position: relative
+    svg
+        position: absolute
+        height: 2vh
+        bottom: 1vh
+    input
+        padding-left: 4vh
+        padding-right: 4vh
+        margin-top: 2vh
+
+.addTask
+    .header
+        margin-bottom: 2.5vh

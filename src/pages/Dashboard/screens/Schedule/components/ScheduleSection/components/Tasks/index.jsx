@@ -4,6 +4,8 @@ import {ArrowDown} from 'react-feather'
 import journalStyles from '../../../../../Journals/_journal.module.sass'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
+import { useSetRecoilState } from 'recoil'
+import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
 
 const dummyContent = [
     {
@@ -13,6 +15,7 @@ const dummyContent = [
 ]
 
 const Tasks = () => {
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
@@ -21,7 +24,7 @@ const Tasks = () => {
                     <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
             </div>
-            <AddButton />
+            <AddButton name="task" onclick={()=>setModalConfig({type: 'addTask'})} />
         </div>
     )
 }

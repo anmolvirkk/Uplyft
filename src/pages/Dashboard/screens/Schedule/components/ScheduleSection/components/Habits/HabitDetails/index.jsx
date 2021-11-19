@@ -114,9 +114,9 @@ const HabitDetails = () => {
         if(habit.datesCompleted[0]){
             let idealDays = getDatesInRange(new Date(habit.datesCompleted[0].string), new Date(habit.datesCompleted[habit.datesCompleted.length - 1].string))
             if(idealDays.length > 0){
-                details.successRate = ((habit.datesCompleted.length-details.skipped)/(idealDays.length+1))*100
+                details.successRate = ((habit.datesCompleted.length)/(idealDays.length+1))*100
             }else{
-                details.successRate = ((habit.datesCompleted.length-details.skipped))*100
+                details.successRate = (habit.datesCompleted.length)*100
             }
         }
         return details
