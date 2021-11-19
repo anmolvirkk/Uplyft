@@ -1,0 +1,44 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+
+.taskDeadline
+    width: 100%
+    height: 90px
+    margin: 0 auto
+    li
+        background-image: none !important
+        color: var(--text)
+        font-size: 1.25vh
+    .past 
+        span
+            border-color: variables.$primary !important
+            background-color: var(--background) !important
+    .present 
+        span
+            border-color: variables.$primary !important
+            background-color: variables.$primary !important
+    .future 
+        span
+            border-color: var(--text) !important
+            background-color: var(--text) !important
+    .timeline-eventline:nth-child(1)
+        background-color: var(--activeSlot) !important
+    .timeline-eventline:nth-child(2)
+        background-color: variables.$primary !important
+    .enabled
+        transition: 0.1s !important
+        border-color: var(--activeSlot)  !important
+        svg
+            stroke: rgb(var(--lightrgb))
+            fill: rgb(var(--lightrgb))  !important
+    .enabled:hover
+        border-color: var(--activeSlot) !important
+    .disabled
+        cursor: pointer !important
+        transition: 0.1s !important
+        border-color: var(--activeSlot)  !important
+        svg
+            stroke: rgb(var(--lightrgb)) 
+            fill: rgb(var(--lightrgb))  !important
+    .dot-label
+        font-weight: 100

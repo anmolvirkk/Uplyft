@@ -494,15 +494,121 @@
 
 .inputWithIcon
     position: relative
+    width: 100%
     svg
         position: absolute
         height: 2vh
-        bottom: 1vh
+        bottom: 2.5vh
+        stroke-width: 1.5px
     input
+        box-sizing: border-box
         padding-left: 4vh
         padding-right: 4vh
-        margin-top: 2vh
+        margin-top: 1.5vh
+        margin-bottom: 1.5vh
 
 .addTask
     .header
         margin-bottom: 2.5vh
+    .habitCustomize
+        margin: 0
+        margin-top: 2vh
+
+.projects
+    min-width: 60vh
+    ul
+        display: flex
+        list-style: none
+        padding: 0
+        li
+            margin-right: 2vh
+            position: relative
+            svg
+                height: 7vh
+                width: 7vh
+                padding: 2.25vh
+                background-color: var(--activeSlot)
+                stroke: rgba(var(--lightrgb), 1)
+                border-radius: 10px 10px
+                pointer-events: none
+            p
+                font-size: 1.25vh
+                margin-top: 0.5vh
+                width: 7vh
+                overflow: hidden
+                white-space: nowrap
+                text-overflow: ellipsis
+                pointer-events: none
+                font-weight: 100
+    .overflownModal:hover::before
+        top: 105px
+        left: 0px
+        width: fit-content
+    .overflownModal:hover::after
+        top: 85px
+        left: 0
+
+.roles
+    ul
+        display: flex
+        list-style: none
+        margin-left: 20px
+        .overflownModal:hover::before
+            left: 40%
+            width: fit-content
+        .overflownModal:hover::after
+            left: 40%
+        li
+            height: 7vh
+            width: 7vh
+            +mixins.center
+            position: relative
+            background-color: var(--activeSlot)
+            border-radius: 100%
+            margin-left: -20px
+            cursor: pointer
+            svg
+                stroke: rgba(var(--lightrgb), 1)
+            img
+                width: 100%
+                height: 100%
+                border-radius: 100%
+                object-fit: cover
+
+.taskInput
+    display: flex
+    justify-content: space-between
+    align-items: center
+    input
+        width: 55%
+    .inputWithIcon
+        width: 55%
+        input
+            width: 100%
+    .taskInfo
+        width: 40%
+        .taskInfoBar
+            display: flex
+            justify-content: space-between
+            svg
+                height: 2vh
+            div
+                position: relative
+                cursor: pointer
+            .overflownModal:hover::before
+                left: auto
+                right: 0
+                width: fit-content
+                top: 35px
+            .overflownModal:hover::after
+                left: 22%
+                top: 15px
+
+.deadline
+    width: 100%
+    height: 90px
+    margin: 0 auto
+    li
+        background-image: none !important
+        color: var(--text)
+        font-size: 1.25vh

@@ -1,0 +1,28 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+
+.basicCategories
+    display: flex
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr))
+    margin: 0.5vh
+    div
+        +mixins.center
+        margin: 0.5vh
+        box-sizing: content-box
+        height: 80px
+        svg
+            stroke: grey
+            mix-blend-mode: color-burn
+            height: 100%
+            width: 100%
+            padding: 2vh
+            box-sizing: border-box
+    div:nth-child(1)
+        background-image: linear-gradient(to right, #FFAEBC, #ffaebbaf)
+    div:nth-child(2)
+        background-image: linear-gradient(to right, #FBE7C6, #FBE7C6af)
+    div:nth-child(3)
+        background-image: linear-gradient(to right, #B4F8C8, #B4F8C8af)
+    div:nth-child(4)
+        background-image: linear-gradient(to right, #A0E7E5, #A0E7E5af)

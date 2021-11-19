@@ -1,16 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus, AlignLeft, CornerDownRight } from 'react-feather'
+import { X, Plus, Minus, AlignLeft, CornerDownRight, Folder, AlertTriangle, BatteryCharging, Clock, PieChart, Shield, Hash, Flag } from 'react-feather'
 
 import habitsAtom from '../../../../screens/Schedule/recoil-atoms/habitsAtom'
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
-import { colors, iconsSvg } from '../../../../variables/journalConfig'
+import { colors } from '../../../../variables/journalConfig'
 
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
+import HorizontalTimeline from 'react-horizontal-timeline'
+import './taskTimeline.sass'
 
-const AddTask = ({icons, type, currentHabit}) => {
+const AddTask = ({type, currentHabit}) => {
 
     const date = new Date()
 
@@ -120,38 +122,6 @@ const AddTask = ({icons, type, currentHabit}) => {
 
     const [habits, setHabits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
-    
-    const selectIcon = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name.type.render.displayName){
-                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
-            }
-            return null
-        })
-
-    }
-
-    const HabitCustomize = () => {
-        return (
-            <div className={`${styles.editJournal} ${styles.addHabit} ${styles.habitCustomize}`}>
-            <ul>
-                <li>
-                    <p>Color</p>
-                    <ol className={styles.colors}>
-                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>setHabit({...habit, color: i})} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===habit.color ? styles.activeButton : null} /></li>)}
-                    </ol>
-                </li> 
-                <li>
-                    <p>Icon</p>
-                    <ol>
-                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setHabit({...habit, icon: i})} key={i} id={`icon${i}`}>{selectIcon(icon)}<div className={i===habit.icon ? styles.activeButton : null} /></li>)}
-                    </ol>
-                </li>
-            </ul>
-            </div>
-        )
-    }
 
     const setTimeForAll = (val, index, type) => {
         let newRepeat = {}
@@ -242,21 +212,158 @@ const AddTask = ({icons, type, currentHabit}) => {
         }
     }
 
+    const Roles = () => {
+        return (
+            <div className={styles.roles}>
+                <ul>
+                    <li className={styles.overflownModal} data-title="Developer">
+                        <img src = "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80" alt="developer" />
+                    </li>
+                    <li className={styles.overflownModal} data-title="Designer">
+                        <img src = "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80" alt="developer" />
+                    </li>
+                    <li className={styles.overflownModal} data-title="Add Your Role">
+                        <Plus />
+                    </li>
+                </ul>
+            </div>
+        )
+    }
+
+    const Priority = () => {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+
+    const Deadline = () => {
+        let date = new Date()
+        const deadlines = [
+            date
+        ]
+        return (
+            <div className="taskDeadline">
+                <HorizontalTimeline index={0} values={deadlines} />
+            </div>
+        )
+    }
+
+    const SkillsRequired = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const Challenge = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const TimeRequired = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const EffortRequired = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const ParetoSelect = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const Details = () => {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
+    const Tags = () => {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+
+    const TaskInfo = () => {
+        return (
+            <div className={styles.taskInfo}>
+                <div className={styles.taskInfoBar}>
+                    <div className={styles.overflownModal} data-title="Details">
+                        <AlignLeft />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Deadline">
+                        <Flag />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Tags">
+                        <Hash />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Priority">
+                        <AlertTriangle />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Challenge">
+                        <Shield />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Approximate Time Required To Complete">
+                        <Clock />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Effort Required">
+                        <BatteryCharging />
+                    </div>
+                    <div className={styles.overflownModal} data-title="Is this task contributing towards 80% or 20%">
+                        <PieChart />
+                    </div>
+                </div>
+                <Details />
+                <Tags />
+                <Priority />
+                <Challenge />
+                <TimeRequired />
+                <EffortRequired />
+                <ParetoSelect />
+            </div>
+        )
+    }
+
     const HabitForm = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
-                    <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Enter Task' />
-                    <div className={styles.inputWithIcon}>
-                        <AlignLeft />
-                        <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Add Details' />
+                    <div className={styles.taskInput}>
+                        <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Enter Task' />
+                        <TaskInfo />
                     </div>
-                    <div className={styles.inputWithIcon}>
-                        <CornerDownRight />
-                        <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Add Sub Task' />
+                    <div className={styles.taskInput}>
+                        <div className={styles.inputWithIcon}>
+                            <CornerDownRight />
+                            <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Add Sub Task' />
+                        </div>
+                        <TaskInfo />
                     </div>
                 </form>
-                <HabitCustomize />
+                <Roles />
+                <SkillsRequired />
                 <ul>
                     <li>
                         <div className={styles.tabselect} style={{marginBottom: '2vh', marginTop: '1vh'}}>
@@ -461,6 +568,31 @@ const AddTask = ({icons, type, currentHabit}) => {
             </div>
         )
     }
+
+    const addToolTipForProjects = (e) => {
+        if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
+             e.target.classList.add(styles.overflownModal)
+        }else if(e.target.classList.contains(styles.overflownModal)) {
+            e.target.classList.remove(styles.overflownModal)
+        }
+    }
+
+    const Projects = () => {
+        return (
+            <div className={styles.projects}>
+                <ul>
+                    <li onMouseEnter={(e)=>addToolTipForProjects(e)} data-title="General">
+                        <Folder />
+                        <p>General</p>
+                    </li>
+                    <li onMouseEnter={(e)=>addToolTipForProjects(e)} data-title="Add Project">
+                        <Plus />
+                        <p>Add Project</p>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -468,7 +600,9 @@ const AddTask = ({icons, type, currentHabit}) => {
                     <p>{type} Task</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                    <HabitForm />
+                <Projects />
+                <Deadline />
+                <HabitForm />
             </div>
     )
 }
