@@ -19,6 +19,8 @@ import CheckBtn from './HabitDetails/components/CheckBtn'
 import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 
+import completedOpenAtom from '../../../../recoil-atoms/completedOpenAtom'
+
 const addToolTipForHabits = (e) => {
     if(e.target.classList.contains(styles.sideSectionSlot)){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
@@ -58,6 +60,7 @@ const Habits = () => {
 
     let date = new Date()
     const [dropDownDay, setDropDownDay] = useState({day: date.toLocaleDateString('en-US', {weekday: 'long'}), open: false})
+    const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
    
     return (
         <div>
@@ -67,7 +70,7 @@ const Habits = () => {
                     <div className={styles.category}>
                     <OutsideClickHandler onOutsideClick={()=>setDropDownDay({...dropDownDay, open: false})}>
                         <div className={styles.dropDown} id="dayDropDownMenu">
-                            <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span><ChevronDown /></h3>
+                            <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span>{dropDownDay.open?<ChevronUp />:<ChevronDown />}</h3>
                             {dropDownDay.open?
                             <ul>
                                 <li onClick={()=>setDropDownDay({day: 'All', open: false})}>All</li>
@@ -107,8 +110,8 @@ const Habits = () => {
                     }) : null}
                     </div>
                     <div className={styles.category}>
-                        <h3><span>Completed</span><ChevronUp /></h3>
-                        {habits.length!==0 ? habits.map((item)=>{
+                        <h3 onClick={()=>setCompletedOpen(!completedOpen)}><span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
+                        {habits.length!==0&&completedOpen ? habits.map((item)=>{
                         if(parseInt(item.times) === parseInt(item.timesCompleted)){
                             return (
                                 <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
