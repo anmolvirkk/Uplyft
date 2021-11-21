@@ -92,7 +92,7 @@ const BookSection = ({ styles }) => {
                             </div>
                         </div>
                     </div>
-                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '150px'}} />
+                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '3.5vh'}} />
                 </NavLink>
             )) : <div className={styles.helperTextAddEntry}><p>Add a journal to begin!</p><ArrowDown /></div>
             }

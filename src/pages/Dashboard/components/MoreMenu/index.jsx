@@ -14,16 +14,18 @@ const MoreMenu = ({items, id, pos}) => {
     }
 
     return (
-        <OutsideClickHandler onOutsideClick={closeMenu}>
-            <div className={styles.moreMenuIcon} onClick={()=>setVisible(!visible)} id={id}>
-                <MoreVertical />
-                {visible?
-                    <ul className={styles.moreMenu} style={{right: pos.right, top: pos.top}}>
-                        {items.map((props, index)=><li onClick={props.function} key={index}>{props.name}</li>)}
-                    </ul>
-                :null}
-            </div>
-        </OutsideClickHandler>
+        <div className={styles.moreMenuWrapper}>
+            <OutsideClickHandler onOutsideClick={closeMenu}>
+                <div className={styles.moreMenuIcon} onClick={()=>setVisible(!visible)} id={id}>
+                    <MoreVertical />
+                    {visible?
+                        <ul className={styles.moreMenu} style={{right: pos.right, top: pos.top}}>
+                            {items.map((props, index)=><li onClick={props.function} key={index}>{props.name}</li>)}
+                        </ul>
+                    :null}
+                </div>
+            </OutsideClickHandler>
+        </div>
     )
 }
 
