@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus, AlignLeft, CornerDownRight, Folder, AlertTriangle, BatteryCharging, Clock, PieChart, Shield, Hash, Flag } from 'react-feather'
+import { X, Plus, Minus, AlignLeft, Flag, EyeOff } from 'react-feather'
 
 import habitsAtom from '../../../../screens/Schedule/recoil-atoms/habitsAtom'
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
@@ -9,8 +11,9 @@ import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConf
 import { colors } from '../../../../variables/journalConfig'
 
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-import HorizontalTimeline from 'react-horizontal-timeline'
-import './taskTimeline.sass'
+
+import TaskDeadline from './components/TaskDeadline'
+import './datePicker.sass'
 
 const AddTask = ({type, currentHabit}) => {
 
@@ -25,7 +28,6 @@ const AddTask = ({type, currentHabit}) => {
     }:{
         id: date.valueOf(),
         color: 0,
-        icon: 0,
         name: '',
         repeat: {
             unique: false,
@@ -45,18 +47,12 @@ const AddTask = ({type, currentHabit}) => {
         },
         details: '',
         deadline: '',
-        priority: '',
-        timeInvestment: '',
-        energyInvestment: '',
-        fun: '',
-        motivation: '',
-        difficulty: '',
+        priority: 0,
+        energyRequired: 0,
+        timeRequired: 0,
         skillsRequired: [],
         roles: [],
-        theme: [],
-        importance: '',
-        tags: [],
-        purpose: []
+        tags: []
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
@@ -215,37 +211,12 @@ const AddTask = ({type, currentHabit}) => {
     const Roles = () => {
         return (
             <div className={styles.roles}>
+                <p><span>Add Role</span><EyeOff /></p>
                 <ul>
-                    <li className={styles.overflownModal} data-title="Developer">
-                        <img src = "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80" alt="developer" />
-                    </li>
-                    <li className={styles.overflownModal} data-title="Designer">
-                        <img src = "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80" alt="developer" />
-                    </li>
-                    <li className={styles.overflownModal} data-title="Add Your Role">
+                    <li>
                         <Plus />
                     </li>
                 </ul>
-            </div>
-        )
-    }
-
-    const Priority = () => {
-        return (
-            <div>
-
-            </div>
-        )
-    }
-
-    const Deadline = () => {
-        let date = new Date()
-        const deadlines = [
-            date
-        ]
-        return (
-            <div className="taskDeadline">
-                <HorizontalTimeline index={0} values={deadlines} />
             </div>
         )
     }
@@ -258,108 +229,68 @@ const AddTask = ({type, currentHabit}) => {
         )
     }
 
-    const Challenge = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
-    const TimeRequired = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
-    const EffortRequired = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
-    const ParetoSelect = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
-    const Details = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
-    const Tags = () => {
-        return (
-            <div>
-
-            </div>
-        )
-    }
-
-    const TaskInfo = () => {
-        return (
-            <div className={styles.taskInfo}>
-                <div className={styles.taskInfoBar}>
-                    <div className={styles.overflownModal} data-title="Details">
-                        <AlignLeft />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Deadline">
-                        <Flag />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Tags">
-                        <Hash />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Priority">
-                        <AlertTriangle />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Challenge">
-                        <Shield />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Approximate Time Required To Complete">
-                        <Clock />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Effort Required">
-                        <BatteryCharging />
-                    </div>
-                    <div className={styles.overflownModal} data-title="Is this task contributing towards 80% or 20%">
-                        <PieChart />
-                    </div>
-                </div>
-                <Details />
-                <Tags />
-                <Priority />
-                <Challenge />
-                <TimeRequired />
-                <EffortRequired />
-                <ParetoSelect />
-            </div>
-        )
-    }
-
     const HabitForm = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.taskInput}>
-                        <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Enter Task' />
-                        <TaskInfo />
-                    </div>
-                    <div className={styles.taskInput}>
-                        <div className={styles.inputWithIcon}>
-                            <CornerDownRight />
-                            <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Add Sub Task' />
+                        <div className={styles.taskInputSection}>
+                            <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='New Task' />
                         </div>
-                        <TaskInfo />
+                        <div className={styles.taskInputSection}>
+                            <div className={styles.inputWithIcon}>
+                                <AlignLeft />
+                                <input type="text" placeholder="Add Details" />
+                            </div>
+                        </div>
+                        <div className={styles.taskInputSection}>
+                            <div className={`${styles.inputWithIcon}`}>
+                                <Flag />
+                                <DayPickerInput placeholder='Add Deadline' />        
+                            </div>
+                        </div>
+                        <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
+                            <p><span>Priority</span><EyeOff /></p>
+                            <div className={styles.tags}>
+                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
+                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
+                                <div className={styles.addTag}><Plus /></div>
+                            </div>
+                            <input type="range" />
+                        </div>
+                        <div className={styles.taskInputSection}>
+                            <p><span>Time required</span><EyeOff /></p>
+                            <div className={styles.tags}>
+                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
+                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
+                                <div className={styles.addTag}><Plus /></div>
+                            </div>
+                            <input type="range" />
+                        </div>
+                        <div className={styles.taskInputSection}>
+                            <p><span>Energy required</span><EyeOff /></p>
+                            <div className={styles.tags}>
+                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
+                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
+                                <div className={styles.addTag}><Plus /></div>
+                            </div>
+                            <input type="range" />
+                        </div>
+                        <div className={styles.taskInputSection}>
+                            <p><span>Tags</span><EyeOff /></p>
+                            <div className={styles.tags}>
+                                <div className={styles.addTag}><Plus /></div>
+                            </div>
+                        </div>
+                        <div className={styles.taskInputSection}>
+                            <p><span>Skills Required</span><EyeOff /></p>
+                            <div className={styles.tags}>
+                                <div className={styles.addTag}><Plus /></div>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <Roles />
@@ -570,24 +501,22 @@ const AddTask = ({type, currentHabit}) => {
     }
 
     const addToolTipForProjects = (e) => {
-        if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
-             e.target.classList.add(styles.overflownModal)
-        }else if(e.target.classList.contains(styles.overflownModal)) {
-            e.target.classList.remove(styles.overflownModal)
+        if(e.target.getElementsByTagName('p')[0]){
+            if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
+                e.target.classList.add(styles.overflownModal)
+           }else if(e.target.classList.contains(styles.overflownModal)) {
+               e.target.classList.remove(styles.overflownModal)
+           }
         }
     }
 
     const Projects = () => {
         return (
             <div className={styles.projects}>
+                <p>Add Project</p>
                 <ul>
-                    <li onMouseEnter={(e)=>addToolTipForProjects(e)} data-title="General">
-                        <Folder />
-                        <p>General</p>
-                    </li>
                     <li onMouseEnter={(e)=>addToolTipForProjects(e)} data-title="Add Project">
                         <Plus />
-                        <p>Add Project</p>
                     </li>
                 </ul>
             </div>
@@ -601,7 +530,7 @@ const AddTask = ({type, currentHabit}) => {
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <Projects />
-                <Deadline />
+                <TaskDeadline />
                 <HabitForm />
             </div>
     )

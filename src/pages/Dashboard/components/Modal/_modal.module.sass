@@ -498,14 +498,12 @@
     svg
         position: absolute
         height: 2vh
-        bottom: 2.5vh
+        bottom: 0.9vh
         stroke-width: 1.5px
     input
         box-sizing: border-box
         padding-left: 4vh
         padding-right: 4vh
-        margin-top: 1.5vh
-        margin-bottom: 1.5vh
 
 .addTask
     .header
@@ -552,63 +550,115 @@
     ul
         display: flex
         list-style: none
-        margin-left: 20px
-        .overflownModal:hover::before
-            left: 40%
-            width: fit-content
-        .overflownModal:hover::after
-            left: 40%
+        margin-left: 25px
         li
-            height: 7vh
-            width: 7vh
-            +mixins.center
             position: relative
-            background-color: var(--activeSlot)
-            border-radius: 100%
-            margin-left: -20px
-            cursor: pointer
+            +mixins.center
+            margin-left: -25px
             svg
                 stroke: rgba(var(--lightrgb), 1)
-            img
-                width: 100%
-                height: 100%
+                height: 7vh
+                width: 7vh
                 border-radius: 100%
-                object-fit: cover
+                background-color: var(--activeSlot)
+                cursor: pointer
+                padding: 2.5vh
+                box-shadow: 0 0 10px rgba(var(--lightrgb), 0.1)
+            p
+                font-size: 1.25vh
+                font-weight: 100
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
+                width: 7vh
+                text-align: center
 
 .taskInput
-    display: flex
-    justify-content: space-between
-    align-items: center
-    input
-        width: 55%
-    .inputWithIcon
-        width: 55%
-        input
-            width: 100%
-    .taskInfo
-        width: 40%
-        .taskInfoBar
-            display: flex
-            justify-content: space-between
-            svg
-                height: 2vh
-            div
-                position: relative
-                cursor: pointer
-            .overflownModal:hover::before
-                left: auto
-                right: 0
-                width: fit-content
-                top: 35px
-            .overflownModal:hover::after
-                left: 22%
-                top: 15px
+    max-width: 60vh
 
 .deadline
     width: 100%
     height: 90px
-    margin: 0 auto
     li
         background-image: none !important
         color: var(--text)
         font-size: 1.25vh
+
+.tags
+    display: flex
+    flex-flow: wrap
+    .tag
+        background-color: rgba(var(--lightrgb), 0.25)
+        padding: 0 1.5vh
+        border-radius: 5px 5px
+        margin-right: 1.5vh
+        margin-bottom: 1.5vh
+        font-size: 1.5vh
+        height: 3vh
+        +mixins.center
+        color: rgba(var(--lightrgb), 1)
+    .addTag
+        border: 1px solid rgba(var(--lightrgb), 0.5)
+        +mixins.center
+        padding: 0.5vh
+        width: 3vh
+        height: 3vh
+        border-radius: 5px 5px
+        svg
+            stroke: rgba(var(--lightrgb), 0.5)
+            height: 2vh
+            stroke-width: 2px
+    .high
+        background-color: #F2BAC9
+        span
+            color: #b82650
+    .med
+        background-color: #F2E2BA
+        span
+            color: #c29628
+    .low
+        background-color: #B0F2B4
+        span
+            color: #30b939
+
+.taskInputSection, .roles, .projects
+    p
+        font-size: 1.5vh
+        font-weight: 100
+        text-align: left
+        margin-bottom: 1.5vh
+        display: flex
+        align-items: center
+        svg
+            height: 1.5vh
+            margin-left: 1.5vh
+            cursor: pointer
+            transition: 0.1s
+        svg:hover
+            stroke: rgba(var(--lightrgb), 1)
+
+.taskInputSection
+    margin-bottom: 2vh
+    input[type="range"]
+        all: unset
+        -webkit-appearance: none
+        width: 100%
+        height: 5px
+        background: var(--activeSlot)
+        outline: none
+        border-radius: 100px 100px
+        overflow: hidden
+        pointer-events: none
+    input[type="range"]::-webkit-slider-thumb
+        -webkit-appearance: none
+        appearance: none
+        width: 15px
+        height: 15px
+        background: variables.$primary
+        border-radius: 100%
+        box-shadow: -100vw 0 0 100vw variables.$primary
+    input[type="range"]::-moz-range-thumb
+        width: 15px
+        height: 15px
+        background: variables.$primary
+        border-radius: 100%

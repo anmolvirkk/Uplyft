@@ -1,0 +1,14 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+
+.DayPickerInput
+    width: 100%
+.DayPickerInput-Overlay
+    background-color: var(--background)
+    border-radius: 10px 10px
+    padding-bottom: 1vh
+    .DayPicker-Day:hover
+        background-color: variables.$primary !important
+        color: variables.$white
+    .DayPicker-Day--outside:hover
+        background-color: transparent !important

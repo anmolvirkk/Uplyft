@@ -1,0 +1,55 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.category
+    font-size: 1.5vh
+    h3
+        font-size: 1.5vh
+        font-weight: 300
+        background-color: var(--background)
+        padding: 1.5vh
+        display: flex
+        justify-content: space-between
+        align-items: center
+        color: var(--text)
+        cursor: pointer
+    .dropDown
+        width: 100%
+        position: relative
+        cursor: pointer
+        h3
+            background-color: transparent
+        ul
+            position: absolute
+            top: 5vh
+            width: 100%
+            z-index: 9
+            background-color: var(--background)
+        li
+            padding: 1.5vh
+            border-bottom: 1px solid var(--border)
+            font-weight: 300
+        li:first-child
+            border-top: 1px solid var(--border)
+
+.filters
+    height: 40px
+    width: 100%
+    position: relative
+    .filterTitle
+        cursor: pointer
+        width: 100%
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: space-between
+        font-size: 1.5vh
+        background-color: var(--activeSlot)
+        color: rgba(variables.$secondary, 0.75)
+        padding: 1.5vh
+        svg
+            width: 2vh
+    .filterTab
+        width: 100%
+        position: absolute
+        bottom: 40px
