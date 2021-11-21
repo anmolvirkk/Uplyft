@@ -79,7 +79,7 @@ const Modal = () => {
     }
 
     const RenameEntry = () => (
-        <div className={styles.form} id='modalForm'>
+        <div className={styles.form} id='modalForm' style={{minWidth: '50vh'}}>
                 <div className={styles.header}>
                     <p>Rename Entry</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
