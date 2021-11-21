@@ -33,7 +33,7 @@ const Tasks = () => {
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 <Projects />
             </div>
-            <AddButton name="project" onclick={()=>setModalConfig({type: 'addTask'})} />
+            <AddButton name="project" onclick={()=>setModalConfig({type: 'addProject'})} />
         </div>
     )
 }

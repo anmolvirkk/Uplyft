@@ -16,6 +16,7 @@
     padding: 2.5vh
     border-radius: 1.25vh 1.25vh
     max-height: 95vh
+    min-width: 70vh
     overflow: hidden
     overflow-y: auto
     position: relative
@@ -500,6 +501,7 @@
         height: 2vh
         bottom: 0.9vh
         stroke-width: 1.5px
+        pointer-events: none
     input
         box-sizing: border-box
         padding-left: 4vh
@@ -511,40 +513,6 @@
     .habitCustomize
         margin: 0
         margin-top: 2vh
-
-.projects
-    min-width: 60vh
-    ul
-        display: flex
-        list-style: none
-        padding: 0
-        li
-            margin-right: 2vh
-            position: relative
-            svg
-                height: 7vh
-                width: 7vh
-                padding: 2.25vh
-                background-color: var(--activeSlot)
-                stroke: rgba(var(--lightrgb), 1)
-                border-radius: 10px 10px
-                pointer-events: none
-            p
-                font-size: 1.25vh
-                margin-top: 0.5vh
-                width: 7vh
-                overflow: hidden
-                white-space: nowrap
-                text-overflow: ellipsis
-                pointer-events: none
-                font-weight: 100
-    .overflownModal:hover::before
-        top: 105px
-        left: 0px
-        width: fit-content
-    .overflownModal:hover::after
-        top: 85px
-        left: 0
 
 .roles
     ul
@@ -572,9 +540,6 @@
                 text-overflow: ellipsis
                 width: 7vh
                 text-align: center
-
-.taskInput
-    max-width: 60vh
 
 .deadline
     width: 100%

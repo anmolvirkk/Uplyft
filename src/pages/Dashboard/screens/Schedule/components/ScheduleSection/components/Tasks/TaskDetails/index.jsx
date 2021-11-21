@@ -4,9 +4,14 @@ import AddButton from '../../../../AddButton'
 import { ChevronUp } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
+import { useSetRecoilState } from 'recoil'
+import modalConfigAtom from '../../../../../../Journals/recoil-atoms/modalConfigAtom'
+
 
 const TaskDetails = () => {
     
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
+
     const taskCategories = [
         {
             id: 0,
@@ -84,7 +89,7 @@ const TaskDetails = () => {
                 }) : null }
             </div>
             <Filters />
-            <AddButton name="task" />
+            <AddButton name="task" onclick={()=>setModalConfig({type: 'addTask'})} />
         </div>
     )
 }

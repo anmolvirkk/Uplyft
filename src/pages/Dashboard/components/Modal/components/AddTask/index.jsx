@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import styles from '../../_modal.module.sass'
@@ -156,10 +156,6 @@ const AddTask = ({type, currentHabit}) => {
         }
         setHabit({...habit, repeat: {...habit.repeat, ...habitRepeat}})
     }
-
-    useEffect(()=>{
-        document.getElementById('modalForm').scrollTo(0,document.getElementById('modalForm').scrollHeight)
-    }, [habit.repeat.all])
 
     const removeTimeFromAll = (index) => {
         if(habit.repeat.all.length!==1){
@@ -499,29 +495,6 @@ const AddTask = ({type, currentHabit}) => {
             </div>
         )
     }
-
-    const addToolTipForProjects = (e) => {
-        if(e.target.getElementsByTagName('p')[0]){
-            if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
-                e.target.classList.add(styles.overflownModal)
-           }else if(e.target.classList.contains(styles.overflownModal)) {
-               e.target.classList.remove(styles.overflownModal)
-           }
-        }
-    }
-
-    const Projects = () => {
-        return (
-            <div className={styles.projects}>
-                <p>Add Project</p>
-                <ul>
-                    <li onMouseEnter={(e)=>addToolTipForProjects(e)} data-title="Add Project">
-                        <Plus />
-                    </li>
-                </ul>
-            </div>
-        )
-    }
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -529,7 +502,6 @@ const AddTask = ({type, currentHabit}) => {
                     <p>{type} Task</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <Projects />
                 <TaskDeadline />
                 <HabitForm />
             </div>
