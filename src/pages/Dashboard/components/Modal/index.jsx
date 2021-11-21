@@ -111,7 +111,7 @@ const Modal = () => {
     }
 
     const EditJournal = () => (
-        <div className={styles.form} id='modalForm'>
+        <div className={`${styles.form} ${styles.addHabit} ${styles.habitCustomize}`} id='modalForm'>
                 <div className={styles.header}>
                     <p>Edit Journal</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
@@ -165,7 +165,7 @@ const Modal = () => {
     }
 
     const AddJournal = () => (
-        <div className={styles.form} id='modalForm'>
+        <div className={`${styles.form} ${styles.addHabit} ${styles.habitCustomize}`} id='modalForm'>
                 <div className={styles.header}>
                     <p>Add Journal</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
