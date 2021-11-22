@@ -19,7 +19,7 @@ const TaskDetails = () => {
             type: [{name: 'important', val: 3}, {name: 'urgent', val: 3}]
         },
         {
-            id: 2,
+            id: 1,
             title: 'Urgent',
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         },
@@ -29,22 +29,22 @@ const TaskDetails = () => {
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         },
         {
-            id: 2,
+            id: 3,
             title: 'Quick',
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         },
         {
-            id: 2,
+            id: 4,
             title: 'Easy',
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         },
         {
-            id: 2,
+            id: 5,
             title: 'Delegate',
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         },
         {
-            id: 2,
+            id: 6,
             title: 'All',
             type: [{name: 'important', val: 0}, {name: 'urgent', val: 3}]
         }
