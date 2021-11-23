@@ -556,41 +556,51 @@
 .tags
     display: flex
     flex-flow: wrap
+    width: 60vh
     .tag
-        background-color: rgba(var(--lightrgb), 0.25)
+        background-color: rgba(var(--lightrgb), 0.1)
         padding: 0 1.5vh
         border-radius: 5px 5px
         margin-right: 1.5vh
         margin-bottom: 1.5vh
         font-size: 1.5vh
         height: 3vh
-        +mixins.center
         color: rgba(var(--lightrgb), 1)
+        cursor: pointer
+        display: flex
+        align-items: center
+        justify-content: space-between
+    .tagActive
+        background-color: variables.$primary
+        color: white
     .addTag
         border: 1px solid rgba(var(--lightrgb), 0.5)
         +mixins.center
         padding: 0.5vh
-        width: 3vh
+        width: fit-content
         height: 3vh
         border-radius: 5px 5px
+        cursor: pointer
+        transition: 0.1s
+        color: rgb(var(--lightrgb))
+        overflow: hidden
+        span
+            border: none
+            outline: none
+            white-space: nowrap
         svg
             stroke: rgba(var(--lightrgb), 0.5)
             height: 2vh
             stroke-width: 2px
-    .high
-        background-color: #F2BAC9
-        span
-            color: #b82650
-    .med
-        background-color: #F2E2BA
-        span
-            color: #c29628
-    .low
-        background-color: #B0F2B4
-        span
-            color: #30b939
+            pointer-events: none
+            display: block
+    .tagInput
+        width: fit-content
+        svg
+            display: none
 
 .taskInputSection, .roles, .projects
+    position: relative
     p
         font-size: 1.5vh
         font-weight: 100
@@ -612,7 +622,7 @@
         all: unset
         -webkit-appearance: none
         width: 100%
-        height: 5px
+        height: 2px
         background: var(--activeSlot)
         outline: none
         border-radius: 100px 100px
@@ -631,3 +641,30 @@
         height: 15px
         background: variables.$primary
         border-radius: 100%
+
+.setDates
+    display: flex
+    justify-content: space-between
+    margin-top: 2vh
+    width: 100%
+    box-sizing: border-box
+    .inputWithIcon
+        width: 47.5%
+
+.projectName
+    display: flex
+    align-items: center
+    margin-bottom: 2vh
+    background-color: rgba(var(--lightrgb), 0.1)
+    width: fit-content
+    padding: 1vh
+    border-radius: 7px 7px
+    svg
+        stroke: var(--prompts)
+        height: 2vh
+    p
+        font-size: 1.5vh
+        margin-left: 0.5vh
+        text-transform: capitalize
+        font-weight: 400
+        color: var(--prompts)

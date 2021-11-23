@@ -13,11 +13,11 @@ const Projects = () => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     return (
         <div className={styles.projects}>
-            {projects.length>0?<NavLink to={`/schedule/tasks/today`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>Today</p></NavLink>:null}
+            {projects.length>0?<NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'today'})} to={`/schedule/tasks/today`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>Today</p></NavLink>:null}
             {projects.map((item)=>{
                 return <NavLink onClick={()=>setAllRoutes({...allRoutes, project: item.id})} key={item.id} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{item.name}</p></NavLink>
             })}
-            <NavLink to={`/schedule/tasks/all`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>All</p></NavLink>
+            <NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'all'})} to={`/schedule/tasks/all`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>All</p></NavLink>
         </div>
     )
 }

@@ -3,9 +3,8 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus, AlignLeft, Flag, EyeOff } from 'react-feather'
+import { X, Plus, Minus, AlignLeft, Flag, EyeOff, Navigation, Folder } from 'react-feather'
 
-import habitsAtom from '../../../../screens/Schedule/recoil-atoms/habitsAtom'
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
 import { colors } from '../../../../variables/journalConfig'
@@ -14,20 +13,25 @@ import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/all
 
 import TaskDeadline from './components/TaskDeadline'
 import './datePicker.sass'
+import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom'
+import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
-const AddTask = ({type, currentHabit}) => {
+import OutsideClickHandler from 'react-outside-click-handler-lite'
+
+const AddTask = ({type, currentTask}) => {
+
+    const [projects, setProjects] = useRecoilState(projectsAtom)
 
     const date = new Date()
 
-    const [habit, setHabit] = useState(currentHabit?{
-        id: currentHabit.id,
-        color: currentHabit.color,
-        icon: currentHabit.icon,
-        name: currentHabit.name,
-        repeat: currentHabit.repeat
+    const [task, setTask] = useState(currentTask?{
+        id: currentTask.id,
+        color: currentTask.color,
+        icon: currentTask.icon,
+        name: currentTask.name,
+        repeat: currentTask.repeat
     }:{
         id: date.valueOf(),
-        color: 0,
         name: '',
         repeat: {
             unique: false,
@@ -47,6 +51,7 @@ const AddTask = ({type, currentHabit}) => {
         },
         details: '',
         deadline: '',
+        start: '',
         priority: 0,
         energyRequired: 0,
         timeRequired: 0,
@@ -56,16 +61,17 @@ const AddTask = ({type, currentHabit}) => {
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const submitHabit = () => {
         let times = {
             from: {
-                h: parseInt(habit.repeat.all[0].from.split(':')[0]),
-                m: parseInt(habit.repeat.all[0].from.split(':')[1])
+                h: parseInt(task.repeat.all[0].from.split(':')[0]),
+                m: parseInt(task.repeat.all[0].from.split(':')[1])
             },
             to: {
-                h: parseInt(habit.repeat.all[0].to.split(':')[0]),
-                m: parseInt(habit.repeat.all[0].to.split(':')[1])
+                h: parseInt(task.repeat.all[0].to.split(':')[0]),
+                m: parseInt(task.repeat.all[0].to.split(':')[1])
             }
         }
         let fromDate = new Date()
@@ -78,36 +84,36 @@ const AddTask = ({type, currentHabit}) => {
             toDate.setDate(toDate.getDate()+1)
         }
         if(type === 'add'){
-            setHabits([...habits, habit])
+            setProjects([...projects, {...projects.find(i=>i.id===allRoutes['project']), tasks: [...projects.find(i=>i.id===allRoutes['project']).tasks, task]}])
             setAllCalendarEvents([...allCalendarEvents, {
-                title: habit.name,
+                title: task.name,
                 start: fromDate,
                 end: toDate,
-                color: colors[habit.color],
-                id: habit.id
+                color: colors[task.color],
+                id: task.id
             }])
         }else if(type==='edit'){
-            let newHabits = habits.map((data)=>{
+            let newTasks = projects.find(i=>i.id===allRoutes['project']).tasks.map((data)=>{
                 let newData = {...data}
-                    if(data.id === currentHabit.id) {
-                        newData.id = habit.id
-                        newData.color = habit.color
-                        newData.icon = habit.icon
-                        newData.name = habit.name
-                        newData.repeat = habit.repeat
-                        newData.times = habit.times
+                    if(data.id === currentTask.id) {
+                        newData.id = task.id
+                        newData.color = task.color
+                        newData.icon = task.icon
+                        newData.name = task.name
+                        newData.repeat = task.repeat
+                        newData.times = task.times
                     }
                 return newData
             })
-            setHabits([...newHabits])
+            setProjects([...projects, {...projects.find(i=>i.id===allRoutes['project']), tasks: [...newTasks]}])
 
             let newAllCalendarEvents = allCalendarEvents.map((data)=>{
                 let newData = {...data}
-                    if(data.id === currentHabit.id) {
-                        newData.title = habit.name
+                    if(data.id === currentTask.id) {
+                        newData.title = task.name
                         newData.start = fromDate
                         newData.end = toDate
-                        newData.color = colors[habit.color]
+                        newData.color = colors[task.color]
                     }
                 return newData
             })
@@ -115,22 +121,20 @@ const AddTask = ({type, currentHabit}) => {
         }
         setModalConfig({type: ''})
     }
-
-    const [habits, setHabits] = useRecoilState(habitsAtom)
-    const setModalConfig = useSetRecoilState(modalConfigAtom)
+    
 
     const setTimeForAll = (val, index, type) => {
         let newRepeat = {}
-        for(let key in habit.repeat){
-            if(habit.repeat[key] !== null && key!=='unique'){
-                let newTimes = habit.repeat[key].map((data, i)=>{
+        for(let key in task.repeat){
+            if(task.repeat[key] !== null && key!=='unique'){
+                let newTimes = task.repeat[key].map((data, i)=>{
                     let newData = {...data}
                         if(i === index) {
                             if(type === 'from'){
                                 newData.from = val
-                                newData.to = habit.repeat.all[index].to
+                                newData.to = task.repeat.all[index].to
                             }else{
-                                newData.from = habit.repeat.all[index].from
+                                newData.from = task.repeat.all[index].from
                                 newData.to = val
                             }
                         }
@@ -139,66 +143,66 @@ const AddTask = ({type, currentHabit}) => {
                 newRepeat = {...newRepeat, [key]: [...newTimes]}
             }
         }
-        setHabit({...habit, repeat: {...habit.repeat, ...newRepeat}})
+        setTask({...task, repeat: {...task.repeat, ...newRepeat}})
     }
 
     const addAllTime = () => {
-        let habitRepeat = {}
-        for(let key in habit.repeat){
+        let taskRepeat = {}
+        for(let key in task.repeat){
             if(key!=='unique'){
-                if(habit.repeat[key] !== null){
-                    let newData = [...habit.repeat[key], {from: "00:00", to: "12:00"}]
-                    habitRepeat = {...habitRepeat, [key]: [...newData]}
+                if(task.repeat[key] !== null){
+                    let newData = [...task.repeat[key], {from: "00:00", to: "12:00"}]
+                    taskRepeat = {...taskRepeat, [key]: [...newData]}
                 }
             }else{
-                habitRepeat = {...habitRepeat, [key]: habit.repeat[key]}
+                taskRepeat = {...taskRepeat, [key]: task.repeat[key]}
             }
         }
-        setHabit({...habit, repeat: {...habit.repeat, ...habitRepeat}})
+        setTask({...task, repeat: {...task.repeat, ...taskRepeat}})
     }
 
     const removeTimeFromAll = (index) => {
-        if(habit.repeat.all.length!==1){
-            let newTimes = habit.repeat.all.filter((val, i)=>i!==index)
-            setHabit({...habit, repeat: {...habit.repeat, all: [...newTimes]}})
+        if(task.repeat.all.length!==1){
+            let newTimes = task.repeat.all.filter((val, i)=>i!==index)
+            setTask({...task, repeat: {...task.repeat, all: [...newTimes]}})
         }
     }
 
     const addUniqueTime = (day) => {
-        for(let key in habit.repeat){
+        for(let key in task.repeat){
             if(key === day){
-                setHabit({...habit, repeat: {...habit.repeat, [day]: [...habit.repeat[day], {from: "00:00", to: "12:00"}]}})
+                setTask({...task, repeat: {...task.repeat, [day]: [...task.repeat[day], {from: "00:00", to: "12:00"}]}})
             }
         }
     }
 
     const setTimeForUnique = (val, index, type, day) => {
-        for(let key in habit.repeat){
+        for(let key in task.repeat){
             if(key === day){
-                let newTimes = habit.repeat[day].map((data, i)=>{
+                let newTimes = task.repeat[day].map((data, i)=>{
                     let newData = {...data}
                         if(i === index) {
                             if(type === 'from'){
                                 newData.from = val
-                                newData.to = habit.repeat[day][index].to
+                                newData.to = task.repeat[day][index].to
                             }else{
-                                newData.from = habit.repeat[day][index].from
+                                newData.from = task.repeat[day][index].from
                                 newData.to = val
                             }
                         }
                     return newData
                 })
-                setHabit({...habit, repeat: {...habit.repeat, [day]: [...newTimes]}})
+                setTask({...task, repeat: {...task.repeat, [day]: [...newTimes]}})
             }
         }
     }
     
     const removeTimeFromUnique = (index, day) => {
-        for(let key in habit.repeat){
+        for(let key in task.repeat){
             if(key === day){
-                if(habit.repeat[day].length!==1){
-                    let newTimes = habit.repeat[day].filter((val, i)=>i!==index)
-                    setHabit({...habit, repeat: {...habit.repeat, [day]: [...newTimes]}})
+                if(task.repeat[day].length!==1){
+                    let newTimes = task.repeat[day].filter((val, i)=>i!==index)
+                    setTask({...task, repeat: {...task.repeat, [day]: [...newTimes]}})
                 }
             }
         }
@@ -226,12 +230,51 @@ const AddTask = ({type, currentHabit}) => {
     }
 
     const HabitForm = () => {
+
+        const addTagInput = (e) => {
+            if(e.target.childNodes[0]){
+                if(e.target.childNodes[0].classList){
+                    e.target.childNodes[0].classList.add(styles.tagInput)
+                    e.target.childNodes[0].contentEditable = 'true'
+                    e.target.childNodes[0].focus()
+                }
+            }
+        }
+
+        const appendTag = (e) => {
+            if(e.target.textContent !== ''){
+                let shouldAppend
+                for(let i=0; i<document.getElementsByClassName(styles.tag).length; i++){
+                    shouldAppend = true
+                    if(document.getElementsByClassName(styles.tag)[i].childNodes[0].textContent.toLowerCase() === e.target.textContent.toLowerCase()){
+                        shouldAppend = false
+                        break
+                    }
+                }
+                if(shouldAppend){
+                    let tag = document.createElement('div')
+                    tag.className = styles.tag
+                    let tagText = document.createElement('span')
+                    tagText.append(e.target.textContent)
+                    tag.append(tagText)
+                    e.target.parentNode.parentNode.parentNode.insertBefore(tag, e.target.parentNode.parentNode)
+                }
+            }
+        }
+
+        const removeTagInput = () => {
+            for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
+                document.getElementsByClassName(styles.addTag)[i].childNodes[0].classList.remove(styles.tagInput)
+                document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable = 'false'
+                document.getElementsByClassName(styles.addTag)[i].childNodes[0].textContent = ''
+            }
+        }
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='New Task' />
+                            <input defaultValue={task.name}  onBlur={(e)=>setTask({...task, name: e.target.value})} placeholder='New Task' />
                         </div>
                         <div className={styles.taskInputSection}>
                             <div className={styles.inputWithIcon}>
@@ -239,52 +282,56 @@ const AddTask = ({type, currentHabit}) => {
                                 <input type="text" placeholder="Add Details" />
                             </div>
                         </div>
-                        <div className={styles.taskInputSection}>
+                        <div className={styles.setDates}>
+                            <div className={`${styles.inputWithIcon}`}>
+                                <Navigation />
+                                <DayPickerInput placeholder='Add Start Date' value={task.start} onDayChange={(e)=>setTask({...task, start: e})} />         
+                            </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <DayPickerInput placeholder='Add Deadline' />        
+                                <DayPickerInput placeholder='Add Deadline' value={task.deadline} onDayChange={(e)=>setTask({...task, deadline: e})} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
                             <p><span>Priority</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
-                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
-                                <div className={styles.addTag}><Plus /></div>
+                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
+                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                             <input type="range" />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Time required</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
-                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
-                                <div className={styles.addTag}><Plus /></div>
+                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
+                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                             <input type="range" />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Energy required</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag} ${styles.high}`}><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.med}`}><span>Medium</span></div>
-                                <div className={`${styles.tag} ${styles.low}`}><span>Low</span></div>
-                                <div className={styles.addTag}><Plus /></div>
+                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
+                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
+                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                             <input type="range" />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Tags</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={styles.addTag}><Plus /></div>
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Skills Required</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={styles.addTag}><Plus /></div>
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                         </div>
                     </div>
@@ -294,24 +341,24 @@ const AddTask = ({type, currentHabit}) => {
                 <ul>
                     <li>
                         <div className={styles.tabselect} style={{marginBottom: '2vh', marginTop: '1vh'}}>
-                            <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: false}})} className={!habit.repeat.unique?styles.activeTab:null}>Same time for all days</div>
-                            <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: true}})} className={habit.repeat.unique?styles.activeTab:null}>Unique time for seperate days</div>
+                            <div onClick={()=>setTask({...task, repeat: {...task.repeat, unique: false}})} className={!task.repeat.unique?styles.activeTab:null}>Same time for all days</div>
+                            <div onClick={()=>setTask({...task, repeat: {...task.repeat, unique: true}})} className={task.repeat.unique?styles.activeTab:null}>Unique time for seperate days</div>
                         </div>
 
                         <div className={styles.daySelect}>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, mon: habit.repeat.mon===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.mon!==null?styles.activeDay:null}>Mon</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, tue: habit.repeat.tue===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.tue!==null?styles.activeDay:null}>Tue</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, wed: habit.repeat.wed===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.wed!==null?styles.activeDay:null}>Wed</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, thu: habit.repeat.thu===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.thu!==null?styles.activeDay:null}>Thu</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, fri: habit.repeat.fri===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.fri!==null?styles.activeDay:null}>Fri</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, sat: habit.repeat.sat===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.sat!==null?styles.activeDay:null}>Sat</div>
-                                <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, sun: habit.repeat.sun===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.sun!==null?styles.activeDay:null}>Sun</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, mon: task.repeat.mon===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.mon!==null?styles.activeDay:null}>Mon</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, tue: task.repeat.tue===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.tue!==null?styles.activeDay:null}>Tue</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, wed: task.repeat.wed===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.wed!==null?styles.activeDay:null}>Wed</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, thu: task.repeat.thu===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.thu!==null?styles.activeDay:null}>Thu</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, fri: task.repeat.fri===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.fri!==null?styles.activeDay:null}>Fri</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, sat: task.repeat.sat===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.sat!==null?styles.activeDay:null}>Sat</div>
+                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, sun: task.repeat.sun===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.sun!==null?styles.activeDay:null}>Sun</div>
                         </div>
 
-                        <div className={styles.days} style={{display: !habit.repeat.unique?'block':'none'}}>
-                            {!habit.repeat.unique?
+                        <div className={styles.days} style={{display: !task.repeat.unique?'block':'none'}}>
+                            {!task.repeat.unique?
                             <div>
-                                {habit.repeat.all.map((item, index)=>(
+                                {task.repeat.all.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -330,12 +377,12 @@ const AddTask = ({type, currentHabit}) => {
                             </div>
                             :null}
                         </div>
-                        <div className={styles.days} style={{display: habit.repeat.unique?'block':'none'}}>
+                        <div className={styles.days} style={{display: task.repeat.unique?'block':'none'}}>
                             {
-                                habit.repeat.mon!==null?
+                                task.repeat.mon!==null?
                                 <div className={styles.day}>
                                 <p>Monday</p>
-                                {habit.repeat.mon.map((item, index)=>(
+                                {task.repeat.mon.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -354,10 +401,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.tue!==null?
+                                task.repeat.tue!==null?
                                 <div className={styles.day}>
                                 <p>Tuesday</p>
-                                {habit.repeat.tue.map((item, index)=>(
+                                {task.repeat.tue.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -376,10 +423,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.wed!==null?
+                                task.repeat.wed!==null?
                                 <div className={styles.day}>
                                 <p>Wednesday</p>
-                                {habit.repeat.wed.map((item, index)=>(
+                                {task.repeat.wed.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -398,10 +445,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.thu!==null?
+                                task.repeat.thu!==null?
                                 <div className={styles.day}>
                                 <p>Thurday</p>
-                                {habit.repeat.thu.map((item, index)=>(
+                                {task.repeat.thu.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -420,10 +467,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.fri!==null?
+                                task.repeat.fri!==null?
                                 <div className={styles.day}>
                                 <p>Friday</p>
-                                {habit.repeat.fri.map((item, index)=>(
+                                {task.repeat.fri.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -442,10 +489,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.sat!==null?
+                                task.repeat.sat!==null?
                                 <div className={styles.day}>
                                 <p>Saturday</p>
-                                {habit.repeat.sat.map((item, index)=>(
+                                {task.repeat.sat.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -464,10 +511,10 @@ const AddTask = ({type, currentHabit}) => {
                                 </div> : null
                             }
                             {
-                                habit.repeat.sun!==null?
+                                task.repeat.sun!==null?
                                 <div className={styles.day}>
                                 <p>Sunday</p>
-                                {habit.repeat.sun.map((item, index)=>(
+                                {task.repeat.sun.map((item, index)=>(
                                     <div className={styles.times} key={index}>
                                         <div className={styles.time}> 
                                             <div>
@@ -488,13 +535,15 @@ const AddTask = ({type, currentHabit}) => {
                         </div>
                     </li>
                 </ul>
-                <div className={`${styles.footer} ${styles.habitFooter}`}>
+                <div className={`${styles.footer} ${styles.taskFooter}`}>
                     <button className={styles.cancelBtn} onClick={()=>setModalConfig({type: ''})}>Back</button>
                     <button className={styles.continueBtn} onClick={submitHabit}>Continue</button>
                 </div>
             </div>
         )
     }
+
+    const [allRoutes] = useRecoilState(allRoutesAtom)
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -502,7 +551,15 @@ const AddTask = ({type, currentHabit}) => {
                     <p>{type} Task</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <TaskDeadline />
+                {projects.find(i=>i.id===allRoutes['project'])?
+                    <div className={styles.projectName}>
+                        <Folder />
+                        <p>
+                            {projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']).name:null}
+                        </p>
+                    </div>
+                :null}
+                {projects.find(i=>i.id===allRoutes['project'])?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])} />:null}
                 <HabitForm />
             </div>
     )

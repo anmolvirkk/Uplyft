@@ -3,7 +3,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Flag } from 'react-feather'
+import { X, Flag, Navigation } from 'react-feather'
 
 import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom'
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
@@ -19,13 +19,15 @@ const AddProject = ({icons, type, currentProject}) => {
         color: currentProject.color,
         icon: currentProject.icon,
         name: currentProject.name,
-        deadline: currentProject.deadline
+        deadline: currentProject.deadline,
+        start: currentProject.start
     }:{
         id: date.valueOf(),
         color: 0,
         icon: 0,
         name: '',
-        deadline: ''
+        deadline: '',
+        start: ''
     })
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
@@ -89,12 +91,16 @@ const AddProject = ({icons, type, currentProject}) => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
-                    <div className={styles.habitNum}>
-                        <input defaultValue={project.name}  onBlur={(e)=>setProject({...project, name: e.target.value})} placeholder='Enter Project Name' />
-                    </div>
-                    <div className={`${styles.inputWithIcon}`} style={{marginTop: '2vh'}} onBlur={(e)=>setProject({...project, deadline: e.target.value})}>
-                        <Flag />
-                        <DayPickerInput placeholder='Add Deadline' />        
+                    <input style={{marginTop: '2vh'}} defaultValue={project.name}  onBlur={(e)=>setProject({...project, name: e.target.value})} placeholder='Enter Project Name' />
+                   <div className={styles.setDates}>
+                        <div className={`${styles.inputWithIcon}`}>
+                            <Navigation />
+                            <DayPickerInput placeholder='Add Start Date' value={project.start} onDayChange={(e)=>setProject({...project, start: e})} />        
+                        </div>
+                        <div className={`${styles.inputWithIcon}`}>
+                            <Flag />
+                            <DayPickerInput placeholder='Add Deadline' value={project.deadline} onDayChange={(e)=>setProject({...project, deadline: e})} />        
+                        </div>
                     </div>
                 </form>
                 <ProjectCustomize />
