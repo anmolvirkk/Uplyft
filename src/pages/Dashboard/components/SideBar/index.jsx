@@ -24,7 +24,8 @@ const IconButton = ({name, icon}) => {
     </NavLink>
     :
     name==="schedule" ?
-    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['habit']&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']:allRoutes['scheduleSection']==='tasks'?allRoutes['project']:''}`:`/schedule/habits`} activeClassName={styles.activeIconButton}>
+    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/schedule/habits`} activeClassName={styles.activeIconButton}>
+        {console.log(allRoutes['scheduleSection'])}
         {icon}
         <p>{name}</p>
     </NavLink>
