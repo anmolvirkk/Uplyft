@@ -286,12 +286,18 @@ const AddTask = ({type, currentTask}) => {
         }
 
         const resetAddTagBtn = () => {
+            let shouldReset = false
+            let elementIndex = 0
             for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
-                if(document.getElementsByClassName(styles.addTag)[i].childNodes[0].textContent !== ''){
-                    document.getElementsByClassName(styles.addTag)[i].childNodes[0].parentNode.classList.remove(styles.tagInput)
-                    document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable = 'false'
-                    document.getElementsByClassName(styles.addTag)[i].childNodes[0].textContent = ''
+                if(document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable === 'true'){
+                    shouldReset = true
+                    elementIndex = i
                 }
+            }
+            if(shouldReset){
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].parentNode.classList.remove(styles.tagInput)
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].contentEditable = 'false'
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].textContent = ''
             }
         }
 
@@ -623,6 +629,7 @@ const AddTask = ({type, currentTask}) => {
                     <p>{type} Task</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
+                <div className={styles.taskNavigation}>
                 {projects.find(i=>i.id===allRoutes['project'])?
                     <div className={styles.projectName}>
                         <Folder />
@@ -631,6 +638,7 @@ const AddTask = ({type, currentTask}) => {
                         </p>
                     </div>
                 :null}
+                </div>
                 {projects.find(i=>i.id===allRoutes['project'])||task.start!==null||task.deadline!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']):null} />:null}
                 <HabitForm />
             </div>
