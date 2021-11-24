@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import styles from '../../_modal.module.sass'
@@ -17,6 +17,7 @@ import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom
 import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
+import tagsAtom from './tagsAtom'
 
 const AddTask = ({type, currentTask}) => {
 
@@ -52,8 +53,11 @@ const AddTask = ({type, currentTask}) => {
         details: '',
         deadline: '',
         start: '',
-        priority: 0,
-        energyRequired: 0,
+        priority: {
+            value: 0,
+            label: ''
+        },
+        effortRequired: 0,
         timeRequired: 0,
         skillsRequired: [],
         roles: [],
@@ -229,46 +233,73 @@ const AddTask = ({type, currentTask}) => {
         )
     }
 
+    const [tags, setTags] = useRecoilState(tagsAtom)
+
     const HabitForm = () => {
+
+        useEffect(()=>{
+            tags.priority.forEach((item)=>{
+                if(item.value === task.priority.value){
+                    if(item.label !== task.priority.label){
+                        setTask({...task, priority: {...task.priority, label: item.label}})
+                    }
+                }
+            })
+        })
 
         const addTagInput = (e) => {
             if(e.target.childNodes[0]){
-                if(e.target.childNodes[0].classList){
-                    e.target.childNodes[0].classList.add(styles.tagInput)
+                if(e.target.childNodes[0].parentNode.classList){
+                    e.target.childNodes[0].parentNode.classList.add(styles.tagInput)
                     e.target.childNodes[0].contentEditable = 'true'
                     e.target.childNodes[0].focus()
                 }
             }
         }
 
-        const appendTag = (e) => {
-            if(e.target.textContent !== ''){
-                let shouldAppend
-                for(let i=0; i<document.getElementsByClassName(styles.tag).length; i++){
-                    shouldAppend = true
-                    if(document.getElementsByClassName(styles.tag)[i].childNodes[0].textContent.toLowerCase() === e.target.textContent.toLowerCase()){
-                        shouldAppend = false
-                        break
-                    }
+        const appendTag = (e, type) => {
+            let shouldAppend = true
+            if(e.target.textContent === ''){
+                shouldAppend = false
+            }
+            tags[type].forEach((item)=>{
+                if(item.label === e.target.textContent){
+                    shouldAppend = false
                 }
-                if(shouldAppend){
-                    let tag = document.createElement('div')
-                    tag.className = styles.tag
-                    let tagText = document.createElement('span')
-                    tagText.append(e.target.textContent)
-                    tag.append(tagText)
-                    e.target.parentNode.parentNode.parentNode.insertBefore(tag, e.target.parentNode.parentNode)
+                if(item.value === task.priority.value){
+                    shouldAppend = false
                 }
+            })
+            if(shouldAppend){
+                setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: task.priority.value}]})
             }
         }
 
         const removeTagInput = () => {
             for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
-                document.getElementsByClassName(styles.addTag)[i].childNodes[0].classList.remove(styles.tagInput)
+                document.getElementsByClassName(styles.addTag)[i].childNodes[0].parentNode.classList.remove(styles.tagInput)
                 document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable = 'false'
                 document.getElementsByClassName(styles.addTag)[i].childNodes[0].textContent = ''
             }
         }
+
+        const removeTag = (e, type) => {
+            let thisTag = {
+                label: e[1].innerHTML,
+                value: parseInt(e[0].innerHTML)
+            }
+            let newTags = tags[type].filter((item)=>{
+                return item.label!==thisTag.label&&item.value!==thisTag.value
+            })
+            setTags({...tags, [type]: [...newTags]})
+        }
+
+        const reorderTags = (arr) => {
+            return arr.slice().sort((a, b) => a.value - b.value)
+        }
+
+        console.log(reorderTags(tags.priority))
+        
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
@@ -295,12 +326,12 @@ const AddTask = ({type, currentTask}) => {
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
                             <p><span>Priority</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
-                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
-                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
+                                {reorderTags(tags.priority).map((item, index)=>{
+                                    return <div onClick={()=>setTask({...task, priority: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'priority')} /></div>
+                                })}
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'priority')}><span></span><div id="priorityTagValue">{task.priority.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" />
+                            <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={task.priority.value} onMouseUp={(e)=>setTask({...task, priority: {...task.priority, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Time required</span><EyeOff /></p>
@@ -313,7 +344,7 @@ const AddTask = ({type, currentTask}) => {
                             <input type="range" />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <p><span>Energy required</span><EyeOff /></p>
+                            <p><span>Effort required</span><EyeOff /></p>
                             <div className={styles.tags}>
                                 <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
                                 <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>

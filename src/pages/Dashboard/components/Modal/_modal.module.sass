@@ -553,41 +553,97 @@
         color: var(--text)
         font-size: 1.25vh
 
+.taskInputSection
+    margin-bottom: 2vh
+    input[type="range"]
+        all: unset
+        -webkit-appearance: none
+        width: 100%
+        height: 2px
+        background: var(--activeSlot)
+        outline: none
+        border-radius: 100px 100px
+    input[type="range"]::-webkit-slider-thumb
+        -webkit-appearance: none
+        appearance: none
+        width: 15px
+        height: 15px
+        background: variables.$primary
+        border-radius: 100%
+        cursor: pointer
+    input[type="range"]::-moz-range-thumb
+        width: 15px
+        height: 15px
+        background: variables.$primary
+        border-radius: 100%
+        cursor: pointer
 .tags
+    position: relative
     display: flex
     flex-flow: wrap
-    width: 60vh
+    max-width: 60vh
     .tag
         background-color: rgba(var(--lightrgb), 0.1)
-        padding: 0 1.5vh
         border-radius: 5px 5px
-        margin-right: 1.5vh
-        margin-bottom: 1.5vh
+        padding: 0
         font-size: 1.5vh
-        height: 3vh
         color: rgba(var(--lightrgb), 1)
         cursor: pointer
         display: flex
         align-items: center
-        justify-content: space-between
+        overflow: hidden
+        height: 3vh
+        width: fit-content
+        margin: 0 1.5vh 1.5vh 0
+        div
+            background-color: var(--activeSlot)
+            color: variables.$secondary
+            opacity: 0.5
+            padding: 0.5vh
+            border-radius: 5px 5px
+        span
+            height: 100%
+            width: fit-content
+            +mixins.center
+            padding: 1vh
+            text-transform: lowercase
+        svg
+            background-color: var(--activeSlot)
+            stroke: variables.$secondary
+            opacity: 0.5
+            height: 100%
+            width: 2.5vh
+            padding: 0 0.5vh
+            +mixins.center
+    .tag::-webkit-scrollbar
+        height: 0 !important
     .tagActive
-        background-color: variables.$primary
-        color: white
+        span
+            background-color: variables.$primary
+            color: white
     .addTag
         border: 1px solid rgba(var(--lightrgb), 0.5)
-        +mixins.center
-        padding: 0.5vh
+        display: flex
         width: fit-content
         height: 3vh
         border-radius: 5px 5px
         cursor: pointer
         transition: 0.1s
         color: rgb(var(--lightrgb))
-        overflow: hidden
-        span
+        justify-content: center
+        align-items: center
+        div
             border: none
             outline: none
             white-space: nowrap
+            background-color: var(--activeSlot)
+            color: variables.$secondary
+            opacity: 0.5
+            height: 100%
+            +mixins.center
+            padding: 0.5vh
+            pointer-events: none
+            font-size: 1.5vh
         svg
             stroke: rgba(var(--lightrgb), 0.5)
             height: 2vh
@@ -595,7 +651,13 @@
             pointer-events: none
             display: block
     .tagInput
-        width: fit-content
+        span
+            min-width: 3vh
+            width: fit-content
+            height: 3vh
+            padding: 0.5vh
+        div
+            display: none
         svg
             display: none
 
@@ -615,32 +677,6 @@
             transition: 0.1s
         svg:hover
             stroke: rgba(var(--lightrgb), 1)
-
-.taskInputSection
-    margin-bottom: 2vh
-    input[type="range"]
-        all: unset
-        -webkit-appearance: none
-        width: 100%
-        height: 2px
-        background: var(--activeSlot)
-        outline: none
-        border-radius: 100px 100px
-        overflow: hidden
-        pointer-events: none
-    input[type="range"]::-webkit-slider-thumb
-        -webkit-appearance: none
-        appearance: none
-        width: 15px
-        height: 15px
-        background: variables.$primary
-        border-radius: 100%
-        box-shadow: -100vw 0 0 100vw variables.$primary
-    input[type="range"]::-moz-range-thumb
-        width: 15px
-        height: 15px
-        background: variables.$primary
-        border-radius: 100%
 
 .setDates
     display: flex

@@ -5,7 +5,6 @@ const addToolTipForTaskSlot = (e) => {
     if(e.target.getElementsByTagName('h3')[0]){
         if(e.target.getElementsByTagName('h3')[0].scrollWidth > e.target.getElementsByTagName('h3')[0].offsetWidth){
             e.target.classList.add(styles.overflownModal)
-            console.log(e.target)
        }else if(e.target.classList.contains(styles.overflownModal)) {
            e.target.classList.remove(styles.overflownModal)
        }
