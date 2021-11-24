@@ -33,6 +33,20 @@ const tagsAtom = atom({
                 label: 'High',
                 value: 100
             }
+        ],
+        effortRequired: [
+            {
+                label: 'Low',
+                value: 0
+            },
+            {
+                label: 'Medium',
+                value: 50
+            },
+            {
+                label: 'High',
+                value: 100
+            }
         ]
     },
     effects_UNSTABLE: [persistAtom]

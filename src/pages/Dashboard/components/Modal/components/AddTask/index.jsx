@@ -54,11 +54,17 @@ const AddTask = ({type, currentTask}) => {
         deadline: '',
         start: '',
         priority: {
-            value: 0,
+            value: 50,
             label: ''
         },
-        effortRequired: 0,
-        timeRequired: 0,
+        effortRequired:  {
+            value: 50,
+            label: ''
+        },
+        timeRequired:  {
+            value: 50,
+            label: ''
+        },
         skillsRequired: [],
         roles: [],
         tags: []
@@ -266,12 +272,12 @@ const AddTask = ({type, currentTask}) => {
                 if(item.label === e.target.textContent){
                     shouldAppend = false
                 }
-                if(item.value === task.priority.value){
+                if(item.value === task[type].value){
                     shouldAppend = false
                 }
             })
             if(shouldAppend){
-                setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: task.priority.value}]})
+                setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: task[type].value}]})
             }
         }
 
@@ -297,8 +303,6 @@ const AddTask = ({type, currentTask}) => {
         const reorderTags = (arr) => {
             return arr.slice().sort((a, b) => a.value - b.value)
         }
-
-        console.log(reorderTags(tags.priority))
         
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -336,22 +340,22 @@ const AddTask = ({type, currentTask}) => {
                         <div className={styles.taskInputSection}>
                             <p><span>Time required</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
-                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
-                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
+                                {reorderTags(tags.timeRequired).map((item, index)=>{
+                                    return <div onClick={()=>setTask({...task, timeRequired: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'timeRequired')} /></div>
+                                })}
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{task.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" />
+                            <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={task.timeRequired.value} onMouseUp={(e)=>setTask({...task, timeRequired: {...task.timeRequired, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Effort required</span><EyeOff /></p>
                             <div className={styles.tags}>
-                                <div className={`${styles.tag}`} data-level='100'><span>High</span></div>
-                                <div className={`${styles.tag} ${styles.tagActive}`} data-level='60'><span>Medium</span></div>
-                                <div className={`${styles.tag}`} data-level='0'><span>Low</span></div>
-                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
+                                {reorderTags(tags.effortRequired).map((item, index)=>{
+                                    return <div onClick={()=>setTask({...task, effortRequired: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'effortRequired')} /></div>
+                                })}
+                                <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{task.effortRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" />
+                            <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={task.effortRequired.value} onMouseUp={(e)=>setTask({...task, effortRequired: {...task.effortRequired, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Tags</span><EyeOff /></p>
