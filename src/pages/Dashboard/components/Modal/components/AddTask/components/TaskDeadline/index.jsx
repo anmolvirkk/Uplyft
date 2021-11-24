@@ -18,7 +18,7 @@ const addToolTipForTaskSlot = (e) => {
 }
 
 const TaskDeadline = ({start, deadline, project}) => {
-    const timeline = [
+    const timeline = project!==null?[
         {
             name: `${project.name} start`,
             date: new Date(project.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'})
@@ -27,7 +27,7 @@ const TaskDeadline = ({start, deadline, project}) => {
             name: `${project.name} end`,
             date: new Date(project.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'})
         }
-    ]
+    ]:[]
     const reorderTimeline = () => {
         timeline.sort((a, b)=>{
             return new Date(a.date) - new Date(b.date)

@@ -25,6 +25,12 @@ const AddTask = ({type, currentTask}) => {
 
     const date = new Date()
 
+    const [tags, setTags] = useRecoilState(tagsAtom)
+
+    const reorderTags = (arr) => {
+        return arr.slice().sort((a, b) => a.value - b.value)
+    }
+
     const [task, setTask] = useState(currentTask?{
         id: currentTask.id,
         color: currentTask.color,
@@ -51,17 +57,17 @@ const AddTask = ({type, currentTask}) => {
             sun: [{from: "00:00", to: "12:00"}]
         },
         details: '',
-        deadline: '',
-        start: '',
-        priority: {
+        deadline: null,
+        start: null,
+        priority: reorderTags(tags.priority)[0]?reorderTags(tags.priority)[0]:{
             value: 50,
             label: ''
         },
-        effortRequired:  {
+        effortRequired: reorderTags(tags.effortRequired)[0]?reorderTags(tags.effortRequired)[0]:{
             value: 50,
             label: ''
         },
-        timeRequired:  {
+        timeRequired: reorderTags(tags.timeRequired)[0]?reorderTags(tags.timeRequired)[0]:{
             value: 50,
             label: ''
         },
@@ -239,8 +245,6 @@ const AddTask = ({type, currentTask}) => {
         )
     }
 
-    const [tags, setTags] = useRecoilState(tagsAtom)
-
     const HabitForm = () => {
 
         useEffect(()=>{
@@ -299,10 +303,6 @@ const AddTask = ({type, currentTask}) => {
             })
             setTags({...tags, [type]: [...newTags]})
         }
-
-        const reorderTags = (arr) => {
-            return arr.slice().sort((a, b) => a.value - b.value)
-        }
         
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -331,7 +331,7 @@ const AddTask = ({type, currentTask}) => {
                             <p><span>Priority</span><EyeOff /></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.priority).map((item, index)=>{
-                                    return <div onClick={()=>setTask({...task, priority: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'priority')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, priority: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'priority')} /></div>
                                 })}
                                 <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'priority')}><span></span><div id="priorityTagValue">{task.priority.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
@@ -341,7 +341,7 @@ const AddTask = ({type, currentTask}) => {
                             <p><span>Time required</span><EyeOff /></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.timeRequired).map((item, index)=>{
-                                    return <div onClick={()=>setTask({...task, timeRequired: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'timeRequired')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, timeRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'timeRequired')} /></div>
                                 })}
                                 <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{task.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
@@ -351,7 +351,7 @@ const AddTask = ({type, currentTask}) => {
                             <p><span>Effort required</span><EyeOff /></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.effortRequired).map((item, index)=>{
-                                    return <div onClick={()=>setTask({...task, effortRequired: {value: item.value, label: item.label}})} key={index} className={`${styles.tag} ${task.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'effortRequired')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, effortRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'effortRequired')} /></div>
                                 })}
                                 <OutsideClickHandler onOutsideClick={removeTagInput}><div className={styles.addTag} onClick={(e)=>addTagInput(e)} onBlur={(e)=>appendTag(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{task.effortRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
@@ -594,7 +594,7 @@ const AddTask = ({type, currentTask}) => {
                         </p>
                     </div>
                 :null}
-                {projects.find(i=>i.id===allRoutes['project'])?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])} />:null}
+                {projects.find(i=>i.id===allRoutes['project'])||task.start!==null||task.deadline!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']):null} />:null}
                 <HabitForm />
             </div>
     )
