@@ -47,7 +47,9 @@ const tagsAtom = atom({
                 label: 'High',
                 value: 100
             }
-        ]
+        ],
+        tags: [],
+        skillsRequired: []
     },
     effects_UNSTABLE: [persistAtom]
 })
