@@ -33,17 +33,17 @@ const TaskDeadline = ({start, deadline, project}) => {
             return new Date(a.date) - new Date(b.date)
         })
     }
-    if(start && !timeline.find(i=>i.date===new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'}))){
+    if(start && !timeline.find(i=>i.date===new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}))){
         timeline.push({
             name: 'Task Start',
-            date: new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'})
+            date: new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
         })
         reorderTimeline()
     }
-    if(deadline && !timeline.find(i=>i.date===new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'}))){
+    if(deadline && !timeline.find(i=>i.date===new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}))){
         timeline.push({
             name: 'Task Deadline',
-            date: new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit'})
+            date: new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
         })
         reorderTimeline()
     }

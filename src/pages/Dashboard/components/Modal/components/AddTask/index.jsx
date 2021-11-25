@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
-import 'react-day-picker/lib/style.css'
+import "react-datetime/css/react-datetime.css"
+import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus, AlignLeft, Flag, EyeOff, Navigation, Folder } from 'react-feather'
+import { X, Plus, Minus, AlignLeft, Flag, Navigation, Folder } from 'react-feather'
 
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
@@ -71,8 +71,6 @@ const AddTask = ({type, currentTask}) => {
             value: 50,
             label: ''
         },
-        skillsRequired: [],
-        roles: [],
         tags: []
     })
 
@@ -224,27 +222,6 @@ const AddTask = ({type, currentTask}) => {
         }
     }
 
-    const Roles = () => {
-        return (
-            <div className={styles.roles}>
-                <p><span>Add Role</span><EyeOff /></p>
-                <ul>
-                    <li>
-                        <Plus />
-                    </li>
-                </ul>
-            </div>
-        )
-    }
-
-    const SkillsRequired = () => {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
-
     const HabitForm = () => {
 
         useEffect(()=>{
@@ -357,15 +334,15 @@ const AddTask = ({type, currentTask}) => {
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <DayPickerInput placeholder='Add Start Date' value={task.start} onDayChange={(e)=>setTask({...task, start: e})} />         
+                                <Datetime initialValue='Add Start Date' value={task.start} onChange={(e)=>setTask({...task, start: e._d})} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <DayPickerInput placeholder='Add Deadline' value={task.deadline} onDayChange={(e)=>setTask({...task, deadline: e})} />        
+                                <Datetime initialValue='Add Deadline' value={task.deadline} onChange={(e)=>setTask({...task, deadline: e._d})} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
-                            <p><span>Priority</span><EyeOff /></p>
+                            <p><span>Priority</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.priority).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, priority: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
@@ -375,7 +352,7 @@ const AddTask = ({type, currentTask}) => {
                             <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={task.priority.value} onMouseUp={(e)=>setTask({...task, priority: {...task.priority, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <p><span>Time required</span><EyeOff /></p>
+                            <p><span>Time required</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.timeRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, timeRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'timeRequired')} /></div>
@@ -385,7 +362,7 @@ const AddTask = ({type, currentTask}) => {
                             <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={task.timeRequired.value} onMouseUp={(e)=>setTask({...task, timeRequired: {...task.timeRequired, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <p><span>Effort required</span><EyeOff /></p>
+                            <p><span>Effort required</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.effortRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, effortRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'effortRequired')} /></div>
@@ -395,7 +372,7 @@ const AddTask = ({type, currentTask}) => {
                             <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={task.effortRequired.value} onMouseUp={(e)=>setTask({...task, effortRequired: {...task.effortRequired, value: parseInt(e.target.value)}})} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <p><span>Tags</span><EyeOff /></p>
+                            <p><span>Tags</span></p>
                             <div className={styles.tags}>
                                 {tags.tags.map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?task.tags.includes(item)?setTask({...task, tags: [...task.tags.filter((val)=>{return val!==item})]}):setTask({...task, tags: [...task.tags, item]}):null} key={index} className={`${styles.tag} ${task.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
@@ -403,19 +380,8 @@ const AddTask = ({type, currentTask}) => {
                                 <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                         </div>
-                        <div className={styles.taskInputSection}>
-                            <p><span>Skills Required</span><EyeOff /></p>
-                            <div className={styles.tags}>
-                                {tags.skillsRequired.map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?task.skillsRequired.includes(item)?setTask({...task, skillsRequired: [...task.skillsRequired.filter((val)=>{return val!==item})]}):setTask({...task, skillsRequired: [...task.skillsRequired, item]}):null} key={index} className={`${styles.tag} ${task.skillsRequired.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'skillsRequired')} /></div>
-                                })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'skillsRequired')}><span></span><Plus /></div></OutsideClickHandler>
-                            </div>
-                        </div>
                     </div>
                 </form>
-                <Roles />
-                <SkillsRequired />
                 <ul>
                     <li>
                         <div className={styles.tabselect} style={{marginBottom: '2vh', marginTop: '1vh'}}>
@@ -630,14 +596,12 @@ const AddTask = ({type, currentTask}) => {
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <div className={styles.taskNavigation}>
-                {projects.find(i=>i.id===allRoutes['project'])?
                     <div className={styles.projectName}>
                         <Folder />
                         <p>
-                            {projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']).name:null}
+                            {projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']).name:'All'}
                         </p>
                     </div>
-                :null}
                 </div>
                 {projects.find(i=>i.id===allRoutes['project'])||task.start!==null||task.deadline!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']):null} />:null}
                 <HabitForm />
