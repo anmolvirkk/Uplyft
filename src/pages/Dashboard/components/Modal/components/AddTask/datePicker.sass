@@ -1,14 +1,29 @@
 @use 'src/styles/_mixins'
 @use 'src/styles/_variables'
-
-.DayPickerInput
-    width: 100%
-.DayPickerInput-Overlay
+    
+.rdtPicker
+    border: none
     background-color: var(--background)
     border-radius: 10px 10px
     padding-bottom: 1vh
-    .DayPicker-Day:hover
-        background-color: variables.$primary !important
-        color: variables.$white
-    .DayPicker-Day--outside:hover
-        background-color: transparent !important
+    box-shadow: 0 0 10px rgba(var(--lightrgb), 0.1)
+    color: var(--text)
+    font-weight: 100
+    th
+        border: none
+    span, th:hover
+        color: rgba(var(--lightrgb), 1)
+        background-color: var(--background) !important
+        font-weight: 100
+    td.rdtActive, td.rdtActive:hover, td.rdtDay:hover, .rdtMonth:hover
+            background-color: variables.$primary
+            text-shadow: none
+    .rdtSwitch
+        color: rgba(var(--lightrgb), 1)
+        font-weight: 100
+    td.rdtOld, td.rdtNew, td.rdtOld:hover, td.rdtNew:hover, .rdtTimeToggle:hover
+        color: rgba(var(--lightrgb), 0.25)
+        background-color: var(--background)
+    .dow, .dow:hover
+        font-weight: 100
+        color: rgba(variables.$secondary, 0.5)

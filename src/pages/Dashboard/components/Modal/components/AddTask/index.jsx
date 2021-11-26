@@ -334,11 +334,11 @@ const AddTask = ({type, currentTask}) => {
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <Datetime initialValue='Add Start Date' value={task.start} onChange={(e)=>setTask({...task, start: e._d})} />         
+                                <Datetime initialValue={task.start?task.start:'Add Start Date'} onClose={(e)=>setTask({...task, start: e._d})} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue='Add Deadline' value={task.deadline} onChange={(e)=>setTask({...task, deadline: e._d})} />        
+                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: e._d})} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
