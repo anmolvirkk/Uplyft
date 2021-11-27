@@ -1,6 +1,122 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+
+.helperTextAddEntry
+    height: 100%
+    min-width: 24vh
+    +mixins.center
+    color: variables.$secondary
+    p
+        margin-bottom: 2.5vh
+        line-height: 1.5
+
+.slotSection
+    height: calc( 100vh - 80px )
+    overflow-x: hidden
+    overflow-y: auto
+
+.slotSection 
+    a
+        display: flex
+        justify-content: space-between
+        align-items: center
+        position: relative
+    p
+        text-transform: none
+        width: 100%
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+    svg
+        width: 2vh
+    .overflownSlot:hover::before
+        content: attr(data-title)
+        position: absolute
+        padding: 10px
+        background: var(--tooltip)
+        color: #fff
+        font-size: 1.35vh
+        z-index: 99
+        width: 75%
+        line-height: 1.5
+        top: 70px
+        text-align: left
+        border-radius: 7px 7px
+    .overflownSlot:hover::after
+        content: ''
+        position: absolute
+        top: 50px
+        border: 8px solid transparent  
+        border-bottom: 8px solid var(--tooltip)
+        z-index: 99
+
+
+.sideSectionSlot
+    width: 100%
+    height: 80px
+    display: flex
+    align-items: center
+    padding: 0 2vh
+    border-bottom: 1px solid var(--border)
+    color: variables.$secondary
+
+.slotContent
+    display: flex
+    align-items: center
+    width: calc( 100% - 2vh )
+    min-width: calc( 100% - 2vh )
+    div
+        border-radius: 100%
+        height: 3vh
+        +mixins.center
+        margin-right: 1vh
+        svg
+            stroke: white
+            width: 3vh
+            padding: 0.5vh
+
+
+.slotContent
+    min-width: calc( 100% - 90px )
+    width: calc( 100% - 90px )
+
+.sideSectionSlot
+    padding-right: 0
+
+.category
+    font-size: 1.5vh
+    color: var(--text)
+    h3
+        font-size: 1.5vh
+        font-weight: 300
+        background-color: var(--background)
+        padding: 1.5vh
+        display: flex
+        justify-content: space-between
+        align-items: center
+        color: var(--text)
+        cursor: pointer
+    .dropDown
+        width: 100%
+        position: relative
+        cursor: pointer
+        h3
+            background-color: transparent
+        ul
+            position: absolute
+            top: 5vh
+            width: 100%
+            z-index: 9
+            background-color: var(--background)
+        li
+            padding: 1.5vh
+            border-bottom: 1px solid var(--border)
+            font-weight: 300
+        li:first-child
+            border-top: 1px solid var(--border)
+
+
 .category
     font-size: 1.5vh
     h3

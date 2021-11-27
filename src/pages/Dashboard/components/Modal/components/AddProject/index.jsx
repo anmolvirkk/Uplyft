@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
-import 'react-day-picker/lib/style.css'
+import "react-datetime/css/react-datetime.css"
+import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, Flag, Navigation } from 'react-feather'
@@ -20,14 +20,16 @@ const AddProject = ({icons, type, currentProject}) => {
         icon: currentProject.icon,
         name: currentProject.name,
         deadline: currentProject.deadline,
-        start: currentProject.start
+        start: currentProject.start,
+        tasks: currentProject.tasks
     }:{
         id: date.valueOf(),
         color: 0,
         icon: 0,
         name: '',
         deadline: '',
-        start: ''
+        start: '',
+        tasks: []
     })
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
@@ -92,14 +94,14 @@ const AddProject = ({icons, type, currentProject}) => {
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <input style={{marginTop: '2vh'}} defaultValue={project.name}  onBlur={(e)=>setProject({...project, name: e.target.value})} placeholder='Enter Project Name' />
-                   <div className={styles.setDates}>
+                    <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />
-                            <DayPickerInput placeholder='Add Start Date' value={project.start} onDayChange={(e)=>setProject({...project, start: e})} />        
+                            <Datetime initialValue={project.start?project.start:'Add Start Date'} onClose={(e)=>setProject({...project, start: e._d})} />         
                         </div>
                         <div className={`${styles.inputWithIcon}`}>
                             <Flag />
-                            <DayPickerInput placeholder='Add Deadline' value={project.deadline} onDayChange={(e)=>setProject({...project, deadline: e})} />        
+                            <Datetime initialValue={project.deadline?project.deadline:'Add Deadline'} onClose={(e)=>setProject({...project, deadline: e._d})} />        
                         </div>
                     </div>
                 </form>

@@ -5,7 +5,13 @@ const {persistAtom} = recoilPersist()
 
 const projectsAtom = atom({
     key: 'projects',
-    default: [],
+    default: [{
+        id: 'all',
+        color: 0,
+        icon: 29,
+        name: 'all',
+        tasks: []
+    }],
     effects_UNSTABLE: [persistAtom]
 })
 

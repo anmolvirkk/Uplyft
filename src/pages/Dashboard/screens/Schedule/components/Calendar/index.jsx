@@ -29,7 +29,7 @@ const MainCalendar = () => {
         getWeekDate.setHours(new Date(item.start).getHours())
         getWeekDate.setMinutes(new Date(item.start).getMinutes())
         getWeek(new Date(getWeekDate)).forEach((day)=>{
-            let habitRepeat = habit.find((i)=>i.id === item.id).repeat
+            let habitRepeat = habit.find((i)=>i.id === item.id)?habit.find((i)=>i.id === item.id).repeat : null
             for(let key in habitRepeat){
                 if(habitRepeat[key] !== null && key!=='unique' && key!=='all'){
                     habitRepeat[key].forEach((repeat)=>{

@@ -3,7 +3,7 @@ import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, Minus, AlignLeft, Flag, Navigation, Folder } from 'react-feather'
+import { X, Plus, AlignLeft, Flag, Navigation, Folder } from 'react-feather'
 
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
@@ -40,22 +40,6 @@ const AddTask = ({type, currentTask}) => {
     }:{
         id: date.valueOf(),
         name: '',
-        repeat: {
-            unique: false,
-            all: [
-                {
-                    from: "00:00",
-                    to: "12:00"
-                }
-            ],
-            mon: [{from: "00:00", to: "12:00"}],
-            tue: [{from: "00:00", to: "12:00"}],
-            wed: [{from: "00:00", to: "12:00"}],
-            thu: [{from: "00:00", to: "12:00"}],
-            fri: [{from: "00:00", to: "12:00"}],
-            sat: [{from: "00:00", to: "12:00"}],
-            sun: [{from: "00:00", to: "12:00"}]
-        },
         details: '',
         deadline: null,
         start: null,
@@ -77,37 +61,42 @@ const AddTask = ({type, currentTask}) => {
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
+    const [allRoutes] = useRecoilState(allRoutesAtom)
+    
     const submitHabit = () => {
-        let times = {
-            from: {
-                h: parseInt(task.repeat.all[0].from.split(':')[0]),
-                m: parseInt(task.repeat.all[0].from.split(':')[1])
-            },
-            to: {
-                h: parseInt(task.repeat.all[0].to.split(':')[0]),
-                m: parseInt(task.repeat.all[0].to.split(':')[1])
-            }
-        }
-        let fromDate = new Date()
-        fromDate.setHours(times.from.h)
-        fromDate.setMinutes(times.from.m)
-        let toDate = new Date()
-        toDate.setHours(times.to.h)
-        toDate.setMinutes(times.to.m)
-        if(times.to.h < times.from.h){
-            toDate.setDate(toDate.getDate()+1)
-        }
         if(type === 'add'){
-            setProjects([...projects, {...projects.find(i=>i.id===allRoutes['project']), tasks: [...projects.find(i=>i.id===allRoutes['project']).tasks, task]}])
+            if(projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id !== 'all'){
+                let newProjects = projects.map((data)=>{
+                    let newData = {...data}
+                    if(data.id ===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']){
+                        newData.tasks = [...projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks, task]
+                    }
+                    if(data.id === 'all'){
+                        newData.tasks = [...projects.find(i=>i.id==='all').tasks, task]
+                    }
+                    return newData
+                })
+                setProjects([...newProjects])
+            }else{
+                let newProjects = projects.map((data)=>{
+                    let newData = {...data}
+                    if(data.id === 'all'){
+                        newData.tasks = [...projects.find(i=>i.id==='all').tasks, task]
+                    }
+                    return newData
+                })
+                setProjects([...newProjects])
+            }
+
             setAllCalendarEvents([...allCalendarEvents, {
                 title: task.name,
-                start: fromDate,
-                end: toDate,
-                color: colors[task.color],
+                start: task.start,
+                end: task.deadline,
+                color: colors[projects.find(i=>i.id==='all').color],
                 id: task.id
             }])
         }else if(type==='edit'){
-            let newTasks = projects.find(i=>i.id===allRoutes['project']).tasks.map((data)=>{
+            let newTasks = projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks.map((data)=>{
                 let newData = {...data}
                     if(data.id === currentTask.id) {
                         newData.id = task.id
@@ -119,14 +108,14 @@ const AddTask = ({type, currentTask}) => {
                     }
                 return newData
             })
-            setProjects([...projects, {...projects.find(i=>i.id===allRoutes['project']), tasks: [...newTasks]}])
+            setProjects([...projects, {...projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']), tasks: [...newTasks]}])
 
             let newAllCalendarEvents = allCalendarEvents.map((data)=>{
                 let newData = {...data}
                     if(data.id === currentTask.id) {
                         newData.title = task.name
-                        newData.start = fromDate
-                        newData.end = toDate
+                        newData.start = task.start
+                        newData.end = task.deadline
                         newData.color = colors[task.color]
                     }
                 return newData
@@ -134,92 +123,6 @@ const AddTask = ({type, currentTask}) => {
             setAllCalendarEvents([...newAllCalendarEvents])
         }
         setModalConfig({type: ''})
-    }
-    
-
-    const setTimeForAll = (val, index, type) => {
-        let newRepeat = {}
-        for(let key in task.repeat){
-            if(task.repeat[key] !== null && key!=='unique'){
-                let newTimes = task.repeat[key].map((data, i)=>{
-                    let newData = {...data}
-                        if(i === index) {
-                            if(type === 'from'){
-                                newData.from = val
-                                newData.to = task.repeat.all[index].to
-                            }else{
-                                newData.from = task.repeat.all[index].from
-                                newData.to = val
-                            }
-                        }
-                    return newData
-                })
-                newRepeat = {...newRepeat, [key]: [...newTimes]}
-            }
-        }
-        setTask({...task, repeat: {...task.repeat, ...newRepeat}})
-    }
-
-    const addAllTime = () => {
-        let taskRepeat = {}
-        for(let key in task.repeat){
-            if(key!=='unique'){
-                if(task.repeat[key] !== null){
-                    let newData = [...task.repeat[key], {from: "00:00", to: "12:00"}]
-                    taskRepeat = {...taskRepeat, [key]: [...newData]}
-                }
-            }else{
-                taskRepeat = {...taskRepeat, [key]: task.repeat[key]}
-            }
-        }
-        setTask({...task, repeat: {...task.repeat, ...taskRepeat}})
-    }
-
-    const removeTimeFromAll = (index) => {
-        if(task.repeat.all.length!==1){
-            let newTimes = task.repeat.all.filter((val, i)=>i!==index)
-            setTask({...task, repeat: {...task.repeat, all: [...newTimes]}})
-        }
-    }
-
-    const addUniqueTime = (day) => {
-        for(let key in task.repeat){
-            if(key === day){
-                setTask({...task, repeat: {...task.repeat, [day]: [...task.repeat[day], {from: "00:00", to: "12:00"}]}})
-            }
-        }
-    }
-
-    const setTimeForUnique = (val, index, type, day) => {
-        for(let key in task.repeat){
-            if(key === day){
-                let newTimes = task.repeat[day].map((data, i)=>{
-                    let newData = {...data}
-                        if(i === index) {
-                            if(type === 'from'){
-                                newData.from = val
-                                newData.to = task.repeat[day][index].to
-                            }else{
-                                newData.from = task.repeat[day][index].from
-                                newData.to = val
-                            }
-                        }
-                    return newData
-                })
-                setTask({...task, repeat: {...task.repeat, [day]: [...newTimes]}})
-            }
-        }
-    }
-    
-    const removeTimeFromUnique = (index, day) => {
-        for(let key in task.repeat){
-            if(key === day){
-                if(task.repeat[day].length!==1){
-                    let newTimes = task.repeat[day].filter((val, i)=>i!==index)
-                    setTask({...task, repeat: {...task.repeat, [day]: [...newTimes]}})
-                }
-            }
-        }
     }
 
     const HabitForm = () => {
@@ -323,12 +226,12 @@ const AddTask = ({type, currentTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={task.name}  onBlur={(e)=>setTask({...task, name: e.target.value})} placeholder='New Task' />
+                            <input defaultValue={task.name} onBlur={(e)=>setTask({...task, name: e.target.value})} placeholder='New Task' />
                         </div>
                         <div className={styles.taskInputSection}>
                             <div className={styles.inputWithIcon}>
                                 <AlignLeft />
-                                <input type="text" placeholder="Add Details" />
+                                <input type="text" defaultValue={task.details} placeholder="Add Details" onBlur={(e)=>setTask({...task, details: e.target.value})} />
                             </div>
                         </div>
                         <div className={styles.setDates}>
@@ -382,203 +285,6 @@ const AddTask = ({type, currentTask}) => {
                         </div>
                     </div>
                 </form>
-                <ul>
-                    <li>
-                        <div className={styles.tabselect} style={{marginBottom: '2vh', marginTop: '1vh'}}>
-                            <div onClick={()=>setTask({...task, repeat: {...task.repeat, unique: false}})} className={!task.repeat.unique?styles.activeTab:null}>Same time for all days</div>
-                            <div onClick={()=>setTask({...task, repeat: {...task.repeat, unique: true}})} className={task.repeat.unique?styles.activeTab:null}>Unique time for seperate days</div>
-                        </div>
-
-                        <div className={styles.daySelect}>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, mon: task.repeat.mon===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.mon!==null?styles.activeDay:null}>Mon</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, tue: task.repeat.tue===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.tue!==null?styles.activeDay:null}>Tue</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, wed: task.repeat.wed===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.wed!==null?styles.activeDay:null}>Wed</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, thu: task.repeat.thu===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.thu!==null?styles.activeDay:null}>Thu</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, fri: task.repeat.fri===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.fri!==null?styles.activeDay:null}>Fri</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, sat: task.repeat.sat===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.sat!==null?styles.activeDay:null}>Sat</div>
-                                <div onClick={()=>setTask({...task, repeat: {...task.repeat, sun: task.repeat.sun===null?[{from: "00:00", to: "12:00"}]:null}})} className={task.repeat.sun!==null?styles.activeDay:null}>Sun</div>
-                        </div>
-
-                        <div className={styles.days} style={{display: !task.repeat.unique?'block':'none'}}>
-                            {!task.repeat.unique?
-                            <div>
-                                {task.repeat.all.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForAll(e.target.value, index, 'from')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForAll(e.target.value, index, 'to')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromAll(index)} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={addAllTime} />
-                            </div>
-                            :null}
-                        </div>
-                        <div className={styles.days} style={{display: task.repeat.unique?'block':'none'}}>
-                            {
-                                task.repeat.mon!==null?
-                                <div className={styles.day}>
-                                <p>Monday</p>
-                                {task.repeat.mon.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'mon')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'mon')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'mon')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('mon')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.tue!==null?
-                                <div className={styles.day}>
-                                <p>Tuesday</p>
-                                {task.repeat.tue.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'tue')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'tue')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'tue')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('tue')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.wed!==null?
-                                <div className={styles.day}>
-                                <p>Wednesday</p>
-                                {task.repeat.wed.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'wed')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'wed')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'wed')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('wed')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.thu!==null?
-                                <div className={styles.day}>
-                                <p>Thurday</p>
-                                {task.repeat.thu.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'thu')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'thu')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'thu')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('thu')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.fri!==null?
-                                <div className={styles.day}>
-                                <p>Friday</p>
-                                {task.repeat.fri.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'fri')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'fri')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'fri')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('fri')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.sat!==null?
-                                <div className={styles.day}>
-                                <p>Saturday</p>
-                                {task.repeat.sat.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sat')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sat')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sat')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('sat')} />
-                                </div> : null
-                            }
-                            {
-                                task.repeat.sun!==null?
-                                <div className={styles.day}>
-                                <p>Sunday</p>
-                                {task.repeat.sun.map((item, index)=>(
-                                    <div className={styles.times} key={index}>
-                                        <div className={styles.time}> 
-                                            <div>
-                                                <p>From</p>
-                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sun')} type="time" />
-                                            </div>
-                                            <div>
-                                                <p>To</p>
-                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sun')} type="time" />
-                                            </div>
-                                        </div>
-                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sun')} />
-                                    </div>
-                                ))}
-                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('sun')} />
-                                </div> : null
-                            }
-                        </div>
-                    </li>
-                </ul>
                 <div className={`${styles.footer} ${styles.taskFooter}`}>
                     <button className={styles.cancelBtn} onClick={()=>setModalConfig({type: ''})}>Back</button>
                     <button className={styles.continueBtn} onClick={submitHabit}>Continue</button>
@@ -586,8 +292,6 @@ const AddTask = ({type, currentTask}) => {
             </div>
         )
     }
-
-    const [allRoutes] = useRecoilState(allRoutesAtom)
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -599,11 +303,11 @@ const AddTask = ({type, currentTask}) => {
                     <div className={styles.projectName}>
                         <Folder />
                         <p>
-                            {projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']).name:'All'}
+                            {projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).name:null}
                         </p>
                     </div>
                 </div>
-                {projects.find(i=>i.id===allRoutes['project'])||task.start!==null||task.deadline!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===allRoutes['project'])?projects.find(i=>i.id===allRoutes['project']):null} />:null}
+                {projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])||task.start!==null||task.deadline!==null?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']):null} />:null:null}
                 <HabitForm />
             </div>
     )

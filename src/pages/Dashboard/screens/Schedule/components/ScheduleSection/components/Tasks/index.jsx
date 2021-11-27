@@ -7,17 +7,30 @@ import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAto
 import styles from './_tasks.module.sass'
 import projectsAtom from '../../../../recoil-atoms/projectsAtom'
 import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
+import { Folder } from 'react-feather'
+import MoreMenu from '../../../../../../components/MoreMenu'
 
 const Projects = () => {
     const [projects] = useRecoilState(projectsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     return (
         <div className={styles.projects}>
-            {projects.length>0?<NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'today'})} to={`/schedule/tasks/today`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>Today</p></NavLink>:null}
+            <NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'today'})} to={`/schedule/tasks/today`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><div className={styles.projectIcon}><Folder /></div><p>Today</p></NavLink>
             {projects.map((item)=>{
-                return <NavLink onClick={()=>setAllRoutes({...allRoutes, project: item.id})} key={item.id} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>{item.name}</p></NavLink>
+                return (
+                    <div key={item.id}>
+                        <NavLink onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
+                            <div className={styles.projectIcon}><Folder /></div>
+                            <p>{item.name}</p>
+                            <MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                        </NavLink>
+                        {item.id===allRoutes['project']?
+                        <div className={styles.projectTree}>
+                        </div>
+                        :null}
+                    </div>
+                )
             })}
-            <NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'all'})} to={`/schedule/tasks/all`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><p>All</p></NavLink>
         </div>
     )
 }
