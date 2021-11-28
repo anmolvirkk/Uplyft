@@ -65,14 +65,14 @@ const AddTask = ({type, currentTask}) => {
     
     const submitHabit = () => {
         if(type === 'add'){
-            if(projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id !== 'all'){
+            if(projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id !== 'all'){
                 let newProjects = projects.map((data)=>{
                     let newData = {...data}
                     if(data.id ===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']){
-                        newData.tasks = [...projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks, task]
+                        newData.tasks = [...projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks, task]
                     }
                     if(data.id === 'all'){
-                        newData.tasks = [...projects.find(i=>i.id==='all').tasks, task]
+                        newData.tasks = [...projects.find(i=>i.id?i.id:''==='all').tasks, task]
                     }
                     return newData
                 })
@@ -81,7 +81,7 @@ const AddTask = ({type, currentTask}) => {
                 let newProjects = projects.map((data)=>{
                     let newData = {...data}
                     if(data.id === 'all'){
-                        newData.tasks = [...projects.find(i=>i.id==='all').tasks, task]
+                        newData.tasks = [...projects.find(i=>i.id?i.id:''==='all').tasks, task]
                     }
                     return newData
                 })
@@ -92,11 +92,11 @@ const AddTask = ({type, currentTask}) => {
                 title: task.name,
                 start: task.start,
                 end: task.deadline,
-                color: colors[projects.find(i=>i.id==='all').color],
+                color: colors[projects.find(i=>i.id?i.id:''==='all').color],
                 id: task.id
             }])
         }else if(type==='edit'){
-            let newTasks = projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks.map((data)=>{
+            let newTasks = projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks.map((data)=>{
                 let newData = {...data}
                     if(data.id === currentTask.id) {
                         newData.id = task.id
@@ -108,7 +108,7 @@ const AddTask = ({type, currentTask}) => {
                     }
                 return newData
             })
-            setProjects([...projects, {...projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']), tasks: [...newTasks]}])
+            setProjects([...projects, {...projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']), tasks: [...newTasks]}])
 
             let newAllCalendarEvents = allCalendarEvents.map((data)=>{
                 let newData = {...data}
@@ -303,11 +303,11 @@ const AddTask = ({type, currentTask}) => {
                     <div className={styles.projectName}>
                         <Folder />
                         <p>
-                            {projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).name:null}
+                            {projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).name:null}
                         </p>
                     </div>
                 </div>
-                {projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])||task.start!==null||task.deadline!==null?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']):null} />:null:null}
+                {projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])||task.start!==null||task.deadline!==null?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']):null} />:null:null}
                 <HabitForm />
             </div>
     )
