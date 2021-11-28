@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp } from 'react-feather'
+import { ChevronUp, ChevronDown } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -9,8 +9,8 @@ import modalConfigAtom from '../../../../../../Journals/recoil-atoms/modalConfig
 import projectsAtom from '../../../../../recoil-atoms/projectsAtom'
 import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
 import MoreMenu from '../../../../../../../components/MoreMenu'
-import CheckBtn from '../../Habits/HabitDetails/components/CheckBtn'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
+import CheckBtn from './components/CheckBtn'
 
 const TaskDetails = () => {
     
@@ -47,25 +47,56 @@ const TaskDetails = () => {
         )
     }
 
+    const [completedOpen, setCompletedOpen] = useState(false)
+    
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
+                <h3 className={styles.slotLabel}><span>Remaining</span></h3>
                 {
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){
                             return item.tasks.map((task)=>{
-                                return (
-                                    <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
-                                        <div className={styles.slotContent}>
-                                        <div style={{backgroundColor: colors[task.color]}}>
-                                                {iconsSvg[task.icon]}
+                                if(!task.completed){
+                                    return (
+                                        <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
+                                            <div className={styles.slotContent}>
+                                            <div style={{backgroundColor: colors[task.color]}}>
+                                                    {iconsSvg[task.icon]}
+                                                </div>
+                                                <p>{task.name}</p>
                                             </div>
-                                            <p>{task.name}</p>
+                                            <MoreMenu items={[{name: "edit", function: ()=>console.log(task)}, {name: "delete", function: ()=>console.log(task)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
-                                        <MoreMenu items={[{name: "edit", function: ()=>console.log(task)}, {name: "delete", function: ()=>console.log(task)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                        <CheckBtn times={1} id={task.id} timesCompleted={0} datesCompleted={[]} />
-                                    </div>
-                                )
+                                    )
+                                }
+                                return null
+                            })
+                        }
+                        return null
+                    })
+                }
+                <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}><span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
+                {
+                    projects.map((item)=>{
+                        if(item.id === allRoutes['project']){
+                            return item.tasks.map((task)=>{
+                                if(task.completed){
+                                    return (
+                                        <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
+                                            <div className={styles.slotContent}>
+                                            <div style={{backgroundColor: colors[task.color]}}>
+                                                    {iconsSvg[task.icon]}
+                                                </div>
+                                                <p>{task.name}</p>
+                                            </div>
+                                            <MoreMenu items={[{name: "edit", function: ()=>console.log(task)}, {name: "delete", function: ()=>console.log(task)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <CheckBtn id={task.id} completed={task.completed} />
+                                        </div>
+                                    )
+                                }
+                                return null
                             })
                         }
                         return null

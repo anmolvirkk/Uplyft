@@ -1,0 +1,36 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.checkBtn
+    height: 100%
+    width: 79.5px
+    +mixins.center
+    background-color: rgba(var(--lightrgb), 0.15)
+    color: rgba(var(--lightrgb), 0.75)
+    transition: 125ms
+    position: relative
+    cursor: pointer
+    svg
+        position: absolute
+        z-index: 2
+    .progress
+        position: absolute
+        left: 0
+        height: 100%
+        z-index: 1
+        background: variables.$primary
+
+.activeCheck
+    background-color: variables.$primary
+    color: white
+    box-sizing: border-box
+    transform: scale(0.8)
+    svg
+        position: static
+        mix-blend-mode: normal
+        transform: scale(1.2)
+
+.timesIndicator
+    color: rgba(var(--lightrgb), 0.7)
+    position: absolute
+    z-index: 2

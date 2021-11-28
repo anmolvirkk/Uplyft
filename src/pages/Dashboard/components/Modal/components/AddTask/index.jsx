@@ -55,7 +55,8 @@ const AddTask = ({type, currentTask}) => {
             value: 50,
             label: ''
         },
-        tags: []
+        tags: [],
+        completed: false
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
