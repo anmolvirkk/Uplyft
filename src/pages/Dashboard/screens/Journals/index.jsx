@@ -19,7 +19,9 @@ const Journals = () => {
     const [dates, setDates] = useRecoilState(datesAtom)
 
     useEffect(()=>{
+        if(allRoutes['book']){
             setDate(allRoutes, setAllRoutes, dates, setDates)
+        }
     }, [allRoutes, setAllRoutes, dates, setDates])
 
         return (
