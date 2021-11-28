@@ -77,7 +77,7 @@ const TaskDetails = () => {
                                                 </div>
                                                 <p>{task.name}</p>
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>deleteTask(task.id)}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                                             <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
                                     )
@@ -102,7 +102,7 @@ const TaskDetails = () => {
                                                 </div>
                                                 <p>{task.name}</p>
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>deleteTask(task.id)}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                                             <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
                                     )

@@ -283,6 +283,8 @@ const Modal = () => {
             <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
             : modalConfig.type === 'addTask' ?
             <AddTask icons={iconsSvg} type="add" currentTask={null} />
+            : modalConfig.type === 'editTask' ?
+            <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} />
             : modalConfig.type === 'addProject' ?
             <AddProject icons={iconsSvg} type="add" currentTask={null} />
             : null

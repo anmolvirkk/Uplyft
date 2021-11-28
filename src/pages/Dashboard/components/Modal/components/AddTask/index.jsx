@@ -33,10 +33,15 @@ const AddTask = ({type, currentTask}) => {
 
     const [task, setTask] = useState(currentTask?{
         id: currentTask.id,
-        color: currentTask.color,
-        icon: currentTask.icon,
         name: currentTask.name,
-        repeat: currentTask.repeat
+        details: currentTask.details,
+        deadline: currentTask.deadline!==null?new Date(currentTask.deadline):null,
+        start: currentTask.start!==null?new Date(currentTask.start):null,
+        priority: currentTask.priority,
+        effortRequired: currentTask.effortRequired,
+        timeRequired: currentTask.timeRequired,
+        tags: currentTask.tags,
+        completed: currentTask.completed
     }:{
         id: date.valueOf(),
         name: '',
@@ -97,31 +102,31 @@ const AddTask = ({type, currentTask}) => {
                 id: task.id
             }])
         }else if(type==='edit'){
-            let newTasks = projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks.map((data)=>{
+            
+            let newProjects = projects.map((data)=>{
                 let newData = {...data}
-                    if(data.id === currentTask.id) {
-                        newData.id = task.id
-                        newData.color = task.color
-                        newData.icon = task.icon
-                        newData.name = task.name
-                        newData.repeat = task.repeat
-                        newData.times = task.times
+                let newTasks = newData.tasks.map((data)=>{
+                    let newTaskData = {...data}
+                    if(newTaskData.id === task.id){
+                        newTaskData.id = task.id
+                        newTaskData.name = task.name
+                        newTaskData.details = task.details
+                        newTaskData.deadline = task.deadline!==null?new Date(task.deadline):null
+                        newTaskData.start = task.start!==null?new Date(task.start):null
+                        newTaskData.priority = task.priority
+                        newTaskData.effortRequired = task.effortRequired
+                        newTaskData.timeRequired = task.timeRequired
+                        newTaskData.tags = task.tags
+                        newTaskData.completed = task.completed
                     }
+                    return newTaskData
+                })
+                newData.tasks = newTasks
                 return newData
             })
-            setProjects([...projects, {...projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']), tasks: [...newTasks]}])
+            console.log(newProjects)
+            setProjects([...newProjects])
 
-            let newAllCalendarEvents = allCalendarEvents.map((data)=>{
-                let newData = {...data}
-                    if(data.id === currentTask.id) {
-                        newData.title = task.name
-                        newData.start = task.start
-                        newData.end = task.deadline
-                        newData.color = colors[task.color]
-                    }
-                return newData
-            })
-            setAllCalendarEvents([...newAllCalendarEvents])
         }
         setModalConfig({type: ''})
     }
