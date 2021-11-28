@@ -15,7 +15,7 @@ import CheckBtn from './components/CheckBtn'
 const TaskDetails = () => {
     
     const setModalConfig = useSetRecoilState(modalConfigAtom)
-    const [projects] = useRecoilState(projectsAtom)
+    const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes] = useRecoilState(allRoutesAtom)
 
     const Filters = () => {
@@ -49,6 +49,17 @@ const TaskDetails = () => {
 
     const [completedOpen, setCompletedOpen] = useState(false)
     
+    const deleteTask = (id, project) => {
+        let newProjects = projects.map((data)=>{
+            let newData = {...data}
+            if(newData.id === project){
+                newData.tasks = newData.tasks.filter(val=>val.id!==id)
+            }
+            return newData
+        })
+        setProjects([...newProjects])
+    }
+    
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
@@ -66,7 +77,7 @@ const TaskDetails = () => {
                                                 </div>
                                                 <p>{task.name}</p>
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>console.log(task)}, {name: "delete", function: ()=>console.log(task)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <MoreMenu items={[{name: "edit", function: ()=>deleteTask(task.id)}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                                             <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
                                     )
@@ -91,7 +102,7 @@ const TaskDetails = () => {
                                                 </div>
                                                 <p>{task.name}</p>
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>console.log(task)}, {name: "delete", function: ()=>console.log(task)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <MoreMenu items={[{name: "edit", function: ()=>deleteTask(task.id)}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                                             <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
                                     )
