@@ -25,51 +25,61 @@ const MainCalendar = () => {
         return week
     }
     allCalendarEvents.forEach((item)=>{
-        let getWeekDate = new Date()
-        getWeekDate.setHours(new Date(item.start).getHours())
-        getWeekDate.setMinutes(new Date(item.start).getMinutes())
-        getWeek(new Date(getWeekDate)).forEach((day)=>{
-            let habitRepeat = habit.find((i)=>i.id === item.id)?habit.find((i)=>i.id === item.id).repeat : null
-            for(let key in habitRepeat){
-                if(habitRepeat[key] !== null && key!=='unique' && key!=='all'){
-                    habitRepeat[key].forEach((repeat)=>{
-                        let times = {
-                            from: {
-                                h: parseInt(repeat.from.split(':')[0]),
-                                m: parseInt(repeat.from.split(':')[1])
-                            },
-                            to: {
-                                h: parseInt(repeat.to.split(':')[0]),
-                                m: parseInt(repeat.to.split(':')[1])
+        if(item.type === 'habit'){
+            let getWeekDate = new Date()
+            getWeekDate.setHours(new Date(item.start).getHours())
+            getWeekDate.setMinutes(new Date(item.start).getMinutes())
+            getWeek(new Date(getWeekDate)).forEach((day)=>{
+                let habitRepeat = habit.find((i)=>i.id === item.id)?habit.find((i)=>i.id === item.id).repeat : null
+                for(let key in habitRepeat){
+                    if(habitRepeat[key] !== null && key!=='unique' && key!=='all'){
+                        habitRepeat[key].forEach((repeat)=>{
+                            let times = {
+                                from: {
+                                    h: parseInt(repeat.from.split(':')[0]),
+                                    m: parseInt(repeat.from.split(':')[1])
+                                },
+                                to: {
+                                    h: parseInt(repeat.to.split(':')[0]),
+                                    m: parseInt(repeat.to.split(':')[1])
+                                }
                             }
-                        }
-                        if(key === day.toLocaleDateString('en-US', {weekday: 'short'}).toLowerCase()){
-                            let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
-                            startDate.setMonth(day.getMonth())
-                            startDate.setDate(day.getDate())
-                            startDate.setHours(new Date(times.from.h))
-                            startDate.setMinutes(new Date(times.from.m))
-                            let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
-                            endDate.setMonth(day.getMonth())
-                            endDate.setDate(day.getDate())
-                            endDate.setHours(new Date(times.to.h))
-                            endDate.setMinutes(new Date(times.to.m))
-                            if(endDate.getHours() < startDate.getHours()){
-                                endDate.setDate(new Date(day.getDate() + 1))
+                            if(key === day.toLocaleDateString('en-US', {weekday: 'short'}).toLowerCase()){
+                                let startDate = new Date(new Date(item.start).setFullYear(day.getFullYear()))
+                                startDate.setMonth(day.getMonth())
+                                startDate.setDate(day.getDate())
+                                startDate.setHours(new Date(times.from.h))
+                                startDate.setMinutes(new Date(times.from.m))
+                                let endDate = new Date(new Date(item.end).setFullYear(day.getFullYear()))
+                                endDate.setMonth(day.getMonth())
+                                endDate.setDate(day.getDate())
+                                endDate.setHours(new Date(times.to.h))
+                                endDate.setMinutes(new Date(times.to.m))
+                                if(endDate.getHours() < startDate.getHours()){
+                                    endDate.setDate(new Date(day.getDate() + 1))
+                                }
+                                events.push({
+                                    title: item.title,
+                                    start: startDate,
+                                    end: endDate,
+                                    color: item.color,
+                                    id: day.valueOf()
+                                })
                             }
-                            events.push({
-                                title: item.title,
-                                start: startDate,
-                                end: endDate,
-                                color: item.color,
-                                id: day.valueOf()
-                            })
-                        }
-                    })
+                        })
+                    }
                 }
-            }
-        })
-    })   
+            })
+        }else if(item.type === 'task'){
+            events.push({
+                title: item.title,
+                start: new Date(item.start),
+                end: new Date(item.end),
+                color: item.color,
+                id: item.id
+            })
+        }
+    })
 
     const setRepeatEvents = (date) => {
         if(date){
@@ -86,6 +96,7 @@ const MainCalendar = () => {
             }
             if(shouldAddEvent()){
                 allCalendarEvents.forEach((item)=>{
+                    if(item.type === 'habit' && habit.find((i)=>i.id === item.id)){
                         getWeek(new Date(new Date(date))).forEach((day)=>{
                             let habitRepeat = habit.find((i)=>i.id === item.id).repeat
                             for(let key in habitRepeat){
@@ -127,6 +138,7 @@ const MainCalendar = () => {
                                 }
                             }
                         })
+                    }
                 })  
             } 
         }

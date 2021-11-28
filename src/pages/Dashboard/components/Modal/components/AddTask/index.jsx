@@ -99,7 +99,8 @@ const AddTask = ({type, currentTask}) => {
                 start: task.start,
                 end: task.deadline,
                 color: colors[projects.find(i=>i.id?i.id:''==='all').color],
-                id: task.id
+                id: task.id,
+                type: 'task'
             }])
         }else if(type==='edit'){
             
@@ -124,9 +125,19 @@ const AddTask = ({type, currentTask}) => {
                 newData.tasks = newTasks
                 return newData
             })
-            console.log(newProjects)
             setProjects([...newProjects])
-
+            
+            let newAllCalendarEvents = allCalendarEvents.map((data)=>{
+                let newData = {...data}
+                    if(data.id === task.id) {
+                        newData.title = task.name
+                        newData.start = task.start
+                        newData.end = task.deadline
+                        newData.color = colors[projects.find(i=>i.id?i.id:''==='all').color]
+                    }
+                return newData
+            })
+            setAllCalendarEvents([...newAllCalendarEvents])
         }
         setModalConfig({type: ''})
     }

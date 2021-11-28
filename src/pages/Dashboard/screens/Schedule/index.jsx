@@ -3,15 +3,15 @@ import SideBar from '../../components/SideBar'
 import ScheduleSection from './components/ScheduleSection'
 import MainCalendar from './components/Calendar'
 import { useRecoilState } from 'recoil'
-import habitsAtom from './recoil-atoms/habitsAtom'
+import allCalendarEventsAtom from './recoil-atoms/allCalendarEventsAtom'
 
 const Schedule = () => {
-    const [habits] = useRecoilState(habitsAtom)
+    const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     return (
         <div style={{display: 'flex'}}>
             <SideBar />
             <ScheduleSection />
-            {habits.length>0?<MainCalendar />:null}
+            {allCalendarEvents.length>0?<MainCalendar />:null}
         </div>
     )
 }

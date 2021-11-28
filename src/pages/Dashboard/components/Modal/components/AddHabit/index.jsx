@@ -89,7 +89,8 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 start: fromDate,
                 end: toDate,
                 color: colors[habit.color],
-                id: habit.id
+                id: habit.id,
+                type: 'habit'
             }])
         }else if(type==='edit'){
             let newHabits = habits.map((data)=>{

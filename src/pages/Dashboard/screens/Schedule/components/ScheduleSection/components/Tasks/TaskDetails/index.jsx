@@ -90,7 +90,7 @@ const TaskDetails = () => {
                 }
                 <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}><span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
                 {
-                    projects.map((item)=>{
+                    completedOpen?projects.map((item)=>{
                         if(item.id === allRoutes['project']){
                             return item.tasks.map((task)=>{
                                 if(task.completed){
@@ -111,7 +111,7 @@ const TaskDetails = () => {
                             })
                         }
                         return null
-                    })
+                    }):null
                 }
             </div>
             <Filters />
