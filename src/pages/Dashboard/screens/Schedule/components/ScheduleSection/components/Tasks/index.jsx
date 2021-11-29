@@ -15,14 +15,22 @@ const Projects = () => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     return (
         <div className={styles.projects}>
-            <NavLink onClick={()=>setAllRoutes({...allRoutes, project: 'today'})} to={`/schedule/tasks/today`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}><div className={styles.projectIcon}><Folder /></div><p>Today</p></NavLink>
             {projects.map((item)=>{
+                const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
+                const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                 return (
-                    <div key={item.id}>
+                    <div key={item.id} className={styles.projectWrapper}>
                         <NavLink onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
                             <div className={styles.projectIcon}><Folder /></div>
                             <p>{item.name}</p>
-                            <MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                            <div className={styles.progressNum}>
+                                {completedTasks}/
+                                {totalTasks}
+                            </div>
+                            {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null}
+                            <div className={styles.progress}>
+                                <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
+                            </div>
                         </NavLink>
                         {item.id===allRoutes['project']?
                         <div className={styles.projectTree}>

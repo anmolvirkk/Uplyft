@@ -262,7 +262,7 @@ const AddTask = ({type, currentTask}) => {
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()+1)):e._d})} />        
+                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d})} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>

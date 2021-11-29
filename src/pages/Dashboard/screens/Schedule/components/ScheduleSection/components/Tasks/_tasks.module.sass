@@ -9,6 +9,7 @@
     padding: 0 2vh
     border-bottom: 1px solid var(--border)
     color: variables.$secondary
+    position: relative
     .projectIcon
         svg
             min-width: 2.5vh
@@ -20,3 +21,24 @@
 
 .activeSectionSlot
     background: var(--activeSlot)
+
+.moreMenuWrapper
+    margin-left: 1vh
+
+.progress
+    width: calc(100% - 2vh)
+    position: absolute
+    bottom: 1vh
+    left: 1vh
+    height: 3px
+    background-color: rgba(var(--lightrgb), 0.25) 
+    hr
+        border: none
+        outline: none
+        height: 3px
+        width: 0%
+        background-color: variables.$secondary
+    .progressNum
+        position: absolute
+        left: -2vh
+        bottom: 0
