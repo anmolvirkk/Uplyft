@@ -68,17 +68,21 @@ const AddTask = ({type, currentTask}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
+
+    const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
+    const currentProject = projects.find(i=>i.id===currentProjectId)
+    const allProject = projects.find(i=>i.id==='all')
     
     const submitHabit = () => {
         if(type === 'add'){
-            if(projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id !== 'all'){
+            if(currentProject.id !== 'all'){
                 let newProjects = projects.map((data)=>{
                     let newData = {...data}
-                    if(data.id ===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']){
-                        newData.tasks = [...projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).tasks, task]
+                    if(data.id ===currentProjectId){
+                        newData.tasks = [...currentProject.tasks, task]
                     }
                     if(data.id === 'all'){
-                        newData.tasks = [...projects.find(i=>i.id?i.id:''==='all').tasks, task]
+                        newData.tasks = [...allProject.tasks, task]
                     }
                     return newData
                 })
@@ -87,7 +91,7 @@ const AddTask = ({type, currentTask}) => {
                 let newProjects = projects.map((data)=>{
                     let newData = {...data}
                     if(data.id === 'all'){
-                        newData.tasks = [...projects.find(i=>i.id?i.id:''==='all').tasks, task]
+                        newData.tasks = [...allProject.tasks, task]
                     }
                     return newData
                 })
@@ -98,7 +102,7 @@ const AddTask = ({type, currentTask}) => {
                 title: task.name,
                 start: task.start,
                 end: task.deadline,
-                color: colors[projects.find(i=>i.id?i.id:''==='all').color],
+                color: colors[currentProject.color],
                 id: task.id,
                 type: 'task'
             }])
@@ -133,7 +137,7 @@ const AddTask = ({type, currentTask}) => {
                         newData.title = task.name
                         newData.start = task.start
                         newData.end = task.deadline
-                        newData.color = colors[projects.find(i=>i.id?i.id:''==='all').color]
+                        newData.color = colors[currentProject.color]
                     }
                 return newData
             })
@@ -258,7 +262,7 @@ const AddTask = ({type, currentTask}) => {
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: e._d})} />        
+                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()+1)):e._d})} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
@@ -320,11 +324,11 @@ const AddTask = ({type, currentTask}) => {
                     <div className={styles.projectName}>
                         <Folder />
                         <p>
-                            {projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).name:null}
+                            {currentProject.name}
                         </p>
                     </div>
                 </div>
-                {projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])||task.start!==null||task.deadline!==null?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']).id!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project'])?projects.find(i=>i.id?i.id:''===!allRoutes['project']||allRoutes['project'] === 'today' ? 'all' : allRoutes['project']):null} />:null:null}
+                {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
                 <HabitForm />
             </div>
     )

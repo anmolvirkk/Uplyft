@@ -12,6 +12,7 @@ import MoreMenu from '../../../../../../../components/MoreMenu'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import CheckBtn from './components/CheckBtn'
 import allCalendarEventsAtom from '../../../../../recoil-atoms/allCalendarEventsAtom'
+import completedOpenAtom from '../../../../../recoil-atoms/completedOpenAtom'
 
 const TaskDetails = () => {
     
@@ -48,7 +49,7 @@ const TaskDetails = () => {
         )
     }
 
-    const [completedOpen, setCompletedOpen] = useState(false)
+    const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     
