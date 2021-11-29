@@ -11,6 +11,7 @@ import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
 import MoreMenu from '../../../../../../../components/MoreMenu'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import CheckBtn from './components/CheckBtn'
+import allCalendarEventsAtom from '../../../../../recoil-atoms/allCalendarEventsAtom'
 
 const TaskDetails = () => {
     
@@ -48,6 +49,8 @@ const TaskDetails = () => {
     }
 
     const [completedOpen, setCompletedOpen] = useState(false)
+
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     
     const deleteTask = (id, project) => {
         let newProjects = projects.map((data)=>{
@@ -58,6 +61,9 @@ const TaskDetails = () => {
             return newData
         })
         setProjects([...newProjects])
+        
+        let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
+        setAllCalendarEvents([...newAllCalendarEvents])
     }
     
     return (
