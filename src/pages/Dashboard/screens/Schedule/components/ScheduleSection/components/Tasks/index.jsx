@@ -14,6 +14,18 @@ const Projects = () => {
     const [projects] = useRecoilState(projectsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
+    const addToolTipForTasks = (e) => {
+        if(e.target.getElementsByTagName('p')[0]){
+            if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
+                e.target.classList.add(styles.overflownSlot)
+                console.log('text')
+            }else if(e.target.classList.contains(styles.overflownSlot)) {
+                e.target.classList.remove(styles.overflownSlot)
+                console.log('text2')
+            }
+        }
+    }
+    
     return (
         <div className={styles.projects}>
             {projects.map((item)=>{
@@ -21,15 +33,15 @@ const Projects = () => {
                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                 return (
                     <div key={item.id} className={styles.projectWrapper}>
-                        <NavLink onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
+                        <NavLink onMouseEnter={(e)=>addToolTipForTasks(e)} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
                             <div className={styles.slotContent}>
                                 <div className={styles.projectIcon}><Folder /></div>
                                 <p>{item.name}</p>
+                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
                                 <div className={styles.progressNum}>
                                     {completedTasks}/
                                     {totalTasks}
-                                </div>
-                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null}   
+                                </div>  
                             </div>
                             <div className={styles.progress}>
                                     <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
