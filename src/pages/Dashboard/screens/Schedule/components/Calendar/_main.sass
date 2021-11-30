@@ -20,7 +20,8 @@
     .rbc-today
         background-color: rgba(var(--lightrgb), 0.1)
     .rbc-current-time-indicator
-        background-color: variables.$primary
+        background-color: rgba(variables.$secondary, 0.5)
+        box-shadow: 0 0 10px rgba(variables.$secondary, 0.5)
     .rbc-header
         border-bottom: none
     .rbc-time-header-content
@@ -62,6 +63,9 @@
             border: none
             border-radius: 0
             cursor: pointer
+        button:hover
+            background-color: var(--background)
+            color: var(--text)
     .rbc-toolbar button:active, .rbc-toolbar button.rbc-active
         box-shadow: none
         background-color: var(--activeSlot)
