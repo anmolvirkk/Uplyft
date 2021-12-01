@@ -3,7 +3,7 @@ import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, AlignLeft, Flag, Navigation, Folder } from 'react-feather'
+import { X, Plus, AlignLeft, Flag, Navigation, Folder, CornerDownRight, ArrowRight, ChevronDown } from 'react-feather'
 
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
@@ -241,6 +241,12 @@ const AddTask = ({type, currentTask}) => {
             setTags({...tags, [type]: [...newTags]})
             setTask({...task, [type]: [...newTaskTags]})
         }
+
+        const addSubTask = () => {
+            if(!task.subtasks){
+                setTask({...task, subtasks: []})
+            }
+        }
         
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -304,6 +310,10 @@ const AddTask = ({type, currentTask}) => {
                                 <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
                         </div>
+                        <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
+                            <p onClick={addSubTask} className={styles.addSubTask}><CornerDownRight /><span>Add Subtask</span></p>  
+                            <p onClick={addSubTask} className={styles.addSubTask}><ArrowRight /><span>Add Parallel Task</span></p>      
+                        </div>
                     </div>
                 </form>
                 <div className={`${styles.footer} ${styles.taskFooter}`}>
@@ -327,6 +337,26 @@ const AddTask = ({type, currentTask}) => {
                             {currentProject.name}
                         </p>
                     </div>
+                    {task.name!==''?
+                        <div className={styles.taskNav}>
+                            <CornerDownRight />
+                            <p>
+                                <span>{task.name}</span>
+                                <ChevronDown /> 
+                                <div className={styles.taskDropDown}>
+                                    <ul>
+                                        {projects.find(i=>i.id === allRoutes['project']).tasks.map((item)=>{
+                                            return (
+                                                <li id={item.id}>
+                                                    {item.name}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                            </p>
+                        </div>
+                    :null}
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
                 <HabitForm />

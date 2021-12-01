@@ -578,6 +578,14 @@
         background: variables.$primary
         border-radius: 100%
         cursor: pointer
+    .addSubTask
+        cursor: pointer
+        svg
+            height: 2vh
+            margin: 0 1vh 0 0
+    .addSubTask:hover
+        svg
+            stroke: rgba(var(--lightrgb), 1)
 .tags
     position: relative
     display: flex
@@ -691,7 +699,6 @@
 .projectName
     display: flex
     align-items: center
-    margin-bottom: 2vh
     background-color: rgba(var(--lightrgb), 0.1)
     width: fit-content
     padding: 1vh
@@ -705,3 +712,42 @@
         text-transform: capitalize
         font-weight: 400
         color: var(--prompts)
+
+.moreTasks
+    display: flex
+    justify-content: space-between
+    margin-bottom: 0
+
+.taskNavigation
+    display: flex
+    align-items: center
+    margin-bottom: 2vh
+
+.taskNav
+    display: flex
+    align-items: center
+    margin-left: 1vh
+    svg
+        height: 2vh
+        margin-right: 1vh
+    p
+        font-size: 1.5vh
+        font-weight: 100
+        display: flex
+        align-items: center
+        cursor: pointer
+        position: relative
+    .taskDropDown
+        background-color: var(--dropdown)
+        padding: 0 1vh 1vh 1vh
+        border-radius: 5px 5px
+        position: absolute
+        top: 3vh
+        left: -4vh
+        z-index: 1
+        ul
+            list-style: none
+            width: 10vh
+            li
+                border-bottom: 1px solid rgba(variables.$secondary, 0.25)
+                padding: 1vh 0
