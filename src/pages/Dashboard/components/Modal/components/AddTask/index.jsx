@@ -244,7 +244,11 @@ const AddTask = ({type, currentTask}) => {
 
         const addSubTask = () => {
             if(!task.subtasks){
-                setTask({...task, subtasks: []})
+                setTask({...task, subtasks: [{
+                    id: new Date().valueOf(),
+                    name: 'Test'
+                }]})
+                console.log(task)
             }
         }
         
@@ -323,6 +327,34 @@ const AddTask = ({type, currentTask}) => {
             </div>
         )
     }
+
+    const NavItem = ({task, allTasks}) => {
+        const [dropDownOpen, setDropDownOpen] = useState(false)
+        return (
+            <div className={styles.taskNav}>
+                <CornerDownRight />
+                <div className={styles.navContent} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
+                    <span>{task.name}</span>
+                    <ChevronDown /> 
+                    {dropDownOpen?
+                        <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
+                            <div className={styles.taskDropDown}>
+                                <ul>
+                                    {allTasks.map((item)=>{
+                                        return (
+                                            <li id={item.id}>
+                                                {item.name}
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                            </div>
+                        </OutsideClickHandler>
+                    :null}
+                </div>
+            </div>
+        )
+    }
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -338,25 +370,17 @@ const AddTask = ({type, currentTask}) => {
                         </p>
                     </div>
                     {task.name!==''?
-                        <div className={styles.taskNav}>
-                            <CornerDownRight />
-                            <p>
-                                <span>{task.name}</span>
-                                <ChevronDown /> 
-                                <div className={styles.taskDropDown}>
-                                    <ul>
-                                        {projects.find(i=>i.id === allRoutes['project']).tasks.map((item)=>{
-                                            return (
-                                                <li id={item.id}>
-                                                    {item.name}
-                                                </li>
-                                            )
-                                        })}
-                                    </ul>
-                                </div>
-                            </p>
-                        </div>
+                        <NavItem task={task} allTasks={projects.find(i=>i.id === allRoutes['project']).tasks} />
                     :null}
+                    {
+                        task.subtasks?
+                            task.subtasks.map((item)=>{
+                                return (
+                                    <NavItem task={item} allTasks={task.subtasks} />
+                                )
+                            })
+                        : null
+                    }
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
                 <HabitForm />
