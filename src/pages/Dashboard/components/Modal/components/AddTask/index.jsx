@@ -3,7 +3,7 @@ import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, Plus, AlignLeft, Flag, Navigation, Folder, CornerDownRight, ArrowRight, ChevronDown } from 'react-feather'
+import { X, Plus, AlignLeft, Flag, Navigation, Folder, CornerDownRight, ArrowRight, ChevronDown, ChevronUp } from 'react-feather'
 
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
@@ -72,6 +72,8 @@ const AddTask = ({type, currentTask}) => {
     const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
+
+    const [taskRoute, setTaskRoute] = useState([])
     
     const submitHabit = () => {
         if(type === 'add'){
@@ -243,13 +245,16 @@ const AddTask = ({type, currentTask}) => {
         }
 
         const addSubTask = () => {
-            if(!task.subtasks){
-                setTask({...task, subtasks: [{
-                    id: new Date().valueOf(),
-                    name: 'Test'
-                }]})
-                console.log(task)
+            let subtask = {
+                id: new Date().valueOf(),
+                name: 'Test'
             }
+            setTaskRoute([...taskRoute, subtask])
+        }
+
+        const setTaskName = (e) => {
+            setTask({...task, name: e.target.value})
+            setTaskRoute([{...task, name: e.target.value}])
         }
         
         return (
@@ -257,7 +262,7 @@ const AddTask = ({type, currentTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={task.name} onBlur={(e)=>setTask({...task, name: e.target.value})} placeholder='New Task' />
+                            <input defaultValue={task.name} onBlur={(e)=>setTaskName(e)} placeholder='New Task' />
                         </div>
                         <div className={styles.taskInputSection}>
                             <div className={styles.inputWithIcon}>
@@ -333,23 +338,28 @@ const AddTask = ({type, currentTask}) => {
         return (
             <div className={styles.taskNav}>
                 <CornerDownRight />
-                <div className={styles.navContent} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
+                <div className={styles.navContent}>
                     <span>{task.name}</span>
-                    <ChevronDown /> 
+                    <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
+                        {allTasks?  
+                            <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
+                                <div className={styles.subTaskNum}>{allTasks.length}</div>
+                                {dropDownOpen?<ChevronUp />:<ChevronDown />}
+                            </div>
+                        :null}
+                    </OutsideClickHandler>
                     {dropDownOpen?
-                        <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
                             <div className={styles.taskDropDown}>
                                 <ul>
                                     {allTasks.map((item)=>{
                                         return (
-                                            <li id={item.id}>
+                                            <li key={item.id}>
                                                 {item.name}
                                             </li>
                                         )
                                     })}
                                 </ul>
                             </div>
-                        </OutsideClickHandler>
                     :null}
                 </div>
             </div>
@@ -369,18 +379,13 @@ const AddTask = ({type, currentTask}) => {
                             {currentProject.name}
                         </p>
                     </div>
-                    {task.name!==''?
-                        <NavItem task={task} allTasks={projects.find(i=>i.id === allRoutes['project']).tasks} />
-                    :null}
-                    {
-                        task.subtasks?
-                            task.subtasks.map((item)=>{
-                                return (
-                                    <NavItem task={item} allTasks={task.subtasks} />
-                                )
-                            })
-                        : null
-                    }
+                    {taskRoute.map((item, i)=>{
+                        if(taskRoute.length===1){
+                            return <NavItem key={i} task={item} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
+                        }else{
+                            return <NavItem key={i} task={item} allTasks={taskRoute[taskRoute.length-1].subtasks} />
+                        }
+                    })}
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
                 <HabitForm />

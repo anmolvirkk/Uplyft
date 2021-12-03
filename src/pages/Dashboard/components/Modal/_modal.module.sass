@@ -590,7 +590,7 @@
     position: relative
     display: flex
     flex-flow: wrap
-    max-width: 60vh
+    max-width: 70vh
     .tag
         background-color: rgba(var(--lightrgb), 0.1)
         border-radius: 5px 5px
@@ -722,6 +722,9 @@
     display: flex
     align-items: center
     margin-bottom: 2vh
+    max-width: 70vh
+.taskNavigation::-webkit-scrollbar
+    height: 0
 
 .taskNav
     display: flex
@@ -735,18 +738,33 @@
         font-weight: 100
         display: flex
         align-items: center
+        justify-content: center
         cursor: pointer
         position: relative
         color: var(--text)
+        flex-flow: column
+        .navSubTaskSelect
+            display: flex
+            align-items: center
+            justify-content: center
+            background-color: rgba(var(--lightrgb), 0.1)
+            border-radius: 4px 4px
+            margin-top: 0.5vh
+            height: 2vh
         svg
             margin: 0
+            width: 2vh
+        .subTaskNum
+            font-size: 1.25vh
+            margin-right: 1.25vh
+            margin-left: 0.5vh
     .taskDropDown
         background-color: var(--dropdown)
         padding: 0 1vh 1vh 1vh
         border-radius: 5px 5px
         position: absolute
-        top: 3vh
-        left: -4vh
+        top: 5.5vh
+        left: -3vh
         z-index: 1
         ul
             list-style: none
