@@ -265,7 +265,6 @@ const AddTask = ({type, currentTask}) => {
             }else{
                 addLayerToTask(currentLayer)
             }
-            console.log(task)
         }
 
         const setTaskName = (e) => {
@@ -361,7 +360,7 @@ const AddTask = ({type, currentTask}) => {
                                 <div className={styles.subTaskNum}>{allTasks.length}</div>
                                 {dropDownOpen?<ChevronUp />:<ChevronDown />}
                             </div>
-                        :null}
+                        : <div />}
                     </OutsideClickHandler>
                     {dropDownOpen?
                             <div className={styles.taskDropDown}>
@@ -380,6 +379,27 @@ const AddTask = ({type, currentTask}) => {
             </div>
         )
     }
+
+    const currentTaskRoute = () => {
+        let currentTaskRoute = []
+
+        if(task.subtasks){
+            let layer = task.subtasks
+    
+            const addLayer = (val) => {
+                layer = val[0].subtasks
+            }
+    
+            while(layer!==undefined){
+                if(layer[0]){
+                    currentTaskRoute.push(layer[0])
+                }
+                addLayer(layer)
+            }
+        }
+
+        return currentTaskRoute
+    }
     
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
@@ -397,8 +417,8 @@ const AddTask = ({type, currentTask}) => {
                     {task.name!==''?
                         <NavItem task={task} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
                     :null}
-                    {task.subtasks&&task.name!==''?task.subtasks.map((item, i)=>{
-                        return <NavItem key={i} task={item} allTasks={[]} />
+                    {task.subtasks&&task.name!==''?currentTaskRoute().map((item, i)=>{
+                        return <NavItem key={i} task={item} allTasks={currentTaskRoute()[i].subtasks} />
                     }):null}
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
