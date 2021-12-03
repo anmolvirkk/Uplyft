@@ -70,7 +70,7 @@ const TaskDetails = () => {
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
-                <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0}</div></h3>
+                <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}</div></h3>
                 {
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){

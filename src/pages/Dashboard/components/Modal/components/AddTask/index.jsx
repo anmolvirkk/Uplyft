@@ -72,8 +72,6 @@ const AddTask = ({type, currentTask}) => {
     const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
-
-    const [taskRoute, setTaskRoute] = useState([])
     
     const submitHabit = () => {
         if(type === 'add'){
@@ -245,16 +243,33 @@ const AddTask = ({type, currentTask}) => {
         }
 
         const addSubTask = () => {
-            let subtask = {
-                id: new Date().valueOf(),
-                name: 'Test'
+            let id = new Date().valueOf()
+            let currentLayer = task.subtasks
+            const addLayerToTask = (val) => {
+                if(!val[0]['subtasks']){
+                    val[0]['subtasks'] = [{
+                        id: id,
+                        name: 'Sub Task'
+                    }]
+                    setTask({...task})
+                }else{
+                    addLayerToTask(val[0]['subtasks'])
+                }
+                currentLayer = val[0]['subtasks']
             }
-            setTaskRoute([...taskRoute, subtask])
+            if(!task.subtasks){
+                setTask({...task, subtasks: [{
+                    id: id,
+                    name: 'Sub Task'
+                }]})
+            }else{
+                addLayerToTask(currentLayer)
+            }
+            console.log(task)
         }
 
         const setTaskName = (e) => {
             setTask({...task, name: e.target.value})
-            setTaskRoute([{...task, name: e.target.value}])
         }
         
         return (
@@ -379,13 +394,12 @@ const AddTask = ({type, currentTask}) => {
                             {currentProject.name}
                         </p>
                     </div>
-                    {taskRoute.map((item, i)=>{
-                        if(taskRoute.length===1){
-                            return <NavItem key={i} task={item} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
-                        }else{
-                            return <NavItem key={i} task={item} allTasks={taskRoute[taskRoute.length-1].subtasks} />
-                        }
-                    })}
+                    {task.name!==''?
+                        <NavItem task={task} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
+                    :null}
+                    {task.subtasks&&task.name!==''?task.subtasks.map((item, i)=>{
+                        return <NavItem key={i} task={item} allTasks={[]} />
+                    }):null}
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
                 <HabitForm />
