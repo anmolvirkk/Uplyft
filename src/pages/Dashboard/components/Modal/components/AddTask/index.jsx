@@ -31,18 +31,7 @@ const AddTask = ({type, currentTask}) => {
         return arr.slice().sort((a, b) => a.value - b.value)
     }
 
-    const [task, setTask] = useState(currentTask?{
-        id: currentTask.id,
-        name: currentTask.name,
-        details: currentTask.details,
-        deadline: currentTask.deadline!==null?new Date(currentTask.deadline):null,
-        start: currentTask.start!==null?new Date(currentTask.start):null,
-        priority: currentTask.priority,
-        effortRequired: currentTask.effortRequired,
-        timeRequired: currentTask.timeRequired,
-        tags: currentTask.tags,
-        completed: currentTask.completed
-    }:{
+    const taskformat = {
         id: date.valueOf(),
         name: '',
         details: '',
@@ -62,6 +51,21 @@ const AddTask = ({type, currentTask}) => {
         },
         tags: [],
         completed: false
+    }
+
+    const [task, setTask] = useState(currentTask?{
+        id: currentTask.id,
+        name: currentTask.name,
+        details: currentTask.details,
+        deadline: currentTask.deadline!==null?new Date(currentTask.deadline):null,
+        start: currentTask.start!==null?new Date(currentTask.start):null,
+        priority: currentTask.priority,
+        effortRequired: currentTask.effortRequired,
+        timeRequired: currentTask.timeRequired,
+        tags: currentTask.tags,
+        completed: currentTask.completed
+    }:{
+        ...taskformat
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
@@ -72,6 +76,27 @@ const AddTask = ({type, currentTask}) => {
     const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
+
+    const currentTaskRoute = () => {
+        let currentTaskRoute = []
+
+        if(task.subtasks){
+            let layer = task.subtasks
+    
+            const addLayer = (val) => {
+                layer = val[0].subtasks
+            }
+    
+            while(layer!==undefined){
+                if(layer[0]){
+                    currentTaskRoute.push(layer[0])
+                }
+                addLayer(layer)
+            }
+        }
+
+        return currentTaskRoute
+    }
     
     const submitHabit = () => {
         if(type === 'add'){
@@ -150,9 +175,9 @@ const AddTask = ({type, currentTask}) => {
 
         useEffect(()=>{
             tags.priority.forEach((item)=>{
-                if(item.value === task.priority.value){
-                    if(item.label !== task.priority.label){
-                        setTask({...task, priority: {...task.priority, label: item.label}})
+                if(item.value === activeTask.priority.value){
+                    if(item.label !== activeTask.priority.label){
+                        setActiveTask('priority', {...task.priority, label: item.label})
                     }
                 }
             })
@@ -243,12 +268,11 @@ const AddTask = ({type, currentTask}) => {
         }
 
         const addSubTask = () => {
-            let id = new Date().valueOf()
             let currentLayer = task.subtasks
             const addLayerToTask = (val) => {
                 if(!val[0]['subtasks']){
                     val[0]['subtasks'] = [{
-                        id: id,
+                        ...taskformat,
                         name: 'Sub Task'
                     }]
                     setTask({...task})
@@ -259,7 +283,7 @@ const AddTask = ({type, currentTask}) => {
             }
             if(!task.subtasks){
                 setTask({...task, subtasks: [{
-                    id: id,
+                    ...taskformat,
                     name: 'Sub Task'
                 }]})
             }else{
@@ -267,8 +291,10 @@ const AddTask = ({type, currentTask}) => {
             }
         }
 
-        const setTaskName = (e) => {
-            setTask({...task, name: e.target.value})
+        let activeTask = currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
+        let setActiveTask = (key, val) => {
+            activeTask[key] = val
+            setTask({...task})
         }
         
         return (
@@ -276,59 +302,59 @@ const AddTask = ({type, currentTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={task.name} onBlur={(e)=>setTaskName(e)} placeholder='New Task' />
+                            <input defaultValue={activeTask.name} onBlur={(e)=>setActiveTask('name', e.target.value)} placeholder='New Task' />
                         </div>
                         <div className={styles.taskInputSection}>
                             <div className={styles.inputWithIcon}>
                                 <AlignLeft />
-                                <input type="text" defaultValue={task.details} placeholder="Add Details" onBlur={(e)=>setTask({...task, details: e.target.value})} />
+                                <input type="text" defaultValue={activeTask.details} placeholder="Add Details" onBlur={(e)=>setActiveTask('details', e.target.value)} />
                             </div>
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <Datetime initialValue={task.start?task.start:'Add Start Date'} onClose={(e)=>setTask({...task, start: e._d})} />         
+                                <Datetime initialValue={activeTask.start?activeTask.start:'Add Start Date'} onClose={(e)=>setActiveTask('start', e._d)} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue={task.deadline?task.deadline:'Add Deadline'} onClose={(e)=>setTask({...task, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d})} />        
+                                <Datetime initialValue={activeTask.deadline?activeTask.deadline:'Add Deadline'} onClose={(e)=>setActiveTask('deadline', new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d)} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
                             <p><span>Priority</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.priority).map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, priority: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setActiveTask('priority', {value: item.value, label: item.label}):null} key={index} className={`${styles.tag} ${activeTask.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'priority')}><span></span><div id="priorityTagValue">{task.priority.value}</div><Plus /></div></OutsideClickHandler>
+                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'priority')}><span></span><div id="priorityTagValue">{activeTask.priority.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={task.priority.value} onMouseUp={(e)=>setTask({...task, priority: {...task.priority, value: parseInt(e.target.value)}})} />
+                            <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={activeTask.priority.value} onMouseUp={(e)=>setActiveTask('priority', {...activeTask.priority, value: parseInt(e.target.value)})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Time required</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.timeRequired).map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, timeRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'timeRequired')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setActiveTask('timeRequired', {value: item.value, label: item.label}):null} key={index} className={`${styles.tag} ${activeTask.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'timeRequired')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{task.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
+                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{activeTask.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={task.timeRequired.value} onMouseUp={(e)=>setTask({...task, timeRequired: {...task.timeRequired, value: parseInt(e.target.value)}})} />
+                            <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={activeTask.timeRequired.value} onMouseUp={(e)=>setActiveTask('timeRequired', {...activeTask.timeRequired, value: parseInt(e.target.value)})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Effort required</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.effortRequired).map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setTask({...task, effortRequired: {value: item.value, label: item.label}}):null} key={index} className={`${styles.tag} ${task.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'effortRequired')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?setActiveTask('effortRequired', {value: item.value, label: item.label}):null} key={index} className={`${styles.tag} ${activeTask.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'effortRequired')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{task.effortRequired.value}</div><Plus /></div></OutsideClickHandler>
+                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{activeTask.effortRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={task.effortRequired.value} onMouseUp={(e)=>setTask({...task, effortRequired: {...task.effortRequired, value: parseInt(e.target.value)}})} />
+                            <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={activeTask.effortRequired.value} onMouseUp={(e)=>setActiveTask('effortRequired', {...activeTask.effortRequired, value: parseInt(e.target.value)})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Tags</span></p>
                             <div className={styles.tags}>
                                 {tags.tags.map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?task.tags.includes(item)?setTask({...task, tags: [...task.tags.filter((val)=>{return val!==item})]}):setTask({...task, tags: [...task.tags, item]}):null} key={index} className={`${styles.tag} ${task.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?activeTask.tags.includes(item)?setActiveTask({'tags': [...activeTask.tags.filter((val)=>{return val!==item})]}):setActiveTask('tags', [...activeTask.tags, item]):null} key={index} className={`${styles.tag} ${activeTask.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
                                 })}
                                 <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
@@ -378,27 +404,6 @@ const AddTask = ({type, currentTask}) => {
                 </div>
             </div>
         )
-    }
-
-    const currentTaskRoute = () => {
-        let currentTaskRoute = []
-
-        if(task.subtasks){
-            let layer = task.subtasks
-    
-            const addLayer = (val) => {
-                layer = val[0].subtasks
-            }
-    
-            while(layer!==undefined){
-                if(layer[0]){
-                    currentTaskRoute.push(layer[0])
-                }
-                addLayer(layer)
-            }
-        }
-
-        return currentTaskRoute
     }
     
     return (
