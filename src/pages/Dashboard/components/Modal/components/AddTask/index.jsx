@@ -285,11 +285,8 @@ const AddTask = ({type, currentTask}) => {
                 name: 'Sub Task'
             }
             if(!activeTask.subtasks){
-                if(taskRoute.currentRoot[taskRoute.currentRoot]){
-                    setTaskRoute({...taskRoute, [taskRoute.currentRoot]: [...taskRoute.currentRoot, subTaskInfo.id]})
-                }else{
-                    setTaskRoute({...taskRoute, [taskRoute.currentRoot]: [subTaskInfo.id]})
-                }
+                let layerName = `taskLayer-${Object.keys(taskRoute).filter(i=>i.split('-')[0]==='taskLayer').length}`
+                setTaskRoute({...taskRoute, [layerName]: subTaskInfo.id})
                 setActiveTask('subtasks', [{
                     ...taskformat,
                     ...subTaskInfo
@@ -306,17 +303,20 @@ const AddTask = ({type, currentTask}) => {
                 id: new Date().valueOf(),
                 name: 'Sub Task'
             }
-            if(currentTaskRoute().find(i=>i.id===activeTask.id)){
-                let parent = 0
-                if(currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1>=0){
-                    parent = currentTaskRoute().find(i=>i.id===activeTask.id)
+            let parentKey
+            let thisKey
+            for(let key in taskRoute){
+                if(taskRoute[key] !== activeTask.id){
+                    parentKey = taskRoute[key]
                 }else{
-                    parent = rootTask
+                    thisKey = key
                 }
-                parent.subtasks = [...parent.subtasks, {...taskformat, ...parallelTaskInfo}]
-                setTask({...task})
-                setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
             }
+            let parent = currentTaskRoute().find(i=>i.id===parentKey)
+            parent.subtasks = [...parent.subtasks, {...taskformat, ...parallelTaskInfo}]
+            setTask({...task})
+            setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
+            setTaskRoute({...taskRoute, [thisKey]: parallelTaskInfo.id})
         }
         
         return (
