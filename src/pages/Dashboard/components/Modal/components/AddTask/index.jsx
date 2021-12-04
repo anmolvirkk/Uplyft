@@ -375,12 +375,13 @@ const AddTask = ({type, currentTask}) => {
     }
 
     const NavItem = ({task, allTasks}) => {
+        const navTask = allTasks.find(i=>i.id===activeTask.id)?allTasks.find(i=>i.id===activeTask.id):task
         const [dropDownOpen, setDropDownOpen] = useState(false)
         return (
-            <div className={`${styles.taskNav} ${task.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(task)}>
+            <div className={`${styles.taskNav} ${navTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(navTask)}>
                 <CornerDownRight />
                 <div className={styles.navContent}>
-                    <span>{task.name}</span>
+                    <span>{navTask.name}</span>
                     <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
                         {allTasks?  
                             <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
@@ -394,7 +395,7 @@ const AddTask = ({type, currentTask}) => {
                                 <ul>
                                     {allTasks.map((item)=>{
                                         return (
-                                            <li key={item.id}>
+                                            <li key={item.id} onMouseDown={()=>setSavedActiveTask(item)}>
                                                 {item.name}
                                             </li>
                                         )
@@ -424,7 +425,11 @@ const AddTask = ({type, currentTask}) => {
                         <NavItem task={task} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
                     :null}
                     {task.subtasks&&task.name!==''?currentTaskRoute().map((item, i)=>{
-                        return <NavItem key={i} task={item} allTasks={currentTaskRoute()[i].subtasks} />
+                        if(i-1>=0){
+                            return <NavItem key={i} task={item} allTasks={currentTaskRoute()[i-1].subtasks} />
+                        }else{
+                            return <NavItem key={i} task={item} allTasks={task.subtasks} />
+                        }
                     }):null}
                 </div>
                 {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
