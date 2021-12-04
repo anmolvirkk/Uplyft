@@ -77,11 +77,16 @@ const AddTask = ({type, currentTask}) => {
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
 
+    const [taskRoute, setTaskRoute] = useState({currentRoot: task.id})
+
+    const rootTask = currentProject.tasks.find(i=>i.id===taskRoute.currentRoot)?currentProject.tasks.find(i=>i.id===taskRoute.currentRoot):task
+    
     const currentTaskRoute = () => {
+
         let currentTaskRoute = []
 
-        if(task.subtasks){
-            let layer = task.subtasks
+        if(rootTask.subtasks){
+            let layer = rootTask.subtasks
     
             const addLayer = (val) => {
                 layer = val[0].subtasks
@@ -104,7 +109,7 @@ const AddTask = ({type, currentTask}) => {
         activeTask[key] = val
         setTask({...task})
     }
-    
+
     const submitHabit = () => {
         if(type === 'add'){
             if(currentProject.id !== 'all'){
@@ -275,27 +280,25 @@ const AddTask = ({type, currentTask}) => {
         }
 
         const addSubTask = () => {
-            let currentLayer = task.subtasks
-            const addLayerToTask = (val) => {
-                if(!val[0]['subtasks']){
-                    val[0]['subtasks'] = [{
-                        ...taskformat,
-                        name: 'Sub Task'
-                    }]
-                    setTask({...task})
+            let subTaskInfo = {
+                id: new Date().valueOf(),
+                name: 'Sub Task'
+            }
+            if(!activeTask.subtasks){
+                if(taskRoute.currentRoot[taskRoute.currentRoot]){
+                    setTaskRoute({...taskRoute, [taskRoute.currentRoot]: [...taskRoute.currentRoot, subTaskInfo.id]})
                 }else{
-                    addLayerToTask(val[0]['subtasks'])
+                    setTaskRoute({...taskRoute, [taskRoute.currentRoot]: [subTaskInfo.id]})
                 }
-                currentLayer = val[0]['subtasks']
-            }
-            if(!task.subtasks){
-                setTask({...task, subtasks: [{
+                setActiveTask('subtasks', [{
                     ...taskformat,
-                    name: 'Sub Task'
-                }]})
+                    ...subTaskInfo
+                }])
+                setTask({...task})
             }else{
-                addLayerToTask(currentLayer)
+                setActiveTask('subtasks', [...activeTask.subtasks, {...taskformat, ...subTaskInfo}])
             }
+            setSavedActiveTask(activeTask.subtasks.find(i=>i.id===subTaskInfo.id))
         }
         
         return (
@@ -377,6 +380,12 @@ const AddTask = ({type, currentTask}) => {
     const NavItem = ({task, allTasks}) => {
         const navTask = allTasks.find(i=>i.id===activeTask.id)?allTasks.find(i=>i.id===activeTask.id):task
         const [dropDownOpen, setDropDownOpen] = useState(false)
+        const setRoute  = (val) => {
+            if(currentProject.tasks.find(i=>i.id===val.id)){
+                setTaskRoute({...taskRoute, currentRoot: val.id})
+            }
+            setSavedActiveTask(val)
+        }
         return (
             <div className={`${styles.taskNav} ${navTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(navTask)}>
                 <CornerDownRight />
@@ -395,7 +404,7 @@ const AddTask = ({type, currentTask}) => {
                                 <ul>
                                     {allTasks.map((item)=>{
                                         return (
-                                            <li key={item.id} onMouseDown={()=>setSavedActiveTask(item)}>
+                                            <li key={item.id} onMouseDown={()=>setRoute(item)}>
                                                 {item.name}
                                             </li>
                                         )
@@ -407,7 +416,7 @@ const AddTask = ({type, currentTask}) => {
             </div>
         )
     }
-    
+
     return (
         <div className={`${styles.form} ${styles.addTask}`} id='modalForm'>
                 <div className={styles.header}>
@@ -422,13 +431,13 @@ const AddTask = ({type, currentTask}) => {
                         </p>
                     </div>
                     {task.name!==''?
-                        <NavItem task={task} allTasks={projects.find(i=>i.id===allRoutes['project']).tasks} />
+                        <NavItem task={rootTask} allTasks={currentProject.tasks} isRoot={true} />
                     :null}
-                    {task.subtasks&&task.name!==''?currentTaskRoute().map((item, i)=>{
+                    {currentTaskRoute()&&rootTask.name!==''?currentTaskRoute().map((item, i)=>{
                         if(i-1>=0){
                             return <NavItem key={i} task={item} allTasks={currentTaskRoute()[i-1].subtasks} />
                         }else{
-                            return <NavItem key={i} task={item} allTasks={task.subtasks} />
+                            return <NavItem key={i} task={item} allTasks={rootTask.subtasks} />
                         }
                     }):null}
                 </div>
