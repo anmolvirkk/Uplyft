@@ -86,15 +86,29 @@ const AddTask = ({type, currentTask}) => {
         let currentTaskRoute = []
 
         if(rootTask.subtasks){
+
             let layer = rootTask.subtasks
-    
+
             const addLayer = (val) => {
-                layer = val[0].subtasks
+                layer = val[0]['subtasks']
             }
-    
+        
+            const selectLayer = (val) => {
+                let tasklayer = 0
+                for(let key in taskRoute){
+                    for(let i=0; i<val.length; i++){
+                        if(taskRoute[key] === val[i].id){
+                            console.log(i)
+                            tasklayer = i
+                        }
+                    }
+                }
+                return val[tasklayer]
+            }
+
             while(layer!==undefined){
                 if(layer[0]){
-                    currentTaskRoute.push(layer[0])
+                    currentTaskRoute.push(selectLayer(layer))
                 }
                 addLayer(layer)
             }
@@ -286,7 +300,7 @@ const AddTask = ({type, currentTask}) => {
             }
             if(!activeTask.subtasks){
                 let layerName = `taskLayer-${Object.keys(taskRoute).filter(i=>i.split('-')[0]==='taskLayer').length}`
-                setTaskRoute({...taskRoute, [layerName]: subTaskInfo.id})
+                setTaskRoute({...taskRoute, [layerName]: subTaskInfo.id, selected: subTaskInfo.id})
                 setActiveTask('subtasks', [{
                     ...taskformat,
                     ...subTaskInfo
@@ -303,20 +317,24 @@ const AddTask = ({type, currentTask}) => {
                 id: new Date().valueOf(),
                 name: 'Sub Task'
             }
-            let parentKey
             let thisKey
             for(let key in taskRoute){
-                if(taskRoute[key] !== activeTask.id){
-                    parentKey = taskRoute[key]
-                }else{
+                if(taskRoute[key] === activeTask.id){
                     thisKey = key
                 }
             }
-            let parent = currentTaskRoute().find(i=>i.id===parentKey)
+            let parent = {subtasks: []}
+            if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
+                parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
+            }else{
+                parent = rootTask
+            }
             parent.subtasks = [...parent.subtasks, {...taskformat, ...parallelTaskInfo}]
             setTask({...task})
             setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
-            setTaskRoute({...taskRoute, [thisKey]: parallelTaskInfo.id})
+            setTaskRoute({...taskRoute, [thisKey]: parallelTaskInfo.id, selected: parallelTaskInfo.id})
+            console.log(parallelTaskInfo.id)
+            console.log(currentTaskRoute())
         }
         
         return (
@@ -404,8 +422,12 @@ const AddTask = ({type, currentTask}) => {
             }
             setSavedActiveTask(val)
         }
+        const setNavRoute = (val) => {
+            setTaskRoute({...taskRoute, selected: val.id})
+            setSavedActiveTask(val)
+        }
         return (
-            <div className={`${styles.taskNav} ${navTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(navTask)}>
+            <div className={`${styles.taskNav} ${navTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setNavRoute(navTask)}>
                 <CornerDownRight />
                 <div className={styles.navContent}>
                     <span>{navTask.name}</span>
