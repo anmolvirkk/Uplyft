@@ -97,6 +97,13 @@ const AddTask = ({type, currentTask}) => {
 
         return currentTaskRoute
     }
+
+    const [savedActiveTask, setSavedActiveTask] = useState()
+    let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
+    const setActiveTask = (key, val) => {
+        activeTask[key] = val
+        setTask({...task})
+    }
     
     const submitHabit = () => {
         if(type === 'add'){
@@ -290,12 +297,6 @@ const AddTask = ({type, currentTask}) => {
                 addLayerToTask(currentLayer)
             }
         }
-
-        let activeTask = currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
-        let setActiveTask = (key, val) => {
-            activeTask[key] = val
-            setTask({...task})
-        }
         
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -376,7 +377,7 @@ const AddTask = ({type, currentTask}) => {
     const NavItem = ({task, allTasks}) => {
         const [dropDownOpen, setDropDownOpen] = useState(false)
         return (
-            <div className={styles.taskNav}>
+            <div className={`${styles.taskNav} ${task.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(task)}>
                 <CornerDownRight />
                 <div className={styles.navContent}>
                     <span>{task.name}</span>
