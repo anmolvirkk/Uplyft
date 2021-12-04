@@ -300,6 +300,24 @@ const AddTask = ({type, currentTask}) => {
             }
             setSavedActiveTask(activeTask.subtasks.find(i=>i.id===subTaskInfo.id))
         }
+
+        const addParallelTask = () => {
+            let parallelTaskInfo = {
+                id: new Date().valueOf(),
+                name: 'Sub Task'
+            }
+            if(currentTaskRoute().find(i=>i.id===activeTask.id)){
+                let parent = 0
+                if(currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1>=0){
+                    parent = currentTaskRoute().find(i=>i.id===activeTask.id)
+                }else{
+                    parent = rootTask
+                }
+                parent.subtasks = [...parent.subtasks, {...taskformat, ...parallelTaskInfo}]
+                setTask({...task})
+                setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
+            }
+        }
         
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -365,7 +383,7 @@ const AddTask = ({type, currentTask}) => {
                         </div>
                         <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
                             <p onClick={addSubTask} className={styles.addSubTask}><CornerDownRight /><span>Add Subtask</span></p>  
-                            <p onClick={addSubTask} className={styles.addSubTask}><ArrowRight /><span>Add Parallel Task</span></p>      
+                            <p onClick={addParallelTask} className={styles.addSubTask}><ArrowRight /><span>Add Parallel Task</span></p>      
                         </div>
                     </div>
                 </form>
