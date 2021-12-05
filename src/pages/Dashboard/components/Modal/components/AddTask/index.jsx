@@ -303,11 +303,12 @@ const AddTask = ({type, currentTask}) => {
             let parent = {subtasks: []}
             if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
                 parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
+                parent.subtasks = [{...taskformat, ...parallelTaskInfo}, ...parent.subtasks]
+                setTask({...task})
             }else{
                 parent = rootTask
+                setTask({...task, subtasks: [{...taskformat, ...parallelTaskInfo} ,...rootTask.subtasks]})
             }
-            parent.subtasks = [{...taskformat, ...parallelTaskInfo}, ...parent.subtasks]
-            setTask({...task})
             setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
         }
         
@@ -391,12 +392,15 @@ const AddTask = ({type, currentTask}) => {
         const navTask = allTasks.find(i=>i.id===activeTask.id)?allTasks.find(i=>i.id===activeTask.id):thisTask
         const [dropDownOpen, setDropDownOpen] = useState(false)
         const setSubTaskOrder = (val) => {
-            let parent = {subtasks: []}
+            let parent
             if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
                 parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
             }
-            if(parent.subtasks){
+            if(parent){
                 parent.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
+                setTask({...task})
+            }else{
+                rootTask.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
                 setTask({...task})
             }
             setSavedActiveTask(val)
