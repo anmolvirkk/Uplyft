@@ -60,12 +60,13 @@
     padding: 0 2vh
     border-bottom: 1px solid var(--border)
     color: variables.$secondary
+    justify-content: space-between
 
 .slotContent
     display: flex
     align-items: center
-    width: calc( 100% - 2vh )
-    min-width: calc( 100% - 2vh )
+    min-width: calc( 100% - 79.5px - 2vh )
+    width: calc( 100% - 100px )
     div
         border-radius: 100%
         height: 3vh
@@ -75,11 +76,6 @@
             stroke: white
             width: 3vh
             padding: 0.5vh
-
-
-.slotContent
-    min-width: calc( 100% - 90px )
-    width: calc( 100% - 90px )
 
 .sideSectionSlot
     padding-right: 0
@@ -180,3 +176,17 @@
     align-items: center
     color: var(--text)
     cursor: pointer
+
+.subtasks
+    display: grid
+    grid-template-columns: 3vh 1fr
+    .arrow
+        width: 100%
+        border-bottom: 1px solid var(--border)
+        border-right: 1px solid var(--border)
+        svg
+            stroke: variables.$secondary
+            width: 100%
+            background-color: var(--background)
+            height: 100%
+            padding: 0 0.75vh

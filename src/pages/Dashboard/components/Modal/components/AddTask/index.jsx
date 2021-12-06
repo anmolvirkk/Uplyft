@@ -63,7 +63,8 @@ const AddTask = ({type, currentTask}) => {
         effortRequired: currentTask.effortRequired,
         timeRequired: currentTask.timeRequired,
         tags: currentTask.tags,
-        completed: currentTask.completed
+        completed: currentTask.completed,
+        subtasks: currentTask.subtasks
     }:{
         ...taskformat
     })

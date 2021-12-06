@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -66,6 +66,32 @@ const TaskDetails = () => {
         let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
         setAllCalendarEvents([...newAllCalendarEvents])
     }
+
+    const SubTasks = ({subtasks}) => {
+        if(subtasks){
+            return (
+                <div className={styles.subtasks}>
+                    <div className={styles.arrow}>
+                        <CornerDownRight />
+                    </div>
+                    <div>
+                        {subtasks.map((task)=>{
+                            return (
+                                <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
+                                    <div className={styles.slotContent}>
+                                        <p>{task.name}</p>
+                                    </div>
+                                    <CheckBtn id={task.id} completed={task.completed} />
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            )
+        }else{
+            return null
+        }
+    }
     
     return (
         <div>
@@ -77,15 +103,15 @@ const TaskDetails = () => {
                             return item.tasks.map((task)=>{
                                 if(!task.completed){
                                     return (
-                                        <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
-                                            <div className={styles.slotContent}>
-                                            <div style={{backgroundColor: colors[task.color]}}>
-                                                    {iconsSvg[task.icon]}
+                                        <div key={task.id}>
+                                            <div className={styles.sideSectionSlot} data-title={task.name}>
+                                                <div className={styles.slotContent}>
+                                                    <p>{task.name}</p>
                                                 </div>
-                                                <p>{task.name}</p>
+                                                <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                                <CheckBtn id={task.id} completed={task.completed} />
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                            <CheckBtn id={task.id} completed={task.completed} />
+                                            <SubTasks subtasks={task.subtasks} />
                                         </div>
                                     )
                                 }
