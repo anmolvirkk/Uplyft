@@ -77,11 +77,14 @@ const TaskDetails = () => {
                     <div>
                         {subtasks.map((task)=>{
                             return (
-                                <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
-                                    <div className={styles.slotContent}>
-                                        <p>{task.name}</p>
+                                <div key={task.id}>
+                                    <div className={styles.sideSectionSlot} data-title={task.name}>
+                                        <div className={styles.slotContent}>
+                                            <p>{task.name}</p>
+                                        </div>
+                                        <CheckBtn id={task.id} completed={task.completed} />
                                     </div>
-                                    <CheckBtn id={task.id} completed={task.completed} />
+                                    <SubTasks subtasks={task.subtasks} />
                                 </div>
                             )
                         })}
