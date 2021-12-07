@@ -186,3 +186,27 @@
     align-items: center
     color: var(--text)
     cursor: pointer
+.tasksNav
+    display: flex
+    align-items: center
+    color: rgba(var(--lightrgb), 1)
+    padding: 0 1vh 0 1.5vh
+    overflow-x: auto
+    .navContent
+        display: flex
+        align-items: center
+        margin-right: 1vh
+        cursor: pointer
+        svg
+            min-width: 1.5vh
+            max-width: 1.5vh
+        p
+            font-size: 1.2vh
+            text-transform: lowercase
+            height: 1.7vh
+    .navContent:last-child
+        color: rgba(variables.$secondary, 0.7)
+        margin-right: 0
+
+.tasksNav::-webkit-scrollbar
+        height: 0

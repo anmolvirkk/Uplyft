@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -67,7 +67,15 @@ const TaskDetails = () => {
         setAllCalendarEvents([...newAllCalendarEvents])
     }
 
-    const [openSubtasks, setOpenSubtasks] = useState(false)
+    const [openSubtasks, setOpenSubtasks] = useState({subtasks: false, nav: []})
+
+    const showSubtasks = (task) => {
+        if(task){
+            setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+        }else{
+            setOpenSubtasks({subtasks: false, nav: []})
+        }
+    }
 
     const SubTasks = ({subtasks}) => {
         if(subtasks){
@@ -78,10 +86,9 @@ const TaskDetails = () => {
                             <div key={task.id}>
                                 <div className={styles.sideSectionSlot} data-title={task.name}>
                                     <div className={styles.slotContent}>
-                                        {console.log(task)}
                                         <p>{task.name}</p>
                                         {task.subtasks?
-                                            <div className={styles.subtasks} onClick={()=>setOpenSubtasks(task.subtasks)}>
+                                            <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
                                                 <CornerDownRight />
                                                 <p>{task.subtasks.length}</p>
                                             </div>
@@ -103,10 +110,17 @@ const TaskDetails = () => {
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
                 <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}</div></h3>
-                <div className={styles.tasksNav}></div>
+                {openSubtasks.nav.length>0?
+                    <div className={styles.tasksNav}>
+                        <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>
+                        {openSubtasks.nav.map((item)=>{
+                            return <div key={item.id} onClick={()=>showSubtasks(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
+                        })}
+                    </div>
+                :null}
                 {
-                    openSubtasks?
-                    <SubTasks subtasks={openSubtasks} />
+                    openSubtasks.subtasks?
+                    <SubTasks subtasks={openSubtasks.subtasks} />
                     :
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){
@@ -118,7 +132,7 @@ const TaskDetails = () => {
                                                 <div className={styles.slotContent}>
                                                     <p>{task.name}</p>
                                                     {task.subtasks?
-                                                        <div className={styles.subtasks} onClick={()=>setOpenSubtasks(task.subtasks)}>
+                                                        <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
                                                             <CornerDownRight />
                                                             <p>{task.subtasks.length}</p>
                                                         </div>
