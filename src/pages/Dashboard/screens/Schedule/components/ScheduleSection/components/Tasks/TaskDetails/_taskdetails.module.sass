@@ -76,6 +76,16 @@
             stroke: white
             width: 3vh
             padding: 0.5vh
+    .subtasks
+        all: unset
+        +mixins.center
+        display: flex
+        flex-flow: row
+        cursor: pointer
+        height: 100%
+        svg
+            width: 2.5vh
+            padding: 0
 
 .sideSectionSlot
     padding-right: 0
@@ -176,17 +186,3 @@
     align-items: center
     color: var(--text)
     cursor: pointer
-
-.subtasks
-    display: grid
-    grid-template-columns: 3vh 1fr
-    .arrow
-        width: 100%
-        border-bottom: 1px solid var(--border)
-        border-right: 1px solid var(--border)
-        svg
-            stroke: variables.$secondary
-            width: 100%
-            background-color: var(--background)
-            height: 100%
-            padding: 0 0.75vh
