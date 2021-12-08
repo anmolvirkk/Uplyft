@@ -71,7 +71,12 @@ const TaskDetails = () => {
 
     const showSubtasks = (task) => {
         if(task){
-            setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+            if(openSubtasks.nav.includes(task)){
+                openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
+                setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav]})
+            }else{
+                setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+            }
         }else{
             setOpenSubtasks({subtasks: false, nav: []})
         }
@@ -109,7 +114,6 @@ const TaskDetails = () => {
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
-                <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}</div></h3>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
                         <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>
@@ -118,6 +122,7 @@ const TaskDetails = () => {
                         })}
                     </div>
                 :null}
+                <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}</div></h3>
                 {
                     openSubtasks.subtasks?
                     <SubTasks subtasks={openSubtasks.subtasks} />
