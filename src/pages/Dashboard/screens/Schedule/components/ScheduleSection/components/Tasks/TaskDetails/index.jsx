@@ -7,7 +7,6 @@ import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import modalConfigAtom from '../../../../../../Journals/recoil-atoms/modalConfigAtom'
 import projectsAtom from '../../../../../recoil-atoms/projectsAtom'
-import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
 import MoreMenu from '../../../../../../../components/MoreMenu'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import CheckBtn from './components/CheckBtn'
@@ -82,27 +81,31 @@ const TaskDetails = () => {
         }
     }
 
-    const SubTasks = ({subtasks}) => {
+    const SubTasks = ({subtasks, showCompleted}) => {
         if(subtasks){
             return (
                 <div>
                     {subtasks.map((task)=>{
-                        return (
-                            <div key={task.id}>
-                                <div className={styles.sideSectionSlot} data-title={task.name}>
-                                    <div className={styles.slotContent}>
-                                        <p>{task.name}</p>
-                                        {task.subtasks?
-                                            <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
-                                                <CornerDownRight />
-                                                <p>{task.subtasks.length}</p>
-                                            </div>
-                                        :null}
+                        if(task.completed === showCompleted){
+                            return (
+                                <div key={task.id}>
+                                    <div className={styles.sideSectionSlot} data-title={task.name}>
+                                        <div className={styles.slotContent}>
+                                            <p>{task.name}</p>
+                                            {task.subtasks?
+                                                <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
+                                                    <CornerDownRight />
+                                                    <p>{task.subtasks.length}</p>
+                                                </div>
+                                            :null}
+                                        </div>
+                                        <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} />
                                     </div>
-                                    <CheckBtn id={task.id} completed={task.completed} />
                                 </div>
-                            </div>
-                        )
+                            )
+                        }else{
+                            return null
+                        }
                     })}
                 </div>
             )
@@ -122,10 +125,16 @@ const TaskDetails = () => {
                         })}
                     </div>
                 :null}
-                <h3 className={styles.slotLabel}><span>Remaining</span><div>{projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}</div></h3>
+                <h3 className={styles.slotLabel}>
+                    <span>Remaining</span>
+                    <div>
+                        {openSubtasks.subtasks?openSubtasks.subtasks.filter(i=>i.completed===false).length
+                        :projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}
+                    </div>
+                </h3>
                 {
                     openSubtasks.subtasks?
-                    <SubTasks subtasks={openSubtasks.subtasks} />
+                    <SubTasks subtasks={openSubtasks.subtasks} showCompleted={false} />
                     :
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){
@@ -144,7 +153,7 @@ const TaskDetails = () => {
                                                     :null}
                                                 </div>
                                                 <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                                <CheckBtn id={task.id} completed={task.completed} />
+                                                <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} />
                                             </div>
                                         </div>
                                     )
@@ -155,22 +164,33 @@ const TaskDetails = () => {
                         return null
                     })
                 }
-                <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}><span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
+                <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}>
+                    <span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}
+                </h3>
                 {
-                    completedOpen?projects.map((item)=>{
+                    completedOpen?
+                    openSubtasks.subtasks?
+                    <SubTasks subtasks={openSubtasks.subtasks} showCompleted={true} />
+                    :
+                    projects.map((item)=>{
                         if(item.id === allRoutes['project']){
                             return item.tasks.map((task)=>{
                                 if(task.completed){
                                     return (
-                                        <div key={task.id} className={styles.sideSectionSlot} data-title={task.name}>
-                                            <div className={styles.slotContent}>
-                                            <div style={{backgroundColor: colors[task.color]}}>
-                                                    {iconsSvg[task.icon]}
+                                        <div key={task.id}>
+                                            <div className={styles.sideSectionSlot} data-title={task.name}>
+                                                <div className={styles.slotContent}>
+                                                    <p>{task.name}</p>
+                                                    {task.subtasks?
+                                                        <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
+                                                            <CornerDownRight />
+                                                            <p>{task.subtasks.length}</p>
+                                                        </div>
+                                                    :null}
                                                 </div>
-                                                <p>{task.name}</p>
+                                                <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                                <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} />
                                             </div>
-                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id, item.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                            <CheckBtn id={task.id} completed={task.completed} />
                                         </div>
                                     )
                                 }
@@ -178,7 +198,8 @@ const TaskDetails = () => {
                             })
                         }
                         return null
-                    }):null
+                    })
+                    : null
                 }
             </div>
             <Filters />

@@ -5,20 +5,21 @@ import { Check } from 'react-feather'
 import { useRecoilState } from 'recoil'
 import projectsAtom from '../../../../../../../recoil-atoms/projectsAtom'
 
-const CheckBtn = ({id, completed}) => {
+const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
+    const completed = task.completed
 
     const onClick = (e) => {
-        let newProjects = projects.map((data)=>{
-            let newData = {...data}
-            let newTasks = newData.tasks.map((data)=>{
-                let newTaskData = {...data}
-                if(newTaskData.id === id){
-                    if(newTaskData.completed){
-                        newTaskData.completed = false
+        const newProjects = projects.map((item)=>{
+            let data = {...item}
+            const setComplete = (tasks) => tasks.map((item)=>{
+                let newTask = {...item}
+                if(newTask.id === task.id){
+                    if(newTask.completed){
+                        newTask.completed = false
                     }else{
-                        newTaskData.completed = true
+                        newTask.completed = true
                         confetti({
                             particleCount: 150,
                             spread: 60,
@@ -29,14 +30,17 @@ const CheckBtn = ({id, completed}) => {
                         })
                     }
                 }
-                return newTaskData
+                if(newTask.subtasks){
+                    newTask.subtasks = setComplete(newTask.subtasks)
+                }
+                return newTask
             })
-            newData.tasks = newTasks
-            return newData
+            data.tasks = setComplete(data.tasks)
+            setOpenSubtasks({...openSubtasks, subtasks: setComplete(openSubtasks.subtasks)})
+            return data
         })
         setProjects([...newProjects])
     }
-
     return (
         <div className={`${styles.checkBtn} ${completed?styles.activeCheck:null}`} onMouseDown={(e)=>onClick(e)}>
             <div className={styles.progress} />
