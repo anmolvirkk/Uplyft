@@ -23,9 +23,10 @@ const SlotsSection = ({styles}) => {
     const [newSlot, setNewSlot] = useState()
     
     const deleteSlot = () => {
-
-        let newSlots = slots[allRoutes['book']].filter((val)=>val.id!==allRoutes[allRoutes['book']][allRoutes['date']])
-        setSlots({...slots, [allRoutes['book']]: newSlots})
+        console.log(slots)
+        console.log(allRoutes[allRoutes['book']][allRoutes['date']])
+        let newSlots = slots[allRoutes['book']][allRoutes['date']].filter((val)=>val.id!==allRoutes[allRoutes['book']][allRoutes['date']])
+        setSlots({...slots, [allRoutes['book']]: {...slots[allRoutes['book']], [allRoutes['date']]: newSlots}})
         if(newSlots[newSlots.length - 1]){
             
             let resetSlot = async () => {

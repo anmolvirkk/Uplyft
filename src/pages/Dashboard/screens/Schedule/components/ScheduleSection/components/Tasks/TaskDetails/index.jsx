@@ -53,13 +53,30 @@ const TaskDetails = () => {
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     
     const deleteTask = (id) => {
-        let newProjects = projects.map((data)=>{
-            let newData = {...data}
-            if(newData.id === allRoutes['project']){
-                newData.tasks = newData.tasks.filter(val=>val.id!==id)
+        const newProjects = projects.map((item)=>{
+            let data = {...item}
+            const deleteTask = (tasks) => {
+                if(tasks.filter(val=>val.id===id).length>0){
+                    return tasks.filter(val=>val.id!==id)
+                }else{
+                    tasks.map((item)=>{
+                        let newTask = {...item}
+                        if(newTask.subtasks){
+                            console.log(newTask.subtasks)
+                            console.log(deleteTask(newTask.subtasks))
+                            newTask.subtasks = deleteTask(newTask.subtasks)
+                        }
+                        return newTask
+                    })
+                }
             }
-            return newData
+            console.log(data.tasks)
+            if(data.tasks){
+                data.tasks = deleteTask(data.tasks)
+            }
+            return data
         })
+        console.log(newProjects)
         setProjects([...newProjects])
         
         let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
