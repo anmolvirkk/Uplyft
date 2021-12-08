@@ -55,28 +55,22 @@ const TaskDetails = () => {
     const deleteTask = (id) => {
         const newProjects = projects.map((item)=>{
             let data = {...item}
-            const deleteTask = (tasks) => {
-                if(tasks.filter(val=>val.id===id).length>0){
-                    return tasks.filter(val=>val.id!==id)
-                }else{
-                    tasks.map((item)=>{
-                        let newTask = {...item}
-                        if(newTask.subtasks){
-                            console.log(newTask.subtasks)
-                            console.log(deleteTask(newTask.subtasks))
-                            newTask.subtasks = deleteTask(newTask.subtasks)
-                        }
-                        return newTask
-                    })
+            const deleteTask = (tasks) => tasks.map((item)=>{
+                let newTask = {...item}
+                if(newTask.id === id){
+                    return null
                 }
-            }
-            console.log(data.tasks)
+                if(newTask.subtasks){
+                    newTask.subtasks = deleteTask(newTask.subtasks).filter(i=>i!==null)
+                }
+                return newTask
+            })
             if(data.tasks){
-                data.tasks = deleteTask(data.tasks)
+                data.tasks = deleteTask(data.tasks).filter(i=>i!==null)
             }
+            setOpenSubtasks({nav: deleteTask(openSubtasks.nav), subtasks: deleteTask(openSubtasks.subtasks).filter(i=>i!==null)})
             return data
         })
-        console.log(newProjects)
         setProjects([...newProjects])
         
         let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
