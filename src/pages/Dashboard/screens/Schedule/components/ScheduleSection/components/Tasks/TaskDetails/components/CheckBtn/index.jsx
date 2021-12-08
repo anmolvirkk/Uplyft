@@ -35,8 +35,10 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
                 }
                 return newTask
             })
-            data.tasks = setComplete(data.tasks)
-            setOpenSubtasks({...openSubtasks, subtasks: setComplete(openSubtasks.subtasks)})
+            if(data.tasks){
+                data.tasks = setComplete(data.tasks)
+            }
+            setOpenSubtasks({nav: setComplete(openSubtasks.nav), subtasks: setComplete(openSubtasks.subtasks)})
             return data
         })
         setProjects([...newProjects])

@@ -47,10 +47,6 @@ const Projects = () => {
                                     <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
                             </div>
                         </NavLink>
-                        {item.id===allRoutes['project']?
-                        <div className={styles.projectTree}>
-                        </div>
-                        :null}
                     </div>
                 )
             })}
