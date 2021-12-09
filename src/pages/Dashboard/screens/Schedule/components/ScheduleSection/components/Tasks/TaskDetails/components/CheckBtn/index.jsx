@@ -16,8 +16,19 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
             const setComplete = (tasks, parent) => tasks.map((item)=>{
                 let newTask = {...item}
                 if(newTask.id === task.id){
+                    const setAllSubtasks = (tasks, set) => tasks.map((item)=>{
+                        let newSubtasks = {...item}
+                        newSubtasks.completed = set
+                        if(newSubtasks.subtasks){
+                            newSubtasks.subtasks = setAllSubtasks(newSubtasks.subtasks, set)
+                        }
+                        return newSubtasks
+                    })
                     if(newTask.completed){
                         newTask.completed = false
+                        if(newTask.subtasks){
+                            newTask.subtasks = setAllSubtasks(newTask.subtasks, false)
+                        }
                     }else{
                         newTask.completed = true
                         confetti({
@@ -28,6 +39,9 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
                                 y: e.clientY/window.innerHeight
                             }
                         })
+                        if(newTask.subtasks){
+                            newTask.subtasks = setAllSubtasks(newTask.subtasks, true)
+                        }
                     }
                     if(parent){
                         let addExtra = newTask.completed?1:-1
