@@ -13,7 +13,7 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
     const onClick = (e) => {
         const newProjects = projects.map((item)=>{
             let data = {...item}
-            const setComplete = (tasks) => tasks.map((item)=>{
+            const setComplete = (tasks, parent) => tasks.map((item)=>{
                 let newTask = {...item}
                 if(newTask.id === task.id){
                     if(newTask.completed){
@@ -29,9 +29,18 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
                             }
                         })
                     }
+                    if(parent){
+                        let addExtra = newTask.completed?1:-1
+                        console.log((tasks.filter(i=>i.completed===true).length+addExtra)/parent.subtasks.length)
+                        if((tasks.filter(i=>i.completed===true).length+addExtra)/parent.subtasks.length===1){
+                            parent.completed = true
+                        }else{
+                            parent.completed = false
+                        }
+                    }
                 }
                 if(newTask.subtasks){
-                    newTask.subtasks = setComplete(newTask.subtasks)
+                    newTask.subtasks = setComplete(newTask.subtasks, newTask)
                 }
                 return newTask
             })
