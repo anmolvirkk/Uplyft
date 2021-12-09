@@ -77,20 +77,14 @@ const AddTask = ({type, currentTask}) => {
     const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
-
-    const [rootTask, setRootTask] = useState(task)
-
-    useEffect(()=>{
-        setRootTask({...task})
-    }, [task])
     
     const currentTaskRoute = () => {
 
         let currentTaskRoute = []
 
-        if(rootTask.subtasks){
+        if(task.subtasks){
 
-            let layer = rootTask.subtasks
+            let layer = task.subtasks
 
             const addLayer = (val) => {
                 layer = val[0]['subtasks']
@@ -110,7 +104,11 @@ const AddTask = ({type, currentTask}) => {
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
         activeTask[key] = val
-        setTask({...task})
+        if(activeTask.id === task.id){
+            setTask({...activeTask})
+        }else{
+            setTask({...task})
+        }
     }
 
     const submitHabit = () => {
@@ -163,6 +161,7 @@ const AddTask = ({type, currentTask}) => {
                         newTaskData.timeRequired = task.timeRequired
                         newTaskData.tags = task.tags
                         newTaskData.completed = task.completed
+                        newTaskData.subtasks = task.subtasks
                     }
                     return newTaskData
                 })
@@ -307,8 +306,8 @@ const AddTask = ({type, currentTask}) => {
                 parent.subtasks = [{...taskformat, ...parallelTaskInfo}, ...parent.subtasks]
                 setTask({...task})
             }else{
-                parent = rootTask
-                setTask({...task, subtasks: [{...taskformat, ...parallelTaskInfo} ,...rootTask.subtasks]})
+                parent = task
+                setTask({...task, subtasks: [{...taskformat, ...parallelTaskInfo} ,...task.subtasks]})
             }
             setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
         }
@@ -390,7 +389,6 @@ const AddTask = ({type, currentTask}) => {
     }
 
     const NavItem = ({thisTask, allTasks}) => {
-        const navTask = allTasks.find(i=>i.id===activeTask.id)?allTasks.find(i=>i.id===activeTask.id):thisTask
         const [dropDownOpen, setDropDownOpen] = useState(false)
         const setSubTaskOrder = (val) => {
             let parent
@@ -401,16 +399,16 @@ const AddTask = ({type, currentTask}) => {
                 parent.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
                 setTask({...task})
             }else{
-                rootTask.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
+                task.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
                 setTask({...task})
             }
             setSavedActiveTask(val)
         }
         return (
-            <div className={`${styles.taskNav} ${navTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(navTask)}>
+            <div className={`${styles.taskNav} ${thisTask.id===activeTask.id?styles.activeTaskNav:null}`} onClick={()=>setSavedActiveTask(thisTask)}>
                 <CornerDownRight />
                 <div className={styles.navContent}>
-                    <span>{navTask.name}</span>
+                    <span>{thisTask.name}</span>
                     <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
                         {allTasks?  
                             <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
@@ -455,9 +453,9 @@ const AddTask = ({type, currentTask}) => {
                         </p>
                     </div>
                     {task.name!==''?
-                        <NavItem thisTask={rootTask} allTasks={currentProject.tasks} />
+                        <NavItem thisTask={task} allTasks={currentProject.tasks} />
                     :null}
-                    {currentTaskRoute()&&rootTask.name!==''?currentTaskRoute().map((item, i)=>{
+                    {currentTaskRoute()&&task.name!==''?currentTaskRoute().map((item, i)=>{
                         if(i-1>=0){
                             if(currentTaskRoute()[i-1].subtasks){
                                 return <NavItem key={i} thisTask={item} allTasks={currentTaskRoute()[i-1].subtasks} />
@@ -465,7 +463,7 @@ const AddTask = ({type, currentTask}) => {
                                 return null
                             }
                         }else{
-                            return <NavItem key={i} thisTask={item} allTasks={rootTask.subtasks} />
+                            return <NavItem key={i} thisTask={item} allTasks={task.subtasks} />
                         }
                     }):null}
                 </div>
