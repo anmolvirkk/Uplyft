@@ -13,12 +13,22 @@ aside
     justify-content: space-between
     overflow-y: overlay
 
+.logo
+    height: calc( 80px - 5vh )
+    margin-bottom: 3vh
+    margin-top: 3vh
+    img
+        height: 100%
+
 .iconButton 
     all: unset
     color: variables.$secondary
-    margin-bottom: 3vh
     +mixins.center
     cursor: pointer
+    margin-bottom: 3vh
+
+.iconButton:first-child
+    margin-top: 3vh
 
 .iconButton svg
     background-color: var(--background)
@@ -32,22 +42,6 @@ aside
     padding: 0
     margin-top: 1.5vh
     text-transform: capitalize
-    
-.menuButton
-    all: unset
-    width: 100%
-    height: 80px
-    min-height: 80px
-    background-color: var(--addBtn)
-    margin-bottom: 3vh
-    +mixins.center
-
-.menuButton svg
-    padding: 13px
-    width: 45px
-    height: 46px
-    border-radius: 10px 10px
-    stroke: white
 
 .activeIconButton svg
     background-color: variables.$primary

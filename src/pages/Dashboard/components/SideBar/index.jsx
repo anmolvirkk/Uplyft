@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Home, Book, Clock, Activity, Settings, Power, Menu, DollarSign, File} from 'react-feather'
+import {Home, Book, Clock, Activity, Settings, Power, DollarSign, File} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
@@ -75,9 +75,9 @@ const SidebarButtons = [
 const SideBar = () => {
     return (
         <aside>
-            <button className={styles.menuButton}>
-                <Menu />
-            </button>
+            <div className={styles.logo}>
+                <img src='/logo.png' alt="Logo" />
+            </div>
             {SidebarButtons.map((props)=>{
                 return <IconButton {...props} key={props.name} />
             })}
