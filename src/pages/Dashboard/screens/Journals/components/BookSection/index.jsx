@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
-import './_book.scss'
+import './_book.sass'
 import AddButton from '../AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
