@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Home, Book, Clock, Activity, Settings, Power, Menu} from 'react-feather'
+import {Home, Book, Clock, Activity, Settings, Power, Menu, DollarSign, File} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
@@ -10,7 +10,7 @@ import DarkMode from './components/DarkMode'
 const IconButton = ({name, icon}) => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     return (
-    name!=="menu" && name!=="logout" ?
+    name!=="menu" ?
     name==="home" ?
     <NavLink exact className={styles.iconButton} to={`/`} activeClassName={styles.activeIconButton}>
         {icon}
@@ -55,6 +55,14 @@ const SidebarButtons = [
         icon: <Clock />
     },
     {
+        name: 'notes',
+        icon: <File />
+    },
+    {
+        name: 'finances',
+        icon: <DollarSign />
+    },
+    {
         name: 'fitness',
         icon: <Activity />
     },
@@ -70,18 +78,11 @@ const SideBar = () => {
             <button className={styles.menuButton}>
                 <Menu />
             </button>
-            <div className={styles.sideButtons}>
-                {SidebarButtons.map((props)=>{
-                    return <IconButton {...props} key={props.name} />
-                })}
-            </div>
-            <div className={styles.lastButtonSection}>
-                <DarkMode />
-                <button className={styles.iconButton}>
-                    <Power />
-                    <p>Logout</p>
-                </button>
-            </div>
+            {SidebarButtons.map((props)=>{
+                return <IconButton {...props} key={props.name} />
+            })}
+            <DarkMode />
+            <IconButton name="Logout" icon={<Power />} />
         </aside>
     )
 }
