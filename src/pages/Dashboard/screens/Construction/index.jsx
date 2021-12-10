@@ -12,18 +12,14 @@ const Construction = () => {
                 <h1>This Section is Coming Soon</h1>
                 <p>Until Then, Enjoy These Instead!</p>
                 <div className={styles.alternatives}>
-                    <div className={styles.button}>
+                    <NavLink to={'/journals'}>
                         <Book />
-                        <NavLink to={'/journals'}>
-                            Journals
-                        </NavLink>
-                    </div>
-                    <div className={styles.button}>
+                        Journals
+                    </NavLink>
+                    <NavLink to={'/schedule'}>
                         <Clock />
-                        <NavLink to={'/schedule'}>
-                            Schedule
-                        </NavLink>
-                    </div>
+                        Schedule
+                    </NavLink>
                 </div>
             </div>
         </div>

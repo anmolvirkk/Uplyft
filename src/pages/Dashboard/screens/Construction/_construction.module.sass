@@ -16,7 +16,9 @@
     .alternatives
         margin-top: 5vh
         display: flex
-        .button
+        a
+            all: unset
+            color: variables.$secondary
             display: flex
             justify-content: space-between
             align-items: center
@@ -24,10 +26,7 @@
             padding: 1.5vh 3vh
             margin: 0 1.5vh
             cursor: pointer
-            a
-                all: unset
-                color: variables.$secondary
-            svg
-                stroke: variables.$secondary
-                margin-right: 1.5vh
-                height: 2.5vh
+        svg
+            stroke: variables.$secondary
+            margin-right: 1.5vh
+            height: 2.5vh
