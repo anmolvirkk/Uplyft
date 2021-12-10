@@ -12,26 +12,10 @@ const Header = () => {
         let prompts = document.getElementById('prompts')
         if(prompts){
             if(!prompts.contains(e.target) && e.target !== prompts){
-                if(document.queryCommandState("bold")){
-                    setIsBold(true)
-                }else{
-                    setIsBold(false)
-                }
-                if(document.queryCommandState("italic")){
-                    setIsItalic(true)
-                }else{
-                    setIsItalic(false)
-                }
-                if(document.queryCommandState("underline")){
-                    setIsUnderline(true)
-                }else{
-                    setIsUnderline(false)
-                }
-                if(document.queryCommandState("insertUnorderedList")){
-                    setIsList(true)
-                }else{
-                    setIsList(false)
-                }
+                setIsBold(document.queryCommandState("bold"))
+                setIsItalic(document.queryCommandState("italic"))
+                setIsUnderline(document.queryCommandState("underline"))
+                setIsList(document.queryCommandState("insertUnorderedList"))
                 switch (document.queryCommandValue('formatBlock')) {
                     case 'h1':
                         setCurrentTextSize('Heading')
@@ -46,7 +30,8 @@ const Header = () => {
                         setCurrentTextSize('Normal')
                     break
                     default:
-                        break;
+                        setCurrentTextSize('Normal')
+                    break
                 }
             }
         }
@@ -68,11 +53,31 @@ const Header = () => {
     const [isUnderline, setIsUnderline] = useState(false)
     const [isList, setIsList] = useState(false)
 
+    const setStyleState = {
+        bold: ()=>{
+            document.execCommand('bold')
+            setIsBold(document.queryCommandState("bold"))
+        },
+        italic: ()=>{
+            document.execCommand('italic')
+            setIsItalic(document.queryCommandState("italic"))
+        },
+        underline: ()=>{
+            document.execCommand('underline')
+            setIsUnderline(document.queryCommandState("underline"))
+        },
+        insertUnorderedList: ()=>{
+            document.execCommand('insertUnorderedList')
+            setIsList(document.queryCommandState("insertUnorderedList"))
+        }
+    }
+
     const TextStyleOptions = () => (
         <ul className={styles.textStyleOptions}>
-            <li onMouseDown={()=>document.execCommand('bold')} className={isBold ?  styles.activeBtn : null}><Bold /></li>
-            <li onMouseDown={()=>document.execCommand('italic')} className={isItalic ?  styles.activeBtn : null}><Italic /></li>
-            <li onMouseDown={()=>document.execCommand('underline')} className={isUnderline ?  styles.activeBtn : null}><Underline /></li>
+            <li onMouseDown={()=>setStyleState.bold()} className={isBold ?  styles.activeBtn : null}><Bold /></li>
+            <li onMouseDown={()=>setStyleState.italic()} className={isItalic ?  styles.activeBtn : null}><Italic /></li>
+            <li onMouseDown={()=>setStyleState.underline()} className={isUnderline ?  styles.activeBtn : null}><Underline /></li>
+            <li onMouseDown={()=>setStyleState.insertUnorderedList()} className={isList ?  styles.activeBtn : null}><List /></li>
         </ul>
     )
     
@@ -83,26 +88,7 @@ const Header = () => {
             })}
         </ul>
     )
-    
-    let undoInterval
-    
-    const undoStart = () => {
-        undoInterval = setInterval(()=>{document.execCommand('undo')}, 10)
-    }
-    
-    let redoInterval
-    
-    const redoStart = () => {
-        redoInterval = setInterval(()=>{document.execCommand('redo')}, 10)
-    }
-    
-    const TimeControl = () => (
-        <ul className={styles.textStyleOptions}>
-            <li onMouseDown={undoStart} onMouseUp={()=>clearInterval(undoInterval)}><CornerUpLeft /></li>
-            <li onMouseDown={redoStart} onMouseUp={()=>clearInterval(redoInterval)}><CornerUpRight /></li>
-        </ul>
-    )
-    
+
     const [textDropDown, setTextDropDown] = useState(false)
 
     const [currentTextSize, setCurrentTextSize] = useState('Normal')
@@ -143,8 +129,6 @@ const Header = () => {
                 <div className={styles.textOptions}>
                     <TextSizeDropDown />
                     <TextStyleOptions />
-                    <List onMouseDown={()=>document.execCommand('insertUnorderedList')}  className={isList ?  `${styles.activeBtn} ${styles.list}` : styles.list} />
-                    <TimeControl />
                 </div>
                 <Colors colors={colors} />
             </header>

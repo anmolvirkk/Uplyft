@@ -2,7 +2,10 @@
 @use 'src/styles/_mixins'
 
 .textEditorHeader
+    display: flex
+    align-items: center
     justify-content: space-between 
+    margin: 1.5vh 3vh
 
 .textOptions
     display: flex
@@ -20,6 +23,7 @@
         height: 5vh
         padding: 0 2.5vh
         font-size: 1.5vh
+        color: variables.$secondary
     ul
         list-style: none
         position: absolute
@@ -55,28 +59,29 @@
     li
         height: 5vh
         width: 5vh
-        border: 1px solid var(--border)
         border-left: none
         +mixins.center
         cursor: pointer
-    li:first-child
-        border-left: 1px solid var(--border)
+        svg
+            stroke: variables.$secondary
 
 .list
     margin-left: 2vh
     height: 5vh
     width: 5vh
     padding: 1.25vh
-    border: 1px solid var(--border)
     +mixins.center
     cursor: pointer
+    stroke: variables.$secondary
 
 .colors
     list-style: none
     display: flex
+    overflow-x: overlay
+    max-width: fit-content
     li
         height: 3vh
-        width: 3vh
+        min-width: 3vh
         margin-left: 2vh
         border-radius: 100%
         cursor: pointer
