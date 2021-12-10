@@ -1,74 +1,64 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Home, Book, Clock, Activity, Power, DollarSign, File} from 'react-feather'
+import {Home, Book, Clock, Activity, Power, DollarSign, File, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import DarkMode from './components/DarkMode'
 
-const IconButton = ({name, icon}) => {
-    const [allRoutes] = useRecoilState(allRoutesAtom)
+const IconButton = ({name, icon, link, underConstruction}) => {
     return (
-    name!=="menu" ?
-    name==="home" ?
-    <NavLink exact className={styles.iconButton} to={`/`} activeClassName={styles.activeIconButton}>
-        {icon}
-        <p>{name}</p>
-    </NavLink>
-    :
-    name==="journals" ?
-    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/journals`} activeClassName={styles.activeIconButton}>
-        {icon}
-        <p>{name}</p>
-    </NavLink>
-    :
-    name==="schedule" ?
-    <NavLink className={styles.iconButton} to={allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/schedule/habits`} activeClassName={styles.activeIconButton}>
-        {icon}
-        <p>{name}</p>
-    </NavLink>
-    :
-    <NavLink className={styles.iconButton} to={`/${name}`} activeClassName={styles.activeIconButton}>
-        {icon}
-        <p>{name}</p>
-    </NavLink>
-    :
-    <button className={styles.iconButton}>
-        {icon}
-        <p>{name}</p>
-    </button>
-)
+        <NavLink exact className={styles.iconButton} to={link} activeClassName={styles.activeIconButton}>
+            {icon}
+            <p>{name}</p>
+            {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
+        </NavLink>
+    )
 }
 
-const SidebarButtons = [
-    {
-        name: 'home',
-        icon: <Home />
-    },
-    {
-        name: 'journals',
-        icon: <Book />
-    },
-    {
-        name: 'schedule',
-        icon: <Clock />
-    },
-    {
-        name: 'notes',
-        icon: <File />
-    },
-    {
-        name: 'finances',
-        icon: <DollarSign />
-    },
-    {
-        name: 'fitness',
-        icon: <Activity />
-    }
-]
-
 const SideBar = () => {
+    const [allRoutes] = useRecoilState(allRoutesAtom)
+
+    const SidebarButtons = [
+        {
+            name: 'home',
+            icon: <Home />,
+            link: '/',
+            underConstruction: true
+        },
+        {
+            name: 'journals',
+            icon: <Book />,
+            link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:'/journals',
+            underConstruction: false
+        },
+        {
+            name: 'schedule',
+            icon: <Clock />,
+            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:'/schedule/habits',
+            underConstruction: false
+        },
+        {
+            name: 'notes',
+            icon: <File />,
+            link: '/notes',
+            underConstruction: true
+        },
+        {
+            name: 'finances',
+            icon: <DollarSign />,
+            link: '/finances',
+            underConstruction: true
+        },
+        {
+            name: 'fitness',
+            icon: <Activity />,
+            link: '/fitness',
+            underConstruction: true
+        }
+    ]
+
     return (
         <aside>
             <div className={styles.logo}>
@@ -78,7 +68,10 @@ const SideBar = () => {
                 return <IconButton {...props} key={props.name} />
             })}
             <DarkMode />
-            <IconButton name="Logout" icon={<Power />} />
+            <div className={styles.iconButton}>
+                <Power />
+                <p>Logout</p>
+            </div>
         </aside>
     )
 }

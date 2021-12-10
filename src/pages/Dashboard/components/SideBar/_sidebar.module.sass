@@ -19,7 +19,7 @@ aside
     margin-top: 3vh
     img
         height: 100%
-        filter: contrast(150%) saturate(150%) hue-rotate(25deg)
+        filter: contrast(150%) saturate(150%) hue-rotate(30deg)
 
 .iconButton 
     all: unset
@@ -27,6 +27,7 @@ aside
     +mixins.center
     cursor: pointer
     margin-bottom: 3vh
+    position: relative
 
 .iconButton:first-child
     margin-top: 3vh
@@ -52,3 +53,17 @@ aside
 .sideButtons
     height: calc( 100vh - 80px )
     +mixins.center
+
+.underConstruction
+    position: absolute
+    top: -0.5vh
+    right: -0.5vh
+    svg
+        all: unset
+        height: 2vh
+        fill: rgba(var(--lightrgb), 0.5)
+
+.activeIconButton
+    .underConstruction
+        svg
+            fill: var(--text)
