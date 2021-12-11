@@ -103,9 +103,11 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
+        let newActiveTask = {...activeTask}
         if(activeTask.id === task.id){
             let changeTask = {...activeTask}
             changeTask[key] = val
+            newActiveTask = changeTask
             setTask({...changeTask})
         }else{
             let newTask = {...task}
@@ -113,6 +115,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
+                    newActiveTask = newItem
                 }else if(item.subtasks){
                     newItem.subtasks = setSubtasks(item.subtasks)
                 }
@@ -121,6 +124,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             newTask.subtasks = setSubtasks(newTask.subtasks)
             setTask({...newTask})
         }
+        console.log(newActiveTask)
+        setSavedActiveTask({...newActiveTask})
     }
 
     // useEffect(()=>{
