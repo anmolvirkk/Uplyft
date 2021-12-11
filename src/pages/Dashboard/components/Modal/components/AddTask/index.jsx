@@ -103,34 +103,69 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
-        activeTask[key] = val
         if(activeTask.id === task.id){
-            setTask({...activeTask})
+            let changeTask = {...activeTask}
+            changeTask[key] = val
+            setTask({...changeTask})
         }else{
-            setTask({...task})
+            let newTask = {...task}
+            const setSubtasks = (subtasks) => subtasks.map((item)=>{
+                let newItem = {...item}
+                if(item.id === activeTask.id){
+                    newItem[key] = val
+                }else if(item.subtasks){
+                    newItem.subtasks = setSubtasks(item.subtasks)
+                }
+                return newItem
+            })
+            newTask.subtasks = setSubtasks(newTask.subtasks)
+            setTask({...newTask})
         }
     }
 
-    if(currentActiveTask){
-        let parent
-        if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
-            parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
-        }
-        if(parent){
-            if(parent.subtasks){
-                if(parent.subtasks[0]!==currentActiveTask){
-                    parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-                    setTask({...task})
-                }
-            }
-        }else if(task.subtasks){
-            if(task.subtasks[0] !== currentActiveTask){
-                let newSubtasks = [...task.subtasks]
-                newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-                setTask({...task, subtasks: newSubtasks})
-            }
-        }
-    }
+    // useEffect(()=>{
+    //     const currentTaskRoute = () => {
+
+    //         let currentTaskRoute = []
+    
+    //         if(task.subtasks){
+    
+    //             let layer = task.subtasks
+    
+    //             const addLayer = (val) => {
+    //                 layer = val[0]['subtasks']
+    //             }
+    
+    //             while(layer!==undefined){
+    //                 if(layer[0]){
+    //                     currentTaskRoute.push(layer[0])
+    //                 }
+    //                 addLayer(layer)
+    //             }
+    //         }
+    //         return currentTaskRoute
+    //     }
+    //     if(currentActiveTask){
+    //         let parent
+    //         if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
+    //             parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
+    //         }
+    //         if(parent){
+    //             if(parent.subtasks){
+    //                 if(parent.subtasks[0]!==currentActiveTask){
+    //                     parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+    //                     setTask({...task})
+    //                 }
+    //             }
+    //         }else if(task.subtasks){
+    //             if(task.subtasks[0] !== currentActiveTask){
+    //                 let newSubtasks = [...task.subtasks]
+    //                 newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+    //                 setTask({...task, subtasks: newSubtasks})
+    //             }
+    //         }
+    //     }
+    // }, [currentActiveTask, task, activeTask.id])
 
     const submitHabit = () => {
         if(type === 'add'){
