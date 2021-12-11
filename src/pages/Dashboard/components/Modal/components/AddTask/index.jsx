@@ -19,7 +19,7 @@ import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAt
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import tagsAtom from './tagsAtom'
 
-const AddTask = ({type, currentTask}) => {
+const AddTask = ({type, currentTask, currentActiveTask}) => {
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
 
@@ -100,7 +100,7 @@ const AddTask = ({type, currentTask}) => {
         return currentTaskRoute
     }
 
-    const [savedActiveTask, setSavedActiveTask] = useState()
+    const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
         activeTask[key] = val
@@ -108,6 +108,27 @@ const AddTask = ({type, currentTask}) => {
             setTask({...activeTask})
         }else{
             setTask({...task})
+        }
+    }
+
+    if(currentActiveTask){
+        let parent
+        if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
+            parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
+        }
+        if(parent){
+            if(parent.subtasks){
+                if(parent.subtasks[0]!==currentActiveTask){
+                    parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+                    setTask({...task})
+                }
+            }
+        }else if(task.subtasks){
+            if(task.subtasks[0] !== currentActiveTask){
+                let newSubtasks = [...task.subtasks]
+                newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+                setTask({...task, subtasks: newSubtasks})
+            }
         }
     }
 
@@ -399,8 +420,9 @@ const AddTask = ({type, currentTask}) => {
                 parent.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
                 setTask({...task})
             }else{
-                task.subtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
-                setTask({...task})
+                let newSubtasks = [...task.subtasks]
+                newSubtasks.sort((x,y)=>{ return x === val ? -1 : y === val ? 1 : 0 })
+                setTask({...task, subtasks: newSubtasks})
             }
             setSavedActiveTask(val)
         }

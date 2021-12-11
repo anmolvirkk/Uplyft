@@ -51,6 +51,8 @@ const TaskDetails = () => {
     const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+
+    const [openSubtasks, setOpenSubtasks] = useState({subtasks: false, nav: []})
     
     const deleteTask = (id) => {
         const newProjects = projects.map((item)=>{
@@ -77,8 +79,6 @@ const TaskDetails = () => {
         setAllCalendarEvents([...newAllCalendarEvents])
     }
 
-    const [openSubtasks, setOpenSubtasks] = useState({subtasks: false, nav: []})
-
     const showSubtasks = (task) => {
         if(task){
             if(openSubtasks.nav.includes(task)){
@@ -90,6 +90,29 @@ const TaskDetails = () => {
         }else{
             setOpenSubtasks({subtasks: false, nav: []})
         }
+    }
+
+    const editTaskModal = (task) => {
+        const editTask = (thisTask) => {
+            setModalConfig({type: 'editTask', task: thisTask, activeTask: task})
+        }
+        let currentTask
+        const checkAllSubtasks = (tasks) => tasks.forEach((item)=>{
+            if(item.id === task.id){
+                editTask(currentTask)
+            }else if(item.subtasks){
+                checkAllSubtasks(item.subtasks)
+            }
+        })
+        projects.filter(i=>i.id===allRoutes['project'])[0].tasks.forEach((item)=>{
+            if(item.id === task.id){
+                currentTask = item
+                editTask(currentTask)
+            }else if(item.subtasks){
+                currentTask = item
+                checkAllSubtasks(item.subtasks)
+            }
+        })
     }
 
     const TaskTile = ({task}) => {
@@ -109,7 +132,7 @@ const TaskDetails = () => {
                         </div>
                     :null}
                 </div>
-                <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editTask', task: task})}, {name: "delete", function: ()=>deleteTask(task.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(task)}, {name: "delete", function: ()=>deleteTask(task.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                 <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} />
             </div>
         )

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, CornerUpLeft, CornerUpRight} from 'react-feather'
+import {Bold, Italic, Underline, List, ChevronDown, ChevronRight} from 'react-feather'
 import styles from './_header.module.sass'
 
 import { colors } from '../../../../../../../../variables/journalConfig'
