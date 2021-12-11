@@ -79,6 +79,8 @@ const TaskDetails = () => {
         setAllCalendarEvents([...newAllCalendarEvents])
     }
 
+    const [currentTask, setCurrentTask] = useState()
+
     const showSubtasks = (task) => {
         if(task){
             if(openSubtasks.nav.includes(task)){
@@ -89,6 +91,28 @@ const TaskDetails = () => {
             }
         }else{
             setOpenSubtasks({subtasks: false, nav: []})
+        }
+        setCurrentTask(task)
+    }
+    
+    if(currentTask){
+        let currentSubtasks
+        const findSubtasks = (tasks) => tasks.forEach((item)=>{
+            if(item.id === currentTask.id){
+                currentSubtasks = item.subtasks
+            }else if(item.subtasks){
+                findSubtasks(item.subtasks)
+            }
+        })
+        projects.filter(i=>i.id===allRoutes['project'])[0].tasks.forEach((item)=>{
+            if(item.id === currentTask.id){
+                currentSubtasks = item.subtasks
+            }else if(item.subtasks){
+                findSubtasks(item.subtasks)
+            }
+        })
+        if(currentSubtasks !== openSubtasks.subtasks){
+            setOpenSubtasks({...openSubtasks, subtasks: currentSubtasks})
         }
     }
 

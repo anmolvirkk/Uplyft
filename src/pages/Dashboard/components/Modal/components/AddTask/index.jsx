@@ -225,7 +225,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 return newData
             })
             setProjects([...newProjects])
-            
             let newAllCalendarEvents = allCalendarEvents.map((data)=>{
                 let newData = {...data}
                     if(data.id === task.id) {
