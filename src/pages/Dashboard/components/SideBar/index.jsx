@@ -9,7 +9,7 @@ import DarkMode from './components/DarkMode'
 
 const IconButton = ({name, icon, link, underConstruction}) => {
     return (
-        <NavLink exact className={styles.iconButton} to={link} activeClassName={styles.activeIconButton}>
+        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link==='/'}>
             {icon}
             <p>{name}</p>
             {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
