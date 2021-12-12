@@ -146,10 +146,137 @@ const TaskDetails = () => {
     }
 
     const TaskDetails = ({task}) => {
-        console.log(task)
+        const TimeRemaining = () => {
+            let start = new Date(task.start)
+            let deadline = new Date(task.deadline)
+            let sec, min, hour, days
+            const timeLeft = () => {
+                if(document.getElementById('timer')){
+                    let now = new Date()
+                    if((start.getTime() - now.getTime()) <= 0){
+                        if((deadline.getTime() - now.getTime()) <= 0){
+                            clearInterval(startTimer)
+                        }else{
+                            sec = Math.floor((deadline.getTime() - now.getTime())/1000)
+                            min = Math.floor(sec/60)
+                            hour = Math.floor(min/60)
+                            days = Math.floor(days/24)
+                            document.getElementById('timer').innerText = 'Time Until Deadline'
+                        }
+                    }else{
+                        sec = Math.floor((start.getTime() - now.getTime())/1000)
+                        min = Math.floor(sec/60)
+                        hour = Math.floor(min/60)
+                        days = Math.floor(days/24)
+                        document.getElementById('timer').innerText = 'Time Until Start'
+                    }
+                    hour %= 24
+                    min %= 60
+                    sec %= 60
+                    if(!isNaN(days)){
+                        document.getElementById('days').innerText = days
+                    }else{
+                        document.getElementById('days').innerText = 0
+                    }
+                    if(!isNaN(hour)){
+                        document.getElementById('hour').innerText = hour
+                    }else{
+                        document.getElementById('hour').innerText = 0
+                    }
+                    if(!isNaN(min)){
+                        document.getElementById('min').innerText = min
+                    }else{
+                        document.getElementById('min').innerText = 0
+                    }
+                    if(!isNaN(sec)){
+                        document.getElementById('sec').innerText = sec
+                    }else{
+                        document.getElementById('sec').innerText = 0
+                    }
+                }
+            }
+            let startTimer = setInterval(timeLeft, 1000)
+            return (
+                <div>
+                    <p className={styles.title} id="timer">Time Until Start</p>
+                    <div className={styles.timer}>
+                        <div className={styles.timerBlock}>
+                            <div id="days">0</div><span>Days</span>
+                        </div>
+                        <div className={styles.timerBlock}>
+                            <div id="hour">0</div><span>Hours</span>
+                        </div>
+                        <div className={styles.timerBlock}>
+                            <div id="min">0</div><span>Minutes</span>
+                        </div>
+                        <div className={styles.timerBlock}>
+                            <div id="sec">0</div><span>Seconds</span>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className={styles.taskdetails}>
                 <h3>{task.name}</h3>
+                <p className={styles.details}>{task.details}</p>
+                <div className={styles.completed}>
+                    <div className={styles.amount}>
+                        {task.subtasks?Math.round(task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100):task.completed/1*100}% Completed
+                    </div>
+                    <div className={styles.progress}>
+                        <hr style={{width: `${task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:task.completed/1*100}%`}} />
+                    </div>
+                </div>
+                <div className={styles.time}>
+                    <div>
+                        <p className={styles.title}>Start</p>
+                        <div>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                    </div>
+                    <div>
+                        <p className={styles.title}>Deadline</p>
+                        <div>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                    </div>
+                    <TimeRemaining />
+                </div>
+                <div className={styles.metrics}>
+                    <div>
+                        <div className={styles.metricTitle}>
+                            <p>Priority</p>
+                            <p>{task.priority.label}</p>
+                        </div>
+                        <p className={styles.metricValue}>{task.priority.value}%</p>
+                        <div className={styles.progress}>
+                            <hr style={{width: `${task.priority.value}%`}} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.metricTitle}>
+                            <p>Effort</p>
+                            <p>{task.effortRequired.label}</p>
+                        </div>
+                        <p className={styles.metricValue}>{task.effortRequired.value}%</p>
+                        <div className={styles.progress}>
+                            <hr style={{width: `${task.effortRequired.value}%`}} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.metricTitle}>
+                            <p>Time</p>
+                            <p>{task.timeRequired.label}</p>
+                        </div>
+                        <p className={styles.metricValue}>{task.timeRequired.value}%</p>
+                        <div className={styles.progress}>
+                            <hr style={{width: `${task.timeRequired.value}%`}} />
+                        </div>
+                    </div>
+                </div>
+                {task.tags.length>0?
+                    <div>
+                        <p className={styles.title}>Tags</p>
+                        {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                    </div>
+                :null}
             </div>
         )
     }

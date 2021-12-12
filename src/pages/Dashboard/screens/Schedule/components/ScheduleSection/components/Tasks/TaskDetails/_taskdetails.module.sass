@@ -224,6 +224,67 @@
     .navContent:last-child
         color: rgba(variables.$secondary, 0.7)
         margin-right: 0
+        pointer-events: none
 
 .tasksNav::-webkit-scrollbar
         height: 0
+
+.taskdetails
+    padding: 1.5vh
+    color: var(--text)
+    font-size: 1.5vh
+    h3
+        font-size: 3vh
+    p
+        color: rgba(var(--lightrgb), 1)
+        margin-top: 0.5vh
+    .details
+        font-size: 1.35vh
+        padding: 0 0.5vh
+    .amount
+        width: 100%
+        text-align: right
+        color: rgba(var(--lightrgb), 1)
+    .progress
+        background-color: rgba(var(--lightrgb), 0.25)
+        margin-top: 1vh
+        hr
+            border: none
+            outline: none
+            height: 3px
+            background-color: variables.$primary
+    .timer
+        display: flex
+        justify-content: space-between
+        span   
+            color: rgba(var(--lightrgb), 0.75)
+            font-size: 1.25vh
+        .timerBlock
+            div
+                font-size: 2.5vh
+                font-weight: 100
+    .title
+        margin-top: 2vh
+        margin-bottom: 1vh
+    .tags
+        background-color: rgba(var(--lightrgb), 0.1)
+        border-radius: 3px 3px
+        padding: 0 1.5vh
+        font-size: 1.5vh
+        color: rgba(var(--lightrgb), 1)
+        display: flex
+        align-items: center
+        overflow: hidden
+        height: 3vh
+        width: fit-content
+        margin: 1.5vh 1.5vh 1.5vh 0
+    .metrics
+        margin-top: 1.5vh
+    .metricValue
+        width: 100%
+        text-align: right
+    .metricTitle
+        margin-top: 2vh
+        p:last-child
+            color: white
+            font-weight: 100
