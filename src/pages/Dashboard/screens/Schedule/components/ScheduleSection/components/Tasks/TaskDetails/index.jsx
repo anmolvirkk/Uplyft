@@ -81,13 +81,17 @@ const TaskDetails = () => {
 
     const [currentTask, setCurrentTask] = useState()
 
-    const showTaskDetails = (task) => {
+    const showSubtasks = (task) => {
         if(task){
-            if(openSubtasks.nav.includes(task)){
-                openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
-                setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav]})
+            if(task.subtasks){
+                if(openSubtasks.nav.includes(task)){
+                    openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
+                    setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav]})
+                }else{
+                    setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+                }
             }else{
-                setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+                setOpenSubtasks({subtasks: [], nav: [...openSubtasks.nav, task]})
             }
         }else{
             setOpenSubtasks({subtasks: false, nav: []})
@@ -112,7 +116,9 @@ const TaskDetails = () => {
             }
         })
         if(currentSubtasks !== openSubtasks.subtasks){
-            setOpenSubtasks({...openSubtasks, subtasks: currentSubtasks})
+            if(currentSubtasks){
+                setOpenSubtasks({...openSubtasks, subtasks: currentSubtasks})
+            }
         }
     }
 
@@ -139,13 +145,22 @@ const TaskDetails = () => {
         })
     }
 
+    const TaskDetails = ({task}) => {
+        console.log(task)
+        return (
+            <div className={styles.taskdetails}>
+                <h3>{task.name}</h3>
+            </div>
+        )
+    }
+
     const TaskTile = ({task}) => {
         return (
             <div className={styles.sideSectionSlot} data-title={task.name}>
-                <div className={styles.slotContent}>
+                <div className={styles.slotContent} onClick={()=>showSubtasks(task)}>
                     <p>{task.name}</p>
                     {task.subtasks?
-                        <div className={styles.subtasks} onClick={()=>showTaskDetails(task)}>
+                        <div className={styles.subtasks}>
                             <CornerDownRight />
                             <p>{task.subtasks.length}</p>
                         </div>
@@ -187,19 +202,22 @@ const TaskDetails = () => {
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
-                        <div onClick={()=>showTaskDetails(false)} className={styles.navContent}><Folder /></div>
+                        <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>
                         {openSubtasks.nav.map((item)=>{
-                            return <div key={item.id} onClick={()=>showTaskDetails(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
+                            return <div key={item.id} onClick={()=>showSubtasks(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
                         })}
                     </div>
                 :null}
-                <h3 className={styles.slotLabel}>
-                    <span>Remaining</span>
-                    <div>
-                        {openSubtasks.subtasks?openSubtasks.subtasks.filter(i=>i.completed===false).length
-                        :projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}
-                    </div>
-                </h3>
+                {currentTask?<TaskDetails task={currentTask} />:null}
+                {!openSubtasks.subtasks||openSubtasks.subtasks.length>0?
+                    <h3 className={styles.slotLabel}>
+                        <span>Remaining</span>
+                        <div>
+                            {openSubtasks.subtasks?openSubtasks.subtasks.filter(i=>i.completed===false).length
+                            :projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}
+                        </div>
+                    </h3>
+                :null}
                 {
                     openSubtasks.subtasks?
                     <SubTasks subtasks={openSubtasks.subtasks} showCompleted={false} />
@@ -218,9 +236,11 @@ const TaskDetails = () => {
                         return null
                     })
                 }
-                <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}>
-                    <span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}
-                </h3>
+                {!openSubtasks.subtasks||openSubtasks.subtasks.length>0?
+                    <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}>
+                        <span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}
+                    </h3>
+                :null}
                 {
                     completedOpen?
                     openSubtasks.subtasks?
