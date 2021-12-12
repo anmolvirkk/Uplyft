@@ -511,7 +511,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         </p>
                     </div>
                     {task.name!==''?
-                        <NavItem thisTask={task} allTasks={currentProject.tasks} />
+                        <NavItem thisTask={task} allTasks={null} />
                     :null}
                     {currentTaskRoute()&&task.name!==''?currentTaskRoute().map((item, i)=>{
                         if(i-1>=0){
