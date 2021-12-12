@@ -19,6 +19,35 @@ const TaskDetails = () => {
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes] = useRecoilState(allRoutesAtom)
 
+    const setTodayTasks = () => {
+        if(allRoutes['project']==='today'){
+            const setTasks = () => {
+                let tasks = []
+                let today = new Date().toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: '2-digit'})
+                const getSubtasks = (subtasks) => subtasks.forEach((item)=>{
+                    if(new Date(item.start).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: '2-digit'}) === today){
+                        tasks = [...tasks, item]
+                    }else if(item.subtasks){
+                        getSubtasks(item.subtasks)
+                    }
+                })
+                getSubtasks(projects[1].tasks)
+                return tasks
+            }
+            console.log(setTasks())
+            // let newProjects = projects.map((item)=>{
+            //     let newData = {...item}
+            //     if(newData.id === 'today'){
+            //         newData.tasks = setTasks()
+            //     }
+            //     return newData
+            // })
+            // console.log(newProjects)
+        }
+    }
+
+    setTodayTasks()
+
     const Filters = () => {
         const [filterOpen, setFilterOpen] = useState(false)
         return (
