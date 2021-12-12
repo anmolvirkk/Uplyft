@@ -304,9 +304,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }else{
                 setActiveTask('subtasks', [...activeTask.subtasks, {...taskformat, ...subTaskInfo}])
             }
-            if(activeTask.subtasks){
-                setSavedActiveTask(activeTask.subtasks.find(i=>i.id===subTaskInfo.id))
-            }
+            setSavedActiveTask({...taskformat, ...subTaskInfo})
         }
 
         const addParallelTask = () => {
