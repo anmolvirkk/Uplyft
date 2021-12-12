@@ -124,53 +124,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             newTask.subtasks = setSubtasks(newTask.subtasks)
             setTask({...newTask})
         }
-        console.log(newActiveTask)
         setSavedActiveTask({...newActiveTask})
     }
-
-    // useEffect(()=>{
-    //     const currentTaskRoute = () => {
-
-    //         let currentTaskRoute = []
-    
-    //         if(task.subtasks){
-    
-    //             let layer = task.subtasks
-    
-    //             const addLayer = (val) => {
-    //                 layer = val[0]['subtasks']
-    //             }
-    
-    //             while(layer!==undefined){
-    //                 if(layer[0]){
-    //                     currentTaskRoute.push(layer[0])
-    //                 }
-    //                 addLayer(layer)
-    //             }
-    //         }
-    //         return currentTaskRoute
-    //     }
-    //     if(currentActiveTask){
-    //         let parent
-    //         if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
-    //             parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
-    //         }
-    //         if(parent){
-    //             if(parent.subtasks){
-    //                 if(parent.subtasks[0]!==currentActiveTask){
-    //                     parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-    //                     setTask({...task})
-    //                 }
-    //             }
-    //         }else if(task.subtasks){
-    //             if(task.subtasks[0] !== currentActiveTask){
-    //                 let newSubtasks = [...task.subtasks]
-    //                 newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-    //                 setTask({...task, subtasks: newSubtasks})
-    //             }
-    //         }
-    //     }
-    // }, [currentActiveTask, task, activeTask.id])
 
     const submitHabit = () => {
         if(type === 'add'){
@@ -447,6 +402,32 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             </div>
         )
     }
+
+    
+    const setInitialOrder = () => {
+        if(currentActiveTask){
+            let parent
+            if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
+                parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
+            }
+            if(parent){
+                if(parent.subtasks){
+                    if(parent.subtasks[0].id!==currentActiveTask.id){
+                        parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+                        setTask({...task})
+                    }
+                }
+            }else if(task.subtasks){
+                if(task.subtasks[0].id !== currentActiveTask.id){
+                    let newSubtasks = [...task.subtasks]
+                    newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
+                    setTask({...task, subtasks: newSubtasks})
+                }
+            }
+        }
+    }
+
+    setInitialOrder()
 
     const NavItem = ({thisTask, allTasks}) => {
         const [dropDownOpen, setDropDownOpen] = useState(false)
