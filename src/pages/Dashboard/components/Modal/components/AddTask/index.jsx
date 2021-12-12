@@ -295,16 +295,18 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         }
 
         const addSubTask = () => {
-            let subTaskInfo = {
-                id: new Date().valueOf(),
-                name: 'Sub Task'
+            if(task.name !== ''){
+                let subTaskInfo = {
+                    id: new Date().valueOf(),
+                    name: 'Sub Task'
+                }
+                if(!activeTask.subtasks){
+                    setActiveTask('subtasks', [{...taskformat, ...subTaskInfo}])
+                }else{
+                    setActiveTask('subtasks', [...activeTask.subtasks, {...taskformat, ...subTaskInfo}])
+                }
+                setSavedActiveTask({...taskformat, ...subTaskInfo})
             }
-            if(!activeTask.subtasks){
-                setActiveTask('subtasks', [{...taskformat, ...subTaskInfo}])
-            }else{
-                setActiveTask('subtasks', [...activeTask.subtasks, {...taskformat, ...subTaskInfo}])
-            }
-            setSavedActiveTask({...taskformat, ...subTaskInfo})
         }
 
         const addParallelTask = () => {
