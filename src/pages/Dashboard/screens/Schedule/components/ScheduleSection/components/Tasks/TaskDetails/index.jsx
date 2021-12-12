@@ -81,7 +81,7 @@ const TaskDetails = () => {
 
     const [currentTask, setCurrentTask] = useState()
 
-    const showSubtasks = (task) => {
+    const showTaskDetails = (task) => {
         if(task){
             if(openSubtasks.nav.includes(task)){
                 openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
@@ -145,7 +145,7 @@ const TaskDetails = () => {
                 <div className={styles.slotContent}>
                     <p>{task.name}</p>
                     {task.subtasks?
-                        <div className={styles.subtasks} onClick={()=>showSubtasks(task)}>
+                        <div className={styles.subtasks} onClick={()=>showTaskDetails(task)}>
                             <CornerDownRight />
                             <p>{task.subtasks.length}</p>
                         </div>
@@ -187,9 +187,9 @@ const TaskDetails = () => {
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
-                        <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>
+                        <div onClick={()=>showTaskDetails(false)} className={styles.navContent}><Folder /></div>
                         {openSubtasks.nav.map((item)=>{
-                            return <div key={item.id} onClick={()=>showSubtasks(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
+                            return <div key={item.id} onClick={()=>showTaskDetails(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
                         })}
                     </div>
                 :null}

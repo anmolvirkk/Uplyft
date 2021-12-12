@@ -403,31 +403,46 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         )
     }
 
-    
-    const setInitialOrder = () => {
+    useEffect(()=>{
         if(currentActiveTask){
-            let parent
-            if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
-                parent = currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]
-            }
-            if(parent){
-                if(parent.subtasks){
-                    if(parent.subtasks[0].id!==currentActiveTask.id){
-                        parent.subtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-                        setTask({...task})
+            const getNewRoute = (subtasks) => {
+                let finalRoute
+                subtasks.forEach((item)=>{
+                    let route = [item]
+                    const checkSubtasks = (subtasks) => {
+                        subtasks.forEach((item)=>{
+                            route.push(item)
+                            if(item.id === activeTask.id){
+                                finalRoute = route
+                            }else if(item.subtasks){
+                                checkSubtasks(item.subtasks)
+                            }
+                        })
                     }
-                }
-            }else if(task.subtasks){
-                if(task.subtasks[0].id !== currentActiveTask.id){
-                    let newSubtasks = [...task.subtasks]
-                    newSubtasks.sort((x,y)=>{ return x === currentActiveTask ? -1 : y === currentActiveTask ? 1 : 0 })
-                    setTask({...task, subtasks: newSubtasks})
-                }
+                    if(item.id === activeTask.id){
+                        finalRoute = route
+                    }else if(item.subtasks){
+                        checkSubtasks(item.subtasks)
+                    }
+                })
+                return finalRoute
+            }
+            let newSubtasks = [...task.subtasks]
+            getNewRoute(task.subtasks).forEach((route)=>{
+                const setNewSubtasks = (subtasks) => subtasks.forEach((item)=>{
+                    if(subtasks.filter(i=>i.id===route.id).length > 0){
+                        subtasks.sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
+                    }else if(item.subtasks){
+                        setNewSubtasks(item.subtasks)
+                    }
+                })
+                setNewSubtasks(newSubtasks)
+            })
+            if(currentTaskRoute().filter(i=>i.id===currentActiveTask.id).length<=0){
+                setTask({...task, subtasks: newSubtasks})
             }
         }
-    }
-
-    setInitialOrder()
+    })
 
     const NavItem = ({thisTask, allTasks}) => {
         const [dropDownOpen, setDropDownOpen] = useState(false)
