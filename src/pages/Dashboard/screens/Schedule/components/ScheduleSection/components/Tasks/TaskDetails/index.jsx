@@ -156,6 +156,11 @@ const TaskDetails = () => {
                     if((start.getTime() - now.getTime()) <= 0){
                         if((deadline.getTime() - now.getTime()) <= 0){
                             clearInterval(startTimer)
+                            document.getElementById('timer').innerText = 'Time Over'
+                            document.getElementById('days').innerText = 0
+                            document.getElementById('hour').innerText = 0
+                            document.getElementById('min').innerText = 0
+                            document.getElementById('sec').innerText = 0
                         }else{
                             sec = Math.floor((deadline.getTime() - now.getTime())/1000)
                             min = Math.floor(sec/60)
