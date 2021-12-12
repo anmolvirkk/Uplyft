@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -78,7 +78,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
     
-    const currentTaskRoute = () => {
+    const currentTaskRoute = useCallback(() => {
 
         let currentTaskRoute = []
 
@@ -98,7 +98,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         }
         return currentTaskRoute
-    }
+    }, [task.subtasks])
 
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
@@ -442,7 +442,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setTask({...task, subtasks: newSubtasks})
             }
         }
-    })
+    }, [currentActiveTask, task, currentTaskRoute, activeTask.id])
 
     const NavItem = ({thisTask, allTasks}) => {
         const [dropDownOpen, setDropDownOpen] = useState(false)
