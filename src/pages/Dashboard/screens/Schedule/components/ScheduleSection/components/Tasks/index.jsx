@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import journalStyles from '../../../../../Journals/_journal.module.sass'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
@@ -9,9 +9,10 @@ import projectsAtom from '../../../../recoil-atoms/projectsAtom'
 import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { Folder } from 'react-feather'
 import MoreMenu from '../../../../../../components/MoreMenu'
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 
 const Projects = () => {
-    const [projects] = useRecoilState(projectsAtom)
+    const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const addToolTipForTasks = (e) => {
@@ -26,8 +27,33 @@ const Projects = () => {
         }
     }
     
+    const [newProject, setNewProject] = useState()
+
+    const deleteProject = (id) => {
+        let newProjects = projects.filter(i=>i.id!==id)
+        newProjects = newProjects.map((item)=>{
+            let newData = {...item}
+            if(item.id === 'all' || item.id === 'today'){
+                newData.tasks = item.tasks.filter(i=>!projects.filter(i=>i.id===id)[0].tasks.includes(i))
+            }
+            return newData
+        })
+        setProjects([...newProjects])
+        const reset = async () => {
+            setNewProject(false)
+        }
+        reset().then(()=>{
+            setNewProject(newProjects[newProjects.length-1].id)
+            setAllRoutes({...allRoutes, project: newProjects[newProjects.length-1].id})
+        })
+        //remove all events
+        // let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
+        // setAllCalendarEvents([...newAllCalendarEvents])
+    }
+
     return (
         <div className={styles.projects}>
+            {newProject?<Redirect to={`/schedule/tasks/${newProject}`} />:null}
             {projects.map((item)=>{
                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
@@ -37,7 +63,7 @@ const Projects = () => {
                             <div className={styles.slotContent}>
                                 <div className={styles.projectIcon}><Folder /></div>
                                 <p>{item.name}</p>
-                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>console.log('task')}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
+                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
                                 <div className={styles.progressNum}>
                                     {completedTasks}/
                                     {totalTasks}
