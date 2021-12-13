@@ -135,13 +135,13 @@ const TaskDetails = () => {
         [openSubtasks.nav]
     )
 
+    const [prevProject, setPrevProject] = useState(allRoutes.project)
     useEffect(()=>{
-        if(openSubtasks.nav[0]){
-            if(projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.id===openSubtasks.nav[0].id).length===0){
-                showSubtasks(false)
-            }
+        if(allRoutes.project !== prevProject){
+            showSubtasks(false)
         }
-    }, [allRoutes, openSubtasks, showSubtasks, projects])
+        setPrevProject(allRoutes.project)
+    }, [allRoutes.project, showSubtasks, prevProject])
     
     if(currentTask){
         let currentSubtasks
