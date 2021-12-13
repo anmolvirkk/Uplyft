@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
 import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder } from 'react-feather'
@@ -86,7 +86,7 @@ const TaskDetails = () => {
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
 
     const [openSubtasks, setOpenSubtasks] = useState({subtasks: false, nav: []})
-    
+
     const deleteTask = (id) => {
         const newProjects = projects.map((item)=>{
             let data = {...item}
@@ -114,23 +114,34 @@ const TaskDetails = () => {
 
     const [currentTask, setCurrentTask] = useState()
 
-    const showSubtasks = (task) => {
-        if(task){
-            if(task.subtasks){
-                if(openSubtasks.nav.includes(task)){
-                    openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
-                    setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav]})
+    const showSubtasks = useCallback(
+        (task) => {
+            if(task){
+                if(task.subtasks){
+                    if(openSubtasks.nav.includes(task)){
+                        openSubtasks.nav.length = openSubtasks.nav.indexOf(task) + 1
+                        setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav]})
+                    }else{
+                        setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+                    }
                 }else{
-                    setOpenSubtasks({subtasks: task.subtasks, nav: [...openSubtasks.nav, task]})
+                    setOpenSubtasks({subtasks: [], nav: [...openSubtasks.nav, task]})
                 }
             }else{
-                setOpenSubtasks({subtasks: [], nav: [...openSubtasks.nav, task]})
+                setOpenSubtasks({subtasks: false, nav: []})
             }
-        }else{
-            setOpenSubtasks({subtasks: false, nav: []})
+            setCurrentTask(task)
+        },
+        [openSubtasks.nav]
+    )
+
+    useEffect(()=>{
+        if(openSubtasks.nav[0]){
+            if(projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.id===openSubtasks.nav[0].id).length===0){
+                showSubtasks(false)
+            }
         }
-        setCurrentTask(task)
-    }
+    }, [allRoutes, openSubtasks, showSubtasks, projects])
     
     if(currentTask){
         let currentSubtasks
