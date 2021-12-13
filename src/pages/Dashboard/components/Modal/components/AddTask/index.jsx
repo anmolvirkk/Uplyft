@@ -402,48 +402,50 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         )
     }
 
-    // useEffect(()=>{
-    //     if(currentActiveTask){
-    //         const getNewRoute = (subtasks) => {
-    //             let finalRoute
-    //             subtasks.forEach((item)=>{
-    //                 let route = [item]
-    //                 const checkSubtasks = (subtasks) => {
-    //                     subtasks.forEach((item)=>{
-    //                         route.push(item)
-    //                         if(item.id === activeTask.id){
-    //                             finalRoute = route
-    //                         }else if(item.subtasks){
-    //                             checkSubtasks(item.subtasks)
-    //                         }
-    //                     })
-    //                 }
-    //                 if(item.id === activeTask.id){
-    //                     finalRoute = route
-    //                 }else if(item.subtasks){
-    //                     checkSubtasks(item.subtasks)
-    //                 }
-    //             })
-    //             return finalRoute
-    //         }
-    //         let newSubtasks = [...task.subtasks]
-    //         if(getNewRoute(task.subtasks)){
-    //             getNewRoute(task.subtasks).forEach((route)=>{
-    //                 const setNewSubtasks = (subtasks) => subtasks.forEach((item)=>{
-    //                     if(subtasks.filter(i=>i.id===route.id).length > 0){
-    //                         subtasks.sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
-    //                     }else if(item.subtasks){
-    //                         setNewSubtasks(item.subtasks)
-    //                     }
-    //                 })
-    //                 setNewSubtasks(newSubtasks)
-    //             })
-    //         }
-    //         if(currentTaskRoute().filter(i=>i.id===currentActiveTask.id).length<=0){
-    //             setTask({...task, subtasks: newSubtasks})
-    //         }
-    //     }
-    // }, [currentActiveTask, task, currentTaskRoute, activeTask.id])
+    useEffect(()=>{
+        if(currentActiveTask){
+            const getNewRoute = (subtasks) => {
+                let finalRoute
+                subtasks.forEach((item)=>{
+                    let route = [item]
+                    const checkSubtasks = (subtasks) => {
+                        subtasks.forEach((item)=>{
+                            route.push(item)
+                            if(item.id === activeTask.id){
+                                finalRoute = route
+                            }else if(item.subtasks){
+                                checkSubtasks(item.subtasks)
+                            }
+                        })
+                    }
+                    if(item.id === activeTask.id){
+                        finalRoute = route
+                    }else if(item.subtasks){
+                        checkSubtasks(item.subtasks)
+                    }
+                })
+                return finalRoute
+            }
+            if(task.subtasks){
+                let newSubtasks = [...task.subtasks]
+                if(getNewRoute(task.subtasks)){
+                    getNewRoute(task.subtasks).forEach((route)=>{
+                        const setNewSubtasks = (subtasks) => subtasks.forEach((item)=>{
+                            if(subtasks.filter(i=>i.id===route.id).length > 0){
+                                subtasks.sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
+                            }else if(item.subtasks){
+                                setNewSubtasks(item.subtasks)
+                            }
+                        })
+                        setNewSubtasks(newSubtasks)
+                    })
+                }
+                if(currentTaskRoute().filter(i=>i.id===currentActiveTask.id).length<=0){
+                    setTask({...task, subtasks: newSubtasks})
+                }
+            }
+        }
+    }, [currentActiveTask, task, currentTaskRoute, activeTask.id])
 
     const NavItem = ({thisTask, allTasks}) => {
         const [dropDownOpen, setDropDownOpen] = useState(false)
