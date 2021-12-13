@@ -31,14 +31,6 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
                         }
                     }else{
                         newTask.completed = true
-                        confetti({
-                            particleCount: 150,
-                            spread: 60,
-                            origin: {
-                                x: e.clientX/window.innerWidth,
-                                y: e.clientY/window.innerHeight
-                            }
-                        })
                         if(newTask.subtasks){
                             newTask.subtasks = setAllSubtasks(newTask.subtasks, true)
                         }
@@ -65,8 +57,23 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
             }
             return data
         })
+
+        if(!completed){
+    
+            confetti({
+                particleCount: 150,
+                spread: 60,
+                origin: {
+                    x: e.clientX/window.innerWidth,
+                    y: e.clientY/window.innerHeight
+                }
+            })
+    
+        }
+
         setProjects([...newProjects])
     }
+
     return (
         <div className={`${styles.checkBtn} ${completed?styles.activeCheck:null}`} onMouseDown={(e)=>onClick(e)}>
             <div className={styles.progress} />
