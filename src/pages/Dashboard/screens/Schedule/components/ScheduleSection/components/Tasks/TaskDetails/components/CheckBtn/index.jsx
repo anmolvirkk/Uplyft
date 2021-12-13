@@ -62,7 +62,7 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
     
             confetti({
                 particleCount: 150,
-                spread: 60,
+                spread: 120,
                 origin: {
                     x: e.clientX/window.innerWidth,
                     y: e.clientY/window.innerHeight
