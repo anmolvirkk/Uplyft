@@ -10,10 +10,12 @@ import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { Folder } from 'react-feather'
 import MoreMenu from '../../../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
+import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 
 const Projects = () => {
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
 
     const addToolTipForTasks = (e) => {
         if(e.target.getElementsByTagName('p')[0]){
@@ -46,9 +48,23 @@ const Projects = () => {
             setNewProject(newProjects[newProjects.length-1].id)
             setAllRoutes({...allRoutes, project: newProjects[newProjects.length-1].id})
         })
-        //remove all events
-        // let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
-        // setAllCalendarEvents([...newAllCalendarEvents])
+        let newAllCalendarEvents = allCalendarEvents.map((event)=>{
+            let shouldReturn = false
+            for(let i=0; i<projects.filter(i=>i.id===id)[0].tasks.length; i++){
+                if(projects.filter(i=>i.id===id)[0].tasks[i].id === event.id){
+                    shouldReturn = false
+                    break
+                }else{
+                    shouldReturn = true
+                }
+            }
+            if(shouldReturn){
+                return event
+            }else{
+                return null
+            }
+        })
+        setAllCalendarEvents([...newAllCalendarEvents.filter(i=>i!==null)])
     }
 
     return (
