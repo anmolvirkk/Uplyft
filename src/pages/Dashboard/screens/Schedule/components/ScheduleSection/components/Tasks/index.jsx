@@ -67,6 +67,8 @@ const Projects = () => {
         setAllCalendarEvents([...newAllCalendarEvents.filter(i=>i!==null)])
     }
 
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
+
     return (
         <div className={styles.projects}>
             {newProject?<Redirect to={`/schedule/tasks/${newProject}`} />:null}
@@ -79,7 +81,7 @@ const Projects = () => {
                             <div className={styles.slotContent}>
                                 <div className={styles.projectIcon}><Folder /></div>
                                 <p>{item.name}</p>
-                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>console.log('task')}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
+                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
                                 <div className={styles.progressNum}>
                                     {completedTasks}/
                                     {totalTasks}

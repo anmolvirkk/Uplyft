@@ -287,6 +287,8 @@ const Modal = () => {
             <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} currentActiveTask={modalConfig.activeTask} />
             : modalConfig.type === 'addProject' ?
             <AddProject icons={iconsSvg} type="add" currentTask={null} />
+            : modalConfig.type === 'editProject' ?
+            <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
             : null
             }
         </div>

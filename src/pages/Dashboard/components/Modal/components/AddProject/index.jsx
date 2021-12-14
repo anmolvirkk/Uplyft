@@ -9,6 +9,7 @@ import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
+import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 
 const AddProject = ({icons, type, currentProject}) => {
 
@@ -36,6 +37,8 @@ const AddProject = ({icons, type, currentProject}) => {
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+
     const submitProject = () => {
         if(type === 'add'){
             setProjects([...projects, project])
@@ -51,6 +54,16 @@ const AddProject = ({icons, type, currentProject}) => {
                     }
                 return newData
             })
+            let newAllCalendarEvents = allCalendarEvents.map((event)=>{
+                let newEvent = {...event}
+                newProjects.filter(i=>i.id===currentProject.id)[0].tasks.forEach((item)=>{
+                    if(newEvent.id === item.id){
+                        newEvent.color = item.color
+                    }
+                })
+                return newEvent
+            })
+            setAllCalendarEvents([...newAllCalendarEvents])
             setProjects([...newProjects])
         }
         setModalConfig({type: ''})
