@@ -60,7 +60,7 @@ const TaskDetails = () => {
     }
 
     const Filters = () => {
-        const [filterOpen, setFilterOpen] = useState(true)
+        const [filterOpen, setFilterOpen] = useState(false)
         const [sortOpen, setSortOpen] = useState(false)
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
