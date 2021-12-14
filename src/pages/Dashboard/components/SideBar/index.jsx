@@ -20,7 +20,7 @@ const IconButton = ({name, icon, link, underConstruction}) => {
 const SideBar = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
 
-    const SidebarButtons = [
+    const sidebarButtons = [
         {
             name: 'home',
             icon: <Home />,
@@ -36,7 +36,7 @@ const SideBar = () => {
         {
             name: 'schedule',
             icon: <Clock />,
-            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:'/schedule/habits',
+            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':''}`:'/schedule/habits',
             underConstruction: false
         },
         {
@@ -64,7 +64,7 @@ const SideBar = () => {
             <div className={styles.logo}>
                 <img src='/logo.png' alt="Logo" />
             </div>
-            {SidebarButtons.map((props)=>{
+            {sidebarButtons.map((props)=>{
                 return <IconButton {...props} key={props.name} />
             })}
             <DarkMode />

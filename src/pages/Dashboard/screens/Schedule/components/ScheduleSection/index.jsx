@@ -17,14 +17,18 @@ const SideSection = () => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const setRoute = (id) => {
-        setAllRoutes({...allRoutes, scheduleSection: id})
+        if(!allRoutes.project && id==='tasks'){
+            setAllRoutes({...allRoutes, project: 'all', scheduleSection: id})
+        }else{
+            setAllRoutes({...allRoutes, scheduleSection: id})
+        }
     }
 
     return (
         <div className={journalStyles.sideSection}>
             <div className={styles.sectionHeader}>
                 <NavLink onClick={()=>setRoute('habits')} to={allRoutes['habit']?`/schedule/habits/${allRoutes['habit']}`:`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
-                <NavLink onClick={()=>setRoute('tasks')} to={allRoutes['project']?`/schedule/tasks/${allRoutes['project']}`:`/schedule/tasks`} activeClassName={styles.activeSection}><Check /></NavLink>
+                <NavLink onClick={()=>setRoute('tasks')} to={allRoutes['project']?`/schedule/tasks/${allRoutes['project']}`:`/schedule/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
                 <NavLink onClick={()=>setRoute('events')} to={`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
             </div>
             <Switch>

@@ -71,7 +71,7 @@ const Projects = () => {
 
     return (
         <div className={styles.projects}>
-            {newProject?<Redirect to={`/schedule/tasks/${newProject}`} />:null}
+            <Redirect to={`/schedule/tasks/${newProject?newProject:'all'}`} />
             {projects.map((item)=>{
                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
