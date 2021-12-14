@@ -149,7 +149,24 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 })
                 setProjects([...newProjects])
             }
-
+            let allSubtasksEvents = []
+            const setAllSubtasksEvents = (subtasks) => subtasks.forEach((item)=>{
+                let event = {
+                    title: item.name,
+                    start: item.start,
+                    end: item.deadline,
+                    color: colors[currentProject.color],
+                    id: item.id,
+                    type: 'task'
+                }
+                allSubtasksEvents.push(event)
+                if(item.subtasks){
+                    setAllSubtasksEvents(item.subtasks)
+                }
+            })
+            if(task.subtasks){
+                setAllSubtasksEvents(task.subtasks)
+            }
             setAllCalendarEvents([...allCalendarEvents, {
                 title: task.name,
                 start: task.start,
@@ -157,7 +174,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 color: colors[currentProject.color],
                 id: task.id,
                 type: 'task'
-            }])
+            }, ...allSubtasksEvents])
         }else if(type==='edit'){
             
             let newProjects = projects.map((data)=>{
@@ -189,10 +206,26 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         newData.title = task.name
                         newData.start = task.start
                         newData.end = task.deadline
-                        newData.color = colors[currentProject.color]
                     }
                 return newData
             })
+            const setAllSubtasksEvents = (subtasks) => subtasks.forEach((item)=>{
+                newAllCalendarEvents = newAllCalendarEvents.map((data)=>{
+                    let newData = {...data}
+                        if(item.id === newData.id){
+                            newData.title = item.name
+                            newData.start = item.start
+                            newData.end = item.deadline
+                        }
+                    return newData
+                })
+                if(item.subtasks){
+                    setAllSubtasksEvents(item.subtasks)
+                }
+            })
+            if(task.subtasks){
+                setAllSubtasksEvents(task.subtasks)
+            }
             setAllCalendarEvents([...newAllCalendarEvents])
         }
         setModalConfig({type: ''})
