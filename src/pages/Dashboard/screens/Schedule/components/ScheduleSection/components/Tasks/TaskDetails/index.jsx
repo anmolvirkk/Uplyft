@@ -12,12 +12,15 @@ import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom
 import CheckBtn from './components/CheckBtn'
 import allCalendarEventsAtom from '../../../../../recoil-atoms/allCalendarEventsAtom'
 import completedOpenAtom from '../../../../../recoil-atoms/completedOpenAtom'
+import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
+import tagsAtom from '../../../../../../../components/Modal/components/AddTask/tagsAtom'
 
 const TaskDetails = () => {
     
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes] = useRecoilState(allRoutesAtom)
+    const [tags] = useRecoilState(tagsAtom)
 
     useEffect(() => {
         const setTodayTasks = () => {
@@ -52,32 +55,84 @@ const TaskDetails = () => {
 
     }, [allRoutes, projects, setProjects])
 
+    const reorderTags = (arr) => {
+        return arr.slice().sort((a, b) => a.value - b.value)
+    }
+
     const Filters = () => {
-        const [filterOpen, setFilterOpen] = useState(false)
+        const [filterOpen, setFilterOpen] = useState(true)
         return (
-            <div className={styles.filters}>
-                <div onClick={()=>setFilterOpen(!filterOpen)} className={styles.filterTitle}><span>Filters</span><ChevronUp /></div>
-                {filterOpen?
-                <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
-                <div className={styles.filterTab}>
-                    <div className={styles.activeFilters}>
-
-                    </div>
-                    <div className={styles.allFilters}>
-                        <div className={styles.roles}>
-
+            <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
+                <div className={styles.filters}>
+                        <div className={styles.filterTitle} onClick={()=>setFilterOpen(!filterOpen)}><span>Filters</span>{filterOpen?<ChevronDown />:<ChevronUp />}</div>
+                        {filterOpen?
+                        <div className={styles.filterTab}>
+                            <div className={styles.filterSection}>
+                                <h3>Sort By</h3>
+                                <ul>
+                                    <li>Priority</li>
+                                    <li>Time</li>
+                                    <li>Effort</li>
+                                    <li>Urgency</li>
+                                </ul>
+                            </div>
+                            <div className={styles.fiterSliders}>
+                                <div className={styles.title}>
+                                    <h3>Priority</h3>
+                                    <p id="priorityTagValue">0</p>
+                                </div>
+                                <div className={modalStyles.taskInputSection}>
+                                    <div className={modalStyles.tags}>
+                                        {reorderTags(tags.priority).map((item, index)=>{
+                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
+                                        })}
+                                    </div>
+                                    <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} />
+                                </div>
+                            </div>
+                            <div className={styles.fiterSliders}>
+                                <div className={styles.title}>
+                                    <h3>Time</h3>
+                                    <p id="timeTagValue">0</p>
+                                </div>
+                                <div className={modalStyles.taskInputSection}>
+                                    <div className={modalStyles.tags}>
+                                        {reorderTags(tags.timeRequired).map((item, index)=>{
+                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
+                                        })}
+                                    </div>
+                                    <input type="range" onChange={(e)=>document.getElementById('timeTagValue').innerText = e.target.value} />
+                                </div>
+                            </div>
+                            <div className={styles.fiterSliders}>
+                                <div className={styles.title}>
+                                    <h3>Effort</h3>
+                                    <p id="effortTagValue">0</p>
+                                </div>
+                                <div className={modalStyles.taskInputSection}>
+                                    <div className={modalStyles.tags}>
+                                        {reorderTags(tags.effortRequired).map((item, index)=>{
+                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
+                                        })}
+                                    </div>
+                                    <input type="range" onChange={(e)=>document.getElementById('effortTagValue').innerText = e.target.value} />
+                                </div>
+                            </div>
+                            <div className={styles.fiterSliders}>
+                                <div className={styles.title}>
+                                    <h3>Tags</h3>
+                                    <p id="effortTagValue">0</p>
+                                </div>
+                                <div className={modalStyles.tags}>
+                                    {tags.tags.map((item)=>{
+                                        return <div className={`${modalStyles.tag}`}><span>{item}</span></div>
+                                    })}
+                                </div>
+                            </div>
                         </div>
-                        <div className={styles.tags}>
-                            
-                        </div>
-                        <div className={styles.elements}>
-
-                        </div>
-                    </div>
+                        : null}
                 </div>
-                </OutsideClickHandler>
-                : null}
-            </div>
+            </OutsideClickHandler>
         )
     }
 
