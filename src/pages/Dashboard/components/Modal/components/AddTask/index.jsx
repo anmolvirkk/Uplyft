@@ -436,7 +436,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         </div>
                         <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
                             <p onClick={addSubTask} className={styles.addSubTask}><CornerDownRight /><span>Add Subtask</span></p>  
-                            <p onClick={addParallelTask} className={styles.addSubTask}><ArrowRight /><span>Add Parallel Task</span></p>      
+                            {task.id !== activeTask.id ? <p onClick={addParallelTask} className={styles.addSubTask}><ArrowRight /><span>Add Parallel Task</span></p> : null}   
                         </div>
                     </div>
                 </form>
