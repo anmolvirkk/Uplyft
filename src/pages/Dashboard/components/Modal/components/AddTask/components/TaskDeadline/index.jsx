@@ -17,7 +17,7 @@ const addToolTipForTaskSlot = (e) => {
     }
 }
 
-const TaskDeadline = ({start, deadline, project}) => {
+const TaskDeadline = ({task, project}) => {
     const timeline = project!==null?[
         {
             name: `${project.name} start`,
@@ -33,20 +33,45 @@ const TaskDeadline = ({start, deadline, project}) => {
             return new Date(a.date) - new Date(b.date)
         })
     }
-    if(start && !timeline.find(i=>i.date===new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}))){
+    if(task.start){
         timeline.push({
-            name: 'Task Start',
-            date: new Date(start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
+            name: task.name,
+            date: new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
         })
         reorderTimeline()
     }
-    if(deadline && !timeline.find(i=>i.date===new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}))){
+    if(task.deadline){
         timeline.push({
-            name: 'Task Deadline',
-            date: new Date(deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
+            name: task.name,
+            date: new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
         })
         reorderTimeline()
     }
+
+    const setSubtasks = (subtasks) => subtasks.forEach((item)=>{
+        if(item.start){
+            timeline.push({
+                name: item.name,
+                date: new Date(item.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
+            })
+            reorderTimeline()
+        }
+        if(item.deadline){
+            timeline.push({
+                name: item.name,
+                date: new Date(item.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})
+            })
+            reorderTimeline()
+        }
+        if(item.subtasks){
+            setSubtasks(item.subtasks)
+        }
+    }) 
+
+    if(task.subtasks){
+        setSubtasks(task.subtasks)
+    }
+
     if(timeline.length > 0){
         return (
             <div className={styles.taskDeadline}>

@@ -573,7 +573,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         }
                     }):null}
                 </div>
-                {currentProjectId!=='all'?<TaskDeadline start={task.start} deadline={task.deadline} project={currentProject} />:task.start!==null?<TaskDeadline start={task.start} deadline={task.deadline} project={null} />:null}
+                {currentProjectId!=='all'?<TaskDeadline task={task} project={currentProject} />:task.start!==null?<TaskDeadline task={task} project={null} />:null}
                 <HabitForm />
             </div>
     )
