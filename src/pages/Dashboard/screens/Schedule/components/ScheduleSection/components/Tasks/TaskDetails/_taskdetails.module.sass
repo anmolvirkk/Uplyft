@@ -227,6 +227,37 @@
                 margin-bottom: 1.5vh
                 h3
                     margin-bottom: 0
+        .sortTitle
+            display: flex
+            justify-content: space-between
+            align-items: center
+            margin-bottom: 1.5vh
+            h3
+                margin-bottom: 0
+            .sortSelect
+                position: relative
+                +mixins.center
+                .order
+                    display: flex
+                    align-items: center
+                    color: rgba(var(--lightrgb), 1)
+                    cursor: pointer
+                    svg
+                        height: 1.5vh
+                .sortDropDown
+                    position: absolute
+                    background-color: var(--dropdown)
+                    color: var(--text)
+                    top: 2.5vh
+                    border-radius: 7px 7px
+                    p
+                        padding: 1.5vh
+                        border-bottom: 1px solid var(--border)
+                        font-size: 1.35vh
+                        font-weight: 100
+                        cursor: pointer
+                    p:last-child
+                        border: none
 
 .slotLabel
     font-size: 1.5vh

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -61,6 +61,7 @@ const TaskDetails = () => {
 
     const Filters = () => {
         const [filterOpen, setFilterOpen] = useState(true)
+        const [sortOpen, setSortOpen] = useState(false)
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
                 <div className={styles.filters}>
@@ -68,7 +69,23 @@ const TaskDetails = () => {
                         {filterOpen?
                         <div className={styles.filterTab}>
                             <div className={styles.filterSection}>
-                                <h3>Sort By</h3>
+                                <div className={styles.sortTitle}>
+                                    <h3>Sort By</h3>
+                                    <div className={styles.sortSelect}>
+                                        <OutsideClickHandler onOutsideClick={()=>setSortOpen(false)}>
+                                            <div className={styles.order} onClick={()=>setSortOpen(!sortOpen)}>
+                                                <p>Decending</p>
+                                                <ArrowUp />
+                                            </div>
+                                        </OutsideClickHandler>
+                                        {sortOpen?
+                                            <div className={styles.sortDropDown}>
+                                                <p>Accending</p>
+                                                <p>Decending</p>
+                                            </div>
+                                        :null}
+                                    </div>
+                                </div>
                                 <ul>
                                     <li>Priority</li>
                                     <li>Time</li>
@@ -83,6 +100,7 @@ const TaskDetails = () => {
                                 </div>
                                 <div className={modalStyles.taskInputSection}>
                                     <div className={modalStyles.tags}>
+                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
                                         {reorderTags(tags.priority).map((item, index)=>{
                                             return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
                                         })}
@@ -97,6 +115,7 @@ const TaskDetails = () => {
                                 </div>
                                 <div className={modalStyles.taskInputSection}>
                                     <div className={modalStyles.tags}>
+                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
                                         {reorderTags(tags.timeRequired).map((item, index)=>{
                                             return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
                                         })}
@@ -111,6 +130,7 @@ const TaskDetails = () => {
                                 </div>
                                 <div className={modalStyles.taskInputSection}>
                                     <div className={modalStyles.tags}>
+                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
                                         {reorderTags(tags.effortRequired).map((item, index)=>{
                                             return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
                                         })}
@@ -124,8 +144,9 @@ const TaskDetails = () => {
                                     <p id="effortTagValue">0</p>
                                 </div>
                                 <div className={modalStyles.tags}>
-                                    {tags.tags.map((item)=>{
-                                        return <div className={`${modalStyles.tag}`}><span>{item}</span></div>
+                                    <div className={`${modalStyles.tag}`}><span>All</span></div>
+                                    {tags.tags.map((item, index)=>{
+                                        return <div key={index} className={`${modalStyles.tag}`}><span>{item}</span></div>
                                     })}
                                 </div>
                             </div>
