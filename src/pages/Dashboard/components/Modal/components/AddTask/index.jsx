@@ -450,7 +450,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
     useEffect(()=>{
         if(currentActiveTask){
-            if(currentActiveTask.id !== currentTaskRoute()[currentTaskRoute().length-1].id){const getNewRoute = (subtasks) => {
+            if(currentActiveTask.id !== currentTaskRoute()[currentTaskRoute().length-1].id){
+                const getNewRoute = (subtasks) => {
                     let finalRoute
                     subtasks.forEach((item)=>{
                         let route = [item]
