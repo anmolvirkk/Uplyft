@@ -269,10 +269,10 @@ const TaskDetails = () => {
         const TimeRemaining = () => {
             let sec, min, hour, days
             const timeLeft = () => {
-                if(document.getElementById('taskDetailStart').innerText && document.getElementById('taskDetailDeadline').innerText){
-                    const start = new Date(document.getElementById('taskDetailStart').innerText)
-                    const deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
-                    if(document.getElementById('timer')){
+                if(document.getElementById('timer')){
+                    if(document.getElementById('taskDetailStart').innerText && document.getElementById('taskDetailDeadline').innerText){
+                        const start = new Date(document.getElementById('taskDetailStart').innerText)
+                        const deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
                         let now = new Date()
                         if((start.getTime() - now.getTime()) <= 0){
                             if((deadline.getTime() - now.getTime()) <= 0){
