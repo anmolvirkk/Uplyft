@@ -267,56 +267,58 @@ const TaskDetails = () => {
 
     const TaskDetails = ({task}) => {
         const TimeRemaining = () => {
-            let start = new Date(task.start)
-            let deadline = new Date(task.deadline)
             let sec, min, hour, days
             const timeLeft = () => {
-                if(document.getElementById('timer')){
-                    let now = new Date()
-                    if((start.getTime() - now.getTime()) <= 0){
-                        if((deadline.getTime() - now.getTime()) <= 0){
-                            clearInterval(startTimer)
-                            document.getElementById('timer').innerText = 'Time Over'
-                            document.getElementById('days').innerText = 0
-                            document.getElementById('hour').innerText = 0
-                            document.getElementById('min').innerText = 0
-                            document.getElementById('sec').innerText = 0
+                if(document.getElementById('taskDetailStart').innerText && document.getElementById('taskDetailDeadline').innerText){
+                    const start = new Date(document.getElementById('taskDetailStart').innerText)
+                    const deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
+                    if(document.getElementById('timer')){
+                        let now = new Date()
+                        if((start.getTime() - now.getTime()) <= 0){
+                            if((deadline.getTime() - now.getTime()) <= 0){
+                                clearInterval(startTimer)
+                                document.getElementById('timer').innerText = 'Time Over'
+                                document.getElementById('days').innerText = 0
+                                document.getElementById('hour').innerText = 0
+                                document.getElementById('min').innerText = 0
+                                document.getElementById('sec').innerText = 0
+                            }else{
+                                sec = Math.floor((deadline.getTime() - now.getTime())/1000)
+                                min = Math.floor(sec/60)
+                                hour = Math.floor(min/60)
+                                days = Math.floor(days/24)
+                                document.getElementById('timer').innerText = 'Time Until Deadline'
+                            }
                         }else{
-                            sec = Math.floor((deadline.getTime() - now.getTime())/1000)
+                            sec = Math.floor((start.getTime() - now.getTime())/1000)
                             min = Math.floor(sec/60)
                             hour = Math.floor(min/60)
                             days = Math.floor(days/24)
-                            document.getElementById('timer').innerText = 'Time Until Deadline'
+                            document.getElementById('timer').innerText = 'Time Until Start'
                         }
-                    }else{
-                        sec = Math.floor((start.getTime() - now.getTime())/1000)
-                        min = Math.floor(sec/60)
-                        hour = Math.floor(min/60)
-                        days = Math.floor(days/24)
-                        document.getElementById('timer').innerText = 'Time Until Start'
-                    }
-                    hour %= 24
-                    min %= 60
-                    sec %= 60
-                    if(!isNaN(days)){
-                        document.getElementById('days').innerText = days
-                    }else{
-                        document.getElementById('days').innerText = 0
-                    }
-                    if(!isNaN(hour)){
-                        document.getElementById('hour').innerText = hour
-                    }else{
-                        document.getElementById('hour').innerText = 0
-                    }
-                    if(!isNaN(min)){
-                        document.getElementById('min').innerText = min
-                    }else{
-                        document.getElementById('min').innerText = 0
-                    }
-                    if(!isNaN(sec)){
-                        document.getElementById('sec').innerText = sec
-                    }else{
-                        document.getElementById('sec').innerText = 0
+                        hour %= 24
+                        min %= 60
+                        sec %= 60
+                        if(!isNaN(days)){
+                            document.getElementById('days').innerText = days
+                        }else{
+                            document.getElementById('days').innerText = 0
+                        }
+                        if(!isNaN(hour)){
+                            document.getElementById('hour').innerText = hour
+                        }else{
+                            document.getElementById('hour').innerText = 0
+                        }
+                        if(!isNaN(min)){
+                            document.getElementById('min').innerText = min
+                        }else{
+                            document.getElementById('min').innerText = 0
+                        }
+                        if(!isNaN(sec)){
+                            document.getElementById('sec').innerText = sec
+                        }else{
+                            document.getElementById('sec').innerText = 0
+                        }
                     }
                 }
             }
@@ -356,11 +358,11 @@ const TaskDetails = () => {
                 <div className={styles.time}>
                     <div>
                         <p className={styles.title}>Start</p>
-                        <div>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div id="taskDetailStart">{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                     <div>
                         <p className={styles.title}>Deadline</p>
-                        <div>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div id="taskDetailDeadline">{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                     <TimeRemaining />
                 </div>
