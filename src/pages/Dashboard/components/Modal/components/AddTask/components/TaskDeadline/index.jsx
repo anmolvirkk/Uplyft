@@ -79,6 +79,9 @@ const TaskDeadline = ({task, project}) => {
                 <ul>
                     {timeline.map((item, i)=>{
                         if(timeline[i+1]){
+                            let daysBetween = Math.round((new Date(timeline[i+1].date)-new Date(timeline[i].date))/(1000*60*60*24))
+                            let hoursBetween = Math.round((new Date(timeline[i+1].date)-new Date(timeline[i].date))/(1000*60*60))
+                            let minBetween = Math.round((new Date(timeline[i+1].date)-new Date(timeline[i].date))/(1000*60))
                             let timelineSlot = [
                                 {
                                     name: item.name,
@@ -86,7 +89,7 @@ const TaskDeadline = ({task, project}) => {
                                 },
                                 {
                                     name: '',
-                                    date: Math.round((new Date(timeline[i+1].date)-new Date(timeline[i].date))/(1000*60*60*24))+' Days'
+                                    date: daysBetween!==0?daysBetween+' Days':hoursBetween!==0?hoursBetween+' Hours':minBetween+' Min'
                                 }
                             ]
                             return timelineSlot.map((item, i)=>{
