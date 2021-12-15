@@ -331,7 +331,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             if(task.name !== ''){
                 let subTaskInfo = {
                     id: new Date().valueOf(),
-                    name: 'Sub Task'
+                    name: 'Sub Task',
+                    completed: activeTask.completed
                 }
                 if(!activeTask.subtasks){
                     setActiveTask('subtasks', [{...taskformat, ...subTaskInfo}])
@@ -345,7 +346,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         const addParallelTask = () => {
             let parallelTaskInfo = {
                 id: new Date().valueOf(),
-                name: 'Sub Task'
+                name: 'Sub Task',
+                completed: activeTask.completed
             }
             let parent = {subtasks: []}
             if(currentTaskRoute()[currentTaskRoute().findIndex(i=>i.id===activeTask.id)-1]){
