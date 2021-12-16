@@ -194,11 +194,14 @@
         bottom: 40px
         background-color: var(--sideBar)
         padding: 1.5vh
+        max-height: calc(100vh - 4vh - 80px)
+        overflow-y: auto
         h3
             font-size: 1.5vh
             color: var(--text)
             font-weight: 100
             margin-bottom: 1.5vh
+            text-transform: capitalize
         .filterSection
             margin-bottom: 1.5vh
             ul
@@ -212,12 +215,20 @@
                     +mixins.center
                     padding: 1vh
                     font-size: 1.5vh
+                    cursor: pointer
                 li:nth-child(n)
                     margin: 0 0.5vh 1vh 0
                 li:nth-child(2n)
                     margin: 0 0 1vh 0.5vh
                 li:nth-last-child(-n+2)
                     margin-bottom: 0
+            .activeSort
+                background-color: variables.$primary
+                color: white
+        .activeLabel
+            span
+                background-color: variables.$primary
+                color: white
         .fiterSliders
             color: var(--text)
             .title
@@ -259,6 +270,9 @@
                     p:last-child
                         border: none
 
+.activeTag
+    background-color: variables.$primary
+    color: white
 .slotLabel
     font-size: 1.5vh
     font-weight: 300

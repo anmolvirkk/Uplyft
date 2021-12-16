@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp, ArrowDown } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -60,8 +60,44 @@ const TaskDetails = () => {
     }
 
     const Filters = () => {
+        const [filters, setFilters] = useState({
+            sort: {trend: 'decending', metric: 'urgency'},
+            priority: null,
+            time: {label: '', value: null},
+            effort: {label: '', value: null},
+            tags: []
+        })
         const [filterOpen, setFilterOpen] = useState(false)
         const [sortOpen, setSortOpen] = useState(false)
+        const FilterSection = ({type}) => {
+            return (
+                <div className={styles.fiterSliders}>
+                    <div className={styles.title}> 
+                        <h3>{type==='timeRequired'?'Time':type==='effortRequired'?'Effort':type}</h3>
+                        <p id={`${type}TagValue`}>{filters[type]}</p>
+                    </div>
+                    <div className={modalStyles.taskInputSection}>
+                        <div className={modalStyles.tags}>
+                            <div onMouseDown={()=>setFilters({...filters, [type]: null})} className={`${modalStyles.tag} ${filters[type]===null?styles.activeLabel:null}`}><span>All</span></div>
+                            {reorderTags(tags[type]).map((item, index)=>{
+                                return <div key={index} onMouseDown={()=>setFilters({...filters, [type]: item.value})} className={`${modalStyles.tag} ${filters[type]===item.value?styles.activeLabel:null}`}><div>{item.value}</div><span>{item.label}</span></div>
+                            })}
+                        </div>
+                        {filters[type]!==null?
+                            <input type="range" defaultValue={filters[type]} onMouseUp={(e)=>setFilters({...filters, [type]: parseInt(e.target.value)})} onChange={(e)=>document.getElementById(`${type}TagValue`).innerText = e.target.value} />
+                        :null}
+                    </div>
+                </div>
+            )
+        }
+        const toggleTag = (tag) => {
+            if(filters.tags.filter(i=>i===tag).length===0){
+                setFilters({...filters, tags: [...filters.tags, tag]})
+            }else{
+                let newTags = filters.tags.filter(i=>i!==tag)
+                setFilters({...filters, tags: [...newTags]})
+            }
+        }
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
                 <div className={styles.filters}>
@@ -73,80 +109,37 @@ const TaskDetails = () => {
                                     <h3>Sort By</h3>
                                     <div className={styles.sortSelect}>
                                         <OutsideClickHandler onOutsideClick={()=>setSortOpen(false)}>
-                                            <div className={styles.order} onClick={()=>setSortOpen(!sortOpen)}>
-                                                <p>Decending</p>
-                                                <ArrowUp />
+                                            <div className={styles.order} onMouseUp={()=>setSortOpen(!sortOpen)}>
+                                                <p>{filters.sort.trend}</p>
+                                                {filters.sort.trend==='decending'?<ArrowUp />:<ArrowDown />}
                                             </div>
                                         </OutsideClickHandler>
                                         {sortOpen?
                                             <div className={styles.sortDropDown}>
-                                                <p>Accending</p>
-                                                <p>Decending</p>
+                                                <p onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, trend: 'accending'}})}>Accending</p>
+                                                <p onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, trend: 'decending'}})}>Decending</p>
                                             </div>
                                         :null}
                                     </div>
                                 </div>
                                 <ul>
-                                    <li>Priority</li>
-                                    <li>Time</li>
-                                    <li>Effort</li>
-                                    <li>Urgency</li>
+                                    <li className={filters.sort.metric==='urgency'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'urgency'}})}>Urgency</li>
+                                    <li className={filters.sort.metric==='priority'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'priority'}})}>Priority</li>
+                                    <li className={filters.sort.metric==='time'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'time'}})}>Time</li>
+                                    <li className={filters.sort.metric==='effort'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'effort'}})}>Effort</li>
                                 </ul>
                             </div>
-                            <div className={styles.fiterSliders}>
-                                <div className={styles.title}>
-                                    <h3>Priority</h3>
-                                    <p id="priorityTagValue">0</p>
-                                </div>
-                                <div className={modalStyles.taskInputSection}>
-                                    <div className={modalStyles.tags}>
-                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
-                                        {reorderTags(tags.priority).map((item, index)=>{
-                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
-                                        })}
-                                    </div>
-                                    <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} />
-                                </div>
-                            </div>
-                            <div className={styles.fiterSliders}>
-                                <div className={styles.title}>
-                                    <h3>Time</h3>
-                                    <p id="timeTagValue">0</p>
-                                </div>
-                                <div className={modalStyles.taskInputSection}>
-                                    <div className={modalStyles.tags}>
-                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
-                                        {reorderTags(tags.timeRequired).map((item, index)=>{
-                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
-                                        })}
-                                    </div>
-                                    <input type="range" onChange={(e)=>document.getElementById('timeTagValue').innerText = e.target.value} />
-                                </div>
-                            </div>
-                            <div className={styles.fiterSliders}>
-                                <div className={styles.title}>
-                                    <h3>Effort</h3>
-                                    <p id="effortTagValue">0</p>
-                                </div>
-                                <div className={modalStyles.taskInputSection}>
-                                    <div className={modalStyles.tags}>
-                                        <div className={`${modalStyles.tag}`}><span>All</span></div>
-                                        {reorderTags(tags.effortRequired).map((item, index)=>{
-                                            return <div key={index} className={`${modalStyles.tag}`}><div>{item.value}</div><span>{item.label}</span></div>
-                                        })}
-                                    </div>
-                                    <input type="range" onChange={(e)=>document.getElementById('effortTagValue').innerText = e.target.value} />
-                                </div>
-                            </div>
+                            <FilterSection type="priority" />
+                            <FilterSection type="timeRequired" />
+                            <FilterSection type="effortRequired" />
                             <div className={styles.fiterSliders}>
                                 <div className={styles.title}>
                                     <h3>Tags</h3>
-                                    <p id="effortTagValue">0</p>
                                 </div>
                                 <div className={modalStyles.tags}>
-                                    <div className={`${modalStyles.tag}`}><span>All</span></div>
+                                    <div onMouseDown={()=>setFilters({...filters, tags: []})} className={`${modalStyles.tag} ${filters.tags.length===0?modalStyles.tagActive:null}`}><span>All</span></div>
                                     {tags.tags.map((item, index)=>{
-                                        return <div key={index} className={`${modalStyles.tag}`}><span>{item}</span></div>
+                                        return <div key={index} onMouseDown={()=>toggleTag(item)} className={`${modalStyles.tag} ${filters.tags.filter(i=>i===item).length>0?modalStyles.tagActive:null}`}><span>{item}</span></div>
                                     })}
                                 </div>
                             </div>
@@ -272,11 +265,13 @@ const TaskDetails = () => {
             if(rootTask.subtasks){
                     const reorderTasks = (tasks) => {
                         let newTasks = [...tasks]
-                        getNewRoute(rootTask.subtasks).forEach((route)=>{
-                            if(tasks.filter(i=>i.id===route.id).length > 0){
-                                newTasks = [...tasks].sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
-                            }
-                        })
+                        if(getNewRoute(rootTask.subtasks)){
+                            getNewRoute(rootTask.subtasks).forEach((route)=>{
+                                if(tasks.filter(i=>i.id===route.id).length > 0){
+                                    newTasks = [...tasks].sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
+                                }
+                            })
+                        }
                         return newTasks
                     }
                     const setSubtasks = (subtasks) => subtasks.map((item)=>{
