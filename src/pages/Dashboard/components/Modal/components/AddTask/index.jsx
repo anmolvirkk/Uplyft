@@ -431,7 +431,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                             <p><span>Tags</span></p>
                             <div className={styles.tags}>
                                 {tags.tags.map((item, index)=>{
-                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?activeTask.tags.includes(item)?setActiveTask({'tags': [...activeTask.tags.filter((val)=>{return val!==item})]}):setActiveTask('tags', [...activeTask.tags, item]):null} key={index} className={`${styles.tag} ${activeTask.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?activeTask.tags.includes(item)?setActiveTask('tags', [...activeTask.tags.filter((val)=>val!==item)]):setActiveTask('tags', [...activeTask.tags, item]):null} key={index} className={`${styles.tag} ${activeTask.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
                                 })}
                                 <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')}><span></span><Plus /></div></OutsideClickHandler>
                             </div>
