@@ -442,7 +442,9 @@ const TaskDetails = () => {
                 {task.tags.length>0?
                     <div>
                         <p className={styles.title}>Tags</p>
-                        {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                        <div className={styles.tagsContainer}>
+                            {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                        </div>
                     </div>
                 :null}
             </div>
