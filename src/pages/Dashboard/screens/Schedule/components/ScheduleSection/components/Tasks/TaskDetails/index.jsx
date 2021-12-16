@@ -243,8 +243,54 @@ const TaskDetails = () => {
     }
 
     const editTaskModal = (task) => {
-        const editTask = (thisTask) => {
-            setModalConfig({type: 'editTask', task: thisTask, activeTask: task})
+        const editTask = (rootTask) => {
+            const getNewRoute = (subtasks) => {
+                let finalRoute
+                subtasks.forEach((item)=>{
+                    let route = [item]
+                    const checkSubtasks = (subtasks) => {
+                        route = [item]
+                        subtasks.forEach((item)=>{
+                            if(item.id === task.id){
+                                route.push(item)
+                                finalRoute = route
+                            }else if(item.subtasks){
+                                route.push(item)
+                                checkSubtasks(item.subtasks)
+                            }
+                        })
+                    }
+                    if(item.id === task.id){
+                        finalRoute = route
+                    }else if(item.subtasks){
+                        checkSubtasks(item.subtasks)
+                    }
+                })
+                return finalRoute
+            }
+            let newTask = {...rootTask}
+            if(rootTask.subtasks){
+                    const reorderTasks = (tasks) => {
+                        let newTasks = [...tasks]
+                        getNewRoute(rootTask.subtasks).forEach((route)=>{
+                            if(tasks.filter(i=>i.id===route.id).length > 0){
+                                newTasks = [...tasks].sort((x,y)=>{ return x === route ? -1 : y === route ? 1 : 0 })
+                            }
+                        })
+                        return newTasks
+                    }
+                    const setSubtasks = (subtasks) => subtasks.map((item)=>{
+                        let newItem = {...item}
+                        if(item.subtasks){
+                            newItem.subtasks = reorderTasks(newItem.subtasks)
+                            newItem.subtasks = setSubtasks(newItem.subtasks)
+                        }
+                        return newItem
+                    })
+                    newTask.subtasks = reorderTasks(newTask.subtasks)
+                    newTask.subtasks = setSubtasks(newTask.subtasks)
+            }
+            setModalConfig({type: 'editTask', task: newTask, activeTask: task})
         }
         let currentTask
         const checkAllSubtasks = (tasks) => tasks.forEach((item)=>{
