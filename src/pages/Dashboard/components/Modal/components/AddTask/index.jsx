@@ -415,7 +415,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 })}
                                 <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{activeTask.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
                             </div>
-                            <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={activeTask.timeRequired.value} onMouseUp={(e)=>setActiveTask('timeRequired', {...activeTask.timeRequired, value: parseInt(e.target.value)})} />
+                            <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={activeTask.timeRequired.value} onMouseUp={(e)=>setActiveTask('timeRequired', {label: '', value: parseInt(e.target.value)})} />
                         </div>
                         <div className={styles.taskInputSection}>
                             <p><span>Effort required</span></p>

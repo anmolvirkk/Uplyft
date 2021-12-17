@@ -5,7 +5,7 @@ import { Check } from 'react-feather'
 import { useRecoilState } from 'recoil'
 import projectsAtom from '../../../../../../../recoil-atoms/projectsAtom'
 
-const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
+const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress}) => {
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const completed = task.completed
@@ -76,7 +76,7 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks}) => {
 
     return (
         <div className={`${styles.checkBtn} ${completed?styles.activeCheck:null}`} onMouseDown={(e)=>onClick(e)}>
-            <div className={styles.progress} />
+            <div className={styles.progress} style={{width: `${progress}%`}} />
             {completed?<Check />:<div className={styles.timesIndicator}></div>}
         </div>
     )

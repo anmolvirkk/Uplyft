@@ -340,7 +340,7 @@ const TaskDetails = () => {
         })
     }
 
-    const TaskDetails = ({task}) => {
+    const TaskDetailSection = ({task}) => {
         const TimeRemaining = () => {
             let sec, min, hour, days
             const timeLeft = () => {
@@ -442,32 +442,29 @@ const TaskDetails = () => {
                     <TimeRemaining />
                 </div>
                 <div className={styles.metrics}>
-                    <div>
+                    <div className={styles.metricContainer}>
                         <div className={styles.metricTitle}>
                             <p>Priority</p>
-                            <p>{task.priority.label}</p>
+                            <p className={styles.metricLabel}><span>{task.priority.label}</span><span className={styles.metricValue}>{task.priority.value}%</span></p>
                         </div>
-                        <p className={styles.metricValue}>{task.priority.value}%</p>
                         <div className={styles.progress}>
                             <hr style={{width: `${task.priority.value}%`}} />
                         </div>
                     </div>
-                    <div>
+                    <div className={styles.metricContainer}>
                         <div className={styles.metricTitle}>
-                            <p>Effort</p>
-                            <p>{task.effortRequired.label}</p>
+                            <p>Effort Required</p>
+                            <p><span>{task.effortRequired.label}</span><span className={styles.metricValue}>{task.effortRequired.value}%</span></p>
                         </div>
-                        <p className={styles.metricValue}>{task.effortRequired.value}%</p>
                         <div className={styles.progress}>
                             <hr style={{width: `${task.effortRequired.value}%`}} />
                         </div>
                     </div>
-                    <div>
+                    <div className={styles.metricContainer}>
                         <div className={styles.metricTitle}>
-                            <p>Time</p>
-                            <p>{task.timeRequired.label}</p>
+                            <p>Time Required</p>
+                            <p><span>{task.timeRequired.label}</span><span className={styles.metricValue}>{task.timeRequired.value}%</span></p>
                         </div>
-                        <p className={styles.metricValue}>{task.timeRequired.value}%</p>
                         <div className={styles.progress}>
                             <hr style={{width: `${task.timeRequired.value}%`}} />
                         </div>
@@ -500,21 +497,23 @@ const TaskDetails = () => {
         return (
             <div className={styles.sideSectionSlot}>
                 <div className={styles.slotContent} data-title={task.name} onMouseEnter={(e)=>addToolTipForTaskTile(e)} onClick={()=>showSubtasks(task)}>
-                    <p>{task.name}</p>
-                    {task.subtasks?
-                        <div className={styles.subtasks}>
-                            <CornerDownRight />
-                            <p>{task.subtasks.length}</p>
-                        </div>
-                    :null}
-                    {task.subtasks?
-                        <div className={styles.progress}>
-                            <hr style={{width: `${task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100}%`}} />
-                        </div>
-                    :null}
+                    <div className={styles.slotText}>
+                        <p>{task.name}</p>
+                        {task.subtasks?
+                            <div className={styles.subtasks}>
+                                <CornerDownRight />
+                                <p>{task.subtasks.length}</p>
+                            </div>
+                        :null}
+                    </div>
+                    <div className={styles.slotTags}>
+                        <div className={styles.slotTag}><span>Priority:</span><span>{task.priority.label}</span></div>
+                        <div className={styles.slotTag}><span>Time Required:</span><span>{task.timeRequired.label}</span></div>
+                        <div className={styles.slotTag}><span>Effort Required:</span><span>{task.effortRequired.label}</span></div>
+                    </div>
                 </div>
                 <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(task)}, {name: "delete", function: ()=>deleteTask(task.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} />
+                <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} progress={task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:null} />
             </div>
         )
     }
@@ -550,7 +549,7 @@ const TaskDetails = () => {
                         })}
                     </div>
                 :null}
-                {currentTask?<TaskDetails task={currentTask} />:null}
+                {currentTask?<TaskDetailSection task={currentTask} />:null}
                 {!openSubtasks.subtasks||openSubtasks.subtasks.length>0?
                     <h3 className={styles.slotLabel}>
                         <span>Remaining</span>

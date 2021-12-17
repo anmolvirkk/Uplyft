@@ -60,6 +60,8 @@
     border-bottom: 1px solid var(--border)
     color: variables.$secondary
     justify-content: space-between
+    padding-right: 0
+    position: relative
 
 .overflownSlot:hover::before
     content: attr(data-title)
@@ -71,33 +73,65 @@
     z-index: 99
     width: 75%
     line-height: 1.5
-    top: 70px
+    top: 50px
     text-align: left
     border-radius: 7px 7px
 .overflownSlot:hover::after
     content: ''
     position: absolute
-    top: 50px
+    left: 20px
+    top: 30px
     border: 8px solid transparent  
     border-bottom: 8px solid var(--tooltip)
     z-index: 99
-    
+
 .slotContent
-    display: flex
-    align-items: center
     min-width: calc( 100% - 79.5px - 2vh )
     width: calc( 100% - 100px )
     position: relative
     height: 100%
     padding: 0 0 0 2vh
     cursor: pointer
+    display: flex
+    flex-flow: column
+    align-items: center
+    justify-content: center
+    .slotText
+        all: unset
+        display: flex
+        flex-flow: row
+        width: 100%
+        height: 4vh
+        align-items: center
+    .slotTags
+        all: unset
+        display: flex
+        flex-flow: row
+        overflow-x: auto
+        overflow-y: hidden
+        width: 100%
+        .slotTag
+            all: unset
+            display: flex
+            flex-flow: row
+            background-color: rgba(var(--lightrgb), 0.15)
+            padding: 0.5vh
+            font-size: 1.3vh
+            margin-right: 1vh
+            color: rgba(var(--lightrgb), 1)
+            span
+                white-space: nowrap
+            span:first-child
+                margin-right: 0.5vh
+    .slotTags::-webkit-scrollbar
+        height: 0
     div
         border-radius: 100%
         height: 3vh
         +mixins.center
         margin-right: 1vh
         svg
-            stroke: white
+            stroke: var(--text)
             width: 3vh
             padding: 0.5vh
     .subtasks
@@ -109,24 +143,6 @@
         svg
             width: 2.5vh
             padding: 0
-    .progress
-        all: unset
-        width: calc( 100% - 0.8vh )
-        position: absolute
-        height: 3px
-        background-color: rgba(var(--lightrgb), 0.25) 
-        margin-top: 1.5vh
-        border: 1.5vh
-        bottom: 1.25vh
-        hr
-            border: none
-            outline: none
-            height: 3px
-            width: 0%
-            background-color: variables.$secondary
-
-.sideSectionSlot
-    padding-right: 0
 
 .category
     font-size: 1.5vh
@@ -382,16 +398,33 @@
         height: 3vh
         width: fit-content
         margin: 1.5vh 1.5vh 1.5vh 0
-    .metrics
-        margin-top: 1.5vh
+    .metricContainer
+        position: relative
     .metricValue
-        width: 100%
-        text-align: right
+        color: rgb(var(--lightrgb))
     .metricTitle
         margin-top: 2vh
+        .metricLabel
+            margin-top: 1vh
+        p
+            display: flex
+            justify-content: space-between
+            align-items: center
         p:last-child
             color: white
             font-weight: 100
+
+.progress
+    width: 100%
+    height: 3px
+    background-color: var(--sideBar)
+    border: 1.5vh
+    hr
+        border: none
+        outline: none
+        height: 3px
+        width: 0%
+        background-color: variables.$secondary
 
 .submitFilters
     padding: 1.5vh
