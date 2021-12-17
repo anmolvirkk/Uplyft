@@ -61,6 +61,27 @@
     color: variables.$secondary
     justify-content: space-between
 
+.overflownSlot:hover::before
+    content: attr(data-title)
+    position: absolute
+    padding: 10px
+    background: var(--tooltip)
+    color: #fff
+    font-size: 1.35vh
+    z-index: 99
+    width: 75%
+    line-height: 1.5
+    top: 70px
+    text-align: left
+    border-radius: 7px 7px
+.overflownSlot:hover::after
+    content: ''
+    position: absolute
+    top: 50px
+    border: 8px solid transparent  
+    border-bottom: 8px solid var(--tooltip)
+    z-index: 99
+    
 .slotContent
     display: flex
     align-items: center
@@ -371,3 +392,12 @@
         p:last-child
             color: white
             font-weight: 100
+
+.submitFilters
+    padding: 1.5vh
+    margin: 1.5vh 0 0 0
+    background-color: rgba(var(--lightrgb), 0.25)
+    color: white
+    +mixins.center
+    font-weight: 100
+    cursor: pointer

@@ -59,15 +59,16 @@ const TaskDetails = () => {
         return arr.slice().sort((a, b) => a.value - b.value)
     }
 
+    const [filters, setFilters] = useState({
+        sort: {trend: 'decending', metric: 'urgency'},
+        priority: null,
+        timeRequired: null,
+        effortRequired: null,
+        tags: []
+    })
+    const [filterOpen, setFilterOpen] = useState(false)
+
     const Filters = () => {
-        const [filters, setFilters] = useState({
-            sort: {trend: 'decending', metric: 'urgency'},
-            priority: null,
-            time: {label: '', value: null},
-            effort: {label: '', value: null},
-            tags: []
-        })
-        const [filterOpen, setFilterOpen] = useState(false)
         const [sortOpen, setSortOpen] = useState(false)
         const FilterSection = ({type}) => {
             return (
@@ -98,6 +99,38 @@ const TaskDetails = () => {
                 setFilters({...filters, tags: [...newTags]})
             }
         }
+        const SubmitFilter = () => {
+            const sortTasks = () => {
+                let newTasks
+                if(openSubtasks.subtasks){
+                    if(filters.sort.metric === 'urgency'){
+                        newTasks = [...openSubtasks.subtasks].sort((a, b)=>((new Date(a.deadline) < new Date(b.deadline)) ? -1 : (new Date(a.deadline) > new Date(b.deadline)) ? 1 : 0))
+                    }else{
+                        newTasks = [...openSubtasks.subtasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1 : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1 : 0)
+                    }
+                    setOpenSubtasks({...openSubtasks, subtasks: [...newTasks]})
+                }else{
+                    if(filters.sort.metric === 'urgency'){
+                        newTasks = [...projects.filter(i=>i.id===allRoutes['project'])[0].tasks].sort((a, b)=>((new Date(a.deadline) < new Date(b.deadline)) ? -1 : (new Date(a.deadline) > new Date(b.deadline)) ? 1 : 0))
+                    }else{
+                        newTasks = [...projects.filter(i=>i.id===allRoutes['project'])[0].tasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1 : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1 : 0)
+                    }
+                    let newProjects = projects.map((item)=>{
+                        let newItem = {...item}
+                        if(item.id === allRoutes['project']){
+                            newItem.tasks = [...newTasks]
+                        }
+                        return newItem
+                    })
+                    setProjects([...newProjects])
+                }
+            }
+            return (
+                <div className={styles.submitFilters} onClick={sortTasks}>
+                    <p>Sort by {filters.sort.metric}</p>
+                </div>
+            )
+        }
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
                 <div className={styles.filters}>
@@ -125,8 +158,8 @@ const TaskDetails = () => {
                                 <ul>
                                     <li className={filters.sort.metric==='urgency'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'urgency'}})}>Urgency</li>
                                     <li className={filters.sort.metric==='priority'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'priority'}})}>Priority</li>
-                                    <li className={filters.sort.metric==='time'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'time'}})}>Time</li>
-                                    <li className={filters.sort.metric==='effort'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'effort'}})}>Effort</li>
+                                    <li className={filters.sort.metric==='timeRequired'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'timeRequired'}})}>Time</li>
+                                    <li className={filters.sort.metric==='effortRequired'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'effortRequired'}})}>Effort</li>
                                 </ul>
                             </div>
                             <FilterSection type="priority" />
@@ -143,6 +176,7 @@ const TaskDetails = () => {
                                     })}
                                 </div>
                             </div>
+                            <SubmitFilter />
                         </div>
                         : null}
                 </div>
@@ -452,9 +486,20 @@ const TaskDetails = () => {
     }
 
     const TaskTile = ({task}) => {
+        
+        const addToolTipForTaskTile = (e) => {
+            if(e.target.classList.contains(styles.slotContent)){
+                if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
+                    e.target.classList.add(styles.overflownSlot)
+                }else if(e.target.classList.contains(styles.overflownSlot)) {
+                    e.target.classList.remove(styles.overflownSlot)
+                }
+            }
+        }
+
         return (
-            <div className={styles.sideSectionSlot} data-title={task.name}>
-                <div className={styles.slotContent} onClick={()=>showSubtasks(task)}>
+            <div className={styles.sideSectionSlot}>
+                <div className={styles.slotContent} data-title={task.name} onMouseEnter={(e)=>addToolTipForTaskTile(e)} onClick={()=>showSubtasks(task)}>
                     <p>{task.name}</p>
                     {task.subtasks?
                         <div className={styles.subtasks}>
