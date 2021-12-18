@@ -56,24 +56,28 @@ const TaskDetails = () => {
     }, [allRoutes, projects, setProjects])
 
     const [filters, setFilters] = useState({
-        sort: {trend: 'decending', metric: 'urgency'},
+        sort: {trend: 'decending', metric: ''},
         tags: []
     })
     const [filterOpen, setFilterOpen] = useState(false)
+
+    let filterTags = filters.tags
 
     const Filters = () => {
         const [sortOpen, setSortOpen] = useState(false)
         const toggleTag = (tag) => {
             if(filters.tags.filter(i=>i===tag).length===0){
                 setFilters({...filters, tags: [...filters.tags, tag]})
+                filterTags = [...filters.tags, tag]
             }else{
                 let newTags = filters.tags.filter(i=>i!==tag)
                 setFilters({...filters, tags: [...newTags]})
+                filterTags = [...newTags]
             }
         }
-        const SubmitFilter = () => {
-            const sortTasks = () => {
-                    const reorderTasks = (tasks) => {
+        const sortTasks = () => {
+            if(filters.sort.trend!==''){
+                const reorderTasks = (tasks) => {
                         let reorderedTasks
                         let sortOrder = filters.sort.trend==='decending'?-1:1
                         if(filters.sort.metric === 'urgency'){
@@ -82,42 +86,36 @@ const TaskDetails = () => {
                             reorderedTasks = [...tasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1*sortOrder : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1*sortOrder : 0)
                         }
                         return reorderedTasks
-                    }
-                    let newProjects = projects.map((item)=>{
+                }
+                let newProjects = projects.map((item)=>{
+                    let newItem = {...item}
+                    newItem.tasks = newItem.tasks.map((item)=>{
                         let newItem = {...item}
-                        newItem.tasks = newItem.tasks.map((item)=>{
+                        const setSubtasks = (subtasks) => subtasks.map((item)=>{
                             let newItem = {...item}
-                            const setSubtasks = (subtasks) => subtasks.map((item)=>{
-                                let newItem = {...item}
-                                if(item.subtasks){
-                                    newItem.subtasks = [...reorderTasks(item.subtasks)]
-                                    newItem.subtasks = [...setSubtasks(item.subtasks)]
-                                    if(openSubtasks.subtasks){
-                                        setOpenSubtasks({...openSubtasks, subtasks: [...newItem.subtasks]})
-                                    }
-                                }
-                                return newItem
-                            })
                             if(item.subtasks){
-                                newItem.subtasks = [...setSubtasks(item.subtasks)]
                                 newItem.subtasks = [...reorderTasks(item.subtasks)]
+                                newItem.subtasks = [...setSubtasks(item.subtasks)]
                                 if(openSubtasks.subtasks){
                                     setOpenSubtasks({...openSubtasks, subtasks: [...newItem.subtasks]})
                                 }
                             }
                             return newItem
                         })
-                        newItem.tasks = [...reorderTasks(newItem.tasks)]
+                        if(item.subtasks){
+                            newItem.subtasks = [...setSubtasks(item.subtasks)]
+                            newItem.subtasks = [...reorderTasks(item.subtasks)]
+                            if(openSubtasks.subtasks){
+                                setOpenSubtasks({...openSubtasks, subtasks: [...newItem.subtasks]})
+                            }
+                        }
                         return newItem
                     })
+                    newItem.tasks = [...reorderTasks(newItem.tasks)]
+                    return newItem
+                })
                 setProjects([...newProjects])
-                setFilterOpen(false)
             }
-            return (
-                <div className={styles.submitFilters} onClick={sortTasks}>
-                    <p>Sort by {filters.sort.metric}</p>
-                </div>
-            )
         }
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
@@ -143,7 +141,7 @@ const TaskDetails = () => {
                                         :null}
                                     </div>
                                 </div>
-                                <ul>
+                                <ul onMouseUp={sortTasks}>
                                     <li className={filters.sort.metric==='urgency'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'urgency'}})}>Urgency</li>
                                     <li className={filters.sort.metric==='priority'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'priority'}})}>Priority</li>
                                     <li className={filters.sort.metric==='timeRequired'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'timeRequired'}})}>Time</li>
@@ -161,7 +159,6 @@ const TaskDetails = () => {
                                     })}
                                 </div>
                             </div>
-                            <SubmitFilter />
                         </div>
                         : null}
                 </div>
@@ -522,7 +519,18 @@ const TaskDetails = () => {
             return null
         }
     }
-    
+
+    const filterTasks = (tasks) => {
+        let newTasks = tasks.map((item)=>{
+            let newTask = null
+            if(filterTags.every(i=>item.tags.includes(i))){
+                newTask = item
+            }
+            return newTask
+        })
+        return newTasks.filter(i=>i!==null)
+    }
+
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
@@ -550,7 +558,7 @@ const TaskDetails = () => {
                     :
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){
-                            return item.tasks.map((task)=>{
+                            return filterTasks(item.tasks).map((task)=>{
                                 if(!task.completed){
                                     return (
                                         <TaskTile task={task} key={task.id} />
@@ -574,7 +582,7 @@ const TaskDetails = () => {
                     :
                     projects.map((item)=>{
                         if(item.id === allRoutes['project']){
-                            return item.tasks.map((task)=>{
+                            return filterTasks(item.tasks).map((task)=>{
                                 if(task.completed){
                                     return (
                                         <TaskTile task={task} key={task.id} />
