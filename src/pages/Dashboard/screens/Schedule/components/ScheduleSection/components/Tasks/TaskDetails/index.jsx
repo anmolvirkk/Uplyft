@@ -55,42 +55,14 @@ const TaskDetails = () => {
 
     }, [allRoutes, projects, setProjects])
 
-    const reorderTags = (arr) => {
-        return arr.slice().sort((a, b) => a.value - b.value)
-    }
-
     const [filters, setFilters] = useState({
         sort: {trend: 'decending', metric: 'urgency'},
-        priority: null,
-        timeRequired: null,
-        effortRequired: null,
         tags: []
     })
     const [filterOpen, setFilterOpen] = useState(false)
 
     const Filters = () => {
         const [sortOpen, setSortOpen] = useState(false)
-        const FilterSection = ({type}) => {
-            return (
-                <div className={styles.fiterSliders}>
-                    <div className={styles.title}> 
-                        <h3>{type==='timeRequired'?'Time':type==='effortRequired'?'Effort':type}</h3>
-                        <p id={`${type}TagValue`}>{filters[type]}</p>
-                    </div>
-                    <div className={modalStyles.taskInputSection}>
-                        <div className={modalStyles.tags}>
-                            <div onMouseDown={()=>setFilters({...filters, [type]: null})} className={`${modalStyles.tag} ${filters[type]===null?styles.activeLabel:null}`}><span>All</span></div>
-                            {reorderTags(tags[type]).map((item, index)=>{
-                                return <div key={index} onMouseDown={()=>setFilters({...filters, [type]: item.value})} className={`${modalStyles.tag} ${filters[type]===item.value?styles.activeLabel:null}`}><div>{item.value}</div><span>{item.label}</span></div>
-                            })}
-                        </div>
-                        {filters[type]!==null?
-                            <input type="range" defaultValue={filters[type]} onMouseUp={(e)=>setFilters({...filters, [type]: parseInt(e.target.value)})} onChange={(e)=>document.getElementById(`${type}TagValue`).innerText = e.target.value} />
-                        :null}
-                    </div>
-                </div>
-            )
-        }
         const toggleTag = (tag) => {
             if(filters.tags.filter(i=>i===tag).length===0){
                 setFilters({...filters, tags: [...filters.tags, tag]})
@@ -101,29 +73,45 @@ const TaskDetails = () => {
         }
         const SubmitFilter = () => {
             const sortTasks = () => {
-                let newTasks
-                if(openSubtasks.subtasks){
-                    if(filters.sort.metric === 'urgency'){
-                        newTasks = [...openSubtasks.subtasks].sort((a, b)=>((new Date(a.deadline) < new Date(b.deadline)) ? -1 : (new Date(a.deadline) > new Date(b.deadline)) ? 1 : 0))
-                    }else{
-                        newTasks = [...openSubtasks.subtasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1 : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1 : 0)
-                    }
-                    setOpenSubtasks({...openSubtasks, subtasks: [...newTasks]})
-                }else{
-                    if(filters.sort.metric === 'urgency'){
-                        newTasks = [...projects.filter(i=>i.id===allRoutes['project'])[0].tasks].sort((a, b)=>((new Date(a.deadline) < new Date(b.deadline)) ? -1 : (new Date(a.deadline) > new Date(b.deadline)) ? 1 : 0))
-                    }else{
-                        newTasks = [...projects.filter(i=>i.id===allRoutes['project'])[0].tasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1 : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1 : 0)
+                    const reorderTasks = (tasks) => {
+                        let reorderedTasks
+                        let sortOrder = filters.sort.trend==='decending'?-1:1
+                        if(filters.sort.metric === 'urgency'){
+                            reorderedTasks = [...tasks].sort((a, b)=>((new Date(a.deadline) < new Date(b.deadline)) ? -1*sortOrder : (new Date(a.deadline) > new Date(b.deadline)) ? 1*sortOrder : 0))
+                        }else{
+                            reorderedTasks = [...tasks].sort((a, b)=>(a[filters.sort.metric].value < b[filters.sort.metric].value) ? -1*sortOrder : (a[filters.sort.metric].value > b[filters.sort.metric].value) ? 1*sortOrder : 0)
+                        }
+                        return reorderedTasks
                     }
                     let newProjects = projects.map((item)=>{
                         let newItem = {...item}
-                        if(item.id === allRoutes['project']){
-                            newItem.tasks = [...newTasks]
-                        }
+                        newItem.tasks = newItem.tasks.map((item)=>{
+                            let newItem = {...item}
+                            const setSubtasks = (subtasks) => subtasks.map((item)=>{
+                                let newItem = {...item}
+                                if(item.subtasks){
+                                    newItem.subtasks = [...reorderTasks(item.subtasks)]
+                                    newItem.subtasks = [...setSubtasks(item.subtasks)]
+                                    if(openSubtasks.subtasks){
+                                        setOpenSubtasks({...openSubtasks, subtasks: [...newItem.subtasks]})
+                                    }
+                                }
+                                return newItem
+                            })
+                            if(item.subtasks){
+                                newItem.subtasks = [...setSubtasks(item.subtasks)]
+                                newItem.subtasks = [...reorderTasks(item.subtasks)]
+                                if(openSubtasks.subtasks){
+                                    setOpenSubtasks({...openSubtasks, subtasks: [...newItem.subtasks]})
+                                }
+                            }
+                            return newItem
+                        })
+                        newItem.tasks = [...reorderTasks(newItem.tasks)]
                         return newItem
                     })
-                    setProjects([...newProjects])
-                }
+                setProjects([...newProjects])
+                setFilterOpen(false)
             }
             return (
                 <div className={styles.submitFilters} onClick={sortTasks}>
@@ -162,9 +150,6 @@ const TaskDetails = () => {
                                     <li className={filters.sort.metric==='effortRequired'?styles.activeSort:null} onMouseDown={()=>setFilters({...filters, sort: {...filters.sort, metric: 'effortRequired'}})}>Effort</li>
                                 </ul>
                             </div>
-                            <FilterSection type="priority" />
-                            <FilterSection type="timeRequired" />
-                            <FilterSection type="effortRequired" />
                             <div className={styles.fiterSliders}>
                                 <div className={styles.title}>
                                     <h3>Tags</h3>
