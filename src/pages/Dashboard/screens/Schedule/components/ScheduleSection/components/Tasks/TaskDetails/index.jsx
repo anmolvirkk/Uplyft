@@ -504,7 +504,7 @@ const TaskDetails = () => {
         if(subtasks){
             return (
                 <div>
-                    {subtasks.map((task)=>{
+                    {filterTasks(subtasks).map((task)=>{
                         if(task.completed === showCompleted){
                             return (
                                 <TaskTile task={task} key={task.id} />
