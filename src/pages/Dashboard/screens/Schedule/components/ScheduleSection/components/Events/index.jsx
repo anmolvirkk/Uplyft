@@ -4,24 +4,22 @@ import journalStyles from '../../../../../Journals/_journal.module.sass'
 import {ArrowDown} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
-
-const dummyContent = [
-    {
-        id: 0,
-        title: 'meditation'
-    }
-]
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
+import eventsAtom from '../../../../recoil-atoms/eventsAtom'
 
 const Events = () => {
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
+    const [events] = useRecoilState(eventsAtom)
     return (
         <div>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
-                {dummyContent.length!==0 ? dummyContent.map((item)=>{
-                    return <NavLink key={item.id} to={`/schedule/tasks`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.title}><p>{item.title}</p>
-                    <MoreMenu items={[{name: "rename", function: null}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
-                }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
+                {events.length!==0 ? events.map((item)=>{
+                    return <NavLink key={item.id} to={`/schedule/events`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
+                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
+                }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
             </div>
-            <AddButton />
+            <AddButton name="event" onclick={()=>setModalConfig({type: 'addEvent'})} />
         </div>
     )
 }

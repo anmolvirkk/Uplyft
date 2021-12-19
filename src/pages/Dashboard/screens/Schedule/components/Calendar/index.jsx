@@ -70,7 +70,7 @@ const MainCalendar = () => {
                     }
                 }
             })
-        }else if(item.type === 'task'){
+        }else{
             events.push({
                 title: item.title,
                 start: new Date(item.start),

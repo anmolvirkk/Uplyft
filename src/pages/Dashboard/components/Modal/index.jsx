@@ -18,6 +18,7 @@ import openBookAtom from '../../screens/Journals/recoil-atoms/openBookAtom'
 import AddHabit from './components/AddHabit'
 import AddTask from './components/AddTask'
 import AddProject from './components/AddProject'
+import AddEvent from './components/AddEvent'
 
 const Modal = () => {
 
@@ -266,7 +267,7 @@ const Modal = () => {
     )
 
     return (
-        <div className={styles.modal} onMouseDown={(e)=>closeModal(e)}>
+        <div className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
             {modalConfig.type === 'addjournal' ? 
             <AddJournal /> 
             : modalConfig.type === 'entry' ? 
@@ -289,6 +290,10 @@ const Modal = () => {
             <AddProject icons={iconsSvg} type="add" currentTask={null} />
             : modalConfig.type === 'editProject' ?
             <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
+            : modalConfig.type === 'addEvent' ?
+            <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
+            : modalConfig.type === 'editEvent' ?
+            <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
             : null
             }
         </div>
