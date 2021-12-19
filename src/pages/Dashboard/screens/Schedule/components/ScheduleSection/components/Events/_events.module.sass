@@ -1,0 +1,25 @@
+@use 'src/styles/_mixins'
+@use 'src/styles/_variables'
+
+.overflownSlot:hover::before
+    content: attr(data-title)
+    position: absolute
+    padding: 10px
+    background: var(--tooltip)
+    color: #fff
+    font-size: 1.35vh
+    z-index: 99
+    width: calc(100% - 8vh)
+    line-height: 1.5
+    top: 65px
+    left: 2vh
+    text-align: left
+    border-radius: 7px 7px
+.overflownSlot:hover::after
+    content: ''
+    position: absolute
+    top: 45px
+    left: 2vh
+    border: 8px solid transparent  
+    border-bottom: 8px solid var(--tooltip)
+    z-index: 99

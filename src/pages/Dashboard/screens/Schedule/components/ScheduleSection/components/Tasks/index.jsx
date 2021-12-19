@@ -21,10 +21,8 @@ const Projects = () => {
         if(e.target.getElementsByTagName('p')[0]){
             if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
                 e.target.classList.add(styles.overflownSlot)
-                console.log('text')
             }else if(e.target.classList.contains(styles.overflownSlot)) {
                 e.target.classList.remove(styles.overflownSlot)
-                console.log('text2')
             }
         }
     }
