@@ -162,7 +162,7 @@ const MainCalendar = () => {
             endAccessor="end" 
             events={events}
             defaultView={Views.WEEK}
-            views={[Views.WEEK, Views.DAY, Views.AGENDA]}
+            views={[Views.WEEK, Views.DAY]}
             eventPropGetter={(e)=>eventStyleGetter(e)}
             onNavigate={(e)=>setRepeatEvents(e)}
         />
