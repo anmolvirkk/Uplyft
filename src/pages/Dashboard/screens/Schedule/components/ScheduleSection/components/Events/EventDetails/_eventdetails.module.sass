@@ -1,0 +1,35 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.eventDetails
+    height: 100vh
+    color: var(--text)
+    padding: 1.5vh
+    h3
+        font-size: 3vh
+    p
+        color: rgb(var(--lightrgb))
+    ul
+        list-style: none
+    .title
+        margin-top: 1.5vh
+    .time
+        margin-top: 0.5vh
+    .notes
+        li
+            border-left: 1px solid rgb(var(--lightrgb))
+            padding-left: 1vh
+            margin: 1.5vh 0
+            line-height: 1.75
+            font-weight: 100
+    .timer
+        display: flex
+        justify-content: space-between
+        margin-top: 0.5vh
+        span   
+            color: rgba(var(--lightrgb), 0.75)
+            font-size: 1.25vh
+        .timerBlock
+            div
+                font-size: 2.5vh
+                font-weight: 100
