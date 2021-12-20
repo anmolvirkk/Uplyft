@@ -27,7 +27,7 @@ const Events = () => {
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {events.length!==0 ? events.map((item)=>{
                     return <NavLink onMouseEnter={addToolTipForEvents} key={item.id} to={`/schedule/events`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
-                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-3.5vh', top: '3.5vh'}} /></NavLink>
+                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
             </div>
             <AddButton name="event" onclick={()=>setModalConfig({type: 'addEvent'})} />

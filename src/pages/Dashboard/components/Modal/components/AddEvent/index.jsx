@@ -24,14 +24,16 @@ const AddEvent = ({type, currentEvent}) => {
         details: currentEvent.details,
         start: currentEvent.start!==null?new Date(currentEvent.start):null,
         deadline: currentEvent.deadline!==null?new Date(currentEvent.deadline):null,
-        color: currentEvent.color
+        color: currentEvent.color,
+        notes: currentEvent.notes
     }:{
         id: date.valueOf(),
         name: '',
         details: '',
         start: null,
         deadline: null,
-        color: 0
+        color: 0,
+        notes: []
     })
 
     const [events, setEvents] = useRecoilState(eventsAtom)
@@ -47,7 +49,8 @@ const AddEvent = ({type, currentEvent}) => {
                     end: event.deadline,
                     id: event.id,
                     type: 'event',
-                    color: colors[event.color]
+                    color: colors[event.color],
+                    notes: [...event.notes]
                 }])
             }else if(type==='edit'){
                 let newEvents = events.map((item)=>{
@@ -58,6 +61,7 @@ const AddEvent = ({type, currentEvent}) => {
                         newItem.start = event.start
                         newItem.deadline = event.deadline
                         newItem.color = event.color
+                        newItem.notes = [...event.notes]
                     }
                     return newItem
                 })
@@ -75,6 +79,36 @@ const AddEvent = ({type, currentEvent}) => {
                 setAllCalendarEvents([...newAllCalendarEvents])
             }
         setModalConfig({type: ''})
+    }
+
+    const [notesAutoFocus, setNotesAutoFocus] = useState(false)
+    const [saveCurrentNote, setSaveCurrentNote] = useState('')
+
+    const notesOnBlur = (val) => {
+        setNotesAutoFocus(false)
+        setSaveCurrentNote(val)
+    }
+
+    const addNote = (e) => {
+        if(e.key === 'Enter'){
+            setEvent({...event, notes: [...event.notes, e.target.value]})
+            setSaveCurrentNote('')
+        }
+    }
+
+    const editNote = (val, index) => {
+        let newNotes = event.notes.map((item, i)=>{
+            let newItem = item
+            if(i===index){
+                if(val!==''){
+                    newItem = val
+                }else{
+                    newItem = null
+                }
+            }
+            return newItem
+        })
+        setEvent({...event, notes: newNotes.filter(i=>i!==null)})
     }
 
     const HabitForm = () => {
@@ -100,6 +134,17 @@ const AddEvent = ({type, currentEvent}) => {
                                 <Flag />
                                 <Datetime initialValue={event.deadline?event.deadline:'Add Deadline'} onClose={(e)=>setEvent({...event, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d})} />        
                             </div>
+                        </div>
+                        <div className={styles.eventNotes}>
+                            <p>Notes</p>
+                            <ul>
+                                {event.notes.map((note, i)=>{
+                                    return <li key={i}><input defaultValue={note} onBlur={(e)=>editNote(e.target.value, i)} /></li>
+                                })}
+                                <li>
+                                    <input defaultValue={saveCurrentNote} autoFocus={notesAutoFocus} onBlur={(e)=>notesOnBlur(e.target.value)} onFocus={()=>setNotesAutoFocus(true)} type="text" onKeyUp={(e)=>addNote(e)} placeholder='Add Note...' />
+                                </li>
+                            </ul>
                         </div>
                         <div className={`${styles.editJournal} ${styles.addHabit} ${styles.habitCustomize}`}>
                             <ul>

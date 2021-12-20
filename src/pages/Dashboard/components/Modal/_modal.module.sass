@@ -17,6 +17,7 @@
     border-radius: 1.25vh 1.25vh
     max-height: 95vh
     min-width: 70vh
+    max-width: 70vh
     overflow: hidden
     overflow-y: overlay
     position: relative
@@ -41,6 +42,39 @@
 .addEvent
     .form
         overflow: visible
+    .eventNotes
+        display: flex
+        flex-flow: column
+        justify-content: flex-start
+        align-items: flex-start
+        p
+            font-size: 1.5vh
+            font-weight: 100
+            margin: 1.5vh 0
+            color: rgba(var(--lightrgb), 1)
+        ul
+            background-color: var(--sideBar)
+            border-radius: 7px 7px
+            max-height: 40vh
+            overflow-y: auto
+        li
+            background-color: rgba(var(--lightrgb), 0.25)
+            color: var(--text)
+            padding: 0.5vh 1vh
+            margin: 1vh
+            font-size: 1.5vh
+            font-weight: 100
+            border-radius: 7px 7px
+            display: flex
+            align-items: flex-start
+            justify-content: flex-start
+            text-align: left
+            line-height: 1.65
+            svg
+                height: 1.5vh
+            input
+                padding: 0
+                color: var(--text)
 
 .header
     display: flex
