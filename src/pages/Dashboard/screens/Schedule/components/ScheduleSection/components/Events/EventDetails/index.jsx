@@ -87,23 +87,39 @@ const EventDetails = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [events] = useRecoilState(eventsAtom)
     let activeEvent = events.filter(i=>i.id===allRoutes.event)[0]
-    return (
-        <div className={`${journalStyles.slotSection} ${styles.eventDetails}`}>
-            <h3>{activeEvent.name}</h3>
-            <p>{activeEvent.details}</p>
-            <p className={styles.title}>Start</p>
-            <div id="eventStart" className={styles.time}>{new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
-            <p className={styles.title}>Deadline</p>
-            <div id="eventDeadline" className={styles.time}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
-            <TimeRemaining />
-            <p className={styles.title}>Notes</p>
-            <ul className={styles.notes}>
-                {activeEvent.notes.map((item, i)=>{
-                    return <li key={i}>{item}</li>
-                })}
-            </ul>
-        </div>
-    )
+    if(activeEvent){
+        return (
+            <div className={`${journalStyles.slotSection} ${styles.eventDetails}`}>
+                <h3>{activeEvent.name}</h3>
+                <p>{activeEvent.details}</p>
+                <p className={styles.title}>Start</p>
+                <div id="eventStart" className={styles.time}>{new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                <p className={styles.title}>Deadline</p>
+                <div id="eventDeadline" className={styles.time}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                <TimeRemaining />
+                {activeEvent.tags.length>0?
+                    <div>
+                        <p className={styles.title}>Tags</p>
+                        <div className={styles.tagsContainer}>
+                            {activeEvent.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                        </div>
+                    </div>
+                :null}
+                {activeEvent.notes.length>0?
+                    <div>
+                        <p className={styles.title}>Notes</p>
+                        <ul className={styles.notes}>
+                            {activeEvent.notes.map((item, i)=>{
+                                return <li key={i}>{item}</li>
+                            })}
+                        </ul>
+                    </div>
+                :null}
+            </div>
+        )
+    }else{
+        return null
+    }
 }
 
 export default EventDetails

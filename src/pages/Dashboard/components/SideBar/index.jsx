@@ -36,7 +36,7 @@ const SideBar = () => {
         {
             name: 'schedule',
             icon: <Clock />,
-            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':''}`:'/schedule/habits',
+            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:'/schedule/habits',
             underConstruction: false
         },
         {

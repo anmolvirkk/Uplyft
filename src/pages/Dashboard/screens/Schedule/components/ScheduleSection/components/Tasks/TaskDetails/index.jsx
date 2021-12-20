@@ -453,7 +453,7 @@ const TaskDetails = () => {
                     </div>
                 </div>
                 {task.tags.length>0?
-                    <div>
+                    <div className={styles.tagsWrapper}>
                         <p className={styles.title}>Tags</p>
                         <div className={styles.tagsContainer}>
                             {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}

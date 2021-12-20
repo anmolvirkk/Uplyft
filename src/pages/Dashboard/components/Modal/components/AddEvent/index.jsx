@@ -3,7 +3,7 @@ import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { X, AlignLeft, Flag, Navigation } from 'react-feather'
+import { X, AlignLeft, Flag, Navigation, Plus } from 'react-feather'
 
 import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
 
@@ -11,6 +11,8 @@ import { colors } from '../../../../variables/journalConfig'
 
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 import eventsAtom from '../../../../screens/Schedule/recoil-atoms/eventsAtom'
+import eventTagsAtom from './eventTagsAtom'
+import OutsideClickHandler from 'react-outside-click-handler-lite'
 
 const AddEvent = ({type, currentEvent}) => {
 
@@ -25,7 +27,8 @@ const AddEvent = ({type, currentEvent}) => {
         start: currentEvent.start!==null?new Date(currentEvent.start):null,
         deadline: currentEvent.deadline!==null?new Date(currentEvent.deadline):null,
         color: currentEvent.color,
-        notes: currentEvent.notes
+        notes: currentEvent.notes,
+        tags: currentEvent.tags
     }:{
         id: date.valueOf(),
         name: '',
@@ -33,7 +36,8 @@ const AddEvent = ({type, currentEvent}) => {
         start: null,
         deadline: null,
         color: 0,
-        notes: []
+        notes: [],
+        tags: []
     })
 
     const [events, setEvents] = useRecoilState(eventsAtom)
@@ -50,7 +54,8 @@ const AddEvent = ({type, currentEvent}) => {
                     id: event.id,
                     type: 'event',
                     color: colors[event.color],
-                    notes: [...event.notes]
+                    notes: [...event.notes],
+                    tags: [...event.tags]
                 }])
             }else if(type==='edit'){
                 let newEvents = events.map((item)=>{
@@ -62,6 +67,7 @@ const AddEvent = ({type, currentEvent}) => {
                         newItem.deadline = event.deadline
                         newItem.color = event.color
                         newItem.notes = [...event.notes]
+                        newItem.tags = [...event.tags]
                     }
                     return newItem
                 })
@@ -111,6 +117,62 @@ const AddEvent = ({type, currentEvent}) => {
         setEvent({...event, notes: newNotes.filter(i=>i!==null)})
     }
 
+    const [tags, setTags] = useRecoilState(eventTagsAtom)
+
+    const addTagInputWithValue = (e) => {
+        if(e.target.childNodes[0]){
+            if(e.target.childNodes[0].parentNode.classList){
+                e.target.childNodes[0].parentNode.classList.add(styles.tagInput)
+                e.target.childNodes[0].contentEditable = 'true'
+                e.target.childNodes[0].focus()
+            }
+        }
+    }
+
+    const resetAddTagBtn = () => {
+        let shouldReset = false
+        let elementIndex = 0
+        for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
+            if(document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable === 'true'){
+                shouldReset = true
+                elementIndex = i
+            }
+        }
+        if(shouldReset){
+            document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].parentNode.classList.remove(styles.tagInput)
+            document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].contentEditable = 'false'
+            document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].textContent = ''
+        }
+    }
+    
+    const appendTag = (e) => {
+        let shouldAppend = true
+        if(e.target.textContent === ''){
+            shouldAppend = false
+        }
+        tags.forEach((item)=>{
+            if(item.toLowerCase() === e.target.textContent.toLowerCase()){
+                shouldAppend = false
+            }
+        })
+        if(shouldAppend){
+            setTags([...tags, e.target.textContent])
+            setEvent({...event, tags: [...event.tags, e.target.textContent]})
+        }
+    }
+
+    const removeTag = (e) => {
+        let thisTag = e[0].innerHTML
+        let newTags = tags.filter((item)=>{
+            return item!==thisTag
+        })
+        let newEventTags = event.tags.filter((item)=>{
+            return item!==thisTag
+        })
+        setTags([...newTags])
+        setEvent({...event, tags: [...newEventTags]})
+    }
+
     const HabitForm = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -154,6 +216,15 @@ const AddEvent = ({type, currentEvent}) => {
                                     </ol>
                                 </li>
                             </ul>
+                        </div>
+                        <div className={styles.taskInputSection} style={{marginTop: '1.5vh'}}>
+                            <p><span>Tags</span></p>
+                            <div className={styles.tags}>
+                                {tags.map((item, index)=>{
+                                    return <div onClick={(e)=>e.target.nodeName!=='svg'?event.tags.includes(item)?setEvent({...event, tags: [...event.tags.filter((val)=>val!==item)]}):setEvent({...event, tags: [...event.tags, item]}):null} key={index} className={`${styles.tag} ${event.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
+                                })}
+                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e)}><span></span><Plus /></div></OutsideClickHandler>
+                            </div>
                         </div>
                     </div>
                 </form>

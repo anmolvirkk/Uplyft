@@ -29,7 +29,7 @@ const SideSection = () => {
             <div className={styles.sectionHeader}>
                 <NavLink onClick={()=>setRoute('habits')} to={allRoutes['habit']?`/schedule/habits/${allRoutes['habit']}`:`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
                 <NavLink onClick={()=>setRoute('tasks')} to={allRoutes['project']?`/schedule/tasks/${allRoutes['project']}`:`/schedule/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
-                <NavLink onClick={()=>setRoute('events')} to={`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
+                <NavLink onClick={()=>setRoute('events')} to={allRoutes['event']?`/schedule/events/${allRoutes['event']}`:`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
             </div>
             <Switch>
                 <Route path="/schedule/habits"><Habits /></Route>

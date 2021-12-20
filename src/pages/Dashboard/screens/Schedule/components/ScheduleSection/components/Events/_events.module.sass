@@ -23,3 +23,102 @@
     border: 8px solid transparent  
     border-bottom: 8px solid var(--tooltip)
     z-index: 99
+
+.filters
+    height: 40px
+    width: 100%
+    position: relative
+    .filterTitle
+        cursor: pointer
+        width: 100%
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: space-between
+        font-size: 1.5vh
+        background-color: var(--sideBar)
+        color: rgba(variables.$secondary, 0.5)
+        padding: 1.5vh
+        svg
+            width: 2vh
+    .filterTab
+        width: 100%
+        position: absolute
+        bottom: 40px
+        background-color: var(--sideBar)
+        padding: 1.5vh
+        max-height: calc(100vh - 4vh - 80px)
+        overflow-y: auto
+        h3
+            font-size: 1.5vh
+            color: var(--text)
+            font-weight: 100
+            margin-bottom: 1.5vh
+            text-transform: capitalize
+        .filterSection
+            margin-bottom: 1.5vh
+            ul
+                list-style: none
+                padding: 0
+                display: grid
+                grid-template-columns: 1fr 1fr
+                li
+                    background-color: var(--background)
+                    color: rgba(variables.$secondary, 0.5)
+                    +mixins.center
+                    padding: 1vh
+                    font-size: 1.5vh
+                    cursor: pointer
+                li:nth-child(n)
+                    margin: 0 0.5vh 1vh 0
+                li:nth-child(2n)
+                    margin: 0 0 1vh 0.5vh
+                li:nth-last-child(-n+2)
+                    margin-bottom: 0
+            .activeSort
+                background-color: variables.$primary
+                color: white
+        .activeLabel
+            span
+                background-color: variables.$primary
+                color: white
+        .fiterSliders
+            color: var(--text)
+            .title
+                display: flex
+                justify-content: space-between
+                align-items: center
+                margin-bottom: 1.5vh
+                h3
+                    margin-bottom: 0
+        .sortTitle
+            display: flex
+            justify-content: space-between
+            align-items: center
+            margin-bottom: 1.5vh
+            h3
+                margin-bottom: 0
+            .sortSelect
+                position: relative
+                +mixins.center
+                .order
+                    display: flex
+                    align-items: center
+                    color: rgba(var(--lightrgb), 1)
+                    cursor: pointer
+                    svg
+                        height: 1.5vh
+                .sortDropDown
+                    position: absolute
+                    background-color: var(--dropdown)
+                    color: var(--text)
+                    top: 2.5vh
+                    border-radius: 7px 7px
+                    p
+                        padding: 1.5vh
+                        border-bottom: 1px solid var(--border)
+                        font-size: 1.35vh
+                        font-weight: 100
+                        cursor: pointer
+                    p:last-child
+                        border: none
