@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { useRecoilState } from 'recoil'
@@ -9,12 +9,8 @@ let allIntervals = []
 
 const TimeRemaining = () => {
     let sec, min, hour, days
-    const [showTimer, setShowTimer] = useState(false)
     const timeLeft = () => {
-        if(!showTimer){
-            setShowTimer(true)
-        }
-        if(document.getElementById('timer')){
+        if(document.getElementById('eventtimer')){
             let start, deadline
             let now = new Date()
             if(document.getElementById('eventStart')){
@@ -24,7 +20,7 @@ const TimeRemaining = () => {
                     min = Math.floor(sec/60)
                     hour = Math.floor(min/60)
                     days = Math.floor(hour/24)
-                    document.getElementById('timer').innerText = 'Time Until Start'
+                    document.getElementById('eventtimer').innerText = 'Time Until Start'
                 }
             }
             if(document.getElementById('eventDeadline')){
@@ -34,51 +30,56 @@ const TimeRemaining = () => {
                     min = Math.floor(sec/60)
                     hour = Math.floor(min/60)
                     days = Math.floor(hour/24)
-                    document.getElementById('timer').innerText = 'Time Until Deadline'
+                    document.getElementById('eventtimer').innerText = 'Time Until Deadline'
                 }
             }
             hour %= 24
             min %= 60
             sec %= 60
             if(days||hour||min||sec){
-                document.getElementById('days').innerText = days
-                document.getElementById('hour').innerText = hour
-                document.getElementById('min').innerText = min
-                document.getElementById('sec').innerText = sec
+                document.getElementById('eventdays').innerText = days
+                document.getElementById('eventhour').innerText = hour
+                document.getElementById('eventmin').innerText = min
+                document.getElementById('eventsec').innerText = sec
+                document.getElementById('eventtimersection').style.display = 'block'
             }else{
                 clearInterval(startTimer)
-                setShowTimer(false)
+                allIntervals.forEach((item)=>{
+                    clearInterval(item)
+                })
+                document.getElementById('eventtimersection').style.display = 'none'
             }
+        }else{
+            clearInterval(startTimer)
+            allIntervals.forEach((item)=>{
+                clearInterval(item)
+            })
         }
     }
+    let startTimer = setInterval(timeLeft, 1000)
     allIntervals.forEach((item)=>{
         clearInterval(item)
     })
-    let startTimer = setInterval(timeLeft, 1000)
     allIntervals.push(startTimer)
-    if(showTimer){
-        return (
-            <div>
-                <p className={styles.title} id="timer">Time Until Start</p>
-                <div className={styles.timer}>
-                    <div className={styles.timerBlock}>
-                        <div id="days">0</div><span>Days</span>
-                    </div>
-                    <div className={styles.timerBlock}>
-                        <div id="hour">0</div><span>Hours</span>
-                    </div>
-                    <div className={styles.timerBlock}>
-                        <div id="min">0</div><span>Minutes</span>
-                    </div>
-                    <div className={styles.timerBlock}>
-                        <div id="sec">0</div><span>Seconds</span>
-                    </div>
+    return (
+        <div id="eventtimersection">
+            <p className={styles.title} id="eventtimer">Time Until Start</p>
+            <div className={styles.timer}>
+                <div className={styles.timerBlock}>
+                    <div id="eventdays">0</div><span>Days</span>
+                </div>
+                <div className={styles.timerBlock}>
+                    <div id="eventhour">0</div><span>Hours</span>
+                </div>
+                <div className={styles.timerBlock}>
+                    <div id="eventmin">0</div><span>Minutes</span>
+                </div>
+                <div className={styles.timerBlock}>
+                    <div id="eventsec">0</div><span>Seconds</span>
                 </div>
             </div>
-        )
-    }else{
-        return null
-    }
+        </div>
+    )
 }
 
 const EventDetails = () => {
@@ -102,7 +103,7 @@ const EventDetails = () => {
                         <div id="eventDeadline" className={styles.time}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                 :null}
-                <TimeRemaining start={new Date(activeEvent.start)} deadline={new Date(activeEvent.deadline)} />
+                <TimeRemaining />
                 {activeEvent.tags.length>0?
                     <div>
                         <p className={styles.title}>Tags</p>

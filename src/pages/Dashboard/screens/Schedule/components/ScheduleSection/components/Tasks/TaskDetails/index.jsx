@@ -323,83 +323,84 @@ const TaskDetails = () => {
     }
 
     const TaskDetailSection = ({task}) => {
+        
+        let allIntervals = []
+
         const TimeRemaining = () => {
             let sec, min, hour, days
             const timeLeft = () => {
-                if(document.getElementById('timer')){
-                    if(document.getElementById('taskDetailStart') && document.getElementById('taskDetailDeadline')){
-                        const start = new Date(document.getElementById('taskDetailStart').innerText)
-                        const deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
-                        let now = new Date()
-                        if((start.getTime() - now.getTime()) <= 0){
-                            if((deadline.getTime() - now.getTime()) <= 0){
-                                clearInterval(startTimer)
-                                document.getElementById('timer').innerText = 'Time Over'
-                                document.getElementById('days').innerText = 0
-                                document.getElementById('hour').innerText = 0
-                                document.getElementById('min').innerText = 0
-                                document.getElementById('sec').innerText = 0
-                            }else{
-                                sec = Math.floor((deadline.getTime() - now.getTime())/1000)
-                                min = Math.floor(sec/60)
-                                hour = Math.floor(min/60)
-                                days = Math.floor(hour/24)
-                                document.getElementById('timer').innerText = 'Time Until Deadline'
-                            }
-                        }else{
+                if(document.getElementById('taskDetailtimer')){
+                    let start, deadline
+                    let now = new Date()
+                    if(document.getElementById('taskDetailStart')){
+                        if((new Date(document.getElementById('taskDetailStart').innerText).getTime() - now.getTime()) > 0){
+                            start = new Date(document.getElementById('taskDetailStart').innerText)
                             sec = Math.floor((start.getTime() - now.getTime())/1000)
                             min = Math.floor(sec/60)
                             hour = Math.floor(min/60)
                             days = Math.floor(hour/24)
-                            document.getElementById('timer').innerText = 'Time Until Start'
-                        }
-                        hour %= 24
-                        min %= 60
-                        sec %= 60
-                        if(!isNaN(days)){
-                            document.getElementById('days').innerText = days
-                        }else{
-                            document.getElementById('days').innerText = 0
-                        }
-                        if(!isNaN(hour)){
-                            document.getElementById('hour').innerText = hour
-                        }else{
-                            document.getElementById('hour').innerText = 0
-                        }
-                        if(!isNaN(min)){
-                            document.getElementById('min').innerText = min
-                        }else{
-                            document.getElementById('min').innerText = 0
-                        }
-                        if(!isNaN(sec)){
-                            document.getElementById('sec').innerText = sec
-                        }else{
-                            document.getElementById('sec').innerText = 0
+                            document.getElementById('taskDetailtimer').innerText = 'Time Until Start'
                         }
                     }
+                    if(document.getElementById('taskDetailDeadline')){
+                        if(!start && (new Date(document.getElementById('taskDetailDeadline').innerText).getTime() - now.getTime()) > 0){
+                            deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
+                            sec = Math.floor((deadline.getTime() - now.getTime())/1000)
+                            min = Math.floor(sec/60)
+                            hour = Math.floor(min/60)
+                            days = Math.floor(hour/24)
+                            document.getElementById('taskDetailtimer').innerText = 'Time Until Deadline'
+                        }
+                    }
+                    hour %= 24
+                    min %= 60
+                    sec %= 60
+                    if(days||hour||min||sec){
+                        document.getElementById('taskDetaildays').innerText = days
+                        document.getElementById('taskDetailhour').innerText = hour
+                        document.getElementById('taskDetailmin').innerText = min
+                        document.getElementById('taskDetailsec').innerText = sec
+                        document.getElementById('taskDetailtimersection').style.display = 'block'
+                    }else{
+                        clearInterval(startTimer)
+                        allIntervals.forEach((item)=>{
+                            clearInterval(item)
+                        })
+                        document.getElementById('taskDetailtimersection').style.display = 'none'
+                    }
+                }else{
+                    clearInterval(startTimer)
+                    allIntervals.forEach((item)=>{
+                        clearInterval(item)
+                    })
                 }
             }
             let startTimer = setInterval(timeLeft, 1000)
+            allIntervals.forEach((item)=>{
+                clearInterval(item)
+            })
+            allIntervals.push(startTimer)
             return (
-                <div>
-                    <p className={styles.title} id="timer">Time Until Start</p>
+                <div id="taskDetailtimersection">
+                    <p className={styles.title} id="taskDetailtimer">Time Until Start</p>
                     <div className={styles.timer}>
                         <div className={styles.timerBlock}>
-                            <div id="days">0</div><span>Days</span>
+                            <div id="taskDetaildays">0</div><span>Days</span>
                         </div>
                         <div className={styles.timerBlock}>
-                            <div id="hour">0</div><span>Hours</span>
+                            <div id="taskDetailhour">0</div><span>Hours</span>
                         </div>
                         <div className={styles.timerBlock}>
-                            <div id="min">0</div><span>Minutes</span>
+                            <div id="taskDetailmin">0</div><span>Minutes</span>
                         </div>
                         <div className={styles.timerBlock}>
-                            <div id="sec">0</div><span>Seconds</span>
+                            <div id="taskDetailsec">0</div><span>Seconds</span>
                         </div>
                     </div>
                 </div>
             )
         }
+
         return (
             <div className={styles.taskdetails}>
                 <h3>{task.name}</h3>
