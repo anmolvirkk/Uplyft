@@ -10,6 +10,7 @@ import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConf
 
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
+import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 const AddProject = ({icons, type, currentProject}) => {
 
@@ -38,10 +39,12 @@ const AddProject = ({icons, type, currentProject}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const submitProject = () => {
         if(type === 'add'){
             setProjects([...projects, project])
+            setAllRoutes({...allRoutes, project: project.id})
         }else if(type==='edit'){
             let newProjects = projects.map((data)=>{
                 let newData = {...data}

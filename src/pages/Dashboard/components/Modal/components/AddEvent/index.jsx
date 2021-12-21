@@ -13,6 +13,7 @@ import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/all
 import eventsAtom from '../../../../screens/Schedule/recoil-atoms/eventsAtom'
 import eventTagsAtom from './eventTagsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
+import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 const AddEvent = ({type, currentEvent}) => {
 
@@ -43,6 +44,7 @@ const AddEvent = ({type, currentEvent}) => {
     const [events, setEvents] = useRecoilState(eventsAtom)
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const submitHabit = () => {
             if(type === 'add'){
@@ -57,6 +59,7 @@ const AddEvent = ({type, currentEvent}) => {
                     notes: [...event.notes],
                     tags: [...event.tags]
                 }])
+                setAllRoutes({...allRoutes, event: event.id})
             }else if(type==='edit'){
                 let newEvents = events.map((item)=>{
                     let newItem = {...item}

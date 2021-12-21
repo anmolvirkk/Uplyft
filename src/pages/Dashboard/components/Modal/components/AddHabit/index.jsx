@@ -10,6 +10,7 @@ import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import { habitCards } from '../../../../variables/habitCards'
 
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
+import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 const addToolTipForHabitCards = (e) => {
     if(e.target.classList.contains(styles.habitCard)){
@@ -61,6 +62,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const submitHabit = () => {
         let times = {
@@ -92,6 +94,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 id: habit.id,
                 type: 'habit'
             }])
+            setAllRoutes({...allRoutes, habit: habit.id})
         }else if(type==='edit'){
             let newHabits = habits.map((data)=>{
                 let newData = {...data}
