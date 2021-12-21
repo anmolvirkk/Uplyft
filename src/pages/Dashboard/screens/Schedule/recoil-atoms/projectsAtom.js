@@ -9,14 +9,14 @@ const projectsAtom = atom({
         {
             id: 'today',
             color: 0,
-            icon: 29,
+            icon: null,
             name: 'today',
             tasks: []
         },
         {
             id: 'all',
             color: 1,
-            icon: 29,
+            icon: null,
             name: 'all',
             tasks: []
         }
