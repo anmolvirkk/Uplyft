@@ -327,7 +327,7 @@ const TaskDetails = () => {
             let sec, min, hour, days
             const timeLeft = () => {
                 if(document.getElementById('timer')){
-                    if(document.getElementById('taskDetailStart').innerText && document.getElementById('taskDetailDeadline').innerText){
+                    if(document.getElementById('taskDetailStart') && document.getElementById('taskDetailDeadline')){
                         const start = new Date(document.getElementById('taskDetailStart').innerText)
                         const deadline = new Date(document.getElementById('taskDetailDeadline').innerText)
                         let now = new Date()
@@ -343,14 +343,14 @@ const TaskDetails = () => {
                                 sec = Math.floor((deadline.getTime() - now.getTime())/1000)
                                 min = Math.floor(sec/60)
                                 hour = Math.floor(min/60)
-                                days = Math.floor(days/24)
+                                days = Math.floor(hour/24)
                                 document.getElementById('timer').innerText = 'Time Until Deadline'
                             }
                         }else{
                             sec = Math.floor((start.getTime() - now.getTime())/1000)
                             min = Math.floor(sec/60)
                             hour = Math.floor(min/60)
-                            days = Math.floor(days/24)
+                            days = Math.floor(hour/24)
                             document.getElementById('timer').innerText = 'Time Until Start'
                         }
                         hour %= 24
