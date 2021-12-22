@@ -98,7 +98,7 @@ const MainSection = ({styles}) => {
     return (
         <div className={styles.mainSection}>
                         <Switch>
-                            <Route exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
+                            <Route exact path={`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
                             <div style={{display: 'flex'}}>
                                 {
                                 allRoutes[allRoutes['book']][allRoutes['date']] ?
@@ -113,7 +113,7 @@ const MainSection = ({styles}) => {
                                                         <div key={item.id} className={styles.note}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link to={`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -122,7 +122,7 @@ const MainSection = ({styles}) => {
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link to={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link to={`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>
@@ -160,7 +160,7 @@ const MainSection = ({styles}) => {
                             {
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((props)=>(
-                                    <Route key={props.id} exact path={`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${props.id}`}>
+                                    <Route key={props.id} exact path={`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${props.id}`}>
                                         <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} styles={styles} {...props} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))

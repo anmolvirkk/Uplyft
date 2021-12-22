@@ -9,7 +9,7 @@ import DarkMode from './components/DarkMode'
 
 const IconButton = ({name, icon, link, underConstruction}) => {
     return (
-        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link==='/'}>
+        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link==='/uplift/dashboard'}>
             {icon}
             <p>{name}</p>
             {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
@@ -24,37 +24,37 @@ const SideBar = () => {
         {
             name: 'home',
             icon: <Home />,
-            link: '/',
+            link: '/uplift/dashboard',
             underConstruction: true
         },
         {
             name: 'journals',
             icon: <Book />,
-            link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:'/journals',
+            link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:'/uplift/dashboard/journals',
             underConstruction: false
         },
         {
             name: 'schedule',
             icon: <Clock />,
-            link: allRoutes&&allRoutes['scheduleSection']?`/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:'/schedule/habits',
+            link: allRoutes&&allRoutes['scheduleSection']?`/uplift/dashboard/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:'/uplift/dashboard/schedule/habits',
             underConstruction: false
         },
         {
             name: 'notes',
             icon: <File />,
-            link: '/notes',
+            link: '/uplift/dashboard/notes',
             underConstruction: true
         },
         {
             name: 'finances',
             icon: <DollarSign />,
-            link: '/finances',
+            link: '/uplift/dashboard/finances',
             underConstruction: true
         },
         {
             name: 'fitness',
             icon: <Activity />,
-            link: '/fitness',
+            link: '/uplift/dashboard/fitness',
             underConstruction: true
         }
     ]

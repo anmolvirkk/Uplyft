@@ -64,7 +64,6 @@ const Habits = () => {
    
     return (
         <div>
-            {console.log(allRoutes['habit'])}
             {allRoutes['habit']?<Redirect to={`/schedule/habits/${allRoutes['habit']}`} />:null}
             <div className={styles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 

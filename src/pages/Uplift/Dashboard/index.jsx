@@ -7,7 +7,7 @@ import Settings from './screens/Settings'
 import Modal from './components/Modal'
 import modalConfigAtom from './screens/Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState } from 'recoil'
-import '../../_main.sass'
+import '../../../_main.sass'
 import Construction from './screens/Construction'
 
 const Dashboard = () => {
@@ -19,17 +19,16 @@ const Dashboard = () => {
                 {modalConfig.type!=='' ? 
                 <Modal />
                 : null}
-
                 <Switch>
-                    <Route exact path="/"><Construction /></Route>
-                    <Route path="/home"><Construction /></Route>
-                    <Route path="/fitness"><Construction /></Route>
-                    <Route path="/finances"><Construction /></Route>
-                    <Route path="/notes"><Construction /></Route>
-                    <Route path="/journals"><Journals /></Route>
-                    <Route path="/schedule"><Schedule /></Route>
-                    <Route path="/fitness"><Fitness /></Route>
-                    <Route path="/settings"><Settings /></Route>
+                    <Route exact path="/uplift/dashboard"><Construction /></Route>
+                    <Route path="/uplift/dashboard/home"><Construction /></Route>
+                    <Route path="/uplift/dashboard/fitness"><Construction /></Route>
+                    <Route path="/uplift/dashboard/finances"><Construction /></Route>
+                    <Route path="/uplift/dashboard/notes"><Construction /></Route>
+                    <Route path="/uplift/dashboard/journals"><Journals /></Route>
+                    <Route path="/uplift/dashboard/schedule"><Schedule /></Route>
+                    <Route path="/uplift/dashboard/fitness"><Fitness /></Route>
+                    <Route path="/uplift/dashboard/settings"><Settings /></Route>
                 </Switch>
             </div>
         </Router>

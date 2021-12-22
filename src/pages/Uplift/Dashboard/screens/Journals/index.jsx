@@ -26,7 +26,7 @@ const Journals = () => {
 
         return (
         <div style={{display: 'flex'}}>
-            <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/journals`} />
+            <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/uplift/dashboard/journals`} />
             <SideBar />
 
             <BookSection styles={styles} />

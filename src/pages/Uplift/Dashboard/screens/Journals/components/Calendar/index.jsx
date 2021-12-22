@@ -22,7 +22,7 @@ const Calendar = () => {
         return <ul className={styles.calendar} id='journalCalendar'>
                     {dates ? dates.map((item, index)=>{
                         let date = new Date(item)
-                        return <NavLink onMouseUp={()=>setDateRoute(date.valueOf())} to={`/journals/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
+                        return <NavLink onMouseUp={()=>setDateRoute(date.valueOf())} to={`/uplift/dashboard/journals/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
                     }) : null}
                 </ul>
 

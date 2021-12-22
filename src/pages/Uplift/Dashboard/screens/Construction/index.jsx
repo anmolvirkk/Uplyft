@@ -12,11 +12,11 @@ const Construction = () => {
                 <h1>This Section is Coming Soon</h1>
                 <p>Until Then, Enjoy These Instead!</p>
                 <div className={styles.alternatives}>
-                    <NavLink to={'/journals'}>
+                    <NavLink to={'/uplift/dashboard/journals'}>
                         <Book />
                         Journals
                     </NavLink>
-                    <NavLink to={'/schedule'}>
+                    <NavLink to={'/uplift/dashboard/schedule'}>
                         <Clock />
                         Schedule
                     </NavLink>
