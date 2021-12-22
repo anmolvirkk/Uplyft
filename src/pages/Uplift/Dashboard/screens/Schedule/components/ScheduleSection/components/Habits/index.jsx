@@ -20,6 +20,7 @@ import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAto
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 
 import completedOpenAtom from '../../../../recoil-atoms/completedOpenAtom'
+import company from '../../../../../../../../../company'
 
 const addToolTipForHabits = (e) => {
     if(e.target.classList.contains(styles.sideSectionSlot)){
@@ -64,7 +65,7 @@ const Habits = () => {
    
     return (
         <div>
-            {allRoutes['habit']?<Redirect to={`/schedule/habits/${allRoutes['habit']}`} />:null}
+            {allRoutes['habit']?<Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`} />:null}
             <div className={styles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
                 <div>
@@ -92,7 +93,7 @@ const Habits = () => {
                                 if(item.repeat[key] !== null){
                                     if(dropDownDay.day.substring(0, 3).toLowerCase() === key){
                                         return (
-                                            <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                            <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                                 <div className={styles.slotContent}>
                                                 <div style={{backgroundColor: colors[item.color]}}>
                                                         {iconsSvg[item.icon]}
@@ -115,7 +116,7 @@ const Habits = () => {
                         {habits.length!==0&&completedOpen ? habits.map((item)=>{
                         if(parseInt(item.times) === parseInt(item.timesCompleted)){
                             return (
-                                <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/schedule/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                <NavLink onMouseEnter={(e)=>addToolTipForHabits(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                     <div className={styles.slotContent}>
                                     <div style={{backgroundColor: colors[item.color]}}>
                                             {iconsSvg[item.icon]}

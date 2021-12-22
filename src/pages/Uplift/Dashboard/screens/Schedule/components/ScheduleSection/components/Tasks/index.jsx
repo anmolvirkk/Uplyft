@@ -12,6 +12,7 @@ import MoreMenu from '../../../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 import { iconsSvg } from '../../../../../../variables/journalConfig'
+import company from '../../../../../../../../../company'
 
 const Projects = () => {
     const [projects, setProjects] = useRecoilState(projectsAtom)
@@ -70,13 +71,13 @@ const Projects = () => {
 
     return (
         <div className={styles.projects}>
-            <Redirect to={`/schedule/tasks/${newProject?newProject:allRoutes.project?allRoutes.project:'all'}`} />
+            <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${newProject?newProject:allRoutes.project?allRoutes.project:'all'}`} />
             {projects.map((item)=>{
                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                 return (
                     <div key={item.id} className={styles.projectWrapper}>
-                        <NavLink onMouseEnter={(e)=>addToolTipForTasks(e)} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/schedule/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
+                        <NavLink onMouseEnter={(e)=>addToolTipForTasks(e)} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
                             <div className={styles.slotContent}>
                                 <div className={styles.projectIcon}>{item.icon?iconsSvg[item.icon]:<Folder />}</div>
                                 <p>{item.name}</p>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Book, Clock } from 'react-feather'
 import { NavLink } from 'react-router-dom'
+import company from '../../../../../company'
 import SideBar from '../../components/SideBar'
 import styles from './_construction.module.sass'
 
@@ -12,13 +13,13 @@ const Construction = () => {
                 <h1>This Section is Coming Soon</h1>
                 <p>Until Then, Enjoy These Instead!</p>
                 <div className={styles.alternatives}>
-                    <NavLink to={'/uplift/dashboard/journals'}>
+                    <NavLink to={`/${company.subsidiary}/dashboard/${company.journals}`}>
                         <Book />
-                        Journals
+                        {company.journals}
                     </NavLink>
-                    <NavLink to={'/uplift/dashboard/schedule'}>
+                    <NavLink to={`/${company.subsidiary}/dashboard/${company.schedule}`}>
                         <Clock />
-                        Schedule
+                        {company.schedule}
                     </NavLink>
                 </div>
             </div>

@@ -9,6 +9,7 @@ import modalConfigAtom from './screens/Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
+import company from '../../../company'
 
 const Dashboard = () => {
     const [modalConfig] = useRecoilState(modalConfigAtom)
@@ -20,15 +21,15 @@ const Dashboard = () => {
                 <Modal />
                 : null}
                 <Switch>
-                    <Route exact path="/uplift/dashboard"><Construction /></Route>
-                    <Route path="/uplift/dashboard/home"><Construction /></Route>
-                    <Route path="/uplift/dashboard/fitness"><Construction /></Route>
-                    <Route path="/uplift/dashboard/finances"><Construction /></Route>
-                    <Route path="/uplift/dashboard/notes"><Construction /></Route>
-                    <Route path="/uplift/dashboard/journals"><Journals /></Route>
-                    <Route path="/uplift/dashboard/schedule"><Schedule /></Route>
-                    <Route path="/uplift/dashboard/fitness"><Fitness /></Route>
-                    <Route path="/uplift/dashboard/settings"><Settings /></Route>
+                    <Route exact path={`/${company.subsidiary}/dashboard`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/home`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Fitness /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/settings`}><Settings /></Route>
                 </Switch>
             </div>
         </Router>

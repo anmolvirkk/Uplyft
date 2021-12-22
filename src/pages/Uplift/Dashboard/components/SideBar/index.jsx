@@ -6,10 +6,11 @@ import { NavLink } from 'react-router-dom'
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import DarkMode from './components/DarkMode'
+import company from '../../../../../company'
 
 const IconButton = ({name, icon, link, underConstruction}) => {
     return (
-        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link==='/uplift/dashboard'}>
+        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
             {icon}
             <p>{name}</p>
             {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
@@ -24,37 +25,37 @@ const SideBar = () => {
         {
             name: 'home',
             icon: <Home />,
-            link: '/uplift/dashboard',
+            link: `/${company.subsidiary}/dashboard`,
             underConstruction: true
         },
         {
-            name: 'journals',
+            name: company.journals,
             icon: <Book />,
-            link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/uplift/dashboard/journals/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:'/uplift/dashboard/journals',
+            link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`,
             underConstruction: false
         },
         {
-            name: 'schedule',
+            name: company.schedule,
             icon: <Clock />,
-            link: allRoutes&&allRoutes['scheduleSection']?`/uplift/dashboard/schedule/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:'/uplift/dashboard/schedule/habits',
+            link: allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`,
             underConstruction: false
         },
         {
-            name: 'notes',
+            name: company.notes,
             icon: <File />,
-            link: '/uplift/dashboard/notes',
+            link: `/${company.subsidiary}/dashboard/${company.notes}`,
             underConstruction: true
         },
         {
-            name: 'finances',
+            name: company.finances,
             icon: <DollarSign />,
-            link: '/uplift/dashboard/finances',
+            link: `/${company.subsidiary}/dashboard/${company.finances}`,
             underConstruction: true
         },
         {
-            name: 'fitness',
+            name: company.fitness,
             icon: <Activity />,
-            link: '/uplift/dashboard/fitness',
+            link: `/${company.subsidiary}/dashboard/${company.fitness}`,
             underConstruction: true
         }
     ]

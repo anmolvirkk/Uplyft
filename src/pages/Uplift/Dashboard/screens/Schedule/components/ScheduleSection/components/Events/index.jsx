@@ -12,6 +12,7 @@ import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import eventTagsAtom from '../../../../../../components/Modal/components/AddEvent/eventTagsAtom'
 import modalStyles from '../../../../../../components/Modal/_modal.module.sass'
+import company from '../../../../../../../../../company'
 
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){
@@ -77,10 +78,10 @@ const Events = () => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     return (
         <div>
-            <Redirect to={`/schedule/events/${allRoutes.event?allRoutes.event:''}`} />
+            <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px - 40px)'}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{
-                    return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/schedule/events/${item.id}`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
+                    return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
                     <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
             </div>

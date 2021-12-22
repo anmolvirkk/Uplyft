@@ -11,6 +11,7 @@ import { useRecoilState } from 'recoil'
 import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 import TaskDetails from './components/Tasks/TaskDetails'
 import EventDetails from './components/Events/EventDetails'
+import company from '../../../../../../../company'
 
 const SideSection = () => {
 
@@ -27,14 +28,14 @@ const SideSection = () => {
     return (
         <div className={journalStyles.sideSection}>
             <div className={styles.sectionHeader}>
-                <NavLink onMouseUp={()=>setRoute('habits')} to={allRoutes['habit']?`/schedule/habits/${allRoutes['habit']}`:`/schedule/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
-                <NavLink onMouseUp={()=>setRoute('tasks')} to={allRoutes['project']?`/schedule/tasks/${allRoutes['project']}`:`/schedule/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
-                <NavLink onMouseUp={()=>setRoute('events')} to={allRoutes['event']?`/schedule/events/${allRoutes['event']}`:`/schedule/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
+                <NavLink onMouseUp={()=>setRoute('habits')} to={allRoutes['habit']?`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
+                <NavLink onMouseUp={()=>setRoute('tasks')} to={allRoutes['project']?`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${allRoutes['project']}`:`/${company.subsidiary}/dashboard/${company.schedule}/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
+                <NavLink onMouseUp={()=>setRoute('events')} to={allRoutes['event']?`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes['event']}`:`/${company.subsidiary}/dashboard/${company.schedule}/events`} activeClassName={styles.activeSection}><Calendar /></NavLink>
             </div>
             <Switch>
-                <Route path="/schedule/habits"><Habits /></Route>
-                <Route path="/schedule/tasks"><Tasks /></Route>
-                <Route path="/schedule/events"><Events /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><Habits /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><Tasks /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/events`}><Events /></Route>
             </Switch>
         </div>
     )
@@ -44,9 +45,9 @@ const DetailSection = () => (
     
     <div className={`${journalStyles.sideSection} ${journalStyles.detailSection}`}>
         <Switch>
-            <Route path="/schedule/habits"><HabitDetails /></Route>
-            <Route path="/schedule/tasks"><TaskDetails /></Route>
-            <Route path="/schedule/events"><EventDetails /></Route>
+            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><HabitDetails /></Route>
+            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><TaskDetails /></Route>
+            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/events`}><EventDetails /></Route>
         </Switch>
     </div>
 
