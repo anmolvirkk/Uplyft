@@ -3,8 +3,8 @@ let company = {
     subsidiary: 'uplift', 
     journals: 'spirit',
     schedule: 'control',
-    notes: 'mark',
-    finances: 'ambition',
+    notes: 'plot',
+    finances: 'capital',
     fitness: 'power'
 }
 

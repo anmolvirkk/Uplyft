@@ -7,16 +7,15 @@ aside
     background-color: var(--sideBar)
     position: relative
     border-right: 1px solid rgba(variables.$border, 0.15)
-    display: flex
-    flex-flow: column
-    align-items: center
-    justify-content: space-between
     overflow-y: overlay
+    display: grid
+    grid-template-rows: 100px 80px 80px 80px 80px 80px
 
 .logo
     height: 45px
     margin-bottom: 3vh
     margin-top: 3vh
+    +mixins.center
     img
         height: 100%
         filter: contrast(150%) saturate(150%) hue-rotate(30deg)
@@ -28,27 +27,44 @@ aside
     cursor: pointer
     margin-bottom: 3vh
     position: relative
+    .icon
+        width: 55px
+        height: 55px
+        +mixins.center
+        border-radius: 0 10px 10px 0
+        margin-left: -12.5px
+        padding-left: 12.5px
+        box-sizing: content-box
+        img
+            height: calc( 100% - 15px )
+            border-radius: 10px 10px
+
+.options
+    +mixins.center
+    justify-content: flex-end
+    svg
+        width: 45px
+        height: 45px
+        +mixins.center
+        border-radius: 10px 10px
+        background: var(--background)
+        padding: 10px
+    p
+        margin: 0
+        padding: 0
+        margin-top: 10px
+        text-transform: capitalize
 
 .iconButton:first-child
     margin-top: 3vh
 
-.iconButton svg
-    background-color: var(--background)
-    padding: 13px
-    width: 45px
-    height: 46px
-    border-radius: 7px 7px
-
-.iconButton p
-    margin: 0
-    padding: 0
-    margin-top: 1.5vh
-    text-transform: capitalize
-
-.activeIconButton svg
-    background-color: variables.$primary
-    color: white
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1)
+.activeIconButton
+    .icon
+        background: var(--background)
+        box-shadow: 0 0 30px rgba(var(--lightrgb), 0.75)
+    .underConstruction
+        svg
+            fill: var(--text)
 
 .sideButtons
     height: calc( 100vh - 80px )
@@ -57,13 +73,8 @@ aside
 .underConstruction
     position: absolute
     top: -0.5vh
-    right: -0.5vh
+    right: 0.5vh
     svg
         all: unset
         height: 2vh
         fill: rgba(var(--lightrgb), 0.5)
-
-.activeIconButton
-    .underConstruction
-        svg
-            fill: var(--text)
