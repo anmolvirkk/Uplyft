@@ -1,31 +1,5 @@
-@use 'src/styles/_mixins'
 @use 'src/styles/_variables'
-
-.eventSlot:first-child
-    border-top: none
-
-.overflownSlot:hover::before
-    content: attr(data-title)
-    position: absolute
-    padding: 10px
-    background: var(--tooltip)
-    color: #fff
-    font-size: 1.35vh
-    z-index: 99
-    width: calc(100% - 8vh)
-    line-height: 1.5
-    top: 65px
-    left: 2vh
-    text-align: left
-    border-radius: 7px 7px
-.overflownSlot:hover::after
-    content: ''
-    position: absolute
-    top: 45px
-    left: 2vh
-    border: 8px solid transparent  
-    border-bottom: 8px solid var(--tooltip)
-    z-index: 99
+@use 'src/styles/_mixins'
 
 .filters
     height: 40px
@@ -39,7 +13,7 @@
         align-items: center
         justify-content: space-between
         font-size: 1.5vh
-        background-color: var(--sideBar)
+        background-color: rgb(var(--sideBar))
         color: rgba(var(--secondary), 0.5)
         padding: 1.5vh
         svg
@@ -48,13 +22,13 @@
         width: 100%
         position: absolute
         bottom: 40px
-        background-color: var(--sideBar)
+        background-color: rgb(var(--sideBar))
         padding: 1.5vh
         max-height: calc(100vh - 4vh - 80px)
         overflow-y: auto
         h3
             font-size: 1.5vh
-            color: var(--text)
+            color: rgb(var(--text))
             font-weight: 100
             margin-bottom: 1.5vh
             text-transform: capitalize
@@ -66,7 +40,7 @@
                 display: grid
                 grid-template-columns: 1fr 1fr
                 li
-                    background-color: var(--background)
+                    background-color: rgb(var(--background))
                     color: rgba(var(--secondary), 0.5)
                     +mixins.center
                     padding: 1vh
@@ -79,14 +53,14 @@
                 li:nth-last-child(-n+2)
                     margin-bottom: 0
             .activeSort
-                background-color: variables.$primary
+                background-color: rgb(var(--primary))
                 color: white
         .activeLabel
             span
-                background-color: variables.$primary
+                background-color: rgb(var(--primary))
                 color: white
         .fiterSliders
-            color: var(--text)
+            color: rgb(var(--text))
             .title
                 display: flex
                 justify-content: space-between
@@ -107,21 +81,92 @@
                 .order
                     display: flex
                     align-items: center
-                    color: rgba(var(--lightrgb), 1)
+                    color: rgba(var(--text), 1)
                     cursor: pointer
                     svg
                         height: 1.5vh
                 .sortDropDown
                     position: absolute
-                    background-color: var(--dropdown)
-                    color: var(--text)
+                    background-color: rgb(var(--dropdown))
+                    color: rgb(var(--text))
                     top: 2.5vh
                     border-radius: 7px 7px
                     p
                         padding: 1.5vh
-                        border-bottom: 1px solid var(--border)
+                        border-bottom: 1px solid rgb(var(--border))
                         font-size: 1.35vh
                         font-weight: 100
                         cursor: pointer
                     p:last-child
                         border: none
+
+.details
+    padding: 1.5vh
+    color: rgb(var(--text))
+    font-size: 1.5vh
+    h3
+        font-size: 3vh
+        color: rgba(var(--text), 1)
+    p
+        color: rgba(var(--text), 0.25)
+        margin-top: 0.5vh
+    .details
+        font-size: 1.35vh
+    .amount
+        width: 100%
+        text-align: right
+        color: rgba(var(--text), 0.15)
+    .progress
+        background-color: rgba(var(--text), 0.05)
+        margin-top: 1vh
+        hr
+            border: none
+            outline: none
+            height: 3px
+            background-color: variables.$primary
+    .timer
+        display: flex
+        justify-content: space-between
+        span   
+            color: rgba(var(--text), 0.75)
+            font-size: 1.25vh
+        .timerBlock
+            div
+                font-size: 2.5vh
+                font-weight: 100
+    .title
+        margin-top: 2vh
+        margin-bottom: 1vh
+    .tagsWrapper
+        .title
+            margin-bottom: 0
+    .tagsContainer
+        display: flex
+        flex-flow: wrap
+    .tags
+        background-color: rgba(var(--text), 0.1)
+        border-radius: 3px 3px
+        padding: 0 1.5vh
+        font-size: 1.5vh
+        color: rgba(var(--text), 1)
+        display: flex
+        align-items: center
+        overflow: hidden
+        height: 3vh
+        width: fit-content
+        margin: 1.5vh 1.5vh 1.5vh 0
+    .metricContainer
+        position: relative
+    .metricValue
+        color: rgb(var(--text))
+    .metricTitle
+        margin-top: 2vh
+        .metricLabel
+            margin-top: 1vh
+        p
+            display: flex
+            justify-content: space-between
+            align-items: center
+        p:last-child
+            color: white
+            font-weight: 100

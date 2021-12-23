@@ -10,12 +10,12 @@
 
 .prompts
     display: none
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     cursor: pointer
     ul
         list-style: none
         height: 77.5vh
-        background-color: var(--background)
+        background-color: rgb(var(--background))
         li
             font-size: 2vh
             font-weight: 300
@@ -24,8 +24,8 @@
             justify-content: space-between
             align-items: center
             padding: 0 1.2vh 0 2.5vh
-            background-color: var(--background)
-            border-bottom: 1px solid rgba(variables.$black, 0.15)
+            background-color: rgb(var(--background))
+            border-bottom: 1px solid rgba(var(--border), 0.15)
             position: relative
             p
                 width: 95%
@@ -35,20 +35,20 @@
             svg
                 width: 2vh
         li:hover
-            background-color: rgba(variables.$secondary, 0.1)
+            background-color: rgba(var(--secondary), 0.1)
         .addBtn
-            background-color: var(--addBtn)
+            background-color: rgb(var(--addBtn))
             color: variables.$white
         .addBtn:hover
-            background-color: var(--addBtn)
+            background-color: rgb(var(--addBtn))
 .promptsOpen
     display: block
     ul
         overflow-y: overlay
 
 .currentPrompt 
-        background-color: var(--background)
-        color: variables.$secondary
+        background-color: rgb(var(--background))
+        color: rgb(var(--secondary))
         border-bottom: none
         padding: 0 2.5vh
         height: 5vh
@@ -72,7 +72,7 @@
     content: attr(data-item)
     position: absolute
     padding: 10px
-    background: variables.$black
+    background: rgb(var(--activeSlot))
     color: #fff
     font-size: 1.35vh
     z-index: 99
@@ -86,5 +86,5 @@
     position: absolute
     top: 30px
     border: 8px solid transparent  
-    border-bottom: 8px solid variables.$black
+    border-bottom: 8px solid rgb(var(--activeSlot))
     z-index: 99

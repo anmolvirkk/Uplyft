@@ -6,7 +6,7 @@
     height: 100%
     min-width: 24vh
     +mixins.center
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     p
         margin-bottom: 2.5vh
         line-height: 1.5
@@ -34,7 +34,7 @@
         content: attr(data-title)
         position: absolute
         padding: 10px
-        background: var(--tooltip)
+        background: rgb(var(--tooltip))
         color: #fff
         font-size: 1.35vh
         z-index: 99
@@ -48,7 +48,7 @@
         position: absolute
         top: 50px
         border: 8px solid transparent  
-        border-bottom: 8px solid var(--tooltip)
+        border-bottom: 8px solid rgb(var(--tooltip))
         z-index: 99
 
 
@@ -57,8 +57,8 @@
     height: 80px
     display: flex
     align-items: center
-    border-bottom: 1px solid var(--border)
-    color: variables.$secondary
+    border-bottom: 1px solid rgb(var(--border))
+    color: rgb(var(--secondary))
     justify-content: space-between
     padding-right: 0
     position: relative
@@ -67,7 +67,7 @@
     content: attr(data-title)
     position: absolute
     padding: 10px
-    background: var(--tooltip)
+    background: rgb(var(--tooltip))
     color: #fff
     font-size: 1.35vh
     z-index: 99
@@ -82,7 +82,7 @@
     left: 20px
     top: 30px
     border: 8px solid transparent  
-    border-bottom: 8px solid var(--tooltip)
+    border-bottom: 8px solid rgb(var(--tooltip))
     z-index: 99
 
 .slotContent
@@ -114,11 +114,11 @@
             all: unset
             display: flex
             flex-flow: row
-            background-color: rgba(var(--lightrgb), 0.15)
+            background-color: rgba(var(--text), 0.15)
             padding: 0.5vh
             font-size: 1.3vh
             margin-right: 1vh
-            color: rgba(var(--lightrgb), 1)
+            color: rgba(var(--text), 1)
             span
                 white-space: nowrap
             span:first-child
@@ -131,7 +131,7 @@
         +mixins.center
         margin-right: 1vh
         svg
-            stroke: var(--text)
+            stroke: rgb(var(--text))
             width: 3vh
             padding: 0.5vh
     .subtasks
@@ -146,16 +146,16 @@
 
 .category
     font-size: 1.5vh
-    color: var(--text)
+    color: rgb(var(--text))
     h3
         font-size: 1.5vh
         font-weight: 300
-        background-color: var(--background)
+        background-color: rgb(var(--background))
         padding: 1.5vh
         display: flex
         justify-content: space-between
         align-items: center
-        color: var(--text)
+        color: rgb(var(--text))
         cursor: pointer
     .dropDown
         width: 100%
@@ -168,13 +168,13 @@
             top: 5vh
             width: 100%
             z-index: 9
-            background-color: var(--background)
+            background-color: rgb(var(--background))
         li
             padding: 1.5vh
-            border-bottom: 1px solid var(--border)
+            border-bottom: 1px solid rgb(var(--border))
             font-weight: 300
         li:first-child
-            border-top: 1px solid var(--border)
+            border-top: 1px solid rgb(var(--border))
 
 
 .category
@@ -182,12 +182,12 @@
     h3
         font-size: 1.5vh
         font-weight: 300
-        background-color: var(--background)
+        background-color: rgb(var(--background))
         padding: 1.5vh
         display: flex
         justify-content: space-between
         align-items: center
-        color: var(--text)
+        color: rgb(var(--text))
         cursor: pointer
     .dropDown
         width: 100%
@@ -200,13 +200,13 @@
             top: 5vh
             width: 100%
             z-index: 9
-            background-color: var(--background)
+            background-color: rgb(var(--background))
         li
             padding: 1.5vh
-            border-bottom: 1px solid var(--border)
+            border-bottom: 1px solid rgb(var(--border))
             font-weight: 300
         li:first-child
-            border-top: 1px solid var(--border)
+            border-top: 1px solid rgb(var(--border))
 
 .filters
     height: 40px
@@ -220,8 +220,8 @@
         align-items: center
         justify-content: space-between
         font-size: 1.5vh
-        background-color: var(--sideBar)
-        color: rgba(variables.$secondary, 0.5)
+        background-color: rgb(var(--sideBar))
+        color: rgba(var(--secondary), 0.5)
         padding: 1.5vh
         svg
             width: 2vh
@@ -229,13 +229,13 @@
         width: 100%
         position: absolute
         bottom: 40px
-        background-color: var(--sideBar)
+        background-color: rgb(var(--sideBar))
         padding: 1.5vh
         max-height: calc(100vh - 4vh - 80px)
         overflow-y: auto
         h3
             font-size: 1.5vh
-            color: var(--text)
+            color: rgb(var(--text))
             font-weight: 100
             margin-bottom: 1.5vh
             text-transform: capitalize
@@ -247,8 +247,8 @@
                 display: grid
                 grid-template-columns: 1fr 1fr
                 li
-                    background-color: var(--background)
-                    color: rgba(variables.$secondary, 0.5)
+                    background-color: rgb(var(--background))
+                    color: rgba(var(--secondary), 0.5)
                     +mixins.center
                     padding: 1vh
                     font-size: 1.5vh
@@ -260,14 +260,14 @@
                 li:nth-last-child(-n+2)
                     margin-bottom: 0
             .activeSort
-                background-color: variables.$primary
+                background-color: rgb(var(--primary))
                 color: white
         .activeLabel
             span
-                background-color: variables.$primary
+                background-color: rgb(var(--primary))
                 color: white
         .fiterSliders
-            color: var(--text)
+            color: rgb(var(--text))
             .title
                 display: flex
                 justify-content: space-between
@@ -288,19 +288,19 @@
                 .order
                     display: flex
                     align-items: center
-                    color: rgba(var(--lightrgb), 1)
+                    color: rgba(var(--text), 1)
                     cursor: pointer
                     svg
                         height: 1.5vh
                 .sortDropDown
                     position: absolute
-                    background-color: var(--dropdown)
-                    color: var(--text)
+                    background-color: rgb(var(--dropdown))
+                    color: rgb(var(--text))
                     top: 2.5vh
                     border-radius: 7px 7px
                     p
                         padding: 1.5vh
-                        border-bottom: 1px solid var(--border)
+                        border-bottom: 1px solid rgb(var(--border))
                         font-size: 1.35vh
                         font-weight: 100
                         cursor: pointer
@@ -308,22 +308,22 @@
                         border: none
 
 .activeTag
-    background-color: variables.$primary
+    background-color: rgb(var(--primary))
     color: white
 .slotLabel
     font-size: 1.5vh
     font-weight: 300
-    background-color: var(--background)
+    background-color: rgb(var(--background))
     padding: 1.5vh
     display: flex
     justify-content: space-between
     align-items: center
-    color: var(--text)
+    color: rgb(var(--text))
     cursor: pointer
 .tasksNav
     display: flex
     align-items: center
-    color: rgba(var(--lightrgb), 1)
+    color: rgba(var(--text), 0.35)
     padding: 0 1vh 0 1.5vh
     overflow-x: auto
     margin-top: 1.5vh
@@ -339,7 +339,7 @@
             font-size: 1.3vh
             text-transform: lowercase
     .navContent:last-child
-        color: rgba(variables.$secondary, 0.7)
+        color: rgba(var(--secondary), 0.7)
         margin-right: 0
         pointer-events: none
 
@@ -348,21 +348,22 @@
 
 .taskdetails
     padding: 1.5vh
-    color: var(--text)
+    color: rgb(var(--text))
     font-size: 1.5vh
     h3
         font-size: 3vh
+        color: rgba(var(--text), 1)
     p
-        color: rgba(var(--lightrgb), 1)
+        color: rgba(var(--text), 0.25)
         margin-top: 0.5vh
     .details
         font-size: 1.35vh
     .amount
         width: 100%
         text-align: right
-        color: rgba(var(--lightrgb), 1)
+        color: rgba(var(--text), 0.15)
     .progress
-        background-color: rgba(var(--lightrgb), 0.25)
+        background-color: rgba(var(--text), 0.05)
         margin-top: 1vh
         hr
             border: none
@@ -373,7 +374,7 @@
         display: flex
         justify-content: space-between
         span   
-            color: rgba(var(--lightrgb), 0.75)
+            color: rgba(var(--text), 0.75)
             font-size: 1.25vh
         .timerBlock
             div
@@ -389,11 +390,11 @@
         display: flex
         flex-flow: wrap
     .tags
-        background-color: rgba(var(--lightrgb), 0.1)
+        background-color: rgba(var(--text), 0.1)
         border-radius: 3px 3px
         padding: 0 1.5vh
         font-size: 1.5vh
-        color: rgba(var(--lightrgb), 1)
+        color: rgba(var(--text), 1)
         display: flex
         align-items: center
         overflow: hidden
@@ -403,7 +404,7 @@
     .metricContainer
         position: relative
     .metricValue
-        color: rgb(var(--lightrgb))
+        color: rgb(var(--text))
     .metricTitle
         margin-top: 2vh
         .metricLabel
@@ -419,11 +420,11 @@
 .progress
     width: 100%
     height: 3px
-    background-color: var(--sideBar)
+    background-color: rgb(var(--sideBar))
     border: 1.5vh
     hr
         border: none
         outline: none
         height: 3px
         width: 0%
-        background-color: variables.$secondary
+        background-color: rgb(var(--secondary))

@@ -489,11 +489,6 @@ const TaskDetails = () => {
                             </div>
                         :null}
                     </div>
-                    <div className={styles.slotTags}>
-                        <div className={styles.slotTag}><span>Priority:</span><span>{task.priority.label}</span></div>
-                        <div className={styles.slotTag}><span>Time Required:</span><span>{task.timeRequired.label}</span></div>
-                        <div className={styles.slotTag}><span>Effort Required:</span><span>{task.effortRequired.label}</span></div>
-                    </div>
                 </div>
                 <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(task)}, {name: "delete", function: ()=>deleteTask(task.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                 <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} progress={task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:null} />

@@ -5,23 +5,23 @@
     width: 100%
     height: 100%
     .rbc-event, .rbc-background-event
-        box-shadow: 0 0 10px rgba(variables.$black, 0.1)
-        background-color: variables.$primary
+        box-shadow: 0 0 10px rgba(var(--border), 0.1)
+        background-color: rgb(var(--primary))
         border-radius: 10px 10px
         border: 0px
         color: white
         font-size: 1.5vh
     .rbc-slot-selection
-        box-shadow: 0 0 10px rgba(variables.$black, 0.25)
-        background-color: rgba(var(--lightrgb), 0.1)
+        box-shadow: 0 0 10px rgba(var(--border), 0.25)
+        background-color: rgba(var(--text), 0.1)
         border-radius: 10px 10px
         border: 0px
         color: white
     .rbc-today
-        background-color: rgba(var(--lightrgb), 0.1)
+        background-color: rgba(var(--text), 0.05)
     .rbc-current-time-indicator
-        background-color: rgba(variables.$secondary, 0.5)
-        box-shadow: 0 0 10px rgba(variables.$secondary, 0.5)
+        background-color: rgba(var(--text), 0.5)
+        box-shadow: 0 0 10px rgba(var(--text), 0.5)
     .rbc-header
         border-bottom: none
     .rbc-time-header-content
@@ -31,20 +31,21 @@
         height: 35px
         pointer-events: none
     .rbc-toolbar button
-        color: var(--text)
-        border-color: var(--border)
+        color: rgb(var(--text))
+        border-color: rgb(var(--border))
     div
-        border-color: var(--border)
+        border-color: rgb(var(--border))
     .rbc-day-slot .rbc-time-slot
-        border-color: rgba(var(--lightrgb), 0.1)
+        border-color: transparent
     span
         font-size: 1.5vh
-        color: var(--text)
+        color: rgb(var(--text))
         font-weight: 300
     .rbc-time-slot
         text-transform: lowercase
     .rbc-timeslot-group
         min-height: calc((100vh - 35px - 40px)/24)
+        border-color: transparent
     .rbc-event-content
         line-height: 1.25
     .rbc-toolbar
@@ -55,7 +56,7 @@
     .rbc-header
         height: 35px
         +mixins.center
-        border-left: 1px solid rgba(var(--lightrgb), 0.1)
+        border-left: transparent
     .rbc-btn-group
         height: 100%
         button
@@ -65,10 +66,10 @@
             cursor: pointer
             font-size: 1.5vh
             background-color: transparent
-            color: var(--text)
+            color: rgb(var(--text))
         button:hover
-            background-color: var(--background)
+            background-color: rgb(var(--background))
     .rbc-toolbar button:active, .rbc-toolbar button.rbc-active
         box-shadow: none
-        background-color: var(--activeSlot)
-        color: var(--text)
+        background-color: rgb(var(--activeSlot))
+        color: rgb(var(--text))

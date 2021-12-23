@@ -7,10 +7,10 @@
     width: 250px
     height: 80px
     box-sizing: border-box
-    background-color: var(--addBtn)
+    background-color: rgb(var(--addBtn))
     color: white
     text-transform: capitalize
-    border-right: 1px solid var(--addBtnBorder)
+    border-right: 1px solid rgb(var(--border))
     position: relative
     div
         display: flex
@@ -22,58 +22,3 @@
     svg
         height: 2.75vh
         width: 2.75vh
-    ul
-        padding: 2.5vh
-        margin: 0
-        list-style: none
-        position: absolute
-        bottom: 80px
-        left: 0
-        background: variables.$black
-        border-bottom: 1px solid rgba(variables.$white, 0.15)
-        width: 100%
-        max-height: 90vh
-        overflow-x: hidden
-        overflow-y: overlay
-        p
-            line-height: 2
-        .colors
-            margin-bottom: 1.5vh
-            li:last-child
-                filter: contrast(80%) brightness(120%)
-        ol
-            padding: 0
-            margin: 0
-            list-style: none
-            display: grid
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr
-            grid-template-rows: repeat(auto-fill, minmax(3.5vh, 1fr))
-            grid-template-columns: repeat(auto-fill, minmax(3.5vh, 1fr))
-            grid-gap: 1vh
-            position: relative
-            li
-                height: 2.5vh
-                width: 2.5vh
-                border-radius: 15vh 15vh
-                margin: 1vh
-                position: relative
-                +mixins.center
-                svg
-                    width: 100%
-                    height: 100%
-                div
-                    height: 4vh
-                    width: 4vh
-                    padding: 0
-                    position: absolute
-                    border-radius: 10vh 10vh
-                    border: 1px solid rgba(variables.$white, 0.35)
-                    box-shadow: 0 0 5px rgba(variables.$white, 0.15)
-                    opacity: 0
-            .activeButton
-                opacity: 1
-.clickButton
-    height: 100%
-    width: 100%
-    p
-        text-transform: capitalize

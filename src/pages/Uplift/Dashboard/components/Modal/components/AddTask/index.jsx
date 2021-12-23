@@ -261,13 +261,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             tags[type].forEach((item)=>{
                 if(item.label === e.target.textContent){
                     shouldAppend = false
+                    console.log(e.target.textContent)
                 }
-                if(item.value === task[type].value){
+                if(item.value === activeTask[type].value){
                     shouldAppend = false
                 }
             })
             if(shouldAppend){
-                setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: task[type].value}]})
+                setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: activeTask[type].value}]})
             }
         }
 

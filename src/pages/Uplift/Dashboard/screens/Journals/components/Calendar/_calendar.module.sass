@@ -4,26 +4,13 @@
 .calendar
     height: 100vh
     min-width: 80px
-    background-color: var(--sideBar)
-    border-left: 1px solid rgba(variables.$black, 0.15)
+    background-color: rgb(var(--sideBar))
+    border-left: 1px solid rgba(var(--border), 1)
     list-style: none
     overflow: hidden
     overflow-y: overlay
     +mixins.center
     justify-content: flex-start
-    .calendarTitle
-        color: variables.$secondary
-        font-weight: 100
-        font-size: 2.25vh
-        position: sticky
-        top: 0
-        z-index: 8
-        background-color: var(--addBtn)
-        color: variables.$white
-        min-height: 80px
-        +mixins.center
-        width: 100%
-        margin-bottom: 3vh
     a:first-child
         margin-top: 3vh
     a
@@ -38,17 +25,17 @@
             border-radius: 7px 7px
             font-weight: 400
             +mixins.center
-            color: variables.$secondary
-            background-color: var(--background)
+            color: rgb(var(--text))
+            background-color: rgb(var(--background))
             opacity: 0.7
         p
             font-size: 1.35vh
-            color: variables.$secondary
+            color: rgba(var(--text), 0.15)
             margin-top: 1.25vh
     .activeDate h1
-        color: variables.$background
-        background-color: variables.$primary
-        box-shadow: 0 10px 10px rgba(variables.$black, 0.1)
+        color: white
+        background-color: rgb(var(--primary))
+        box-shadow: 0 10px 10px rgba(var(--text), 0.025)
         opacity: 1
     
 

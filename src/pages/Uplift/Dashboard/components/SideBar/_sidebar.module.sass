@@ -4,7 +4,7 @@
 aside
     min-width: 80px
     height: 100vh
-    background-color: var(--sideBar)
+    background-color: rgb(var(--background))
     position: relative
     border-right: 1px solid rgba(variables.$border, 0.15)
     overflow-y: overlay
@@ -22,7 +22,7 @@ aside
 
 .iconButton 
     all: unset
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     +mixins.center
     cursor: pointer
     margin-bottom: 3vh
@@ -47,8 +47,8 @@ aside
         height: 45px
         +mixins.center
         border-radius: 10px 10px
-        background: var(--background)
-        padding: 10px
+        background: rgb(var(--sideSlot))
+        padding: 13px
     p
         margin: 0
         padding: 0
@@ -60,11 +60,11 @@ aside
 
 .activeIconButton
     .icon
-        background: var(--background)
-        box-shadow: 0 0 30px rgba(var(--lightrgb), 0.75)
+        background: rgb(var(--sideSlot))
+        box-shadow: 0 0 30px rgba(var(--background), 1)
     .underConstruction
         svg
-            fill: var(--text)
+            fill: rgb(var(--text))
 
 .sideButtons
     height: calc( 100vh - 80px )
@@ -77,4 +77,4 @@ aside
     svg
         all: unset
         height: 2vh
-        fill: rgba(var(--lightrgb), 0.5)
+        fill: rgba(var(--text), 0.15)

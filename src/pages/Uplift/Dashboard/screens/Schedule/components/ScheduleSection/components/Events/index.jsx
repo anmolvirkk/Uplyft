@@ -13,6 +13,7 @@ import OutsideClickHandler from 'react-outside-click-handler-lite'
 import eventTagsAtom from '../../../../../../components/Modal/components/AddEvent/eventTagsAtom'
 import modalStyles from '../../../../../../components/Modal/_modal.module.sass'
 import company from '../../../../../../../../../company'
+import schdetailStyles from '../_scheduleSection.module.sass'
 
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){
@@ -40,12 +41,12 @@ const Events = () => {
         }
         return (
             <OutsideClickHandler onOutsideClick={()=>setFilterOpen(false)}>
-                <div className={styles.filters}>
-                        <div className={styles.filterTitle} onClick={()=>setFilterOpen(!filterOpen)}><span>Filters</span>{filterOpen?<ChevronDown />:<ChevronUp />}</div>
+                <div className={schdetailStyles.filters}>
+                        <div className={schdetailStyles.filterTitle} onClick={()=>setFilterOpen(!filterOpen)}><span>Filters</span>{filterOpen?<ChevronDown />:<ChevronUp />}</div>
                         {filterOpen?
-                        <div className={styles.filterTab}>
-                            <div className={styles.fiterSliders}>
-                                <div className={styles.title}>
+                        <div className={schdetailStyles.filterTab}>
+                            <div className={schdetailStyles.fiterSliders}>
+                                <div className={schdetailStyles.title}>
                                     <h3>Tags</h3>
                                 </div>
                                 <div className={modalStyles.tags}>
@@ -81,7 +82,7 @@ const Events = () => {
             <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px - 40px)'}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{
-                    return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={journalStyles.sideSectionSlot} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
+                    return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${journalStyles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
                     <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
             </div>

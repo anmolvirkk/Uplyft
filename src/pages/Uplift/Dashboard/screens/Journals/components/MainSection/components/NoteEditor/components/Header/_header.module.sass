@@ -14,7 +14,7 @@
     position: relative
     cursor: pointer
     p
-        background-color: var(--sideBar)
+        background-color: rgb(var(--sideBar))
         line-height: 1
         display: flex
         justify-content: space-between
@@ -23,22 +23,22 @@
         height: 5vh
         padding: 0 2.5vh
         font-size: 1.5vh
-        color: variables.$secondary
+        color: rgb(var(--secondary))
     ul
         list-style: none
         position: absolute
         padding: 0
         margin: 0
-        background-color: var(--sideBar)
-        color: var(--text)
-        box-shadow: 0 5px 10px rgba(variables.$black, 0.1)
+        background-color: rgb(var(--sideBar))
+        color: rgb(var(--text))
+        box-shadow: 0 5px 10px rgba(var(--border), 0.1)
         z-index: 9
         li:first-child
-            border-top: 1px solid rgba(variables.$black, 0.15)
+            border-top: 1px solid rgba(var(--border), 0.15)
         li
             height: 5vh
             padding: 4vh 2vh
-            border-bottom: 1px solid rgba(variables.$black, 0.15)
+            border-bottom: 1px solid rgba(var(--border), 0.15)
             display: flex
             justify-content: space-between
             align-items: center
@@ -63,7 +63,7 @@
         +mixins.center
         cursor: pointer
         svg
-            stroke: variables.$secondary
+            stroke: rgb(var(--secondary))
 
 .list
     margin-left: 2vh
@@ -72,7 +72,7 @@
     padding: 1.25vh
     +mixins.center
     cursor: pointer
-    stroke: variables.$secondary
+    stroke: rgb(var(--secondary))
 
 .colors
     list-style: none
@@ -87,4 +87,4 @@
         cursor: pointer
 
 .activeBtn
-    background-color: var(--sideBar)
+    background-color: rgb(var(--sideBar))

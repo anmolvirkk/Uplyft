@@ -5,7 +5,7 @@
     height: 100%
     min-width: 24vh
     +mixins.center
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     p
         margin-bottom: 2.5vh
         line-height: 1.5
@@ -33,7 +33,7 @@
         content: attr(data-title)
         position: absolute
         padding: 10px
-        background: var(--tooltip)
+        background: rgb(var(--tooltip))
         color: #fff
         font-size: 1.35vh
         z-index: 99
@@ -47,7 +47,7 @@
         position: absolute
         top: 50px
         border: 8px solid transparent  
-        border-bottom: 8px solid var(--tooltip)
+        border-bottom: 8px solid rgb(var(--tooltip))
         z-index: 99
 
 
@@ -57,14 +57,14 @@
     display: flex
     align-items: center
     padding: 0 2vh
-    border-bottom: 1px solid var(--border)
-    color: variables.$secondary
+    border-bottom: 1px solid rgb(var(--border))
+    color: var(--secondary)
 
 .activeSectionSlot:first-child
-    border-top: 1px solid var(--border)
+    border-top: 1px solid rgb(var(--border))
 
 .activeSectionSlot
-    background: var(--activeSlot)
+    background: rgb(var(--activeSlot))
 
 .slotContent
     display: flex
@@ -91,16 +91,16 @@
 
 .category
     font-size: 1.5vh
-    color: var(--text)
+    color: rgb(var(--text))
     h3
         font-size: 1.5vh
         font-weight: 300
-        background-color: var(--background)
+        background-color: rgb(var(--background))
         padding: 1.5vh
         display: flex
         justify-content: space-between
         align-items: center
-        color: var(--text)
+        color: rgb(var(--text))
         cursor: pointer
     .dropDown
         width: 100%
@@ -113,10 +113,10 @@
             top: 5vh
             width: 100%
             z-index: 9
-            background-color: var(--background)
+            background-color: rgb(var(--background))
         li
             padding: 1.5vh
-            border-bottom: 1px solid var(--border)
+            border-bottom: 1px solid rgb(var(--border))
             font-weight: 300
         li:first-child
-            border-top: 1px solid var(--border)
+            border-top: 1px solid rgb(var(--border))

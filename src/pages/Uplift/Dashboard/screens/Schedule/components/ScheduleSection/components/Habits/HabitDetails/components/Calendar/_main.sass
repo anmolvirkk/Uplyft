@@ -2,7 +2,7 @@
 @use 'src/styles/_mixins'
 
 .streakCalendarWrapper
-    --selectedDay: variables.$primary
+    --selectedDay: rgb(var(--primary))
 
 .DayPicker
     width: 100%
@@ -11,7 +11,7 @@
     padding: 0
 
 .DayPicker-Day--today
-    color: variables.$primary
+    color: rgb(var(--primary))
     font-weight: 400
 
 .DayPicker-NavButton
@@ -27,12 +27,11 @@
     background-color: var(--selectedDay)
 
 .DayPicker-Day
-    text-shadow: 0 0 10px rgba(var(--lightrgb), 0.5)
     border-radius: 0
     font-size: 1.5vh
-    color: var(--text)
+    color: rgb(var(--text))
 
 .DayPicker-Caption > div
     font-size: 1.5vh
     font-weight: 300
-    color: var(--text)
+    color: rgb(var(--text))

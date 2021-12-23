@@ -9,10 +9,10 @@
     overflow-x: hidden
 
 .card
-    background-color: var(--activeSlot)
+    background-color: rgb(var(--activeSlot))
     padding: 1.5vh
     margin: 1vh 1.5vh
-    color: var(--text)
+    color: rgb(var(--text))
     ul
         display: flex
         justify-content: space-between
@@ -39,13 +39,13 @@
             stroke: inherit
         li:last-child
             svg
-                stroke: var(--text)
+                stroke: rgba(var(--text), 0.15)
 
 .progressbar
     all: unset
     height: 3px
     width: 70%
-    background-color: var(--border)
+    background-color: rgb(var(--border))
     hr
         border: none
         height: 100%
@@ -58,7 +58,7 @@
         width: 100%
 
 .nextLevelIn
-    background-color: variables.$black
+    background-color: rgb(var(--border))
     color: white
     font-size: 1.5vh
     padding: 1vh
@@ -71,8 +71,8 @@
         list-style: none
         margin: 1.5vh
         li
-            background-color: var(--activeSlot)
-            color: var(--text)
+            background-color: rgb(var(--activeSlot))
+            color: rgb(var(--text))
             width: calc( 50% - 0.75vh )
             +mixins.center
             padding: 1.5vh
@@ -97,7 +97,7 @@
     width: calc( 100% - 3vh )
     p
         text-align: left
-        color: rgb(var(--lightrgb))
+        color: rgba(var(--text), 0.15)
         font-size: 1.25vh
 
 .successRate
@@ -109,7 +109,7 @@
         margin: 1vh auto
         width: 150px
         height: 150px
-        background: rgba(var(--lightrgb), 0.2)
+        background: rgba(var(--border), 0.5)
         border-radius: 50%
         margin-bottom: 2vh
         --dialpercent: 0deg       
@@ -131,7 +131,7 @@
             width: 122px
             height: 122px
             border-radius: 50%
-            background: var(--background)
+            background: rgb(var(--background))
             line-height: 120px
             text-align: center
             margin-top: 14px
@@ -139,7 +139,7 @@
             position: absolute
             font-weight: 100
             font-size: 3vh
-            color: var(--text)
+            color: rgb(var(--text))
     
 
     /* color animation */
@@ -164,8 +164,8 @@
             transform: rotate(var(--dialpercent))
     
 .daysSkipped
-    color: rgba(var(--lightrgb), 0.75)
-    border: 1px solid rgba(var(--lightrgb), 0.5)
+    color: rgba(var(--text), 0.15)
+    border: 1px solid rgba(var(--text), 0.15)
     background-color: var(--background)
     ul
         width: 100%

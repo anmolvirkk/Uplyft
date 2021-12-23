@@ -11,17 +11,17 @@
     min-width: 250px
     width: 250px
     height: 100vh
-    background-color: var(--background)
-    border-right: 1px solid var(--border)
+    background-color: rgb(var(--background))
+    border-right: 1px solid rgb(var(--border))
 
 .sectionIcon
     all: unset
     height: 100%
     width: 100%
     +mixins.center
-    color: variables.$secondary
-    border-bottom: 1px solid var(--border)
-    border-top: 1px solid var(--border)
+    color: rgb(var(--secondary))
+    border-bottom: 1px solid rgb(var(--border))
+    border-top: 1px solid rgb(var(--border))
     cursor: pointer
 
 .sectionIcon svg
@@ -30,11 +30,11 @@
     padding: 1.25vh
     
 .sectionIcon:nth-child(2)
-    border-left: 1px solid var(--border)
-    border-right: 1px solid var(--border)
+    border-left: 1px solid rgb(var(--border))
+    border-right: 1px solid rgb(var(--border))
 
 .activeSectionIcon
-    background: variables.$white
+    background: rgb(var(--background))
 
 .sideSectionSlot
     width: 100%
@@ -42,19 +42,19 @@
     display: flex
     align-items: center
     padding: 0 2vh
-    border-bottom: 1px solid var(--border)
-    color: variables.$secondary
+    border-bottom: 1px solid rgb(var(--border))
+    color: rgb(var(--secondary))
 
 .activeSectionSlot:first-child
-    border-top: 1px solid var(--border)
+    border-top: 1px solid rgb(var(--border))
 
 .activeSectionSlot
-    background: var(--activeSlot)
+    background: rgb(var(--activeSlot))
 
 .bookSection
     padding: 0 3vh
     height: calc( 100vh - 80px )
-    border-right: 1px solid var(--border)
+    border-right: 1px solid rgb(var(--border))
     overflow-x: hidden
     overflow-y: overlay
 
@@ -65,12 +65,12 @@
     align-items: center
     justify-content: space-between
     padding: 0 4vh
-    border-top: 1px solid var(--border)
+    border-top: 1px solid rgb(var(--border))
     font-size: 1.5vh
     button
         all: unset
         cursor: pointer
-        color: variables.$secondary
+        color: rgb(var(--secondary))
         white-space: nowrap
         height: 80px
         display: flex
@@ -81,8 +81,8 @@
 .plusIcon
     font-size: 2vh
     font-weight: 300
-    background-color: variables.$white
-    color: variables.$secondary
+    background-color: rgb(var(--background))
+    color: rgb(var(--secondary))
     border-radius: 100vh 100vh
     width: 3vh
     height: 3vh
@@ -102,9 +102,9 @@
 .note
     min-height: 40vh
     border-radius: 1.25vh 1.25vh
-    background-color: variables.$white
+    background-color: rgb(var(--background))
     text-decoration: none
-    color: variables.$black
+    color: rgb(var(--noteText))
     overflow: hidden
     position: relative
     cursor: pointer
@@ -118,13 +118,11 @@
             width: 2.5vh
         .noteContent
             padding: 2.5vh
+            overflow: hidden
+            height: calc(100% - 7vh)
     .noteBody
-        overflow: hidden
-        height: 25vh
         line-height: 1.6
         margin-top: 1vh
-        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%)
-        mask-image: linear-gradient(to bottom, black 50%, transparent 100%)
         opacity: 0.75
     .noteDate
         font-weight: 300
@@ -165,7 +163,7 @@
         content: attr(data-title)
         position: absolute
         padding: 10px
-        background: var(--tooltip)
+        background: rgb(var(--tooltip))
         color: #fff
         font-size: 1.35vh
         z-index: 99
@@ -179,14 +177,14 @@
         position: absolute
         top: 50px
         border: 8px solid transparent  
-        border-bottom: 8px solid var(--tooltip)
+        border-bottom: 8px solid rgb(var(--tooltip))
         z-index: 99
 
 .helperTextAddEntry
     height: 100%
     min-width: 24vh
     +mixins.center
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     p
         margin-bottom: 2.5vh
         line-height: 1.5
@@ -196,7 +194,7 @@
     width: 100%
     +mixins.center
     flex-flow: row
-    color: variables.$secondary
+    color: rgb(var(--secondary))
     p
         margin-right: 2.5vh
 
@@ -204,7 +202,7 @@
     height: 100%
     width: 100%
     +mixins.center
-    color: variables.$black
+    color: rgb(var(--background))
 
 .editIcon
     mix-blend-mode: color-burn
