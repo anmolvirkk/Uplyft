@@ -1,6 +1,6 @@
 let company = {
     main: 'skyhance',
-    subsidiary: 'uplift', 
+    subsidiary: 'uplyft', 
     journals: 'spirit',
     schedule: 'control',
     notes: 'plot',
