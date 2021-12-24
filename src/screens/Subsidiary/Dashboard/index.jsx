@@ -1,9 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Fitness from './screens/Fitness'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
-import Settings from './screens/Settings'
 import Modal from './components/Modal'
 import modalConfigAtom from './screens/Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState } from 'recoil'
@@ -21,15 +19,11 @@ const Dashboard = () => {
                 <Modal />
                 : null}
                 <Switch>
-                    <Route exact path={`/${company.subsidiary}/dashboard`}><Construction /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/home`}><Construction /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" /></Route>
+                    <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" /></Route>
                     <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals /></Route>
                     <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Fitness /></Route>
-                    <Route path={`/${company.subsidiary}/dashboard/settings`}><Settings /></Route>
                 </Switch>
             </div>
         </Router>

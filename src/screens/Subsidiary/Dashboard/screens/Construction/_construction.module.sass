@@ -11,22 +11,20 @@
         -webkit-text-fill-color: transparent
     p
         font-size: 3vh
-        color: rgba(var(--text), 1)
+        color: rgba(var(--titles), 1)
         margin-top: 1.5vh
     .alternatives
         margin-top: 5vh
         display: flex
+        width: 30vh
+        justify-content: space-between
         a
             all: unset
-            color: rgb(var(--secondary))
-            display: flex
-            justify-content: space-between
-            align-items: center
-            background-color: rgba(var(--text), 0.05)
-            padding: 1.5vh 3vh
-            margin: 0 1.5vh
+            color: rgb(var(--titles), 1)
             cursor: pointer
-        svg
-            stroke: rgb(var(--secondary))
-            margin-right: 1.5vh
-            height: 2.5vh
+            +mixins.center
+            font-size: 1.5vh
+        img
+            height: 10vh
+            border-radius: 10px 10px
+            margin-bottom: 1vh
