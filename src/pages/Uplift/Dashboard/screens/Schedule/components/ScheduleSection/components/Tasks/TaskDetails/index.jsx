@@ -381,7 +381,7 @@ const TaskDetails = () => {
             })
             allIntervals.push(startTimer)
             return (
-                <div id="taskDetailtimersection">
+                <div id="taskDetailtimersection" className={styles.timeTitle}>
                     <p className={styles.title} id="taskDetailtimer">Time Until Start</p>
                     <div className={styles.timer}>
                         <div className={styles.timerBlock}>
@@ -416,11 +416,11 @@ const TaskDetails = () => {
                 <div className={styles.time}>
                     <div>
                         <p className={styles.title}>Start</p>
-                        <div id="taskDetailStart">{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div id="taskDetailStart" className={styles.timeTitle}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                     <div>
                         <p className={styles.title}>Deadline</p>
-                        <div id="taskDetailDeadline">{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div id="taskDetailDeadline" className={styles.timeTitle}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                     <TimeRemaining />
                 </div>
