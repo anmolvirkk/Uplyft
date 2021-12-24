@@ -78,7 +78,7 @@ const BookSection = ({ styles }) => {
             {
             books.length > 0 ?
             books.map((props)=>(
-                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/uplift/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/uplift/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName="activeBook" style={{display: 'flex'}}>
+                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName="activeBook" style={{display: 'flex'}}>
                     <div className="book">
                         <div className="book-back book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}></div>
@@ -99,7 +99,7 @@ const BookSection = ({ styles }) => {
             }
         </div>
         <AddButton allRoutes={allRoutes} setAllRoutes={setAllRoutes} name="journal" books={books} setBooks={setBooks} />
-        {newBook ? <Redirect to={`/uplift/dashboard/${company.journals}/${newBook}/${allRoutes['date']}/`} /> : null}
+        {newBook ? <Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${newBook}/${allRoutes['date']}/`} /> : null}
     </div>
 )
 }

@@ -263,6 +263,7 @@
     height: 12px
 
 .addHabit
+    --primary: 49,173,254
     form
         display: flex
         flex-flow: column
@@ -341,6 +342,9 @@
             display: flex
             align-items: center
     
+.addJournal
+    --primary: 255,64,182
+    
 .habitFooter
     position: sticky
     bottom: -25px
@@ -417,7 +421,7 @@
             color: rgba(var(--text), 0.25)
 
         input[type=time]::-webkit-datetime-edit-ampm-field:focus
-            color: rgba(var(--secondary), 0.25)
+            color: rgba(var(--primary), 0.25)
 
         input[type="time"]::-webkit-calendar-picker-indicator
             display: none
@@ -447,7 +451,7 @@
         input[type=time]::-webkit-datetime-edit-ampm-field 
             background-color: rgb(var(--text), 0.05)
             border-radius: 15%
-            color: rgb(var(--secondary))
+            color: rgb(var(--primary))
             padding: 10px
             
         input[type=time]::-webkit-clear-button 
@@ -636,7 +640,7 @@
         margin: 0 1.5vh 1.5vh 0
         div
             background-color: rgb(var(--activeSlot))
-            color: rgb(var(--secondary))
+            color: rgb(var(--primary))
             opacity: 0.5
             padding: 0.5vh
             border-radius: 5px 5px
@@ -649,7 +653,7 @@
             pointer-events: none
         svg
             background-color: rgb(var(--activeSlot))
-            stroke: rgb(var(--secondary))
+            stroke: rgb(var(--primary))
             opacity: 0.5
             height: 100%
             width: 2.5vh
@@ -682,7 +686,7 @@
             outline: none
             white-space: nowrap
             background-color: rgb(var(--activeSlot))
-            color: rgb(var(--secondary))
+            color: rgb(var(--primary))
             opacity: 0.5
             height: 100%
             +mixins.center
@@ -810,4 +814,5 @@
 
 .activeTaskNav
     svg
+        --primary: 49,173,254
         stroke: rgb(var(--primary))

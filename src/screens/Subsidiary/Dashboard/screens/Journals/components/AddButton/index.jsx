@@ -58,8 +58,8 @@ const AddButton = ({name}) => {
 
     return (
         <button className={styles.addButton} id="addButton" >
-            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/uplift/dashboard/${company.journals}/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/uplift/dashboard/${company.journals}/${openBook}/${allRoutes['date']}`} />:null}
-            {openSlot?<Redirect to={`/uplift/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
+            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/${company.subsidiary}/dashboard/${company.journals}/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/${company.subsidiary}/dashboard/${company.journals}/${openBook}/${allRoutes['date']}`} />:null}
+            {openSlot?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
             <div className={styles.clickButton} onClick={name==='journal'?openJournalModal:addNoteSlot}><p>Add {name}</p><Plus /></div>
         </button>
     )
