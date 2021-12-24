@@ -4,9 +4,8 @@
 aside
     min-width: 80px
     height: 100vh
-    background-color: rgb(var(--background))
+    background-color: rgb(var(--sideBar))
     position: relative
-    border-right: 1px solid rgba(variables.$border, 0.15)
     overflow-y: overlay
     display: grid
     grid-template-rows: 100px 80px 80px 80px 80px 80px
@@ -47,7 +46,7 @@ aside
         height: 45px
         +mixins.center
         border-radius: 10px 10px
-        background: rgb(var(--sideSlot))
+        background: rgb(var(--background))
         padding: 13px
     p
         margin: 0
@@ -61,7 +60,7 @@ aside
 .activeIconButton
     .icon
         background: rgb(var(--sideSlot))
-        box-shadow: 0 0 30px rgba(var(--background), 1)
+        box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%)
     .underConstruction
         svg
             fill: rgb(var(--text))

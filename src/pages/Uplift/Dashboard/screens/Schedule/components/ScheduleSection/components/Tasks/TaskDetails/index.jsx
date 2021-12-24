@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp, ArrowDown } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp, ArrowDown, Inbox, CheckSquare } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -76,7 +76,7 @@ const TaskDetails = () => {
             }
         }
         const sortTasks = () => {
-            if(filters.sort.trend!==''){
+            if(filters.sort.metric!==''){
                 const reorderTasks = (tasks) => {
                         let reorderedTasks
                         let sortOrder = filters.sort.trend==='decending'?-1:1
@@ -541,10 +541,12 @@ const TaskDetails = () => {
                 {currentTask?<TaskDetailSection task={currentTask} />:null}
                 {!openSubtasks.subtasks||openSubtasks.subtasks.length>0?
                     <h3 className={styles.slotLabel}>
-                        <span>Remaining</span>
-                        <div>
-                            {openSubtasks.subtasks?openSubtasks.subtasks.filter(i=>i.completed===false).length
-                            :projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}
+                        <div className={styles.remaining}>
+                            <p><Inbox /><span>Remaining</span></p>
+                            <div>
+                                {openSubtasks.subtasks?openSubtasks.subtasks.filter(i=>i.completed===false).length
+                                :projects.filter(i=>i.id===allRoutes['project'])[0]?projects.filter(i=>i.id===allRoutes['project'])[0].tasks?projects.filter(i=>i.id===allRoutes['project'])[0].tasks.filter(i=>i.completed===false).length: 0: 0}
+                            </div>
                         </div>
                     </h3>
                 :null}
@@ -568,7 +570,9 @@ const TaskDetails = () => {
                 }
                 {!openSubtasks.subtasks||openSubtasks.subtasks.length>0?
                     <h3 className={styles.slotLabel} onClick={()=>setCompletedOpen(!completedOpen)}>
-                        <span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}
+                        <div className={styles.completed}>
+                            <p><CheckSquare /><span>Completed</span></p>{completedOpen?<ChevronUp />:<ChevronDown />}
+                        </div>
                     </h3>
                 :null}
                 {

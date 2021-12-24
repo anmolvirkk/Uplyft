@@ -33,7 +33,7 @@
         content: attr(data-title)
         position: absolute
         padding: 10px
-        background: rgb(var(--tooltip))
+        background: rgb(var(--dropdown))
         color: #fff
         font-size: 1.35vh
         z-index: 99
@@ -42,13 +42,15 @@
         top: 70px
         text-align: left
         border-radius: 7px 7px
+        left: 25px
     .overflownSlot:hover::after
         content: ''
         position: absolute
         top: 50px
         border: 8px solid transparent  
-        border-bottom: 8px solid rgb(var(--tooltip))
+        border-bottom: 8px solid rgb(var(--dropdown))
         z-index: 99
+        left: 25px
 
 
 .sideSectionSlot
@@ -58,7 +60,7 @@
     align-items: center
     padding: 0 2vh
     border-bottom: 1px solid rgb(var(--border))
-    color: var(--secondary)
+    color: rgb(var(--secondary))
 
 .activeSectionSlot:first-child
     border-top: 1px solid rgb(var(--border))
@@ -92,6 +94,18 @@
 .category
     font-size: 1.5vh
     color: rgb(var(--text))
+    p
+        display: flex
+        align-items: center
+        svg
+            height: 100%
+            margin-right: 1vh
+    .remaining
+        color: rgb(var(--titles))
+        font-weight: 400
+    .completed
+        color: rgb(var(--primary))
+        font-weight: 400
     h3
         font-size: 1.5vh
         font-weight: 300

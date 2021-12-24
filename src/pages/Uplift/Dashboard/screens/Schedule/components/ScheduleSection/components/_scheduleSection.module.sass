@@ -123,7 +123,7 @@
             border: none
             outline: none
             height: 3px
-            background-color: variables.$primary
+            background-color: rgb(var(--primary))
     .timer
         display: flex
         justify-content: space-between
@@ -143,8 +143,9 @@
     .tagsContainer
         display: flex
         flex-flow: wrap
+        margin-top: -0.75vh
     .tags
-        background-color: rgba(var(--text), 0.1)
+        background-color: rgba(var(--text), 0.025)
         border-radius: 3px 3px
         padding: 0 1.5vh
         font-size: 1.5vh
@@ -170,3 +171,57 @@
         p:last-child
             color: white
             font-weight: 100
+.category
+    font-size: 1.5vh
+    color: rgb(var(--text))
+    p
+        display: flex
+        align-items: center
+        svg
+            height: 100%
+            margin-right: 1vh
+    .remaining
+        color: rgb(var(--titles))
+        font-weight: 400
+    .completed
+        color: rgb(var(--primary))
+        font-weight: 400
+    h3
+        font-size: 1.5vh
+        font-weight: 300
+        background-color: rgb(var(--background))
+        padding: 1.5vh
+        display: flex
+        justify-content: space-between
+        align-items: center
+        color: rgb(var(--text))
+        cursor: pointer
+    .dropDown
+        width: 100%
+        position: relative
+        cursor: pointer
+        h3
+            background-color: transparent
+        ul
+            position: absolute
+            top: 5vh
+            width: 100%
+            z-index: 9
+            background-color: rgb(var(--background))
+        li
+            padding: 1.5vh
+            border-bottom: 1px solid rgb(var(--border))
+            font-weight: 300
+        li:first-child
+            border-top: 1px solid rgb(var(--border))
+
+.slotLabel
+    font-size: 1.5vh
+    font-weight: 300
+    background-color: rgb(var(--background))
+    padding: 1.5vh
+    display: flex
+    justify-content: space-between
+    align-items: center
+    color: rgb(var(--text))
+    cursor: pointer

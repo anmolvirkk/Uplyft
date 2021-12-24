@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import MoreMenu from '../../../../../../components/MoreMenu'
-import {ArrowDown, ChevronDown, ChevronUp} from 'react-feather'
+import {ArrowDown, ChevronDown, ChevronUp, CheckSquare, Inbox} from 'react-feather'
 import { NavLink, Redirect } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
@@ -72,7 +72,7 @@ const Habits = () => {
                     <div className={styles.category}>
                     <OutsideClickHandler onOutsideClick={()=>setDropDownDay({...dropDownDay, open: false})}>
                         <div className={styles.dropDown} id="dayDropDownMenu">
-                            <h3 onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><span>{dropDownDay.day}</span>{dropDownDay.open?<ChevronUp />:<ChevronDown />}</h3>
+                            <h3 className={styles.remaining} onClick={()=>setDropDownDay({...dropDownDay, open: !dropDownDay.open})}><p><Inbox /><span>{dropDownDay.day}</span></p>{dropDownDay.open?<ChevronUp />:<ChevronDown />}</h3>
                             {dropDownDay.open?
                             <ul>
                                 <li onClick={()=>setDropDownDay({day: 'All', open: false})}>All</li>
@@ -112,7 +112,7 @@ const Habits = () => {
                     }) : null}
                     </div>
                     <div className={styles.category}>
-                        <h3 onClick={()=>setCompletedOpen(!completedOpen)}><span>Completed</span>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
+                        <h3 className={styles.completed} onClick={()=>setCompletedOpen(!completedOpen)}><p><CheckSquare /><span>Completed</span></p>{completedOpen?<ChevronUp />:<ChevronDown />}</h3>
                         {habits.length!==0&&completedOpen ? habits.map((item)=>{
                         if(parseInt(item.times) === parseInt(item.timesCompleted)){
                             return (

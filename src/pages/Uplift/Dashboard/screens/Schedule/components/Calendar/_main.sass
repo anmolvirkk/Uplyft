@@ -5,20 +5,20 @@
     width: 100%
     height: 100%
     .rbc-event, .rbc-background-event
-        box-shadow: 0 0 10px rgba(var(--border), 0.1)
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
         background-color: rgb(var(--primary))
         border-radius: 10px 10px
         border: 0px
         color: white
         font-size: 1.5vh
     .rbc-slot-selection
-        box-shadow: 0 0 10px rgba(var(--border), 0.25)
-        background-color: rgba(var(--text), 0.1)
+        background-color: rgba(var(--text), 0.05)
         border-radius: 10px 10px
         border: 0px
         color: white
     .rbc-today
-        background-color: rgba(var(--text), 0.05)
+        background-color: rgba(var(--text), 0.03)
+        border-radius: 7px 7px 0 0
     .rbc-current-time-indicator
         background-color: rgba(var(--text), 0.5)
         box-shadow: 0 0 10px rgba(var(--text), 0.5)
@@ -38,19 +38,20 @@
     .rbc-day-slot .rbc-time-slot
         border-color: transparent
     span
-        font-size: 1.5vh
-        color: rgb(var(--text))
+        font-size: 1.25vh
+        color: rgb(var(--titles))
         font-weight: 300
     .rbc-time-slot
         text-transform: lowercase
     .rbc-timeslot-group
-        min-height: calc((100vh - 35px - 40px)/24)
+        min-height: calc((100vh - 35px - 70px)/24)
         border-color: transparent
     .rbc-event-content
         line-height: 1.25
     .rbc-toolbar
         margin: 0
-        height: 40px
+        height: 70px
+        padding: 1.5vh
     .rbc-time-view .rbc-allday-cell
         display: none
     .rbc-header
@@ -66,10 +67,15 @@
             cursor: pointer
             font-size: 1.5vh
             background-color: transparent
-            color: rgb(var(--text))
+            color: rgb(var(--titles))
         button:hover
             background-color: rgb(var(--background))
     .rbc-toolbar button:active, .rbc-toolbar button.rbc-active
         box-shadow: none
         background-color: rgb(var(--activeSlot))
-        color: rgb(var(--text))
+        color: rgb(var(--titles))
+        border-radius: 7px 7px
+    .rbc-time-view
+        border: none
+    .rbc-time-content
+        border: none

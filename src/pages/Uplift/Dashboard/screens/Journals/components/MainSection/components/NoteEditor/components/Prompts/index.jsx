@@ -28,7 +28,7 @@ const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt}) => {
 
     const closePrompts = (e) => {
         if(e.target.classList[0]){
-            if(!e.target.classList[0].indexOf('moremenu')>0){
+            if(e.target.classList[0].indexOf(styles.moremenu)<0){
                 setPromptsOpen(false)
             }
         }else{
@@ -41,7 +41,7 @@ const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt}) => {
             <div className={styles.promptContainer} id="prompts">
                 <div data-item={prompt} onClick={()=>setPromptsOpen(!promptsOpen)} id="currentPrompt" className={`${styles.currentPrompt} allPrompts`}><p>{prompt === '' ? 'Choose a prompt (optional)' : prompt}</p>{promptsOpen?<ChevronUp />:<ChevronDown />}</div>
                 <div className={promptsOpen ? `${styles.prompts} ${styles.promptsOpen}` : styles.prompts}>
-                    <ul onClick={(e)=>closePrompts(e)}>
+                    <ul onMouseUp={(e)=>closePrompts(e)}>
                         <li onClick={()=>updatePrompt('')}><p>None</p><ChevronRight /></li>
                         {prompts.map((item, index)=>{
                             return <li onMouseEnter={(e)=>addToolTipForPrompts(e)} className='allPrompts' data-item={item} onClick={()=>updatePrompt(item)} key={index}><p>{item==='' ? 'None' : item}</p>

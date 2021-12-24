@@ -4,7 +4,7 @@
 .calendar
     height: 100vh
     min-width: 80px
-    background-color: rgb(var(--sideBar))
+    background-color: rgb(var(--background))
     border-left: 1px solid rgba(var(--border), 1)
     list-style: none
     overflow: hidden
@@ -25,12 +25,12 @@
             border-radius: 7px 7px
             font-weight: 400
             +mixins.center
-            color: rgb(var(--text))
-            background-color: rgb(var(--background))
+            color: rgb(var(--titles))
+            background-color: rgb(var(--activeSlot))
             opacity: 0.7
         p
             font-size: 1.35vh
-            color: rgba(var(--text), 0.15)
+            color: rgba(var(--titles), 1)
             margin-top: 1.25vh
     .activeDate h1
         color: white
