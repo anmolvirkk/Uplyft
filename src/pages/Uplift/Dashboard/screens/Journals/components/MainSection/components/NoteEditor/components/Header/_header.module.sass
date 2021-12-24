@@ -23,14 +23,14 @@
         height: 5vh
         padding: 0 2.5vh
         font-size: 1.5vh
-        color: rgb(var(--secondary))
+        color: rgb(var(--titles))
     ul
         list-style: none
         position: absolute
         padding: 0
         margin: 0
         background-color: rgb(var(--sideBar))
-        color: rgb(var(--text))
+        color: rgb(var(--text), 0.7)
         box-shadow: 0 5px 10px rgba(var(--border), 0.1)
         z-index: 9
         li:first-child
@@ -63,7 +63,7 @@
         +mixins.center
         cursor: pointer
         svg
-            stroke: rgb(var(--secondary))
+            stroke: rgb(var(--titles))
 
 .list
     margin-left: 2vh
@@ -72,7 +72,7 @@
     padding: 1.25vh
     +mixins.center
     cursor: pointer
-    stroke: rgb(var(--secondary))
+    stroke: rgb(var(--titles))
 
 .colors
     list-style: none
