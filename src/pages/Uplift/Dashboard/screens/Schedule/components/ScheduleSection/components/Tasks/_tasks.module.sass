@@ -1,12 +1,15 @@
 @use 'src/styles/_mixins'
 @use 'src/styles/_variables'
 
+.projects
+    --primary: 49,173,254
+
 .sideSectionSlot
     width: 100%
     height: 80px
     padding: 2vh
     border-bottom: 1px solid rgb(var(--border))
-    color: rgb(var(--secondary))
+    color: rgb(var(--colorTitles))
     position: relative
     flex-flow: column
     .slotContent
@@ -41,7 +44,7 @@
         outline: none
         height: 3px
         width: 0%
-        background-color: rgb(var(--secondary))
+        background-color: rgb(var(--primary))
 
 .overflownSlot:hover::before
     content: attr(data-title)

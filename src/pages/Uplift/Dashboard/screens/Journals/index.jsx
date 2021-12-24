@@ -26,7 +26,7 @@ const Journals = () => {
     }, [allRoutes, setAllRoutes, dates, setDates])
 
         return (
-        <div style={{display: 'flex'}}>
+        <div className={styles.journals}>
             <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`} />
             <SideBar />
 

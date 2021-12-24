@@ -73,7 +73,7 @@ const BookSection = ({ styles }) => {
     }
 
     return (
-    <div className={styles.journals}>
+    <div className={styles.journalBooks}>
         <div className={styles.bookSection} id="bookSection">
             {
             books.length > 0 ?

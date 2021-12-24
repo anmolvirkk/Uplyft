@@ -1,10 +1,15 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
+@use 'src/_main'
 
 .mainSection
     width: calc( 100vw - 250px - 250px - 80px )
 
 .journals
+    display: flex
+    --primary: 255,64,182
+
+.journalBooks
     width: 250px
 
 .sideSection
@@ -43,7 +48,7 @@
     align-items: center
     padding: 0 2vh
     border-bottom: 1px solid rgb(var(--border))
-    color: rgb(var(--secondary))
+    color: rgb(var(--colorTitles))
 
 .activeSectionSlot:first-child
     border-top: 1px solid rgb(var(--border))
@@ -70,7 +75,7 @@
     button
         all: unset
         cursor: pointer
-        color: rgb(var(--secondary))
+        color: rgba(var(--colorTitles), 1)
         white-space: nowrap
         height: 80px
         display: flex

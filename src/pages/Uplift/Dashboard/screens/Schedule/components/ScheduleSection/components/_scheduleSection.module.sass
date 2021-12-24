@@ -5,7 +5,7 @@
     height: 40px
     width: 100%
     position: relative
-    border-bottom: 1px solid rgb(var(--border))
+    --primary: 49,173,254
     .filterTitle
         cursor: pointer
         width: 100%
@@ -14,8 +14,8 @@
         align-items: center
         justify-content: space-between
         font-size: 1.5vh
-        background-color: rgb(var(--sideBar))
-        color: rgba(var(--secondary), 0.5)
+        background-color: rgb(var(--filter))
+        color: rgba(var(--titles), 1)
         padding: 1.5vh
         svg
             width: 2vh
@@ -23,7 +23,7 @@
         width: 100%
         position: absolute
         bottom: 40px
-        background-color: rgb(var(--sideBar))
+        background-color: rgb(var(--filter))
         padding: 1.5vh
         max-height: calc(100vh - 4vh - 80px)
         overflow-y: auto
