@@ -14,7 +14,7 @@ const App = () => {
         <div className={(darkMode?'dark':'light')}>
             <Router>
                 <Switch>
-                    <Route exact path="/"><Redirect to={`/${company.subsidiary}/dashboard/`} /></Route>
+                    <Route exact path="/"><Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} /></Route>
                     <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
                     <Route path={`/${company.subsidiary}/dashboard`}><Dashboard /></Route>
                 </Switch>
