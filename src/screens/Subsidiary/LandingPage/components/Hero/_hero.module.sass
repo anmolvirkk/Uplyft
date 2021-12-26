@@ -1,0 +1,21 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+@use '../../_main.module'
+
+.hero
+    height: 100vh
+    width: 100%
+    +mixins.center
+    color: rgb(var(--text))
+    h1
+        font-size: 5vh
+    .cta
+        +main.cta
+        margin-top: 3vh
+    .tools
+        display: flex
+        margin-top: 3vh
+        img
+            width: 10vh
+            margin: 0 1.5vh
+            border-radius: 10px 10px

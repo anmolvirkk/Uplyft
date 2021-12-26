@@ -14,6 +14,7 @@ import eventTagsAtom from '../../../../../../components/Modal/components/AddEven
 import modalStyles from '../../../../../../components/Modal/_modal.module.sass'
 import company from '../../../../../../../../../company'
 import schdetailStyles from '../_scheduleSection.module.sass'
+import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){
@@ -75,15 +76,22 @@ const Events = () => {
     }
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
-    const [events] = useRecoilState(eventsAtom)
+    const [events, setEvents] = useRecoilState(eventsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const deleteEvent = (id) => {
+        let newEvents = events.filter((value)=>value.id!==id)
+        let newAllCalendarEvents = allCalendarEvents.filter((value)=>value.id!==id)
+        setEvents([...newEvents])
+        setAllCalendarEvents([...newAllCalendarEvents])
+    }
     return (
         <div>
             <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px - 40px)'}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{
                     return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${journalStyles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
-                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: null}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
+                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
                 }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
             </div>
             <Filters />

@@ -43,7 +43,7 @@ const SideBar = () => {
         },
         {
             name: company.finances,
-            icon: '/logos/finance.png',
+            icon: '/logos/finances.png',
             link: `/${company.subsidiary}/dashboard/${company.finances}`,
             underConstruction: true
         },

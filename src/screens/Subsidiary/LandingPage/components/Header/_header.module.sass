@@ -1,5 +1,6 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
+@use '../../_main.module'
 
 .header
     width: 100%
@@ -12,6 +13,9 @@
     padding: 0 30px
     background-color: rgb(var(--background))
     color: rgb(var(--titles))
+    position: fixed
+    top: 0
+    font-size: 1.5vh
     .navigation
         display: flex
         .logo
@@ -22,8 +26,8 @@
                 outline: none
                 width: 2px
                 height: 100%
-                background-color: rgb(var(--titles))
-                margin: 0 20px
+                background-color: rgba(var(--text), 0.65)
+                margin: 0 40px
             img
                 height: 20px
         .navItem
@@ -32,5 +36,33 @@
             margin-right: 15px
     .cta
         display: flex
-        div
-            margin-left: 30px
+        align-items: center
+        .ctaBtn
+            +main.cta
+            margin-left: 20px
+        .login
+            padding: 1.5vh 3vh
+            color: #4BD1FF
+            width: 150px
+            height: 40px
+            +mixins.center
+            cursor: pointer
+            position: relative
+            font-weight: 500
+            border-radius: 7px 7px 
+            background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
+            .loginTextContainer
+                background-color: white
+                +mixins.center
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                width: calc( 100% - 3px )
+                height: calc( 100% - 3px )
+                border-radius: 7px 7px 
+                p
+                    background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
+                    -webkit-background-clip: text
+                    -webkit-text-fill-color: transparent
+        

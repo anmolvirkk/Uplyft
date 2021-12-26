@@ -188,7 +188,7 @@ const TaskDetails = () => {
             if(data.tasks){
                 data.tasks = deleteTask(data.tasks).filter(i=>i!==null)
             }
-            setOpenSubtasks({nav: deleteTask(openSubtasks.nav), subtasks: deleteTask(openSubtasks.subtasks).filter(i=>i!==null)})
+            setOpenSubtasks({nav: deleteTask(openSubtasks.nav), subtasks: openSubtasks.subtasks?deleteTask(openSubtasks.subtasks).filter(i=>i!==null):null})
             return data
         })
         setProjects([...newProjects])
