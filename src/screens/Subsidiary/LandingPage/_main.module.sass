@@ -2,9 +2,12 @@
 @use 'src/styles/_mixins'
 
 .container
-    min-height: 100vh
+    height: 100vh
     width: 100%
     background-color: rgb(var(--background))
+    text-align: left
+    overflow-y: overlay
+    padding-top: 64px
 
 =cta
     all: unset
@@ -14,6 +17,7 @@
     font-weight: 500
     border-radius: 5px 5px
     cursor: pointer
-    width: 150px
-    height: 40px
+    width: 175px
+    height: 45px
     +mixins.center
+    font-size: 14px

@@ -8,8 +8,6 @@ const Header = () => {
             <div className={styles.navigation}>
                 <div className={styles.logo}>
                     <img src="/logos/mainText.png" alt={company.main} />
-                    <hr />
-                    <img src="/logos/subsidiaryText.png" alt={company.subsidiary} />
                 </div>
                 <div className={styles.navigation}>
                     <div className={styles.navItem}>Products</div>

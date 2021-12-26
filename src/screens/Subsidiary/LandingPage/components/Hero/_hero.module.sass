@@ -3,19 +3,50 @@
 @use '../../_main.module'
 
 .hero
-    height: 100vh
     width: 100%
-    +mixins.center
+    padding: 180px 90px
     color: rgb(var(--text))
+    display: flex
+    align-items: center
+    justify-content: center
+    position: relative
+    z-index: 1
+    +mixins.center
     h1
-        font-size: 5vh
+        font-size: 20px
+        font-weight: 400
+        margin-top: 1.5vh
+    h3
+        font-size: 20px
+        margin-top: 1.5vh
+        width: 100%
+        line-height: 1.5
+        font-weight: 400
     .cta
         +main.cta
         margin-top: 3vh
     .tools
         display: flex
-        margin-top: 3vh
+        margin: 50px 0
         img
-            width: 10vh
-            margin: 0 1.5vh
+            width: 100px
+            margin: 0 50px
             border-radius: 10px 10px
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25)
+            cursor: pointer
+    .mainLogo
+        height: 100px
+        margin-bottom: 1.5vh
+    .subLogo
+        height: 75px
+        margin-bottom: 1.5vh
+    .slider
+        background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15)
+        margin-top: 3vh
+        width: 100%
+        +mixins.center
+        img
+            width: calc(100% - 8vh)
+            margin: 4vh
+            box-shadow: 0 0 10px rgba(0,0,0,0.15)
