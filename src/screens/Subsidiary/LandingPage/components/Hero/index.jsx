@@ -52,7 +52,7 @@ const Hero = () => {
         fitness: {
             name: company.fitness,
             type: 'fitness',
-            subheading: 'Your private, 100% customizable online journal.',
+            subheading: 'Track calories, log workouts, create custom routines and diet plans.',
             colors: {
                 primary: '#FFE500',
                 secondary: '#42D104'
@@ -63,6 +63,7 @@ const Hero = () => {
         <div className={styles.hero}>
             <img className={styles.mainLogo} src="/logos/subsidiaryText.png" alt={company.subsidiary} />
             <h1>The ultimate toolkit to manage your life</h1>
+            <button className={styles.cta}>Try for free</button>
             <div className={styles.slider} style={{background: `linear-gradient(200deg, ${sliderContent.colors.secondary}, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, ${sliderContent.colors.primary} 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, ${sliderContent.colors.secondary}, ${sliderContent.colors.primary})`}}>
                 <img src = {`/screens/${sliderContent.type}.png`} alt={company[sliderContent.type]} />
             </div>
