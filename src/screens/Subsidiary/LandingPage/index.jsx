@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Footer from './components/Footer'
 import styles from './_main.module.sass'
 import Smoke from './Smoke'
+import Faq from './components/Faq'
 
 const LandingPage = () => {
     return (
@@ -11,6 +12,7 @@ const LandingPage = () => {
             <Smoke />
             <Header />
             <Hero />
+            <Faq />
             <Footer />
         </div>
     )
