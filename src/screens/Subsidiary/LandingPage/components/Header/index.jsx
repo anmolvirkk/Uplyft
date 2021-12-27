@@ -7,7 +7,7 @@ const Header = () => {
         <div className={styles.header}>
             <div className={styles.navigation}>
                 <div className={styles.logo}>
-                    <img src="/logos/mainText.png" alt={company.main} />
+                    <img loading='lazy' decoding='async' src="/logos/mainText.png" alt={company.main} />
                 </div>
                 <div className={styles.navigation}>
                     <div className={styles.navItem}>Products</div>

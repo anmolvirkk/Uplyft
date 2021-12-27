@@ -61,20 +61,20 @@ const Hero = () => {
     }
     return (
         <div className={styles.hero}>
-            <img className={styles.mainLogo} src="/logos/subsidiaryText.png" alt={company.subsidiary} />
+            <img loading='lazy' decoding='async' className={styles.mainLogo} src="/logos/subsidiaryText.png" alt={company.subsidiary} />
             <h1>The ultimate toolkit to manage your life</h1>
             <button className={styles.cta}>Try for free</button>
             <div className={styles.slider} style={{background: `linear-gradient(200deg, ${sliderContent.colors.secondary}, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, ${sliderContent.colors.primary} 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, ${sliderContent.colors.secondary}, ${sliderContent.colors.primary})`}}>
-                <img src = {`/screens/${sliderContent.type}.png`} alt={company[sliderContent.type]} />
+                <img loading='lazy' decoding='async' src = {`/screens/${sliderContent.type}.png`} alt={company[sliderContent.type]} />
             </div>
             <div className={styles.tools}>
-                <img onMouseDown={()=>setSliderContent(toolContents.journals)} src = '/logos/journals.png' alt={company.journals} className={sliderContent.name===company.journals?styles.activeTool:null} />
-                <img onMouseDown={()=>setSliderContent(toolContents.schedule)} src = '/logos/schedule.png' alt={company.schedule} className={sliderContent.name===company.schedule?styles.activeTool:null} />
-                <img onMouseDown={()=>setSliderContent(toolContents.notes)} src = '/logos/notes.png' alt={company.notes} className={sliderContent.name===company.notes?styles.activeTool:null} />
-                <img onMouseDown={()=>setSliderContent(toolContents.finances)} src = '/logos/finances.png' alt={company.finances} className={sliderContent.name===company.finances?styles.activeTool:null} />
-                <img onMouseDown={()=>setSliderContent(toolContents.fitness)} src = '/logos/fitness.png' alt={company.fitness} className={sliderContent.name===company.fitness?styles.activeTool:null} />
+                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.journals)} src = '/logos/journals.png' alt={company.journals} className={sliderContent.name===company.journals?styles.activeTool:null} />
+                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.schedule)} src = '/logos/schedule.png' alt={company.schedule} className={sliderContent.name===company.schedule?styles.activeTool:null} />
+                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.notes)} src = '/logos/notes.png' alt={company.notes} className={sliderContent.name===company.notes?styles.activeTool:null} />
+                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.finances)} src = '/logos/finances.png' alt={company.finances} className={sliderContent.name===company.finances?styles.activeTool:null} />
+                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.fitness)} src = '/logos/fitness.png' alt={company.fitness} className={sliderContent.name===company.fitness?styles.activeTool:null} />
             </div>
-            <img className={styles.subLogo} src = {`/logos/${sliderContent.type}Text.png`} alt={sliderContent.name} />
+            <img loading='lazy' decoding='async' className={styles.subLogo} src = {`/logos/${sliderContent.type}Text.png`} alt={sliderContent.name} />
             <h3>{sliderContent.subheading}</h3>
             <button className={styles.cta} style={{background: `linear-gradient(200deg, ${sliderContent.colors.secondary}, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, ${sliderContent.colors.primary} 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, ${sliderContent.colors.secondary}, ${sliderContent.colors.primary})`}}>Try for free</button>
         </div>

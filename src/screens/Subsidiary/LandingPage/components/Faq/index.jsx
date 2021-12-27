@@ -36,9 +36,9 @@ const Faq = () => {
                         <Maximize2 />
                     </button>
                 </div>
-                {faqs.map((item)=>{
+                {faqs.map((item, i)=>{
                     return (
-                        <div className={styles.question}>
+                        <div key={i} className={styles.question}>
                             <div className={styles.title}>
                                 <h3>{item.question}</h3>
                                 <ChevronDown />

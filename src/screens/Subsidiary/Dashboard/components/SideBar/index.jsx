@@ -12,7 +12,7 @@ const IconButton = ({name, icon, link, underConstruction}) => {
     return (
         <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
             <div className={styles.icon}>
-                <img src={icon} alt={name} />
+                <img loading='lazy' decoding='async' src={icon} alt={name} />
                 {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
             </div>
         </NavLink>
@@ -58,7 +58,7 @@ const SideBar = () => {
     return (
         <aside>
             <div className={styles.logo}>
-                <img src='/logos/subsidiary.png' alt="Logo" />
+                <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>
             {sidebarButtons.map((props)=>{
                 return <IconButton {...props} key={props.name} />
