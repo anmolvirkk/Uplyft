@@ -27,16 +27,33 @@
         +main.cta
         margin-top: 3vh
     .tools
-        display: flex
+        display: grid
         margin: 50px 0
+        position: relative
+        grid-template-columns: repeat(5, 1fr)
+        grid-gap: 75px
         img
             width: 100px
-            margin: 0 50px
             border-radius: 10px 10px
             cursor: pointer
             pointer-events: all
         .activeTool
             box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15)
+        .tool
+            +mixins.center
+        .progress
+            position: absolute
+            width: 100px
+            height: 3px
+            background-color: rgb(var(--titles),0.2)
+            bottom: -15px
+            hr
+                border: none
+                outline: none
+                height: 100%
+                width: 30%
+                background-color: rgb(var(--primary))
+                border-radius: 100px 100px
     .mainLogo
         height: 100px
         margin-bottom: 1.5vh

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './_hero.module.sass'
 import company from '../../../../../company'
+
+let timers = []
 
 const Hero = () => {
     const [sliderContent, setSliderContent] = useState({
@@ -59,6 +61,41 @@ const Hero = () => {
             }
         }
     }
+    useEffect(()=>{
+        let timer
+        let progress = 0
+        const setTimer = (nextTool) => {
+            document.getElementById('heroProgress').children[0].style.width = 0
+            timers.forEach((item)=>{
+                clearInterval(item)
+                timers = timers.filter(i=>i!==item)
+            })
+            timer = setInterval(() => {
+                progress++
+                if(progress<100){
+                    document.getElementById('heroProgress').children[0].style.width =progress+'%'
+                }else{
+                    clearInterval(timer)
+                    setSliderContent(nextTool)
+                }
+            }, 50)
+            timers.push(timer)
+        }
+        for(let i=0; i<document.getElementsByClassName(styles.tools)[0].children.length; i++){
+            if(document.getElementsByClassName(styles.tools)[0].children[i].classList.contains(styles.activeTool)){
+                document.getElementById('heroProgress').style.left = 175*i+'px'
+                document.getElementById('heroProgress').children[0].style.background = `linear-gradient(200deg, ${Object.values(toolContents)[i].colors.secondary}, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, ${Object.values(toolContents)[i].colors.primary} 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, ${Object.values(toolContents)[i].colors.secondary}, ${Object.values(toolContents)[i].colors.primary})`
+                if(i===document.getElementsByClassName(styles.tools)[0].children.length-2){
+                    setTimer(Object.values(toolContents)[0])
+                }else{
+                    setTimer(Object.values(toolContents)[i+1])
+                }
+            }
+        }
+    })
+    const Tool = ({type}) => {
+        return <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents[type])} src = {`/logos/${type}.png`} alt={company[type]} className={sliderContent.name===company[type]?styles.activeTool:null} />
+    }
     return (
         <div className={styles.hero}>
             <img loading='lazy' decoding='async' className={styles.mainLogo} src="/logos/subsidiaryText.png" alt={company.subsidiary} />
@@ -68,11 +105,14 @@ const Hero = () => {
                 <img loading='lazy' decoding='async' src = {`/screens/${sliderContent.type}.png`} alt={company[sliderContent.type]} />
             </div>
             <div className={styles.tools}>
-                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.journals)} src = '/logos/journals.png' alt={company.journals} className={sliderContent.name===company.journals?styles.activeTool:null} />
-                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.schedule)} src = '/logos/schedule.png' alt={company.schedule} className={sliderContent.name===company.schedule?styles.activeTool:null} />
-                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.notes)} src = '/logos/notes.png' alt={company.notes} className={sliderContent.name===company.notes?styles.activeTool:null} />
-                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.finances)} src = '/logos/finances.png' alt={company.finances} className={sliderContent.name===company.finances?styles.activeTool:null} />
-                <img loading='lazy' decoding='async' onMouseDown={()=>setSliderContent(toolContents.fitness)} src = '/logos/fitness.png' alt={company.fitness} className={sliderContent.name===company.fitness?styles.activeTool:null} />
+                <Tool type="journals" />
+                <Tool type="schedule" />
+                <Tool type="notes" />
+                <Tool type="finances" />
+                <Tool type="fitness" />
+                <div id="heroProgress" className={styles.progress}>
+                    <hr />
+                </div>
             </div>
             <img loading='lazy' decoding='async' className={styles.subLogo} src = {`/logos/${sliderContent.type}Text.png`} alt={sliderContent.name} />
             <h3>{sliderContent.subheading}</h3>
