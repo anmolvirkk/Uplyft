@@ -4,69 +4,62 @@
 
 .hero
     width: 100%
-    padding: 180px 90px 0 90px
     color: rgb(var(--text))
-    display: flex
-    align-items: center
-    justify-content: center
-    position: relative
-    z-index: 1
     +mixins.center
-    pointer-events: none
-    h1
-        font-size: 20px
-        font-weight: 400
-        margin-top: 1.5vh
-    h3
-        font-size: 20px
-        margin-top: 1.5vh
-        width: 100%
-        line-height: 1.5
-        font-weight: 400
-    .cta
-        +main.cta
-        margin-top: 3vh
-    .tools
-        display: grid
-        margin: 50px 0
-        position: relative
-        grid-template-columns: repeat(5, 1fr)
-        grid-gap: 75px
-        img
-            width: 100px
-            border-radius: 10px 10px
-            cursor: pointer
-            pointer-events: all
-        .activeTool
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15)
-        .tool
-            +mixins.center
-        .progress
-            position: absolute
-            width: 100px
-            height: 3px
-            background-color: rgb(var(--titles),0.2)
-            bottom: -15px
-            hr
-                border: none
-                outline: none
-                height: 100%
-                width: 30%
-                background-color: rgb(var(--primary))
-                border-radius: 100px 100px
-    .mainLogo
-        height: 100px
-        margin-bottom: 1.5vh
-    .subLogo
-        height: 75px
-        margin-bottom: 1.5vh
-    .slider
-        background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15)
-        margin-top: 3vh
-        width: 100%
+    position: relative
+    height: calc( 100vh - 7vh )
+    .content
         +mixins.center
-        img
-            width: calc(100% - 8vh)
-            margin: 4vh
-            box-shadow: 0 0 10px rgba(0,0,0,0.15)
+        h1
+            font-size: 2vh
+            font-weight: 400
+            margin-top: 1.5vh
+            color: rgb(var(--titles))
+            line-height: 1.75
+        .cta
+            +main.cta
+            margin-top: 3vh
+        .mainLogo
+            height: 10vh
+            margin-bottom: 1.5vh
+    .tools
+        position: absolute
+        width: calc( 100% - 11vh )
+        height: calc( 100% - 11vh )
+        pointer-events: none
+        .toolContent:nth-child(1)
+            bottom: 0
+            left: 22.5%
+        .toolContent:nth-child(2)
+            top: -4%
+            left: 30%
+        .toolContent:nth-child(3)
+            top: 10%
+            right: 0
+        .toolContent:nth-child(4)
+            bottom: 10%
+            right: 20%
+        .toolContent:nth-child(5)
+            bottom: 35%
+            left: 0
+        .toolContent
+            +mixins.center
+            position: absolute
+            width: 29vh
+            .icon
+                width: 10.5vh
+                border-radius: 10px 10px
+                cursor: pointer
+                pointer-events: all
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15)
+            .subLogo
+                height: 3.5vh
+                width: auto
+                margin-top: 3vh
+            h3
+                font-size: 1.45vh
+                width: 100%
+                line-height: 1.5
+                font-weight: 400
+                color: rgb(var(--titles))
+                margin-top: 1.5vh

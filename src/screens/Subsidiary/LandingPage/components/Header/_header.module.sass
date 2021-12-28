@@ -9,12 +9,12 @@
     align-items: center
     color: #545454
     box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%), inset 0 -1px 0 0 rgba(var(--titles), 0.15)
-    padding: 10px 30px
+    padding: 1vh 3vh
     background-color: rgb(var(--background))
     color: rgb(var(--titles))
     position: fixed
     top: 0
-    font-size: 14px
+    font-size: 1.35vh
     z-index: 9
     .navigation
         display: flex
@@ -29,7 +29,7 @@
                 background-color: rgba(var(--text), 0.65)
                 margin: 0 40px
             img
-                height: 20px
+                height: 2vh
         .navItem
             +mixins.center
             margin-left: 15px
@@ -41,29 +41,18 @@
             +main.cta
             margin-left: 20px
         .login
-            padding: 1.5vh 3vh
             color: #4BD1FF
             cursor: pointer
             position: relative
-            font-weight: 500
+            font-weight: 400
             border-radius: 7px 7px 
-            background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
-            width: 175px
-            height: 45px
+            width: 20vh
+            height: 5vh
             +mixins.center
-            .loginTextContainer
-                background-color: white
-                +mixins.center
-                position: absolute
-                top: 50%
-                left: 50%
-                transform: translate(-50%, -50%)
-                width: calc( 100% - 4px )
-                height: calc( 100% - 4px )
-                border-radius: 7px 7px 
-                p
-                    background: linear-gradient(200deg, #36FEFF, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #4BD1FF 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #36FEFF, #4BD1FF)
-                    -webkit-background-clip: text
-                    -webkit-text-fill-color: transparent
-                    font-size: 14px
+            border: 1px solid rgb(var(--titles), 0.3)
+            transition: 0.1s
+            font-size: 1.5vh
+        .login:hover
+            background-color: rgba(var(--primary), 0.1)
+            border-color: rgb(var(--primary))
         

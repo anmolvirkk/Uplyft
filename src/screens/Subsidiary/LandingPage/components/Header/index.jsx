@@ -16,11 +16,7 @@ const Header = () => {
                 </div>
             </div>
             <div className={styles.cta}>
-                <div className={styles.login}>
-                    <div className={styles.loginTextContainer}>
-                        <p>Login</p>
-                    </div>
-                </div>
+                <div className={styles.login}>Login</div>
                 <div className={styles.ctaBtn}>Try for free</div>
             </div>
         </div>
