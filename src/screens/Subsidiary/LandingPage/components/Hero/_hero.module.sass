@@ -5,61 +5,27 @@
 .hero
     width: 100%
     color: rgb(var(--text))
-    +mixins.center
-    position: relative
-    height: calc( 100vh - 7vh )
+    display: flex
+    justify-content: space-between
+    padding: 1.5vh 16vh
+    align-items: center
     .content
         +mixins.center
+        text-align: left
+        width: 50%
+        align-items: flex-start
         h1
-            font-size: 2vh
-            font-weight: 400
-            margin-top: 1.5vh
-            color: rgb(var(--titles))
+            font-size: 6vh
+            font-weight: 600
+            text-transform: capitalize
+        p
+            width: 75%
+            margin-top: 3vh
+            font-size: 1.75vh
             line-height: 1.75
         .cta
             +main.cta
             margin-top: 3vh
-        .mainLogo
-            height: 10vh
-            margin-bottom: 1.5vh
-    .tools
-        position: absolute
-        width: calc( 100% - 11vh )
-        height: calc( 100% - 11vh )
-        pointer-events: none
-        .toolContent:nth-child(1)
-            bottom: 0
-            left: 22.5%
-        .toolContent:nth-child(2)
-            top: -4%
-            left: 30%
-        .toolContent:nth-child(3)
-            top: 10%
-            right: 0
-        .toolContent:nth-child(4)
-            bottom: 10%
-            right: 20%
-        .toolContent:nth-child(5)
-            bottom: 35%
-            left: 0
-        .toolContent
-            +mixins.center
-            position: absolute
-            width: 29vh
-            .icon
-                width: 10.5vh
-                border-radius: 10px 10px
-                cursor: pointer
-                pointer-events: all
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15)
-            .subLogo
-                height: 3.5vh
-                width: auto
-                margin-top: 3vh
-            h3
-                font-size: 1.45vh
-                width: 100%
-                line-height: 1.5
-                font-weight: 400
-                color: rgb(var(--titles))
-                margin-top: 1.5vh
+    .heroImg
+        height: 60vh
+        filter: contrast(120%) hue-rotate(-25deg)
