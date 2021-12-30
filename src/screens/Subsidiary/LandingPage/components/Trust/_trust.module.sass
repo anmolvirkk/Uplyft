@@ -1,0 +1,76 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.testimonials
+    padding: 0 16vh
+    margin-top: 6vh
+    +mixins.center
+    .title
+        margin-bottom: 4vh
+        width: 100%
+        h2
+            font-size: 2.5vh
+            color: rgba(var(--text), 0.75)
+            margin-bottom: 4vh
+        .metric
+            display: flex
+            align-items: flex-end
+            justify-content: space-between
+            p:last-child
+                text-transform: capitalize
+            p
+                font-size: 1.5vh
+                line-height: 0
+                text-transform: lowercase
+                span
+                    font-size: 5vh
+                    font-weight: 600
+    .reviews
+        display: grid
+        width: 100%
+        grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
+        grid-gap: 4vh
+        .card
+            background-color: rgba(var(--border), 0.25)
+            padding: 1.5vh 3vh
+            display: flex
+            justify-content: flex-start
+            align-items: flex-start
+            flex-flow: column
+            border-radius: 7px 7px
+            .stars
+                display: flex
+                margin-left: -3px
+                svg
+                    fill: rgb(var(--primary))
+                    stroke: rgb(var(--primary))
+                    margin-right: 0.35vh
+            h6
+                font-size: 1.25vh
+                font-weight: 400
+                margin-top: 0.5vh
+            h3
+                margin-top: 1.5vh
+                font-size: 1.65vh
+            p
+                font-size: 1.45vh
+                margin-top: 0.3vh
+
+
+
+.logos
+    padding: 0 36vh
+    .options
+        display: flex
+        justify-content: space-between
+        .company:nth-child(1)
+            height: 4vh
+        .company:nth-child(2)
+            height: 3vh
+        .company:nth-child(3)
+            height: 3vh
+            margin-bottom: -2px
+        .company:nth-child(4)
+            height: 3vh
+        .company:nth-child(5)
+            height: 3.25vh

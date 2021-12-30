@@ -13,7 +13,7 @@ const collection = [
     },
     {
         name: 'notes',
-        about: 'Capture and arrange your ideas to remember everything.'
+        about: 'Capture and arrange your ideas to remember everything and plan your future.'
     },
     {
         name: 'finances',

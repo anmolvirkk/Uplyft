@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Footer from './components/Footer'
 import styles from './_main.module.sass'
 import About from './components/About'
+import Trust from './components/Trust'
 
 const LandingPage = () => {
     return (
@@ -11,6 +12,7 @@ const LandingPage = () => {
             <Header />
             <Hero />
             <About />
+            <Trust />
             <Footer />
         </div>
     )
