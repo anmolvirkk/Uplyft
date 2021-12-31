@@ -4,7 +4,7 @@ import styles from '../../_trust.module.sass'
 const logos = [
     {
         company: 'Business.com',
-        quote: 'Test'
+        quote: 'Evernote is a powerful tool that can help executives, entrepreneurs and creative people capture and arrange their ideas. All you have to do is use it.'
     }
 ]
 
@@ -12,9 +12,8 @@ const Logos = () => {
     return (
         <div className={styles.logos}>
             <div className={styles.quote}>
-                <p>"</p>
-                <p>{`"${logos[0].quote}"`}</p>
-                <p>-{logos[0].company}</p>
+                <p className={styles.text}>{`"${logos[0].quote}"`}</p>
+                <p className={styles.company}>- {logos[0].company}</p>
             </div>
             <div className={styles.options}>
                 <img decoding='async' loading='lazy' src='/decor/trust/verge.png' alt='verge' className={styles.company} />

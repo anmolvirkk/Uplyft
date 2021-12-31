@@ -1,15 +1,15 @@
 import React from 'react'
 import styles from './_trust.module.sass'
-import Statement from './components/Statement'
 import Logos from './components/Logos'
 import Testimonials from './components/Testimonials'
+import Statement from './components/Statement'
 
 const Trust = () => {
     return (
         <div className={styles.trustSection}>
+            <Logos />
             <Statement />
             <Testimonials />
-            <Logos />
         </div>
     )
 }

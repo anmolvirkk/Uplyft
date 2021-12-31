@@ -1,68 +1,60 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
-.testimonials
-    padding: 0 16vh
-    margin-top: 6vh
-    +mixins.center
-    .title
-        margin-bottom: 4vh
-        width: 100%
-        h2
-            font-size: 2.5vh
-            color: rgba(var(--text), 0.75)
-            margin-bottom: 4vh
-        .metric
-            display: flex
-            align-items: flex-end
-            justify-content: space-between
-            p:last-child
-                text-transform: capitalize
-            p
-                font-size: 1.5vh
-                line-height: 0
-                text-transform: lowercase
-                span
-                    font-size: 5vh
-                    font-weight: 600
-    .reviews
-        display: grid
-        width: 100%
-        grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
-        grid-gap: 4vh
-        .card
-            background-color: rgba(var(--border), 0.25)
-            padding: 1.5vh 3vh
-            display: flex
-            justify-content: flex-start
-            align-items: flex-start
-            flex-flow: column
-            border-radius: 7px 7px
-            .stars
-                display: flex
-                margin-left: -3px
-                svg
-                    fill: rgb(var(--primary))
-                    stroke: rgb(var(--primary))
-                    margin-right: 0.35vh
-            h6
-                font-size: 1.25vh
-                font-weight: 400
-                margin-top: 0.5vh
-            h3
-                margin-top: 1.5vh
-                font-size: 1.65vh
-            p
-                font-size: 1.45vh
-                margin-top: 0.3vh
+.trustSection
+    margin-top: 8vh
 
-
-
-.logos
+.statement
+    display: flex
+    justify-content: space-between
+    align-items: center
     padding: 0 36vh
+    h3
+        font-size: 3vh
+        font-weight: 500
+        width: 35%
+        line-height: 1.35
+    ul
+        list-style: none
+        display: flex
+        background-color: rgba(var(--border), 0.35)
+        padding: 3vh 5vh
+        border-radius: 7px 7px
+        width: 60%
+        justify-content: space-between
+        li
+            h6
+                font-size: 5vh
+            p
+                margin-top: 0.5vh
+                margin-left: 0.5vh
+                font-size: 1.35vh
+            .stars
+                svg
+                    fill: #FBD66C
+                    stroke: transparent
+    
+.logos
+    padding: 8vh 36vh
+    margin: 8vh 0
+    background-color: rgba(var(--border), 0.35)
+    border-radius: 7px 7px
+    .quote
+        width: 100%
+        +mixins.center
+        .text
+            font-size: 3.5vh
+            line-height: 1.35
+            font-weight: 500
+        .company
+            font-size: 1.75vh
+            margin-top: 3vh
     .options
         display: flex
         justify-content: space-between
+        margin-top: 10vh
+        .company
+            opacity: 0.25
         .company:nth-child(1)
             height: 4vh
         .company:nth-child(2)
@@ -74,3 +66,53 @@
             height: 3vh
         .company:nth-child(5)
             height: 3.25vh
+
+.testimonials
+    padding: 0 16vh
+    margin-top: 8vh
+    +mixins.center
+    .reviews
+        display: grid
+        width: 100%
+        grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
+        grid-gap: 4vh
+        .card
+            background-color: rgba(var(--border), 0.35)
+            padding: 1.5vh 3vh
+            display: flex
+            justify-content: flex-start
+            align-items: flex-start
+            flex-flow: column
+            border-radius: 7px 7px
+            .header
+                display: flex
+                align-items: center
+                margin-left: -3px
+                img
+                    height: 5vh
+                    width: 5vh
+                    object-fit: cover
+                    border-radius: 100%
+            .info
+                display: flex
+                justify-content: flex-start
+                align-items: flex-start
+                flex-flow: column
+                margin-left: 1.5vh
+                .stars
+                    display: flex
+                    margin-left: -4px
+                    svg
+                        fill: rgb(var(--primary))
+                        stroke: transparent
+                        margin-right: 0.35vh
+            h6
+                font-size: 1.25vh
+                font-weight: 400
+                margin-top: 0.5vh
+            h3
+                margin-top: 1.5vh
+                font-size: 1.65vh
+            p
+                font-size: 1.45vh
+                margin-top: 0.3vh
