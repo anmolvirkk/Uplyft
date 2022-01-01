@@ -78,41 +78,37 @@
         grid-gap: 4vh
         .card
             background-color: rgba(var(--border), 0.35)
-            padding: 1.5vh 3vh
-            display: flex
-            justify-content: flex-start
-            align-items: flex-start
+            padding: 1.5vh 3vh 7vh 3vh
             flex-flow: column
             border-radius: 7px 7px
-            .header
+            position: relative
+            img
+                height: 10vh
+                width: 10vh
+                margin-top: -5vh
+                object-fit: cover
+                border-radius: 100%
+                background-color: rgb(var(--primary))
+            .stars
                 display: flex
-                align-items: center
-                margin-left: -3px
-                img
-                    height: 5vh
-                    width: 5vh
-                    object-fit: cover
-                    border-radius: 100%
-            .info
-                display: flex
-                justify-content: flex-start
-                align-items: flex-start
-                flex-flow: column
-                margin-left: 1.5vh
-                .stars
-                    display: flex
-                    margin-left: -4px
-                    svg
-                        fill: rgb(var(--primary))
-                        stroke: transparent
-                        margin-right: 0.35vh
+                justify-content: center
+                position: absolute
+                bottom: 1.5vh
+                width: 100%
+                left: 0
+                svg
+                    fill: rgb(var(--primary))
+                    stroke: transparent
+                    margin: 0 0.2vh
             h6
-                font-size: 1.25vh
+                font-size: 1.5vh
                 font-weight: 400
-                margin-top: 0.5vh
+                margin-top: 1.5vh
             h3
                 margin-top: 1.5vh
                 font-size: 1.65vh
             p
                 font-size: 1.45vh
-                margin-top: 0.3vh
+                margin-top: 1.5vh
+                line-height: 1.5
+                color: rgba(var(--text), 0.65)
