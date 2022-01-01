@@ -32,6 +32,7 @@
             .stars
                 svg
                     fill: #FBD66C
+                    height: 2.75vh
                     stroke: transparent
     
 .logos
@@ -128,6 +129,39 @@
         ul
             width: 100%
             margin-top: 3vh
+            flex-flow: column
+            padding: 0
+            background-color: transparent
+            display: grid
+            grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
+            grid-gap: 3vh
+            li
+                margin: 3vh 0
+                background-color: rgba(var(--border), 0.35)
+                height: 100%
+                min-height: 20vh
+                width: 100%
+                +mixins.center
+                border-radius: 7px 7px
+        // ul
+        //     list-style: none
+        //     display: flex
+        //     background-color: rgba(var(--border), 0.35)
+        //     padding: 3vh 5vh
+        //     border-radius: 7px 7px
+        //     width: 60%
+        //     justify-content: space-between
+        //     li
+        //         h6
+        //             font-size: 5vh
+        //         p
+        //             margin-top: 0.5vh
+        //             margin-left: 0.5vh
+        //             font-size: 1.35vh
+        //         .stars
+        //             svg
+        //                 fill: #FBD66C
+        //                 stroke: transparent
 
     .testimonials
         padding: 0 3vh
