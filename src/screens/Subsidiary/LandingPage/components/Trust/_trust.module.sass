@@ -100,6 +100,8 @@
                     fill: rgb(var(--primary))
                     stroke: transparent
                     margin: 0 0.2vh
+                    height: 2.75vh
+                    width: 2.75vh
             h6
                 font-size: 1.5vh
                 font-weight: 400
@@ -112,3 +114,63 @@
                 margin-top: 1.5vh
                 line-height: 1.5
                 color: rgba(var(--text), 0.65)
+
+
+
+@media screen and (max-width: 1450px)
+    .statement
+        padding: 0 3vh
+        flex-flow: column
+        text-align: center
+        h3
+            font-size: 3vh
+            width: 100%
+        ul
+            width: 100%
+            margin-top: 3vh
+
+    .testimonials
+        padding: 0 3vh
+        margin-top: 8vh
+        .reviews
+            grid-template-columns: repeat(auto-fill, minmax(100%, 1fr))
+            grid-gap: 8vh
+            .card
+                .stars
+                    svg
+                        height: 3.5vh
+                        width: 3.5vh
+
+
+    .logos
+        padding: 8vh 3vh
+        margin: 8vh 0
+        .quote
+            width: 100%
+            +mixins.center
+            .text
+                font-size: 3.5vh
+                line-height: 1.35
+                font-weight: 500
+            .company
+                font-size: 1.75vh
+                margin-top: 3vh
+        .options
+            margin-top: 10vh
+            display: grid
+            grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr))
+            grid-gap: 2vh
+            .company
+                opacity: 0.25
+                width: fit-content
+            .company:nth-child(1)
+                height: 5vh
+            .company:nth-child(2)
+                height: 4vh
+            .company:nth-child(3)
+                height: 4vh
+                margin-bottom: -2px
+            .company:nth-child(4)
+                height: 4vh
+            .company:nth-child(5)
+                height: 4.25vh
