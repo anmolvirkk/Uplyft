@@ -143,25 +143,10 @@
                 width: 100%
                 +mixins.center
                 border-radius: 7px 7px
-        // ul
-        //     list-style: none
-        //     display: flex
-        //     background-color: rgba(var(--border), 0.35)
-        //     padding: 3vh 5vh
-        //     border-radius: 7px 7px
-        //     width: 60%
-        //     justify-content: space-between
-        //     li
-        //         h6
-        //             font-size: 5vh
-        //         p
-        //             margin-top: 0.5vh
-        //             margin-left: 0.5vh
-        //             font-size: 1.35vh
-        //         .stars
-        //             svg
-        //                 fill: #FBD66C
-        //                 stroke: transparent
+                .stars
+                    svg
+                        height: 3.5vh
+                        width: 3.5vh
 
     .testimonials
         padding: 0 3vh
@@ -196,15 +181,6 @@
             grid-gap: 2vh
             .company
                 opacity: 0.25
-                width: fit-content
-            .company:nth-child(1)
-                height: 5vh
-            .company:nth-child(2)
-                height: 4vh
-            .company:nth-child(3)
-                height: 4vh
-                margin-bottom: -2px
-            .company:nth-child(4)
-                height: 4vh
-            .company:nth-child(5)
-                height: 4.25vh
+                width: 100%
+                height: fit-content !important
+                padding: 0 5vh
