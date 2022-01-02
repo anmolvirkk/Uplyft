@@ -52,21 +52,13 @@
             margin-top: 3vh
     .options
         display: flex
-        justify-content: space-between
+        justify-content: center
+        flex-flow: wrap
         margin-top: 10vh
         .company
             opacity: 0.25
-        .company:nth-child(1)
-            height: 4vh
-        .company:nth-child(2)
-            height: 3vh
-        .company:nth-child(3)
-            height: 3vh
-            margin-bottom: -2px
-        .company:nth-child(4)
-            height: 3vh
-        .company:nth-child(5)
-            height: 3.25vh
+            height: 11vh
+            padding: 4vh
 
 .testimonials
     padding: 0 16vh
@@ -123,6 +115,7 @@
         padding: 0 3vh
         flex-flow: column
         text-align: center
+        margin-bottom: 16vh
         h3
             font-size: 3vh
             width: 100%
@@ -175,11 +168,7 @@
                 font-size: 1.75vh
                 margin-top: 3vh
         .options
-            margin-top: 10vh
-            display: grid
-            grid-template-columns: repeat(auto-fill, minmax(15vw, 1fr))
-            grid-gap: 5vh
+            margin-top: 5vh
             .company
-                opacity: 0.25
-                width: 100%
-                height: fit-content !important
+                height: 9vh
+                padding: 3vh
