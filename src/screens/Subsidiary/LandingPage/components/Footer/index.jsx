@@ -2,6 +2,7 @@ import React from 'react'
 import { HelpCircle } from 'react-feather'
 import company from '../../../../../company'
 import styles from './_footer.module.sass'
+import CTA from '../CTA'
 
 const Footer = () => {
     return (
@@ -10,7 +11,7 @@ const Footer = () => {
                 <img loading='lazy' decoding='async' src = '/logos/subsidiary.png' alt = {company.subsidiary} />
                 <h3>Become the best you can be</h3>
                 <p>Get started with Uplyft to Uplyft</p>
-                <button>Try for free</button>
+                <CTA />
             </div>
             <div className={styles.bottom}>
                 <div className={styles.nav}>

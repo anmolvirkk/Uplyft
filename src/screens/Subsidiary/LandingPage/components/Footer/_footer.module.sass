@@ -11,20 +11,28 @@
         +mixins.center
         img
             height: 10vh
+            margin-bottom: 3vh
         h3
             font-size: 4.25vh
             font-weight: 500
-            margin-top: 3vh
         p
             font-size: 1.75vh
-            margin: 2.5vh 0
+            margin: 2vh 0
             color: rgba(var(--titles), 1)
             text-transform: none
         button
             +main.cta
-            margin-top: 2vh
+            margin-top: 3vh
+        .icons
+            width: 100%
+            margin: 2vh 0
+            img
+                border-radius: 10px 10px
+                margin: 1.5vh
+                height: 8vh
+                width: 8vh
     .bottom
-        margin-top: 6vh
+        margin-top: 3vh
         padding: 3vh
         display: flex
         background-color: rgba(var(--border), 0.35)
@@ -53,6 +61,10 @@
         .card
             h3
                 width: 90%
+            .icons
+                img
+                    height: 10vh
+                    width: 10vh
         .bottom
             flex-flow: column
             .nav:first-child
