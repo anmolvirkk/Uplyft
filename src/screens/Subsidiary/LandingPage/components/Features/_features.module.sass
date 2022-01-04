@@ -1,38 +1,69 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+.featureSection
+    +mixins.center
+    margin-top: 8vh
+    h2
+        color: rgba(var(--text), 0.75)
+        font-size: 2.5vh
+
 .wrapper
     display: flex
     justify-content: space-between
+    align-items: center
     padding: 0 16vh
-    margin-top: 10vh
     width: 100%
+    margin-top: 3vh
     .icons
-        width: 7vh
+        width: 6%
+        padding: 0.5%
+        div
+            margin: 0.5vw 0
+            +mixins.center
+            border-radius: 7px 7px
+            padding: 0.25vw 0.25vw 0.25vw 1vw
         img
             width: 100%
             border-radius: 7px 7px
-            margin: 1vh 0
+            cursor: pointer
+        .activeIcon
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15)
     .features
-        width: 20%
+        width: 19%
         .feature
-            background-color: rgba(var(--border), 0.5)
-            border-radius: 7px 7px
-            padding: 1.5vh 2vh
+            padding: 1.5vw 1vw
+            margin: 1vw 0
+            cursor: pointer
+            border-left: 3px solid rgb(var(--primary))
+            box-shadow: 1.5px 3px 10px rgba(0,0,0,0.075)
+            border-radius: 0 7px 7px 0
             .title
                 display: flex
                 align-items: center
                 svg
-                    height: 2vh
-                    width: 2vh
+                    height: 1.15vw
+                    width: 1.15vw
+                    color: rgb(var(--primary))
                 h3
-                    font-size: 1.5vh
-                    margin-left: 1vh
+                    font-size: 0.8vw
+                    margin-left: 0.75vw
+                    font-weight: 400
+                    color: rgb(var(--titles))
+        .activeFeature
+            background-color: rgb(var(--primary))
+            border: none
+            border-radius: 10px 10px
+            .title
+                svg
+                    color: white
+                h3
+                    color: white
     .content
         width: 70%
         background-color: rgb(var(--primary))
         +mixins.center
-        padding: 3vh
+        padding: 2vw
         box-shadow: 0 0 10px inset rgba(0,0,0,0.15)
         img
             width: 100%

@@ -751,7 +751,7 @@
         margin-left: 0.5vh
         text-transform: capitalize
         font-weight: 400
-        color: rgb(var(--text))
+        color: rgba(var(--text), 0.35)
 
 .moreTasks
     display: flex
@@ -763,6 +763,7 @@
     align-items: center
     margin-bottom: 2vh
     max-width: 70vh
+    overflow-x: overlay
 .taskNavigation::-webkit-scrollbar
     height: 0
 
@@ -781,8 +782,9 @@
         justify-content: center
         cursor: pointer
         position: relative
-        color: rgb(var(--text))
+        color: rgba(var(--text), 0.75)
         flex-flow: column
+        white-space: nowrap
         .navSubTaskSelect
             display: flex
             align-items: center
