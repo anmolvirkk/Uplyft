@@ -76,15 +76,19 @@ const Testimonials = () => {
                 {reviews.map((item, i)=>{
                     return(
                         <div key={i} className={styles.card}>
-                            <img src={`/decor/trust/users/${i}.png`} alt='' />
-                            <h6>{item.user}</h6>
                             <p>{item.description}</p>
-                            <div className={styles.stars}>
-                                <Star />
-                                <Star />
-                                <Star />
-                                <Star />
-                                <Star />
+                            <div className={styles.user}>
+                                <img src={`/decor/trust/users/${i}.png`} alt='' />
+                                <div className={styles.content}>
+                                    <h6>{item.user}</h6>
+                                    <div className={styles.stars}>
+                                        <Star />
+                                        <Star />
+                                        <Star />
+                                        <Star />
+                                        <Star />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )
