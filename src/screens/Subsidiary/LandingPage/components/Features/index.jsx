@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Book, Edit2, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw, Filter } from 'react-feather'
+import { Book, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw, Filter, List, Share2, Link, Image, Search, CreditCard, DollarSign, TrendingUp, BarChart2, Briefcase, PieChart, Coffee } from 'react-feather'
 import styles from './_features.module.sass'
 import company from '../../../../../company'
 
@@ -82,39 +82,39 @@ const features = {
     ],
     notes: [
         {
-            title: 'Efficient structured notes',
+            title: 'Efficiently structured notes',
             description: '',
-            icon: <Edit2 />,
+            icon: <List />,
             img: 'notes.png'
         },
         {
             title: 'One tap to mind map',
             description: '',
-            icon: <Edit2 />,
+            icon: <Share2 />,
             img: 'notes.png'
         },
         {
             title: 'Fluid note linking',
             description: '',
-            icon: <Edit2 />,
+            icon: <Link />,
             img: 'notes.png'
         },
         {
             title: 'Mix media',
             description: '',
-            icon: <Edit2 />,
+            icon: <Image />,
             img: 'notes.png'
         },
         {
             title: 'Folders to stay organized',
             description: '',
-            icon: <Edit2 />,
+            icon: <Folder />,
             img: 'notes.png'
         },
         {
             title: 'Powerful Search',
             description: '',
-            icon: <Edit2 />,
+            icon: <Search />,
             img: 'notes.png'
         }
     ],
@@ -122,37 +122,37 @@ const features = {
         {
             title: 'Automate credit card payments',
             description: '',
-            icon: <Edit2 />,
+            icon: <CreditCard />,
             img: 'finances.png'
         },
         {
             title: 'Build credit',
             description: '',
-            icon: <Edit2 />,
+            icon: <DollarSign />,
             img: 'finances.png'
         },
         {
             title: 'Future Financial Planning',
             description: '',
-            icon: <Edit2 />,
+            icon: <TrendingUp />,
             img: 'finances.png'
         },
         {
             title: 'Taxes on autopilot',
             description: '',
-            icon: <Edit2 />,
+            icon: <RefreshCw />,
             img: 'finances.png'
         },
         {
             title: 'Expense Management',
             description: '',
-            icon: <Edit2 />,
+            icon: <BarChart2 />,
             img: 'finances.png'
         },
         {
             title: 'Manage your portfolio',
             description: '',
-            icon: <Edit2 />,
+            icon: <Briefcase />,
             img: 'finances.png'
         }
     ],
@@ -160,37 +160,37 @@ const features = {
         {
             title: 'Track calories',
             description: '',
-            icon: <Edit2 />,
+            icon: <Coffee />,
             img: 'fitness.png'
         },
         {
             title: 'Create custom recipies',
             description: '',
-            icon: <Edit2 />,
+            icon: <Book />,
             img: 'fitness.png'
         },
         {
             title: 'Create custom workout routines',
             description: '',
-            icon: <Edit2 />,
+            icon: <RefreshCw />,
             img: 'fitness.png'
         },
         {
             title: 'Workout Log',
             description: '',
-            icon: <Edit2 />,
+            icon: <Edit />,
             img: 'fitness.png'
         },
         {
             title: 'Fitness progress tracking',
             description: '',
-            icon: <Edit2 />,
+            icon: <TrendingUp />,
             img: 'fitness.png'
         },
         {
             title: 'Micros & Macros tracking',
             description: '',
-            icon: <Edit2 />,
+            icon: <PieChart />,
             img: 'fitness.png'
         }
     ]
