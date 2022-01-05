@@ -5,7 +5,7 @@ const CTA = () => {
     return (
         <div>
             <button className={styles.cta}>Sign Up</button>
-            <div className={styles.sub}>free forever available</div>
+            <div className={styles.sub}>free forever. no credit card.</div>
         </div>
     )
 }

@@ -55,7 +55,7 @@
         .activeFeature
             background-color: rgb(var(--primary))
             border: none
-            border-radius: 10px 10px
+            border-radius: 7px 7px
             .title
                 svg
                     color: white
@@ -72,3 +72,42 @@
             width: 100%
             box-shadow: 0 0 10px rgba(0,0,0,0.15)
             border-radius: 10px 10px
+
+
+@media screen and (max-width: 1450px)
+    .wrapper
+        flex-flow: column-reverse
+        padding: 0
+        .icons
+            width: 100%
+            padding: 1.5vh 3vh
+            display: grid
+            grid-template-columns: repeat(5, 1fr)
+            grid-gap: 1.5vh
+            div
+                padding: 1.5vw 1.5vw 3vw 1.5vw
+            img
+                width: 100%
+        .features::-webkit-scrollbar
+            height: 0
+        .features
+            width: 100%
+            display: flex
+            overflow-x: overlay
+            .feature
+                margin-left: 3vh
+                padding: 2vh 3vh 2vh 1.5vh
+                margin-top: 3vh
+                .title
+                    svg
+                        height: 4vw
+                        width: 4vw
+                    h3
+                        font-size: 2.5vw
+                        margin-left: 2vw
+                        white-space: nowrap
+            .feature:last-child
+                margin-right: 3vh
+        .content
+            width: calc( 100% - 6vh )
+            padding: 3vw
