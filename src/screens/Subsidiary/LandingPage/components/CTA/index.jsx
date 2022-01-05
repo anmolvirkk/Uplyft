@@ -4,8 +4,8 @@ import styles from './_cta.module.sass'
 const CTA = () => {
     return (
         <div>
-            <button className={styles.cta}>Try for free</button>
-            <div className={styles.sub}>no credit card required</div>
+            <button className={styles.cta}>Sign Up</button>
+            <div className={styles.sub}>free forever available</div>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Book, Edit2, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw } from 'react-feather'
+import { Book, Edit2, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw, Filter } from 'react-feather'
 import styles from './_features.module.sass'
 import company from '../../../../../company'
 
@@ -68,6 +68,12 @@ const features = {
             img: 'multipleSubtasks.png'
         },
         {
+            title: 'Filter Tasks',
+            description: '',
+            icon: <Filter />,
+            img: 'filterTasks.png'
+        },
+        {
             title: 'Dark Mode',
             description: '',
             icon: <Moon />,
@@ -76,26 +82,116 @@ const features = {
     ],
     notes: [
         {
-            title: '',
+            title: 'Efficient structured notes',
             description: '',
             icon: <Edit2 />,
-            img: ''
+            img: 'notes.png'
+        },
+        {
+            title: 'One tap to mind map',
+            description: '',
+            icon: <Edit2 />,
+            img: 'notes.png'
+        },
+        {
+            title: 'Fluid note linking',
+            description: '',
+            icon: <Edit2 />,
+            img: 'notes.png'
+        },
+        {
+            title: 'Mix media',
+            description: '',
+            icon: <Edit2 />,
+            img: 'notes.png'
+        },
+        {
+            title: 'Folders to stay organized',
+            description: '',
+            icon: <Edit2 />,
+            img: 'notes.png'
+        },
+        {
+            title: 'Powerful Search',
+            description: '',
+            icon: <Edit2 />,
+            img: 'notes.png'
         }
     ],
     finances: [
         {
-            title: '',
+            title: 'Automate credit card payments',
             description: '',
             icon: <Edit2 />,
-            img: ''
+            img: 'finances.png'
+        },
+        {
+            title: 'Build credit',
+            description: '',
+            icon: <Edit2 />,
+            img: 'finances.png'
+        },
+        {
+            title: 'Future Financial Planning',
+            description: '',
+            icon: <Edit2 />,
+            img: 'finances.png'
+        },
+        {
+            title: 'Taxes on autopilot',
+            description: '',
+            icon: <Edit2 />,
+            img: 'finances.png'
+        },
+        {
+            title: 'Expense Management',
+            description: '',
+            icon: <Edit2 />,
+            img: 'finances.png'
+        },
+        {
+            title: 'Manage your portfolio',
+            description: '',
+            icon: <Edit2 />,
+            img: 'finances.png'
         }
     ],
     fitness: [
         {
-            title: '',
+            title: 'Track calories',
             description: '',
             icon: <Edit2 />,
-            img: ''
+            img: 'fitness.png'
+        },
+        {
+            title: 'Create custom recipies',
+            description: '',
+            icon: <Edit2 />,
+            img: 'fitness.png'
+        },
+        {
+            title: 'Create custom workout routines',
+            description: '',
+            icon: <Edit2 />,
+            img: 'fitness.png'
+        },
+        {
+            title: 'Workout Log',
+            description: '',
+            icon: <Edit2 />,
+            img: 'fitness.png'
+        },
+        {
+            title: 'Fitness progress tracking',
+            description: '',
+            icon: <Edit2 />,
+            img: 'fitness.png'
+        },
+        {
+            title: 'Micros & Macros tracking',
+            description: '',
+            icon: <Edit2 />,
+            img: 'fitness.png'
         }
     ]
 }

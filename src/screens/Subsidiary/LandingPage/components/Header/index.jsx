@@ -17,7 +17,7 @@ const Header = () => {
             </div>
             <div className={styles.cta}>
                 <div className={styles.login}>Login</div>
-                <div className={styles.ctaBtn}>Try for free</div>
+                <div className={styles.ctaBtn}>Sign Up</div>
             </div>
         </div>
     )
