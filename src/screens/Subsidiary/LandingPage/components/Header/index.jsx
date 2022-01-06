@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './_header.module.sass'
 import company from '../../../../../company'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -16,8 +17,8 @@ const Header = () => {
                 </div>
             </div>
             <div className={styles.cta}>
-                <div className={styles.login}>Login</div>
-                <div className={styles.ctaBtn}>Sign Up</div>
+                <Link className={styles.login} to={`/${company.subsidiary}/login`}>Login</Link>
+                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/signup`}>Sign Up</Link>
             </div>
         </div>
     )
