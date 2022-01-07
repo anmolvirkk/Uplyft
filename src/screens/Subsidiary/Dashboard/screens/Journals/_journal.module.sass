@@ -124,7 +124,7 @@
         .noteContent
             padding: 2.5vh
             overflow: hidden
-            height: calc(100% - 7vh)
+            height: calc(100% - 8vh)
     .noteBody
         line-height: 1.9
         margin-top: 1vh
@@ -234,3 +234,29 @@
 .moreMenuBook
     position: absolute
     bottom: 0
+
+@media screen and (max-width: 1450px)
+    .journals
+        flex-flow: column-reverse
+    .mainSection
+        width: calc( 100% - 80px )
+        height: calc( 100vh - 80px )
+        overflow-y: overlay
+    .journalBooks
+        display: none
+    .sideSection
+        display: none
+    .noteSelect
+        padding: 0
+        padding-left: 3vh
+        overflow-x: overlay
+        position: fixed
+        bottom: 80px
+        background-color: rgb(var(--background))
+        width: calc( 100% - 80px )
+        button
+            min-width: 90px
+    .note
+        .noteLink
+            .noteContent
+                height: calc(100% - 8.75vh)
