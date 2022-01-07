@@ -819,3 +819,21 @@
     svg
         --primary: 49,173,254
         stroke: rgb(var(--primary))
+
+@media screen and (max-width: 1450px)
+    .form
+        max-width: 94vw
+        width: 94vw
+        min-width: 94vw
+    .habitCustomize
+        margin-top: 2vh
+        margin-bottom: 2vh
+        ul
+            flex-flow: column
+            li:first-child
+                ol
+                    width: calc( 100% + 2.5vh )
+                    margin-right: 0
+            li:last-child
+                ol
+                    width: calc( 100% + 2.5vh )
