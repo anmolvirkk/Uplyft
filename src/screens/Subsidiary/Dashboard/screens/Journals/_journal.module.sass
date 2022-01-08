@@ -245,8 +245,29 @@
         overflow-y: overlay
     .journalBooks
         width: 100%
+        position: fixed
+        top: 60px
+        height: calc( 100vh - 80px - 60px )
+        z-index: 3
+        background-color: rgb(var(--background))
+        transform: translateX(0%)
+    .bookSection
+        height: 100%
+        width: 100%
+        display: grid
+        grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr))
+        grid-template-rows: repeat(auto-fill, minmax(25vh, 1fr))
+        justify-content: flex-start
+        align-items: flex-start
     .sideSection
-        display: none
+        width: 100%
+        position: fixed
+        top: 60px
+        height: calc( 100vh - 80px - 60px )
+        z-index: 2
+        transform: translateX(-100%)
+    .slotSection
+        height: calc( 100vh - 80px - 60px )
     .noteSelect
         padding: 0
         padding-left: 3vh
@@ -261,3 +282,10 @@
         .noteLink
             .noteContent
                 height: calc(100% - 8.75vh)
+    .helperTextAddEntry
+        position: absolute
+        width: calc( 100% - 6vh )
+        svg
+            display: none
+        p
+            margin: 0

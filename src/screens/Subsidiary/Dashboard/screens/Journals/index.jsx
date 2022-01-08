@@ -13,6 +13,7 @@ import allRoutesAtom from './recoil-atoms/allRoutesAtom'
 import setDate from '../../functions/setDate'
 import datesAtom from './recoil-atoms/datesAtom'
 import company from '../../../../../company'
+import MobileHeader from './components/MobileHeader'
 
 const Journals = () => {
 
@@ -37,6 +38,8 @@ const Journals = () => {
             <MainSection styles={styles} />
 
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar />:null}
+
+            <MobileHeader />
 
         </div>
     )
