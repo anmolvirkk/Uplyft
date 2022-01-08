@@ -41,7 +41,7 @@ const MobileHeader = () => {
         {
             title: 'Journals',
             onAdd: ()=>{
-                setModalConfig(sections[currentMobileSection].modalConfig)
+                setModalConfig({type: 'addjournal'})
             },
             onBack: null,
         },
@@ -59,6 +59,18 @@ const MobileHeader = () => {
             onBack: ()=>{
                 document.getElementById('bookSection').style.transform = 'translateX(0%)'
                 document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                setCurrentMobileSection(0)
+            }
+        },
+        {
+            title: 'Notes',
+            onAdd: ()=>{
+                setModalConfig({type: ''})
+            },
+            onBack: ()=>{
+                document.getElementById('bookSection').style.transform = 'translateX(0%)'
+                document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                setCurrentMobileSection(0)
             }
         }
     ]

@@ -14,7 +14,7 @@ import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
 import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
 
-const SlotsSection = ({styles}) => {
+const SlotsSection = ({styles, isMobile}) => {
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
@@ -56,8 +56,13 @@ const SlotsSection = ({styles}) => {
         openModal({type: 'entry', setModalConfig: setModalConfig})
     }
 
+    const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
+
     const setRoute = (id) => {
         setAllRoutes({...allRoutes, [allRoutes['book']]: {...allRoutes[allRoutes['book']], [allRoutes['date']]: id}})
+        if(isMobile){
+            setCurrentMobileSection(2)
+        }
     }
 
     const addToolTipForSlots = (e) => {
@@ -70,18 +75,12 @@ const SlotsSection = ({styles}) => {
         }
     }
 
-    const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
-
-    if(currentMobileSection !== 1){
-        setCurrentMobileSection(1)
-    }
-
     if(books.length !== 0 && allRoutes['book']){
         return (
             <div className={styles.sideSection} id='journalSideSection'>
                 <div className={styles.slotSection}>
                     {slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]&&slots[allRoutes['book']][allRoutes['date']].length>0 ? slots[allRoutes['book']][allRoutes['date']].map((item)=>{
-                        return item.id ? <NavLink onMouseEnter={(e)=>addToolTipForSlots(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.title}><p>{item.title.replace(/\s/g, "") ==='' ? item.time : item.title}</p>
+                        return item.id ? <NavLink onMouseEnter={(e)=>addToolTipForSlots(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${item.id}`} className={styles.sideSectionSlot} activeClassName={isMobile?null:styles.activeSectionSlot} data-title={item.title}><p>{item.title.replace(/\s/g, "") ==='' ? item.time : item.title}</p>
                         <MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${item.id}`} pos={{right: '-1.75vh', top: '3.5vh'}} /></NavLink> : null
                     }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
                 </div>

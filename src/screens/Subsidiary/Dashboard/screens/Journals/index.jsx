@@ -33,7 +33,7 @@ const Journals = () => {
 
             <BookSection styles={styles} isMobile={isMobile} />
 
-            <SlotsSection styles={styles} />
+            <SlotsSection styles={styles} isMobile={isMobile} />
 
             <MainSection styles={styles} />
 

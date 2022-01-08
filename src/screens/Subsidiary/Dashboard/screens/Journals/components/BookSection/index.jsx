@@ -13,6 +13,7 @@ import booksAtom from '../../recoil-atoms/booksAtom'
 import openModal from '../../../../functions/openModal'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
+import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
 
 const BookSection = ({ styles, isMobile }) => {
 
@@ -55,11 +56,14 @@ const BookSection = ({ styles, isMobile }) => {
         openModal({type: 'journal', setModalConfig: setModalConfig})
     }
 
+    const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
+
     const setBookRoute = (id) => {
         setAllRoutes({...allRoutes, book: id})
         if(isMobile){
             document.getElementById('bookSection').style.transform = 'translateX(-100%)'
             document.getElementById('journalSideSection').style.transform = 'translateX(0%)'
+            setCurrentMobileSection(1)
         }
     }
 
