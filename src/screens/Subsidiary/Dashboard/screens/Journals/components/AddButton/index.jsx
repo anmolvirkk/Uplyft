@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styles from './_addbutton.module.sass'
 import {Plus} from 'react-feather'
 import { Redirect } from 'react-router'
@@ -11,6 +11,7 @@ import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import openModal from '../../../../functions/openModal'
 import openBookAtom from '../../recoil-atoms/openBookAtom'
 import company from '../../../../../../../company'
+import openSlotAtom from '../../recoil-atoms/openSlotAtom'
 
 const AddButton = ({name}) => {
     
@@ -40,7 +41,7 @@ const AddButton = ({name}) => {
         time: formatAMPM(date)
     }
 
-    const [openSlot, setOpenSlot] = useState()
+    const [openSlot, setOpenSlot] = useRecoilState(openSlotAtom)
 
     const addNoteSlot = () => {
         if(slots[allRoutes['book']] && slots[allRoutes['book']][allRoutes['date']]){

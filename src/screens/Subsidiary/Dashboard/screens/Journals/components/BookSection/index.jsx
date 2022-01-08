@@ -14,7 +14,7 @@ import openModal from '../../../../functions/openModal'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
 
-const BookSection = ({ styles }) => {
+const BookSection = ({ styles, isMobile }) => {
 
     const [newBook, setNewBook] = useState(null)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -57,6 +57,10 @@ const BookSection = ({ styles }) => {
 
     const setBookRoute = (id) => {
         setAllRoutes({...allRoutes, book: id})
+        if(isMobile){
+            document.getElementById('bookSection').style.transform = 'translateX(-100%)'
+            document.getElementById('journalSideSection').style.transform = 'translateX(0%)'
+        }
     }
 
     const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
@@ -78,7 +82,7 @@ const BookSection = ({ styles }) => {
             {
             books.length > 0 ?
             books.map((props)=>(
-                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName="activeBook" style={{display: 'flex'}}>
+                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName={isMobile?null:"activeBook"} style={{display: 'flex'}}>
                     <div className="book">
                         <div className="book-back book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}></div>

@@ -19,7 +19,7 @@ const Journals = () => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates, setDates] = useRecoilState(datesAtom)
-
+    const isMobile = (window.innerWidth < 1450)
     useEffect(()=>{
         if(allRoutes['book']){
             setDate(allRoutes, setAllRoutes, dates, setDates)
@@ -31,7 +31,7 @@ const Journals = () => {
             <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`} />
             <SideBar />
 
-            <BookSection styles={styles} />
+            <BookSection styles={styles} isMobile={isMobile} />
 
             <SlotsSection styles={styles} />
 

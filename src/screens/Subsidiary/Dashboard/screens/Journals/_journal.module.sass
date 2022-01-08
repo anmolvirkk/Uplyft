@@ -259,15 +259,20 @@
         grid-template-rows: repeat(auto-fill, minmax(25vh, 1fr))
         justify-content: flex-start
         align-items: flex-start
+        transition: 0.3s
     .sideSection
         width: 100%
         position: fixed
         top: 60px
         height: calc( 100vh - 80px - 60px )
-        z-index: 2
-        transform: translateX(-100%)
+        z-index: 9
+        transform: translateX(0%)
+        transition: 0.3s
     .slotSection
         height: calc( 100vh - 80px - 60px )
+        z-index: 9
+    .sideSectionSlot
+        padding: 0 3vh
     .noteSelect
         padding: 0
         padding-left: 3vh
@@ -284,7 +289,8 @@
                 height: calc(100% - 8.75vh)
     .helperTextAddEntry
         position: absolute
-        width: calc( 100% - 6vh )
+        width: calc( 100% )
+        z-index: 9
         svg
             display: none
         p
