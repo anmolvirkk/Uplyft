@@ -78,7 +78,7 @@ const MobileHeader = () => {
     return (
         <div className={styles.header}>
             <div className={styles.options}>
-                <ArrowLeft onMouseDown={sections[currentMobileSection].onBack} />
+                {currentMobileSection===0?null:<ArrowLeft onMouseDown={sections[currentMobileSection].onBack} />}
                 <p>{sections[currentMobileSection].title}</p>
             </div>
             <div className={styles.options}>

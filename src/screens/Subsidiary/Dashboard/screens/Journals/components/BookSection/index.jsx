@@ -58,12 +58,16 @@ const BookSection = ({ styles, isMobile }) => {
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
-    const setBookRoute = (id) => {
+    const setBookRoute = (id, e) => {
         setAllRoutes({...allRoutes, book: id})
-        if(isMobile){
-            document.getElementById('bookSection').style.transform = 'translateX(-100%)'
-            document.getElementById('journalSideSection').style.transform = 'translateX(0%)'
-            setCurrentMobileSection(1)
+        if(e.target.className){
+            if(typeof e.target.className === 'string'){
+                if(isMobile && e.target.className.search('moremenu') === -1){
+                    document.getElementById('bookSection').style.transform = 'translateX(-100%)'
+                    document.getElementById('journalSideSection').style.transform = 'translateX(0%)'
+                    setCurrentMobileSection(1)
+                }
+            }
         }
     }
 
@@ -81,12 +85,12 @@ const BookSection = ({ styles, isMobile }) => {
     }
 
     return (
-    <div className={styles.journalBooks}>
+    <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
         <div className={styles.bookSection} id="bookSection">
             {
             books.length > 0 ?
             books.map((props)=>(
-                <NavLink onMouseDown={()=>setBookRoute(props.id)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName={isMobile?null:"activeBook"} style={{display: 'flex'}}>
+                <NavLink onMouseDown={(e)=>setBookRoute(props.id, e)} key={props.id} to={allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}/${props.id}/${allRoutes['date']}/`} activeClassName={isMobile?null:"activeBook"} style={{display: 'flex'}}>
                     <div className="book">
                         <div className="book-back book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}></div>
