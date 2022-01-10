@@ -59,7 +59,7 @@ const NoteEditor = ({id, setNote, colors, notes, isMobile, ...props}) => {
     return (
         <div className={styles.noteEditor}>
           <Header colors={colors} />
-          {allPrompts[category.replace(/ /g, "")] ? <Prompts updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} category={category} /> : null}
+          {allPrompts[category.replace(/ /g, "")] ? <Prompts isMobile={isMobile} updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} category={category} /> : null}
           <TextEditor isMobile={isMobile} allPrompts={allPrompts} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )
