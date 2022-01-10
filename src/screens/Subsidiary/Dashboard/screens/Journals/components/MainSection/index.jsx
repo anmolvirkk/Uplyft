@@ -130,8 +130,8 @@ const MainSection = ({styles, isMobile}) => {
                                                 }
                                             </div>
                 
-                                        : <div className={styles.helperTextAddNote}><p>Add a note!</p><ArrowDown /></div>
-                                        : <div className={styles.helperTextAddNote}><p>Add a note!</p><ArrowDown /></div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p><ArrowDown /></div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p><ArrowDown /></div>
                                         
                                     }
                                     <div className={styles.noteSelect}>
