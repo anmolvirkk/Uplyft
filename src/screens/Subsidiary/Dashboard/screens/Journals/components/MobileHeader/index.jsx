@@ -119,7 +119,9 @@ const MobileHeader = () => {
             </div>
             <div className={styles.options}>
                 {sections[currentMobileSection].onAdd?<Plus onMouseDown={sections[currentMobileSection].onAdd} />:null}
-                <MoreMenu items={[{name: "Dark Mode", function: null}, {name: "Logout", function: null}]} pos={{right: '-1.75vh', top: '3.5vh'}} />
+                <div className={styles.moremenu}>
+                    <MoreMenu items={[{name: "Dark Mode", function: null}, {name: "Logout", function: null}]} pos={{right: '0', top: '6vh'}} />
+                </div>
             </div>
         </div>
     )
