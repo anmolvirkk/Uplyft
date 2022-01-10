@@ -1,70 +1,47 @@
-import React, {useState} from 'react'
+import React from 'react'
 import NoteEditor from './components/NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
 
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../recoil-atoms/allPromptsAtom'
 import company from '../../../../../../../company'
 
-const MainSection = ({styles}) => {
+import { noteCategories } from '../../../../variables/noteCategories'
+import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
+import notesAtom from '../../recoil-atoms/notesAtom'
+
+const MainSection = ({styles, isMobile}) => {
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
     
-    const [notes, setNotes] = useState(localStorage['notes']&&localStorage['notes'] !== '[]'?JSON.parse(localStorage['notes']):[])
-    localStorage['notes'] = JSON.stringify(notes)
-    
-    const noteCategories = [
-        {
-            category: 'brain dump',
-            color: '#7ED956'
-        },
-        {
-            category: 'gratitude',
-            color: '#FFC107'
-        },
-        {
-            category: 'reflection',
-            color: '#F50057'
-        },
-        {
-            category: 'aspiration',
-            color: '#03A9F4'
-        },
-        {
-            category: 'memory',
-            color: '#7986CB'
-        },
-        {
-            category: 'forgive',
-            color: '#673AB7'
-        },
-        {
-            category: 'letter',
-            color: '#393D46'
-        },
-        {
-            category: 'note',
-            color: '#CFD8DC'
-        }
-    ]
+    const [notes, setNotes] = useRecoilState(notesAtom)
     
     const setNote = (id, body, prompt) => {
-        notes[allRoutes[allRoutes['book']][allRoutes['date']]].forEach((item)=>{
-            if(item.id === id){
-                item.body = body
-                item.prompt = prompt
-                setNotes({...notes})
+        let newNotes = {...notes}
+        newNotes[allRoutes[allRoutes['book']][allRoutes['date']]] = newNotes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>{
+            let newItem = {...item}
+            if(newItem.id === id){
+                newItem.body = body
+                newItem.prompt = prompt
             }
+            return newItem
         })
+        setNotes({...newNotes})
     }
     
     const removeNote = (id) => {
-        let newNotes = notes[allRoutes[allRoutes['book']][allRoutes['date']]].filter((value)=>value.id!==id)
-        notes[allRoutes[allRoutes['book']][allRoutes['date']]] = [...newNotes]
-        setNotes({...notes})
+        let newNotes = {...notes}
+        newNotes[allRoutes[allRoutes['book']][allRoutes['date']]] = newNotes[allRoutes[allRoutes['book']][allRoutes['date']]].map((value)=>{
+            if(value.id===id){
+                return null
+            }else{
+                return value
+            }
+        }).filter((item)=>item!==null)
+        setNotes({...newNotes})
     }
     
     const addNote = (category) => {
@@ -94,10 +71,24 @@ const MainSection = ({styles}) => {
         }
     }
 
+    const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     if(allRoutes['book']){
+    const openMobileNote = () => {
+        if(isMobile){
+            let hideSection = async () => {
+                document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
+            }
+            hideSection().then(()=>{
+                setTimeout(()=>{
+                    document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
+                }, 300)
+            })
+            setCurrentMobileSection(3)
+        }
+    }
 
     return (
-        <div className={styles.mainSection}>
+        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
                             <div style={{display: 'flex'}}>
@@ -108,13 +99,13 @@ const MainSection = ({styles}) => {
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]].length > 0 ?
                                 
-                                            <div className={styles.noteSection}>
+                                            <div className={styles.noteSection} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
                                                 {
                                                     notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
                                                         <div key={item.id} className={styles.note}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link onMouseDown={openMobileNote} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -123,7 +114,7 @@ const MainSection = ({styles}) => {
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link onMouseDown={openMobileNote} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>
@@ -162,7 +153,7 @@ const MainSection = ({styles}) => {
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                 notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((props)=>(
                                     <Route key={props.id} exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${props.id}`}>
-                                        <NoteEditor allPrompts={allPrompts} setAllPrompts={setAllPrompts} styles={styles} {...props} notes={notes} allRoutes={allRoutes} setNote={setNote} />
+                                        <NoteEditor isMobile={isMobile} allPrompts={allPrompts} setAllPrompts={setAllPrompts} styles={styles} {...props} notes={notes} allRoutes={allRoutes} setNote={setNote} />
                                     </Route>
                                 ))
                                 : null

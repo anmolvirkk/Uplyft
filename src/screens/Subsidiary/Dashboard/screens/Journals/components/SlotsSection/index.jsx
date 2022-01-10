@@ -58,10 +58,17 @@ const SlotsSection = ({styles, isMobile}) => {
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
-    const setRoute = (id) => {
+    const setRoute = (id, e) => {
         setAllRoutes({...allRoutes, [allRoutes['book']]: {...allRoutes[allRoutes['book']], [allRoutes['date']]: id}})
-        if(isMobile){
-            setCurrentMobileSection(2)
+        if(e.target.className){
+            if(typeof e.target.className === 'string'){
+                if(isMobile && e.target.className.search('moremenu') === -1){
+                    document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                    document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
+                    document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
+                    setCurrentMobileSection(2)
+                }
+            }
         }
     }
 
@@ -80,7 +87,7 @@ const SlotsSection = ({styles, isMobile}) => {
             <div className={styles.sideSection} id='journalSideSection' style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
                 <div className={styles.slotSection}>
                     {slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]&&slots[allRoutes['book']][allRoutes['date']].length>0 ? slots[allRoutes['book']][allRoutes['date']].map((item)=>{
-                        return item.id ? <NavLink onMouseEnter={(e)=>addToolTipForSlots(e)} onClick={()=>setRoute(item.id)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${item.id}`} className={styles.sideSectionSlot} activeClassName={isMobile?null:styles.activeSectionSlot} data-title={item.title}><p>{item.title.replace(/\s/g, "") ==='' ? item.time : item.title}</p>
+                        return item.id ? <NavLink onMouseEnter={(e)=>addToolTipForSlots(e)} onClick={(e)=>setRoute(item.id, e)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${item.id}`} className={styles.sideSectionSlot} activeClassName={isMobile?null:styles.activeSectionSlot} data-title={item.title}><p>{item.title.replace(/\s/g, "") ==='' ? item.time : item.title}</p>
                         <MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${item.id}`} pos={{right: '-1.75vh', top: '3.5vh'}} /></NavLink> : null
                     }) : <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div>}
                 </div>

@@ -28,6 +28,37 @@
         svg
             margin-left: 0
             margin-right: 2.5vh
+    .notesDropDown
+        position: absolute
+        right: 1.5vh
+        top: calc( 60px + 1.5vh  )
+        border-radius: 10px 10px
+        background-color: rgb(var(--moreMenu))
+        padding: 0 3vh
+        width: 21vh
+        div
+            +mixins.center
+        button
+            all: unset
+            width: 100%
+            display: flex
+            align-items: center
+            font-size: 1.65vh
+            border-bottom: 1px solid rgba(var(--moreMenuText), 0.25)
+            padding: 1.5vh 3vh
+        button:last-child
+            margin-bottom: 0
+            border: none
+        .plusIcon
+            font-size: 2vh
+            font-weight: 300
+            background-color: rgb(var(--background))
+            color: rgb(var(--secondary))
+            border-radius: 100vh 100vh
+            width: 2vh
+            height: 2vh
+            +mixins.center
+            margin-right: 3vh
 
 @media screen and (max-width: 1450px)
     .header

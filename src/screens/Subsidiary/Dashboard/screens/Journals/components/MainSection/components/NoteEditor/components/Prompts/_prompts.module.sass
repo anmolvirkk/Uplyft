@@ -3,10 +3,15 @@
 
 .promptContainer
     height: 5vh
-    margin: 5vh
-    width: calc( 100% - 10vh )
+    left: 0
+    top: 7.4vh
     position: absolute
     z-index: 8
+    width: calc( 100% - 5vh )
+    margin-left: 2.5vh
+    padding: 0 2.5vh
+    padding-top: 2.5vh
+    background-color: rgb(var(--textEditor))
 
 .prompts
     display: none
@@ -14,7 +19,7 @@
     cursor: pointer
     ul
         list-style: none
-        height: 77.5vh
+        height: 76.5vh
         background-color: rgb(var(--background))
         li
             font-size: 2vh
@@ -38,7 +43,7 @@
             background-color: rgba(var(--primary), 0.05)
         .addBtn
             background-color: rgb(var(--addBtn))
-            color: rgb(var(--addBtn))
+            color: rgb(var(--addBtnText))
         .addBtn:hover
             background-color: rgb(var(--addBtn))
 .promptsOpen
@@ -73,7 +78,7 @@
     position: absolute
     padding: 10px
     background: rgb(var(--activeSlot))
-    color: #fff
+    color: rgb(var(--addBtnText))
     font-size: 1.35vh
     z-index: 99
     width: 90%
@@ -88,3 +93,8 @@
     border: 8px solid transparent  
     border-bottom: 8px solid rgb(var(--activeSlot))
     z-index: 99
+
+@media screen and (max-width: 1450px)
+    .prompts
+        ul
+            height: 65vh

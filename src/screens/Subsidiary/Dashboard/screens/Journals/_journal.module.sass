@@ -240,9 +240,16 @@
         flex-flow: column-reverse
         height: calc( 100vh - 80px )
     .mainSection
-        width: calc( 100% - 80px )
+        width: 100%
         height: calc( 100vh - 80px )
         overflow-y: overlay
+        position: fixed
+        top: 60px
+        height: calc( 100vh - 80px - 60px )
+        z-index: 4
+        background-color: rgb(var(--background))
+        transform: translateX(-100%)
+        transition: 0.3s
     .journalBooks
         width: 100%
         position: fixed
@@ -274,19 +281,13 @@
     .sideSectionSlot
         padding: 0 3vh
     .noteSelect
-        padding: 0
-        padding-left: 3vh
-        overflow-x: overlay
-        position: fixed
-        bottom: 80px
-        background-color: rgb(var(--background))
-        width: calc( 100% - 80px )
-        button
-            min-width: 90px
+        display: none
     .note
         .noteLink
             .noteContent
                 height: calc(100% - 8.75vh)
+    .noteSection
+        padding-bottom: calc( 100px + 2.5vh  )
     .helperTextAddEntry
         position: absolute
         width: calc( 100% )
