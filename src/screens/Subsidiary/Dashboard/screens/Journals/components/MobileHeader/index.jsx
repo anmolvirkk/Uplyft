@@ -11,6 +11,7 @@ import MoreMenu from '../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
+import darkModeAtom from '../../../../components/SideBar/components/DarkMode/darkModeAtom'
 
 const MobileHeader = () => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -19,6 +20,8 @@ const MobileHeader = () => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)
+
+    const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
   
     let date = new Date()
 
@@ -120,7 +123,7 @@ const MobileHeader = () => {
             <div className={styles.options}>
                 {sections[currentMobileSection].onAdd?<Plus onMouseDown={sections[currentMobileSection].onAdd} />:null}
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: "Dark Mode", function: null}, {name: "Logout", function: null}]} pos={{right: '0', top: '6vh'}} />
+                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: null}]} pos={{right: '0', top: '6vh'}} />
                 </div>
             </div>
         </div>
