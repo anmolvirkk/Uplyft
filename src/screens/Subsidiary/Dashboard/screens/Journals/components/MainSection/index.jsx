@@ -11,6 +11,9 @@ import company from '../../../../../../../company'
 import { noteCategories } from '../../../../variables/noteCategories'
 import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
 import notesAtom from '../../recoil-atoms/notesAtom'
+import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
+
+import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 
 const MainSection = ({styles, isMobile}) => {
 
@@ -19,6 +22,13 @@ const MainSection = ({styles, isMobile}) => {
     
     const [notes, setNotes] = useRecoilState(notesAtom)
     
+    const [notesDropDown, setNotesDropDown] = useRecoilState(notesDropDownAtom)
+
+    const addNoteDropDown = (category) => {
+        addNote(category)
+        setNotesDropDown(false)
+    }
+
     const setNote = (id, body, prompt) => {
         let newNotes = {...notes}
         newNotes[allRoutes[allRoutes['book']][allRoutes['date']]] = newNotes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>{
@@ -141,6 +151,18 @@ const MainSection = ({styles, isMobile}) => {
                                             })
                                         }
                                     </div>
+
+                                    {notesDropDown?
+                                            <div className={styles.notesDropDown}>
+                                                <OutsideClickHandler onOutsideClick={()=>setNotesDropDown(false)}>
+                                                    {
+                                                        noteCategories.map((item, index)=>{
+                                                            return <button key={index} onClick={()=>addNoteDropDown(item.category)}><span className={styles.plusIcon} style={{backgroundColor: item.color}} />{item.category}</button>
+                                                        })
+                                                    }
+                                                </OutsideClickHandler>
+                                            </div>
+                                    :null}
                                     
                                 </div>
                                 

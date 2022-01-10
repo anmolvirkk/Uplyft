@@ -8,11 +8,9 @@ import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import openSlotAtom from '../../recoil-atoms/openSlotAtom'
 import MoreMenu from '../../../../components/MoreMenu'
-import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
-import { noteCategories } from '../../../../variables/noteCategories'
-import notesAtom from '../../recoil-atoms/notesAtom'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
+import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 const MobileHeader = () => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -42,8 +40,7 @@ const MobileHeader = () => {
     }
 
     const setOpenSlot = useSetRecoilState(openSlotAtom)
-
-    const [notesDropDown, setNotesDropDown] = useState(false)
+    const setNotesDropDown = useSetRecoilState(notesDropDownAtom)
     const [redirect, setRedirect] = useState(false)
 
     const sections = [
@@ -112,65 +109,6 @@ const MobileHeader = () => {
             }
         }
     ]
-    
-    const [notes, setNotes] = useRecoilState(notesAtom)
-    
-    const setNote = (id, body, prompt) => {
-        let newNotes = {...notes}
-        newNotes[allRoutes[allRoutes['book']][allRoutes['date']]] = newNotes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>{
-            let newItem = {...item}
-            if(newItem.id === id){
-                newItem.body = body
-                newItem.prompt = prompt
-            }
-            return newItem
-        })
-        setNotes({...newNotes})
-    }
-    
-    const removeNote = (id) => {
-        let newNotes = {...notes}
-        newNotes[allRoutes[allRoutes['book']][allRoutes['date']]] = newNotes[allRoutes[allRoutes['book']][allRoutes['date']]].map((value)=>{
-            if(value.id===id){
-                return null
-            }else{
-                return value
-            }
-        }).filter((item)=>item!==null)
-        setNotes({...newNotes})
-    }
-    
-    const addNote = (category) => {
-        let noteColor
-        noteCategories.forEach((item)=>{
-            if(item.category === category){
-                noteColor = item.color
-            }
-        })
-        let date = new Date()
-        let formattedDate = date.toDateString()
-        let note = {
-            id: date.valueOf(),
-            body: '',
-            prompt: '',
-            date: formattedDate,
-            category: category,
-            setNote: setNote,
-            removeNote: removeNote,
-            color: noteColor
-        }
-        if(notes[allRoutes[allRoutes['book']][allRoutes['date']]]){
-            setNotes({...notes, [allRoutes[allRoutes['book']][allRoutes['date']]]: [...notes[allRoutes[allRoutes['book']][allRoutes['date']]], note]})
-        }else{
-            let emptyArray = []
-            setNotes({...notes, [allRoutes[allRoutes['book']][allRoutes['date']]]: [...emptyArray, note]})
-        }
-    }
-
-    const addNoteDropDown = (category) => {
-        addNote(category)
-        setNotesDropDown(false)
-    }
 
     return (
         <div className={styles.header}>
@@ -183,17 +121,6 @@ const MobileHeader = () => {
                 {sections[currentMobileSection].onAdd?<Plus onMouseDown={sections[currentMobileSection].onAdd} />:null}
                 <MoreMenu items={[{name: "Dark Mode", function: null}, {name: "Logout", function: null}]} pos={{right: '-1.75vh', top: '3.5vh'}} />
             </div>
-            {notesDropDown?
-                    <div className={styles.notesDropDown}>
-                        <OutsideClickHandler onOutsideClick={()=>setNotesDropDown(false)}>
-                            {
-                                noteCategories.map((item, index)=>{
-                                    return <button key={index} onClick={()=>addNoteDropDown(item.category)}><span className={styles.plusIcon} style={{backgroundColor: item.color}} />{item.category}</button>
-                                })
-                            }
-                        </OutsideClickHandler>
-                    </div>
-            :null}
         </div>
     )
 }
