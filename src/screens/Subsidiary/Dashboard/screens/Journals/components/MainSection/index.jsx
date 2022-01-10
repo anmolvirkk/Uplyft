@@ -77,6 +77,7 @@ const MainSection = ({styles, isMobile}) => {
         if(isMobile){
             let hideSection = async () => {
                 document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
+                document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
             }
             hideSection().then(()=>{
                 setTimeout(()=>{

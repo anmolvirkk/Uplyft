@@ -101,6 +101,7 @@ const MobileHeader = () => {
                 hideSection().then(()=>{
                     setTimeout(()=>{
                         document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
+                        document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
                         falseRedirect().then(()=>{
                             trueRedirect().then(()=>{
                                 setRedirect(false)
