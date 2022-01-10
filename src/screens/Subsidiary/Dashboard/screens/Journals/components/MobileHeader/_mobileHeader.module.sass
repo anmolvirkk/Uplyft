@@ -30,12 +30,15 @@
             margin-right: 2.5vh
     .notesDropDown
         position: absolute
-        right: 1.5vh
-        top: calc( 60px + 1.5vh  )
-        border-radius: 10px 10px
-        background-color: rgb(var(--moreMenu))
+        right: 0
+        top: calc( 100vh - 80px - 100px - 3vh*15  )
+        height: 45vh
+        overflow-x: hidden
+        overflow-y: overlay
+        border-radius: 15px 15px 0 0
+        background-color: rgba(var(--sideBar))
         padding: 0 3vh
-        width: 21vh
+        width: 100%
         div
             +mixins.center
         button
@@ -45,7 +48,7 @@
             align-items: center
             font-size: 1.65vh
             border-bottom: 1px solid rgba(var(--moreMenuText), 0.25)
-            padding: 1.5vh 3vh
+            padding: 3vh
         button:last-child
             margin-bottom: 0
             border: none
