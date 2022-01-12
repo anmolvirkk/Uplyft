@@ -9,7 +9,7 @@ import habitsAtom from '../../recoil-atoms/habitsAtom'
 
 const localizer = momentLocalizer(moment)
 
-const MainCalendar = () => {
+const MainCalendar = ({isMobile}) => {
 
     const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     const [habit] = useRecoilState(habitsAtom)
@@ -165,6 +165,7 @@ const MainCalendar = () => {
             views={[Views.WEEK, Views.DAY]}
             eventPropGetter={(e)=>eventStyleGetter(e)}
             onNavigate={(e)=>setRepeatEvents(e)}
+            style={isMobile?{height: `${window.innerHeight-80-60}px`}:null}
         />
     )
 }
