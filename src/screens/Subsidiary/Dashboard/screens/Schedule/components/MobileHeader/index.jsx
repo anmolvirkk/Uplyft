@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styles from './_mobileHeader.module.sass'
 import {Plus, ArrowLeft} from 'react-feather'
-import modalConfigAtom from '../../../Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 import MoreMenu from '../../../../components/MoreMenu'
@@ -9,11 +8,11 @@ import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import darkModeAtom from '../../../../components/SideBar/components/DarkMode/darkModeAtom'
 import currentScheduleMobileSectionAtom from '../../recoil-atoms/currentScheduleMobileSectionAtom'
+import scheduleAddDropDownAtom from '../../recoil-atoms/scheduleAddDropDownAtom'
 
 const MobileHeader = () => {
-    const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [currentScheduleMobileSection] = useRecoilState(currentScheduleMobileSectionAtom)
-
+    const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
 
@@ -23,9 +22,9 @@ const MobileHeader = () => {
 
     const sections = [
         {
-            title: 'Habits',
+            title: 'Schedule',
             onAdd: ()=>{
-                setModalConfig({type: 'addhabit'})
+                setScheduleAddDropDown(true)
             },
             onBack: null
         }
