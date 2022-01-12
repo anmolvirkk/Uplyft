@@ -368,7 +368,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 <HabitCustomize />
             <ul>
                 <li>
-                    <div className={styles.tabselect} style={{marginBottom: '2vh', marginTop: '1vh'}}>
+                    <div className={styles.tabselect}>
                         <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: false}})} className={!habit.repeat.unique?styles.activeTab:null}>Same time for all days</div>
                         <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: true}})} className={habit.repeat.unique?styles.activeTab:null}>Unique time for seperate days</div>
                     </div>
