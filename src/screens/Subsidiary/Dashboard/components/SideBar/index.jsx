@@ -3,14 +3,15 @@ import styles from './_sidebar.module.sass'
 import {Power, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
-import {useRecoilState} from 'recoil'
+import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import DarkMode from './components/DarkMode'
 import company from '../../../../../company'
+import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/currentMobileSectionAtom'
 
-const IconButton = ({name, icon, link, underConstruction}) => {
+const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
-        <NavLink className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
+        <NavLink onMouseDown={func} className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
             <div className={styles.icon}>
                 <img loading='lazy' decoding='async' src={icon} alt={name} />
                 {underConstruction?<div className={styles.underConstruction}><Tool /></div>:null}
@@ -21,37 +22,49 @@ const IconButton = ({name, icon, link, underConstruction}) => {
 
 const SideBar = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
+    const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
     const sidebarButtons = [
         {
             name: company.journals,
             icon: '/logos/journals.png',
             link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:allRoutes&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}`:`/${company.subsidiary}/dashboard/${company.journals}`,
-            underConstruction: false
+            underConstruction: false,
+            func: ()=>{
+                document.getElementById('bookSection').style.transform = 'translateX(0%)'
+                document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
+                document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
+                setCurrentMobileSection(0)
+            }
         },
         {
             name: company.schedule,
             icon: '/logos/schedule.png',
             link: allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`,
-            underConstruction: false
+            underConstruction: false,
+            func: null
         },
         {
             name: company.notes,
             icon: '/logos/notes.png',
             link: `/${company.subsidiary}/dashboard/${company.notes}`,
-            underConstruction: true
+            underConstruction: true,
+            func: null
         },
         {
             name: company.finances,
             icon: '/logos/finances.png',
             link: `/${company.subsidiary}/dashboard/${company.finances}`,
-            underConstruction: true
+            underConstruction: true,
+            func: null
         },
         {
             name: company.fitness,
             icon: '/logos/fitness.png',
             link: `/${company.subsidiary}/dashboard/${company.fitness}`,
-            underConstruction: true
+            underConstruction: true,
+            func: null
         }
     ]
 
