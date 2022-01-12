@@ -99,7 +99,7 @@ const MainSection = ({styles, isMobile}) => {
     }
 
     return (
-        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
                             <div style={{display: 'flex'}}>
@@ -110,7 +110,7 @@ const MainSection = ({styles, isMobile}) => {
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]].length > 0 ?
                                 
-                                            <div className={styles.noteSection} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+                                            <div className={styles.noteSection} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}>
                                                 {
                                                     notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
                                                         <div key={item.id} className={styles.note}>
@@ -140,8 +140,8 @@ const MainSection = ({styles, isMobile}) => {
                                                 }
                                             </div>
                 
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
                                         
                                     }
                                     <div className={styles.noteSelect}>

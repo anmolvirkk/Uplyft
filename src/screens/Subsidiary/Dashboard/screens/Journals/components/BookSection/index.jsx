@@ -85,7 +85,7 @@ const BookSection = ({ styles, isMobile }) => {
     }
 
     return (
-    <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+    <div className={styles.journalBooks} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}>
         <div className={styles.bookSection} id="bookSection">
             {
             books.length > 0 ?
@@ -107,7 +107,7 @@ const BookSection = ({ styles, isMobile }) => {
                     </div>
                     <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '-2.5vh', top: '3.5vh'}} />
                 </NavLink>
-            )) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}><p>Add a journal to begin!</p>{!isMobile?<ArrowDown />:null}</div>
+            )) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}><p>Add a journal to begin!</p>{!isMobile?<ArrowDown />:null}</div>
             }
         </div>
         <AddButton allRoutes={allRoutes} setAllRoutes={setAllRoutes} name="journal" books={books} setBooks={setBooks} />

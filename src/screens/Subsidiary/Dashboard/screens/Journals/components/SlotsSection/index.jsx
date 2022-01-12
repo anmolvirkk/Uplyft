@@ -84,12 +84,12 @@ const SlotsSection = ({styles, isMobile}) => {
 
     if(books.length !== 0 && allRoutes['book']){
         return (
-            <div className={styles.sideSection} id='journalSideSection' style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+            <div className={styles.sideSection} id='journalSideSection' style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}>
                 <div className={styles.slotSection}>
                     {slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]&&slots[allRoutes['book']][allRoutes['date']].length>0 ? slots[allRoutes['book']][allRoutes['date']].map((item)=>{
                         return item.id ? <NavLink onMouseEnter={(e)=>addToolTipForSlots(e)} onClick={(e)=>setRoute(item.id, e)} key={item.id} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${item.id}`} className={styles.sideSectionSlot} activeClassName={isMobile?null:styles.activeSectionSlot} data-title={item.title}><p>{item.title.replace(/\s/g, "") ==='' ? item.time : item.title}</p>
                         <MoreMenu items={[{name: "rename", function: renameSlot}, {name: "delete", function: deleteSlot}]} id={`slotsMoreMenu${item.id}`} pos={{right: '-1.75vh', top: '3.5vh'}} /></NavLink> : null
-                    }) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}><p>Add your first entry!</p>{isMobile?<ArrowDown />:null}</div>}
+                    }) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.outerHeight*0.905 - 80 - 60}px`}:null}><p>Add your first entry!</p>{isMobile?<ArrowDown />:null}</div>}
                 </div>
                 <AddButton name="entry" />
                 {newSlot ? <Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${newSlot}`} /> : null}
