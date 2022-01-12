@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './_calendar.module.sass'
 import { NavLink } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ import datesAtom from '../../recoil-atoms/datesAtom'
 import slotsAtom from '../../recoil-atoms/slotsAtom'
 import company from '../../../../../../../company'
 
-const Calendar = () => {
+const Calendar = ({isMobile}) => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates] = useRecoilState(datesAtom)
@@ -17,6 +17,14 @@ const Calendar = () => {
     const setDateRoute = (date) => {
         setAllRoutes({...allRoutes, date: date})  
     }
+
+    useEffect(()=>{
+        if(isMobile){
+            document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
+        }else{
+            document.getElementById('journalCalendar').scrollTop = document.getElementById('journalCalendar').scrollHeight
+        }
+    }, [isMobile])
 
     if(slots.length !== 0) {
 

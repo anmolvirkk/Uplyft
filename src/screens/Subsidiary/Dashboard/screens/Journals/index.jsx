@@ -37,7 +37,7 @@ const Journals = () => {
 
             <MainSection styles={styles} isMobile={isMobile} />
 
-            {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar />:null}
+            {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar isMobile={isMobile} />:null}
 
             <MobileHeader />
 
