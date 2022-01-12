@@ -3,10 +3,10 @@ import {recoilPersist} from 'recoil-persist'
 
 const {persistAtom} = recoilPersist()
 
-const currentScheduleMobileSectionAtom = atom({
-    key: 'currentScheduleMobileSection',
-    default: 0,
+const scheduleSideMenuAtom = atom({
+    key: 'scheduleSideMenuAtom',
+    default: false,
     effects_UNSTABLE: [persistAtom]
 })
 
-export default currentScheduleMobileSectionAtom
+export default scheduleSideMenuAtom

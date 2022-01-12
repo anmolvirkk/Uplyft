@@ -14,6 +14,7 @@
     width: 100%
     color: rgb(var(--titles))
     z-index: 9
+    display: none
     div
         +mixins.center
     button
@@ -43,4 +44,126 @@
         +mixins.center
         margin-right: 3vh
 
+.scheduleSideMenu
+    position: absolute
+    left: 0
+    top: 60px
+    background-color: rgb(var(--sideBar))
+    z-index: 9
+    width: 82.5%
+    display: none
+    .sideMenuCategory
+        h3
+            display: flex
+            align-items: center
+            border-bottom: 1px solid rgb(var(--border))
+            padding: 1.5vh
+            font-weight: 400
+            font-size: 1.5vh
+            color: rgb(var(--titles))
+            svg
+                height: 2vh
+                width: 2vh
+                margin-right: 1.5vh
+        ul
+            list-style: none
+            padding: 0 1.5vh
+
+.sideSectionSlot
+    width: 100%
+    height: 80px
+    display: flex
+    align-items: center
+    color: rgb(var(--titles))
+    padding-left: 2vh
+    .eventSlot
+        width: 100%
+        display: flex
+        justify-content: space-between
+        padding-right: 2vh
+    .slotContent
+        display: flex
+        align-items: center
+        width: 100%
+        position: relative
+    .projectIcon
+        svg
+            min-width: 2.5vh
+            width: 2.5vh
+            stroke-width: 1.5px
+    p
+        margin-left: 1vh
+        text-transform: capitalize
+
+.slotContent
+    display: flex
+    align-items: center
+    width: calc( 100% - 2vh )
+    min-width: calc( 100% - 2vh )
+    div
+        border-radius: 100%
+        height: 3vh
+        +mixins.center
+        margin-right: 1vh
+        svg
+            stroke: white
+            width: 3vh
+            padding: 0.5vh
+
+.slotContent
+    min-width: calc( 100% - 2vh - 90px )
+    width: calc( 100% - 2vh - 90px )
+
+.projectSideSectionSlot
+    width: 100%
+    height: 80px
+    color: rgb(var(--colorTitles))
+    position: relative
+    +mixins.center
+    padding: 2vh
+    .slotContent
+        display: flex
+        align-items: center
+        width: 100%
+        position: relative
+        justify-content: space-between
+        .title
+            all: unset
+            display: flex
+            align-items: center
+    .projectIcon
+        svg
+            width: 3vh
+            height: 3vh
+            stroke: rgb(var(--titles))
+    p
+        margin-left: 1vh
+        text-transform: capitalize
+
+.projectActiveSectionSlot
+    background: rgb(var(--activeSlot))
+
+.projectMoreMenuWrapper
+    div
+        margin-right: 0
+    svg
+        stroke: rgb(var(--titles)) !important
+        padding: 0 !important
+
+.progress
+    width: 100%
+    position: relative
+    height: 3px
+    background-color: rgba(var(--text), 0.07) 
+    margin-top: 1.5vh
+    hr
+        border: none
+        outline: none
+        height: 3px
+        width: 0%
+        background-color: rgb(var(--primary))
+
+
 @media screen and (max-width: 1450px)
+    .scheduleAddDropDown, .scheduleSideMenu
+        display: block
