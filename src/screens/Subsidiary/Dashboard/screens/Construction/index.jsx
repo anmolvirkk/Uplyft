@@ -5,8 +5,9 @@ import SideBar from '../../components/SideBar'
 import styles from './_construction.module.sass'
 
 const Construction = ({color}) => {
+    const isMobile = (window.innerWidth < 1450)
     return (
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
         <SideBar />
         <div className={styles.mainSection} style={{height: `${window.innerHeight-80}px`}}>
                 <h1 style={{backgroundImage: color}}>This Section is Coming Soon</h1>
