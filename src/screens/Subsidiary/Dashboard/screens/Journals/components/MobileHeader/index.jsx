@@ -123,9 +123,12 @@ const MobileHeader = () => {
             title: 'Editor',
             onAdd: null,
             onBack: ()=>{
-                document.getElementById('journalCalendar').style.display = 'flex'
                 document.getElementById('mainSideBar').style.position = 'fixed'
                 document.getElementById('mainSideBar').style.bottom = '0'
+                document.getElementById('journalCalendar').style.display = 'flex'
+                document.getElementById('journalCalendar').style.position = 'absolute'
+                document.getElementById('journalCalendar').style.top = '60px'
+                document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
                 setCurrentMobileSection(2)
                 let falseRedirect = async () => {
                     setRedirect(false)
@@ -138,6 +141,7 @@ const MobileHeader = () => {
                 }
                 hideSection().then(()=>{
                     setTimeout(()=>{
+                        document.getElementById('journalCalendar').style.position = 'static'
                         document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
                         document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
                         document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
