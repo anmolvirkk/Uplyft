@@ -77,7 +77,7 @@ const SideBar = () => {
     ]
 
     return (
-        <aside>
+        <aside id='mainSideBar'>
             <div className={styles.logo}>
                 <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>

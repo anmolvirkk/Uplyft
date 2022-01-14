@@ -58,13 +58,32 @@ const BookSection = ({ styles, isMobile }) => {
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
+    const animateToSection = (from, to) => {
+        document.getElementById(from).style.position = 'absolute'
+        document.getElementById(from).style.zIndex = 99
+        document.getElementById(to).style.position = 'static'
+        document.getElementById(to).style.display = 'flex'
+        document.getElementById('journalCalendar').style.position = 'static'
+        document.getElementById('journalCalendar').style.display = 'flex'
+        setTimeout(()=>{
+            document.getElementById(from).style.transform = 'translateX(-100%)'
+            document.getElementById(to).style.transform = 'translateX(0%)'
+            document.getElementById(to).style.zIndex = 1
+            document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
+            document.getElementById('journalCalendar').style.zIndex = 1
+            setTimeout(()=>{
+                document.getElementById(from).style.display = 'none'
+            }, 300)
+        }, 50)
+        document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
+    }
+
     const setBookRoute = (id, e) => {
         setAllRoutes({...allRoutes, book: id})
         if(e.target.className){
             if(typeof e.target.className === 'string'){
                 if(isMobile && e.target.className.search('moremenu') === -1){
-                    document.getElementById('bookSection').style.transform = 'translateX(-100%)'
-                    document.getElementById('journalSideSection').style.transform = 'translateX(0%)'
+                    animateToSection('bookSection', 'journalSideSection')
                     setCurrentMobileSection(1)
                 }
             }
@@ -85,8 +104,8 @@ const BookSection = ({ styles, isMobile }) => {
     }
 
     return (
-    <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
-        <div className={styles.bookSection} id="bookSection">
+    <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null} id="bookSection">
+        <div className={styles.bookSection}>
             {
             books.length > 0 ?
             books.map((props)=>(

@@ -44,13 +44,9 @@
 
 @media screen and (max-width: 1450px)
     .calendar
-        position: fixed
-        right: 0
-        bottom: 80px
         height: 100px
         width: 100%
         border: none
-        z-index: 4
         display: flex
         flex-flow: row
         align-items: center
@@ -60,6 +56,7 @@
         transform: translateX(-100%)
         border-top: 1px solid rgb(var(--border))
         transition: 0.3s
+        display: none
         a:first-child
             margin-top: 0
             margin-left: 3vh

@@ -15,7 +15,7 @@ import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 
-const mobileHeight = window.innerHeight - 80 - 60
+const mobileHeight = window.innerHeight - 80 - 60 - 100
 
 const MainSection = ({styles, isMobile}) => {
 
@@ -88,12 +88,16 @@ const MainSection = ({styles, isMobile}) => {
     const openMobileNote = () => {
         if(isMobile){
             let hideSection = async () => {
+                document.getElementById('mainSideBar').style.position = 'fixed'
+                document.getElementById('mainSideBar').style.bottom = '0'
                 document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
                 document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
             }
             hideSection().then(()=>{
                 setTimeout(()=>{
                     document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
+                    document.getElementById('journalCalendar').style.display = 'none'
+                    document.getElementById('mainSideBar').style.position = 'static'
                 }, 300)
             })
             setCurrentMobileSection(3)
@@ -101,10 +105,10 @@ const MainSection = ({styles, isMobile}) => {
     }
 
     return (
-        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${mobileHeight}px`}:null}>
+        <div className={styles.mainSection} id='journalMainSection'>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
-                            <div style={{display: 'flex'}}>
+                            <div style={{display: 'flex', width: '100%'}}>
                                 {
                                 allRoutes[allRoutes['book']][allRoutes['date']] ?
                                 <div style={{width: '100%'}}>
@@ -112,7 +116,7 @@ const MainSection = ({styles, isMobile}) => {
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]].length > 0 ?
                                 
-                                            <div className={styles.noteSection} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+                                            <div className={styles.noteSection} style={isMobile?{height: `${mobileHeight}px`}:null}>
                                                 {
                                                     notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
                                                         <div key={item.id} className={styles.note}>

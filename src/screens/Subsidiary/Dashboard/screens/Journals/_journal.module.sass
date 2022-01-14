@@ -238,7 +238,7 @@
 .notesDropDown
     position: absolute
     right: 0
-    bottom: 100px
+    bottom: 0
     height: 45vh
     overflow-x: hidden
     overflow-y: overlay
@@ -275,26 +275,21 @@
 @media screen and (max-width: 1450px)
     .journals
         flex-flow: column-reverse
-        height: calc( 100vh - 80px )
     .mainSection
         width: 100%
-        height: calc( 100vh - 80px )
         overflow-y: overlay
-        position: fixed
-        top: 60px
-        height: calc( 100vh - 80px - 60px )
+        height: fit-content
         z-index: 4
         background-color: rgb(var(--background))
         transform: translateX(-100%)
         transition: 0.3s
+        display: none
     .journalBooks
         width: 100%
-        position: fixed
-        top: 60px
-        height: calc( 100vh - 80px - 60px )
-        z-index: 3
         background-color: rgb(var(--background))
         transform: translateX(0%)
+        transition: 0.3s
+        top: 60px
     .bookSection
         height: 100%
         width: 100%
@@ -308,25 +303,19 @@
         padding-right: 1.5vh
     .sideSection
         width: 100%
-        position: fixed
-        top: 60px
-        height: calc( 100vh - 80px - 60px )
         z-index: 9
         transform: translateX(-100%)
+        display: none
         transition: 0.3s
+        top: 60px
     .slotSection
-        height: calc( 100vh - 80px - 60px )
-        z-index: 9
+        width: 100%
     .sideSectionSlot
         padding: 0 2vh
     .noteSelect
         display: none
-    .note
-        .noteLink
-            .noteContent
-                height: calc(100% - 8.75vh)
     .noteSection
-        padding-bottom: calc( 100px + 2.5vh  )
+        height: 100%
     .helperTextAddEntry
         position: absolute
         width: calc( 100% )

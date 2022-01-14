@@ -29,6 +29,7 @@ const Journals = () => {
         return (
         <div className={styles.journals}>
             <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`} />
+            
             <SideBar />
 
             <BookSection styles={styles} isMobile={isMobile} />
@@ -36,7 +37,7 @@ const Journals = () => {
             <SlotsSection styles={styles} isMobile={isMobile} />
 
             <MainSection styles={styles} isMobile={isMobile} />
-
+            
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar isMobile={isMobile} />:null}
 
             <MobileHeader />
