@@ -31,19 +31,21 @@ const SideBar = () => {
             link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:allRoutes&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}`:`/${company.subsidiary}/dashboard/${company.journals}`,
             underConstruction: false,
             func: ()=>{
-                if(document.getElementById('bookSection')){
-                    document.getElementById('bookSection').style.transform = 'translateX(0%)'
+                if(window.innerWidth<1450){
+                    if(document.getElementById('bookSection')){
+                        document.getElementById('bookSection').style.transform = 'translateX(0%)'
+                    }
+                    if(document.getElementById('journalSideSection')){
+                        document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                    }
+                    if(document.getElementById('journalMainSection')){
+                        document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
+                    }
+                    if(document.getElementById('journalCalendar')){
+                        document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
+                    }
+                    setCurrentMobileSection(0)
                 }
-                if(document.getElementById('journalSideSection')){
-                    document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
-                }
-                if(document.getElementById('journalMainSection')){
-                    document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
-                }
-                if(document.getElementById('journalCalendar')){
-                    document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
-                }
-                setCurrentMobileSection(0)
             }
         },
         {
