@@ -15,6 +15,8 @@ import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 
+const mobileHeight = window.innerHeight - 80 - 60
+
 const MainSection = ({styles, isMobile}) => {
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -99,7 +101,7 @@ const MainSection = ({styles, isMobile}) => {
     }
 
     return (
-        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}>
+        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${mobileHeight}px`}:null}>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
                             <div style={{display: 'flex'}}>
