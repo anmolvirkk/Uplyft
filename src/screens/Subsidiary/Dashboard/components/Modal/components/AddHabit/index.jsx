@@ -127,17 +127,6 @@ const AddHabit = ({icons, type, currentHabit}) => {
 
     const [habits, setHabits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
-    
-    const selectIcon = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name.type.render.displayName){
-                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
-            }
-            return null
-        })
-
-    }
 
     const selectIconByName = (name) => {
 
@@ -247,7 +236,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 <li>
                     <p>Icon</p>
                     <ol>
-                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setHabit({...habit, icon: i})} key={i} id={`icon${i}`}>{selectIcon(icon)}<div className={i===habit.icon ? styles.activeButton : null} /></li>)}
+                        {iconsSvg.map((icon, i)=><li className="iconButtons" onClick={()=>setHabit({...habit, icon: i})} key={i} id={`icon${i}`}>{icon}<div className={i===habit.icon ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li>
             </ul>
@@ -369,8 +358,8 @@ const AddHabit = ({icons, type, currentHabit}) => {
             <ul>
                 <li>
                     <div className={styles.tabselect}>
-                        <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: false}})} className={!habit.repeat.unique?styles.activeTab:null}>Same time for all days</div>
-                        <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: true}})} className={habit.repeat.unique?styles.activeTab:null}>Unique time for seperate days</div>
+                        <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: false}})} className={!habit.repeat.unique?styles.activeTab:null}>Uniform Times</div>
+                        <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, unique: true}})} className={habit.repeat.unique?styles.activeTab:null}>Unique Times</div>
                     </div>
 
                     <div className={styles.daySelect}>
