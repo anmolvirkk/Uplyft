@@ -102,6 +102,7 @@ const MobileHeader = () => {
                     setTimeout(()=>{
                         document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
                         document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
+                        document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
                         falseRedirect().then(()=>{
                             trueRedirect().then(()=>{
                                 setRedirect(false)

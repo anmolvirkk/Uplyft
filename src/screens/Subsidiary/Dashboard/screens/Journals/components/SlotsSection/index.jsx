@@ -68,6 +68,11 @@ const SlotsSection = ({styles, isMobile}) => {
                     document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
                     setCurrentMobileSection(2)
                 }
+                if(isMobile){
+                    document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
+                }else{
+                    document.getElementById('journalCalendar').scrollTop = document.getElementById('journalCalendar').scrollHeight
+                }
             }
         }
     }

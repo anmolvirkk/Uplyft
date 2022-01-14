@@ -13,8 +13,6 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
   const editorBody = useRef(value)
   const textEditor = useRef()
-  
-  console.log(mobileHeight)
 
   const handleInput = (val) => {
     setEditorData(val)
