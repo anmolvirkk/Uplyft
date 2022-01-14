@@ -128,17 +128,6 @@ const AddHabit = ({icons, type, currentHabit}) => {
     const [habits, setHabits] = useRecoilState(habitsAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
-    const selectIconByName = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name){
-                return <span key={index}>{iconsSvg[index]}</span>
-            }
-            return null
-        })
-
-    }
-
     const setRecommendedHabit = (color, icon, name) => {
         let colorIndex, iconIndex
         const setIndex = async () => {
@@ -206,7 +195,13 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 <ul id="habitCards" onWheel={saveHabitCardScroll}>
                     {habitCards.map((item, index)=>(
                         <li onMouseEnter={(e)=>addToolTipForHabitCards(e)} onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
-                            {selectIconByName(item.icon)}
+                            {iconsSvg.map((icon)=>{
+                                if(icon.type.render.displayName === item.icon){
+                                    return <span>{icon}</span>
+                                }else{
+                                    return null
+                                }
+                            })}
                             <p>{item.name}</p>
                         </li>
                     ))}
