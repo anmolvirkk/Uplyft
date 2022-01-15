@@ -8,7 +8,7 @@ export const habitCards = [
         
         icon: 'Droplet',
         color: '#6ddccf',
-        name: 'Drink Water Before Anything Else'
+        name: 'Drink Water'
     },
     {
         
