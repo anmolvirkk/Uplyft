@@ -108,12 +108,6 @@ const Schedule = () => {
                                                 <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                     {iconsSvg[item.icon]}
                                                 </div>
-                                                <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
-                                                    {iconsSvg[0]}
-                                                </div>
-                                                <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
-                                                    {item.icon}
-                                                </div>
                                                 <p>{item.name}</p>
                                             </div>
                                             <div className={styles.habitOptions}>
