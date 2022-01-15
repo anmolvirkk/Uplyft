@@ -62,23 +62,21 @@
 
 .sideSectionSlot
     --primary: 49,173,254
-    width: calc( 100% - 60px )
+    width: 100%
+    box-shadow: 0 0 10px rgba(var(--border),1)
     height: 80px
     display: flex
     align-items: center
     justify-content: space-between
     color: rgb(var(--titles))
-    margin-left: 20px
-    padding-left: 20px
-    border-left: 1px solid rgb(var(--titles))
-    padding-bottom: 20px
+    margin-bottom: 20px
     box-sizing: content-box
     .eventSlot
         width: 100%
         display: flex
         justify-content: space-between
-.sideSectionSlot:last-child
-    padding-bottom: 0
+        padding: 12px
+        align-items: center
 
 .slotContent
     display: flex
@@ -91,6 +89,7 @@
         width: 32px
         padding: 6px
         margin-right: 12px
+        margin-left: 12px
         border-radius: 100%
         +mixins.center
         svg
@@ -105,15 +104,14 @@
     height: 100%
 
 .projectSideSectionSlot
-    width: calc( 100% - 30px )
+    width: 100%
     height: 80px
     color: rgb(var(--colorTitles))
     position: relative
     +mixins.center
     padding: 12px
-    margin-left: 20px
-    padding-left: 20px
-    border-left: 1px solid rgb(var(--titles))
+    box-shadow: 0 0 10px rgba(var(--border),1)
+    margin-bottom: 20px
     .slotContent
         display: flex
         align-items: center
@@ -157,6 +155,12 @@
         width: 0%
         background-color: rgb(var(--primary))
 
+
+.options
+    margin-left: 20px
+    padding-left: 20px
+    padding-right: 20px
+    border-left: 1px solid rgb(var(--titles))
 
 @media screen and (max-width: 1450px)
     .scheduleAddDropDown, .scheduleSideMenu

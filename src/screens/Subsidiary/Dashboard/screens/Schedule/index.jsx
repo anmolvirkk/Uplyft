@@ -101,61 +101,67 @@ const Schedule = () => {
                         <OutsideClickHandler onOutsideClick={()=>setScheduleSideMenu(false)}>
                             <div className={styles.sideMenuCategory}>
                                 <h3><RefreshCw /><p>Habits</p></h3>
-                                {habits.map((item)=>{
-                                    return (
-                                        <NavLink onClick={()=>setAllRoutes({...allRoutes, habit: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
-                                            <div className={styles.slotContent}>
-                                                <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
-                                                    {iconsSvg[item.icon]}
+                                <div className={styles.options}>
+                                    {habits.map((item)=>{
+                                        return (
+                                            <NavLink onClick={()=>setAllRoutes({...allRoutes, habit: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                                <div className={styles.slotContent}>
+                                                    <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
+                                                        {iconsSvg[item.icon]}
+                                                    </div>
+                                                    <p>{item.name}</p>
                                                 </div>
-                                                <p>{item.name}</p>
-                                            </div>
-                                            <div className={styles.habitOptions}>
-                                                <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'edithabit', habit: item})}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                                <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
-                                            </div>
-                                        </NavLink>   
-                                    )
-                                })}
+                                                <div className={styles.habitOptions}>
+                                                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'edithabit', habit: item})}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                                    <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
+                                                </div>
+                                            </NavLink>   
+                                        )
+                                    })}
+                                </div>
                             </div>
                             <div className={styles.sideMenuCategory}>
                                 <h3><Folder /><p>Projects</p></h3>
-                                {projects.map((item)=>{
-                                    const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
-                                    const totalTasks = projects.find(i=>i.id===item.id).tasks.length
-                                    return (
-                                        <NavLink key={item.id} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
-                                            <div className={styles.slotContent}>
-                                                <div className={styles.title}>
-                                                    <p>{item.name}</p>
+                                <div className={styles.options}>
+                                    {projects.map((item)=>{
+                                        const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
+                                        const totalTasks = projects.find(i=>i.id===item.id).tasks.length
+                                        return (
+                                            <NavLink key={item.id} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
+                                                <div className={styles.slotContent}>
+                                                    <div className={styles.title}>
+                                                        <p>{item.name}</p>
+                                                    </div>
+                                                    <div className={styles.title}>
+                                                        {item.id!=='all'&&item.id!=='today'?<div className={styles.projectMoreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
+                                                        <div className={styles.projectProgressNum} style={{marginLeft: '12px'}}>
+                                                            {completedTasks}/
+                                                            {totalTasks}
+                                                        </div>  
+                                                    </div>
                                                 </div>
-                                                <div className={styles.title}>
-                                                    {item.id!=='all'&&item.id!=='today'?<div className={styles.projectMoreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
-                                                    <div className={styles.projectProgressNum} style={{marginLeft: '12px'}}>
-                                                        {completedTasks}/
-                                                        {totalTasks}
-                                                    </div>  
+                                                <div className={styles.progress}>
+                                                        <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
                                                 </div>
-                                            </div>
-                                            <div className={styles.progress}>
-                                                    <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
-                                            </div>
-                                        </NavLink>
-                                    )
-                                })}
+                                            </NavLink>
+                                        )
+                                    })}
+                                </div>
                             </div>
                             <div className={styles.sideMenuCategory}>
                                 <h3><Calendar /><p>Events</p></h3>
-                                {events.map((item)=>{
-                                    return (
-                                        <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
-                                            <div className={styles.eventSlot}>
-                                                <p>{item.name}</p>
-                                                <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
-                                            </div>
-                                        </NavLink>
-                                    )
-                                })}
+                                <div className={styles.options}>
+                                    {events.map((item)=>{
+                                        return (
+                                            <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                                <div className={styles.eventSlot}>
+                                                    <p>{item.name}</p>
+                                                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
+                                                </div>
+                                            </NavLink>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </OutsideClickHandler>
                     </div>
