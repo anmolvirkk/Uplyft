@@ -103,7 +103,7 @@ const Schedule = () => {
                                     return (
                                         <NavLink onClick={()=>setAllRoutes({...allRoutes, habit: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                             <div className={styles.slotContent}>
-                                            <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
+                                                <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                     {iconsSvg[item.icon]}
                                                 </div>
                                                 <p>{item.name}</p>
