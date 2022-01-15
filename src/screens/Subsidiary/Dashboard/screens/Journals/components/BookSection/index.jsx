@@ -108,12 +108,7 @@ const BookSection = ({ styles, isMobile }) => {
                         <div className="book-pages book-inner"></div>
                         <div className="book-cover book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}>
-                                {iconsSvg.map((icon, index)=>{
-                                    if(icon.type.render.displayName === props.icon){
-                                        return <div className="bookIcon" key={index}>{iconsSvg[index]}</div>
-                                    }
-                                    return null
-                                })}
+                                {iconsSvg[props.icon]}
                             </div>
                         </div>
                     </div>

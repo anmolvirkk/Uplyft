@@ -135,7 +135,7 @@ const Modal = () => {
 
         let newBook = {
             id: date.valueOf(),
-            icon: icons[journalIcon],
+            icon: journalIcon,
             color: colors[journalColor]
         }
 
