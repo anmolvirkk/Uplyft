@@ -103,7 +103,7 @@ const Schedule = () => {
                                     return (
                                         <NavLink onClick={()=>setAllRoutes({...allRoutes, habit: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                             <div className={styles.slotContent}>
-                                            <div style={{backgroundColor: colors[item.color]}}>
+                                            <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                     {iconsSvg[item.icon]}
                                                 </div>
                                                 <p>{item.name}</p>
@@ -128,7 +128,7 @@ const Schedule = () => {
                                                 </div>
                                                 <div className={styles.title}>
                                                     {item.id!=='all'&&item.id!=='today'?<div className={styles.projectMoreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
-                                                    <div className={styles.projectProgressNum}>
+                                                    <div className={styles.projectProgressNum} style={{marginLeft: '12px'}}>
                                                         {completedTasks}/
                                                         {totalTasks}
                                                     </div>  
@@ -142,7 +142,7 @@ const Schedule = () => {
                                 })}
                             </div>
                             <div className={styles.sideMenuCategory}>
-                                <h3><Check /><p>Events</p></h3>
+                                <h3><Calendar /><p>Events</p></h3>
                                 {events.map((item)=>{
                                     return (
                                         <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
