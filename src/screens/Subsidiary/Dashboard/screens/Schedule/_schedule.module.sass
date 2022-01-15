@@ -46,7 +46,6 @@
         h3
             display: flex
             align-items: center
-            border-bottom: 1px solid rgb(var(--border))
             padding: 12px
             font-weight: 400
             color: rgb(var(--titles))
@@ -60,29 +59,27 @@
             list-style: none
 
 .sideSectionSlot
-    width: 100%
+    width: calc( 100% - 30px )
     height: 80px
     display: flex
     align-items: center
     justify-content: space-between
     color: rgb(var(--titles))
-    padding-left: 12px
+    margin-left: 20px
+    padding-left: 20px
+    border-left: 1px solid rgb(var(--titles))
     .eventSlot
         width: 100%
         display: flex
         justify-content: space-between
-        padding-right: 12px
-    .slotContent
-        display: flex
-        align-items: center
-        p
-            color: rgb(var(--titles))
-            font-size: 14px
-            margin-left: 12px
 
 .slotContent
     display: flex
     align-items: center
+    p
+        color: rgb(var(--titles))
+        font-size: 14px
+        margin-left: 12px
     div
         border-radius: 100%
         +mixins.center
@@ -100,12 +97,15 @@
     height: 100%
 
 .projectSideSectionSlot
-    width: 100%
+    width: calc( 100% - 30px )
     height: 80px
     color: rgb(var(--colorTitles))
     position: relative
     +mixins.center
     padding: 12px
+    margin-left: 20px
+    padding-left: 20px
+    border-left: 1px solid rgb(var(--titles))
     .slotContent
         display: flex
         align-items: center
@@ -123,7 +123,7 @@
             stroke: rgb(var(--titles))
             padding: 0
     p
-        margin-left: 1vh
+        margin-left: 0
         text-transform: capitalize
 
 .projectActiveSectionSlot

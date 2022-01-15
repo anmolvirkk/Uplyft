@@ -117,7 +117,7 @@ const Schedule = () => {
                                 })}
                             </div>
                             <div className={styles.sideMenuCategory}>
-                                <h3><Check /><p>Projects</p></h3>
+                                <h3><Folder /><p>Projects</p></h3>
                                 {projects.map((item)=>{
                                     const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                                     const totalTasks = projects.find(i=>i.id===item.id).tasks.length
@@ -125,7 +125,6 @@ const Schedule = () => {
                                         <NavLink key={item.id} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
                                             <div className={styles.slotContent}>
                                                 <div className={styles.title}>
-                                                    <div className={styles.projectIcon}>{item.icon?iconsSvg[item.icon]:<Folder />}</div>
                                                     <p>{item.name}</p>
                                                 </div>
                                                 <div className={styles.title}>
