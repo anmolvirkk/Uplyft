@@ -8,7 +8,7 @@ import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
 import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
 import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
 
-import { colors, icons } from '../../variables/journalConfig'
+import { colors } from '../../variables/journalConfig'
 
 import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
 import openBookAtom from '../../screens/Journals/recoil-atoms/openBookAtom'
@@ -89,7 +89,7 @@ const Modal = () => {
         let newBooks = books.map((data)=>{
             let newData = {...data}
                 if(data.id === allRoutes['book']) {
-                    newData.icon = icons[journalIcon]
+                    newData.icon = journalIcon
                     newData.color = colors[journalColor]
                 }
             return newData
