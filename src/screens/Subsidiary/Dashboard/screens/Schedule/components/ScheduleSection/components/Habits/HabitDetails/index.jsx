@@ -149,63 +149,57 @@ const HabitDetails = () => {
             </div>
         )
     }
+    return habits.map((item, index)=>{
+        if(allRoutes.habit && item.id === allRoutes['habit']){
+            return (
+                <div key={index} className={styles.habitDetailSection}>
 
-    return (
-        <div className={styles.habitDetails}>
-            {allRoutes.habit?
-            habits.map((item, index)=>{
-                if(item.id === allRoutes['habit']){
-                    return (
-                        <div key={index} className={styles.habitDetailSection}>
+                    <Calendar color={colors[item.color]} index={index} />
 
-                            <Calendar color={colors[item.color]} index={index} />
+                    <div className={`${styles.streaks}`}>
+                        <ul>
+                            <li>
+                                <p>Best Streak</p>
+                                <h3>{getHabitDetails(item).streak.best}<span>days</span></h3>
+                            </li>
+                            <li>
+                                <p>Current Streak</p>
+                                <h3>{getHabitDetails(item).streak.current}<span>days</span></h3>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <SuccessRate item={item} />
 
-                            <div className={`${styles.streaks}`}>
-                                <ul>
-                                    <li>
-                                        <p>Best Streak</p>
-                                        <h3>{getHabitDetails(item).streak.best}<span>days</span></h3>
-                                    </li>
-                                    <li>
-                                        <p>Current Streak</p>
-                                        <h3>{getHabitDetails(item).streak.current}<span>days</span></h3>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                            <SuccessRate item={item} />
+                    <Level item={item} />
 
-                            <Level item={item} />
-
-                            <div className={`${styles.card} ${styles.gradientCard}`} style={{backgroundImage: `linear-gradient(to right, ${colors[item.color]}, ${colors[item.color]}B3)`}}>
-                                <ul>
-                                    <li>
-                                        <p>Days Completed</p>
-                                    </li>
-                                    <li>
-                                        <p>{item.datesCompleted.length} days</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                            <div className={`${styles.card} ${styles.daysSkipped}`}>
-                                <ul>
-                                    <li>
-                                        <p>Days Skipped</p>
-                                    </li>
-                                    <li>
-                                        {<p>{getHabitDetails(item).skipped} days</p>}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    )
-                }
-                return null
-            })
-            :null}
-        </div>
-    )
+                    <div className={`${styles.card} ${styles.gradientCard}`} style={{backgroundImage: `linear-gradient(to right, ${colors[item.color]}, ${colors[item.color]}B3)`}}>
+                        <ul>
+                            <li>
+                                <p>Days Completed</p>
+                            </li>
+                            <li>
+                                <p>{item.datesCompleted.length} days</p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div className={`${styles.card} ${styles.daysSkipped}`}>
+                        <ul>
+                            <li>
+                                <p>Days Skipped</p>
+                            </li>
+                            <li>
+                                {<p>{getHabitDetails(item).skipped} days</p>}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            )
+        }else{
+            return null
+        }
+    })
 }
 
 export default HabitDetails

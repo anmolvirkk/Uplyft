@@ -19,3 +19,21 @@
 
 .activeSection
     background: rgb(var(--activeSlot))
+
+    
+.sideSection
+    min-width: 250px
+    width: 250px
+    height: 100vh
+    background-color: rgb(var(--background))
+    border-right: 1px solid rgb(var(--border))
+
+@media screen and (max-width: 1450px)
+    .sideSection
+        position: absolute
+        top: 60px
+        z-index: 9
+        width: 100%
+        display: none
+    .sideSection:nth-child(3)
+        display: block

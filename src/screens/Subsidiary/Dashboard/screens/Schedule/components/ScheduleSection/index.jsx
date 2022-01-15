@@ -2,7 +2,6 @@ import React from 'react'
 import { NavLink, Switch, Route } from 'react-router-dom'
 import {RefreshCw, Check, Calendar} from 'react-feather'
 import styles from './_main.module.sass'
-import journalStyles from '../../../Journals/_journal.module.sass'
 import Habits from './components/Habits'
 import Tasks from './components/Tasks'
 import Events from './components/Events'
@@ -12,6 +11,10 @@ import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 import TaskDetails from './components/Tasks/TaskDetails'
 import EventDetails from './components/Events/EventDetails'
 import company from '../../../../../../../company'
+
+
+const isMobile = window.innerWidth < 1450
+const mobileHeight = window.innerHeight - 80 - 60
 
 const SideSection = () => {
 
@@ -26,7 +29,7 @@ const SideSection = () => {
     }
 
     return (
-        <div className={journalStyles.sideSection}>
+        <div className={styles.sideSection} style={isMobile?{height: mobileHeight}:null}>
             <div className={styles.sectionHeader}>
                 <NavLink onMouseUp={()=>setRoute('habits')} to={allRoutes['habit']?`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
                 <NavLink onMouseUp={()=>setRoute('tasks')} to={allRoutes['project']?`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${allRoutes['project']}`:`/${company.subsidiary}/dashboard/${company.schedule}/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
@@ -43,7 +46,7 @@ const SideSection = () => {
 
 const DetailSection = () => (
     
-    <div className={`${journalStyles.sideSection} ${journalStyles.detailSection}`}>
+    <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null}>
         <Switch>
             <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><HabitDetails /></Route>
             <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><TaskDetails /></Route>
