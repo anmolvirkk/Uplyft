@@ -129,21 +129,16 @@ const AddHabit = ({icons, type, currentHabit}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
     const setRecommendedHabit = (color, icon, name) => {
-        let colorIndex, iconIndex
+        let colorIndex
         const setIndex = async () => {
             colors.forEach((val, i)=>{
                 if(val.toUpperCase() === color.toUpperCase()){
                     colorIndex = i
                 }
             })
-            icons.forEach((val, i)=>{
-                if(val.type.render.displayName === icon){
-                    iconIndex = i
-                }
-            })
         }
         setIndex().then(()=>{
-            setHabit({...habit, color: colorIndex, icon: iconIndex, name: name, times: 1})
+            setHabit({...habit, color: colorIndex, icon: icon, name: name, times: 1})
         })
     }
 
@@ -194,7 +189,7 @@ const AddHabit = ({icons, type, currentHabit}) => {
             <div className={styles.habitCards}>
                 <ul id="habitCards" onWheel={saveHabitCardScroll}>
                     {habitCards.map((item, index)=>(
-                        <li onMouseEnter={(e)=>addToolTipForHabitCards(e)} onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
+                        <li onMouseEnter={(e)=>addToolTipForHabitCards(e)} onClick={()=>setRecommendedHabit(item.color, iconsSvg.indexOf(iconsSvg.filter((icon)=>icon.type.displayName === item.icon)[0]), item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
                             <span>{iconsSvg.filter((icon)=>icon.type.displayName === item.icon)[0]}</span>
                             <p>{item.name}</p>
                         </li>
