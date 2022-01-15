@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
-import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
-
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
 import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
@@ -20,6 +18,8 @@ import AddTask from './components/AddTask'
 import AddProject from './components/AddProject'
 import AddEvent from './components/AddEvent'
 
+import { iconsSvg } from '../../variables/journalConfig'
+
 const Modal = () => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
@@ -31,19 +31,6 @@ const Modal = () => {
     const [slots, setSlots] = useRecoilState(slotsAtom)
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
-
-    const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
-    
-    const selectIcon = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name){
-                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
-            }
-            return null
-        })
-
-    }
 
     const closeModal = (e) => {
         const modalForm = document.getElementById('modalForm');
@@ -128,7 +115,9 @@ const Modal = () => {
                         <li>
                             <p>Icon</p>
                             <ol>
-                                {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
+                                {iconsSvg.map((icon, i)=>{
+                                    return <li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>
+                                })}
                             </ol>
                         </li>   
                     </ul>
@@ -182,7 +171,9 @@ const Modal = () => {
                         <li>
                             <p>Icon</p>
                             <ol>
-                                {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i} id={`icon${i}`}><div className={i===journalIcon ? styles.activeButton : null} />{selectIcon(icon)}</li>)}
+                                {iconsSvg.map((icon, i)=>{
+                                    return <li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>
+                                })}
                             </ol>
                         </li>   
                     </ul>
