@@ -64,6 +64,7 @@
     height: 80px
     display: flex
     align-items: center
+    justify-content: space-between
     color: rgb(var(--titles))
     padding-left: 12px
     .eventSlot
@@ -74,8 +75,6 @@
     .slotContent
         display: flex
         align-items: center
-        width: 100%
-        position: relative
         p
             color: rgb(var(--titles))
             font-size: 14px
@@ -84,8 +83,6 @@
 .slotContent
     display: flex
     align-items: center
-    width: calc( 100% - 12px )
-    min-width: calc( 100% - 12px )
     div
         border-radius: 100%
         +mixins.center
@@ -96,9 +93,11 @@
             stroke: white
             padding: 6px
 
-.slotContent
-    min-width: calc( 100% - 2vh - 90px )
-    width: calc( 100% - 2vh - 90px )
+.habitOptions
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 100%
 
 .projectSideSectionSlot
     width: 100%
