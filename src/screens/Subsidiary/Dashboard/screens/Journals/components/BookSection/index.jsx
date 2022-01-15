@@ -4,7 +4,6 @@ import './_book.sass'
 import AddButton from '../AddButton'
 import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
-import {Activity, AlertTriangle, Anchor, Aperture, Archive, Award, BarChart, BatteryCharging, Bell, Book, Box, Briefcase, Camera, Clock, CloudLightning, Code, Coffee, Command, Compass, Crosshair, DollarSign, Droplet, Dribbble, Eye, Feather, Flag, GitHub, Gitlab, Globe, Grid, Hash, Headphones, Heart, Key, LifeBuoy, Map, Moon, Smile, Sun, Star} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil' 
 import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
@@ -14,6 +13,8 @@ import openModal from '../../../../functions/openModal'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
 import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
+
+import { iconsSvg } from '../../../../variables/journalConfig'
 
 const BookSection = ({ styles, isMobile }) => {
 
@@ -90,19 +91,6 @@ const BookSection = ({ styles, isMobile }) => {
         }
     }
 
-    const iconsSvg = [<Activity />, <AlertTriangle />, <Anchor />, <Aperture />, <Archive />, <Award />, <BarChart />, <BatteryCharging />, <Bell />, <Book />, <Box />, <Briefcase />, <Camera />, <Clock />, <CloudLightning />, <Code />, <Coffee />, <Command />, <Compass />, <Crosshair />, <DollarSign />, <Droplet />, <Dribbble />, <Eye />, <Feather />, <Flag />, <GitHub />, <Gitlab />, <Globe />, <Grid />, <Hash />, <Headphones />, <Heart />, <Key />, <LifeBuoy />, <Map />, <Moon />, <Smile />, <Sun />, <Star />]
-    
-    const selectIcon = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name){
-                return <div className="bookIcon" key={index}>{iconsSvg[index]}</div>
-            }
-            return null
-        })
-
-    }
-
     return (
     <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null} id="bookSection">
         <div className={styles.bookSection}>
@@ -120,7 +108,12 @@ const BookSection = ({ styles, isMobile }) => {
                         <div className="book-pages book-inner"></div>
                         <div className="book-cover book-inner">
                             <div className="book-face" style={{backgroundColor: props.color}}>
-                                {selectIcon(props.icon)}
+                                {iconsSvg.map((icon, index)=>{
+                                    if(icon.type.render.displayName === props.icon){
+                                        return <div className="bookIcon" key={index}>{iconsSvg[index]}</div>
+                                    }
+                                    return null
+                                })}
                             </div>
                         </div>
                     </div>
