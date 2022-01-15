@@ -65,6 +65,8 @@ const SlotsSection = ({styles, isMobile}) => {
         document.getElementById(to).style.display = 'flex'
         document.getElementById('journalCalendar').style.position = 'static'
         document.getElementById('journalCalendar').style.display = 'flex'
+        document.getElementById('mainSideBar').style.position = 'fixed'
+        document.getElementById('mainSideBar').style.bottom = '0'
         setTimeout(()=>{
             document.getElementById(from).style.transform = 'translateX(-100%)'
             document.getElementById(to).style.transform = 'translateX(0%)'
@@ -73,6 +75,7 @@ const SlotsSection = ({styles, isMobile}) => {
             document.getElementById('journalCalendar').style.zIndex = 1
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById('mainSideBar').style.position = 'static'
             }, 300)
         }, 50)
         document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth

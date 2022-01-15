@@ -195,9 +195,9 @@ const AddHabit = ({icons, type, currentHabit}) => {
                 <ul id="habitCards" onWheel={saveHabitCardScroll}>
                     {habitCards.map((item, index)=>(
                         <li onMouseEnter={(e)=>addToolTipForHabitCards(e)} onClick={()=>setRecommendedHabit(item.color, item.icon, item.name)} data-title={item.name} className={styles.habitCard} key={index} style={{backgroundImage: `linear-gradient(to right, ${item.color}, ${item.color}B3)`}}>
-                            {iconsSvg.map((icon)=>{
+                            {iconsSvg.map((icon, i)=>{
                                 if(icon.type.render.displayName === item.icon){
-                                    return <span>{icon}</span>
+                                    return <span key={i}>{icon}</span>
                                 }else{
                                     return null
                                 }
