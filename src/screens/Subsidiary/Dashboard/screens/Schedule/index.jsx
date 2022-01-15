@@ -77,6 +77,8 @@ const Schedule = () => {
         setAllCalendarEvents([...newAllCalendarEvents])
     }
 
+    const sideMenuHeight = window.innerHeight - 80 - 60
+
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
@@ -95,7 +97,7 @@ const Schedule = () => {
                     </div>
             :null}
             {scheduleSideMenu?
-                    <div className={styles.scheduleSideMenu} style={{height: `${window.innerHeight - 80 - 60}px`}}>
+                    <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`}}>
                         <OutsideClickHandler onOutsideClick={()=>setScheduleSideMenu(false)}>
                             <div className={styles.sideMenuCategory}>
                                 <h3><RefreshCw /><p>Habits</p></h3>
