@@ -34,15 +34,20 @@ const SideBar = () => {
                 if(window.innerWidth<1450){
                     if(document.getElementById('bookSection')){
                         document.getElementById('bookSection').style.transform = 'translateX(0%)'
+                        document.getElementById('bookSection').style.display = 'block'
+                        document.getElementById('bookSection').style.position = 'static'
                     }
                     if(document.getElementById('journalSideSection')){
                         document.getElementById('journalSideSection').style.transform = 'translateX(-100%)'
+                        document.getElementById('journalSideSection').style.display = 'none'
                     }
                     if(document.getElementById('journalMainSection')){
                         document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
+                        document.getElementById('journalMainSection').style.display = 'none'
                     }
                     if(document.getElementById('journalCalendar')){
                         document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
+                        document.getElementById('journalCalendar').style.display = 'none'
                     }
                     setCurrentMobileSection(0)
                 }
