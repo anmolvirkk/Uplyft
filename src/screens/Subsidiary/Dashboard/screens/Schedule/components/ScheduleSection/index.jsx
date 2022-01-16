@@ -46,7 +46,7 @@ const SideSection = () => {
 
 const DetailSection = () => (
     
-    <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null}>
+    <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null} id='scheduleSideSection'>
         <Switch>
             <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><HabitDetails /></Route>
             <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><TaskDetails /></Route>

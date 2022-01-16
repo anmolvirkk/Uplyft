@@ -79,8 +79,18 @@ const Schedule = () => {
 
     const sideMenuHeight = window.innerHeight - 80 - 60
 
+    const toggleDetails = {
+        show: () => {
+            document.getElementById('scheduleSideSection').style.transform = 'translateX(0%)'
+        },
+        hide: () => {
+            document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+        }
+    }
+
     const closeSidebarAfter = (func, target) => {
         const setPage = async () => {
+            toggleDetails.show()
             func()
         }
         if(target){
@@ -116,6 +126,11 @@ const Schedule = () => {
             {scheduleSideMenu?
                     <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`}}>
                         <OutsideClickHandler onOutsideClick={()=>setScheduleSideMenu(false)}>
+                            <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={()=>closeSidebarAfter(toggleDetails.hide)}>
+                                <div className={styles.slotContent}>
+                                    <p>Show Calendar</p>
+                                </div>
+                            </div>   
                             <div className={styles.sideMenuCategory}>
                                 <h3><RefreshCw /><p>Habits</p></h3>
                                 <div className={styles.options}>
