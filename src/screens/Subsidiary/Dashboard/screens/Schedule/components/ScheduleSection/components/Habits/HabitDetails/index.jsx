@@ -5,7 +5,6 @@ import {useRecoilState} from 'recoil'
 import habitsAtom from '../../../../../recoil-atoms/habitsAtom'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 
-import selectIcon from '../../../../../../../functions/selectIcon'
 import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
 
 import Calendar from './components/Calendar'
@@ -71,7 +70,7 @@ const HabitDetails = () => {
                     </li>
                     <Progressbar color={item.color} percent={item.datesCompleted.length/level.goal*100} />
                     <li style={{stroke: colors[item.color]}}>
-                        {selectIcon(levels[level.index+1<=levels.length?level.index+1:level.index].icon)}
+                        {iconsSvg.filter((icon)=>icon.type.displayName === levels[level.index+1<=levels.length?level.index+1:level.index].icon)[0]}
                     </li>
                 </ul>
                 <ul className={styles.nextLevelIn}>
