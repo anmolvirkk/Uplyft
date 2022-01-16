@@ -85,23 +85,6 @@ const MainSection = ({styles, isMobile}) => {
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     if(allRoutes['book']){
-    const openMobileNote = () => {
-        if(isMobile){
-            let hideSection = async () => {
-                document.getElementById('mainSideBar').style.position = 'fixed'
-                document.getElementById('mainSideBar').style.bottom = '0'
-                document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
-            }
-            hideSection().then(()=>{
-                setTimeout(()=>{
-                    document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
-                    document.getElementById('mainSideBar').style.position = 'static'
-                }, 300)
-            })
-            setCurrentMobileSection(3)
-        }
-    }
-
     return (
         <div className={styles.mainSection} id='journalMainSection'>
                         <Switch>
@@ -120,7 +103,7 @@ const MainSection = ({styles, isMobile}) => {
                                                         <div key={item.id} className={styles.note}>
                                                             {item.body==='' ? 
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link onMouseDown={openMobileNote} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link onMouseDown={()=>setCurrentMobileSection(3)} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.helperTextEditNote}>
                                                                         <div className={styles.editIcon}><Edit /></div>
                                                                     </div>
@@ -129,7 +112,7 @@ const MainSection = ({styles, isMobile}) => {
                                                             </div>
                                                                 :
                                                             <div className={styles.noteLink} style={{backgroundColor: `${item.color}`}}>
-                                                                <Link onMouseDown={openMobileNote} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
+                                                                <Link onMouseDown={()=>setCurrentMobileSection(3)} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}/${item.id}`}>
                                                                     <div className={styles.noteContent}>
                                                                         <div className={styles.notePrompt}>{item.prompt}</div>
                                                                         <div className={styles.noteBody} dangerouslySetInnerHTML={{__html: item.body}}></div>

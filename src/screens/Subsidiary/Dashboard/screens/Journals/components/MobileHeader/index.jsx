@@ -128,28 +128,17 @@ const MobileHeader = () => {
             title: 'Editor',
             onAdd: null,
             onBack: ()=>{
-                document.getElementById('mainSideBar').style.position = 'fixed'
-                document.getElementById('mainSideBar').style.bottom = '0'
-                setCurrentMobileSection(2)
                 let falseRedirect = async () => {
                     setRedirect(false)
                 }
                 let trueRedirect = async () => {
                     setRedirect(true)
                 }
-                let hideSection = async () => {
-                    document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
-                }
-                hideSection().then(()=>{
-                    setTimeout(()=>{
-                        document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
-                        document.getElementById('mainSideBar').style.position = 'static'
-                        falseRedirect().then(()=>{
-                            trueRedirect().then(()=>{
-                                setRedirect(false)
-                            })
-                        })
-                    }, 300)
+                falseRedirect().then(()=>{
+                    trueRedirect().then(()=>{
+                        setCurrentMobileSection(2)
+                        setRedirect(false)
+                    })
                 })
             }
         }
