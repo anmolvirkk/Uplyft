@@ -6,7 +6,7 @@ import habitsAtom from '../../../../../recoil-atoms/habitsAtom'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 
 import selectIcon from '../../../../../../../functions/selectIcon'
-import { colors } from '../../../../../../../variables/journalConfig'
+import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
 
 import Calendar from './components/Calendar'
 
@@ -67,7 +67,7 @@ const HabitDetails = () => {
                 </ul>
                 <ul className={styles.progressList}>
                     <li style={{stroke: colors[item.color]}}>
-                        {selectIcon(level.icon)}
+                        {iconsSvg.filter((icon)=>icon.type.displayName === level.icon)[0]}
                     </li>
                     <Progressbar color={item.color} percent={item.datesCompleted.length/level.goal*100} />
                     <li style={{stroke: colors[item.color]}}>
