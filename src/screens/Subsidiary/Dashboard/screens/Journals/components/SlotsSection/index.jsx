@@ -73,6 +73,7 @@ const SlotsSection = ({styles, isMobile}) => {
             document.getElementById(to).style.display = 'block'
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById(from).style.zIndex = 1
                 document.getElementById('journalCalendar').style.display = 'none'
                 document.getElementById('mainSideBar').style.position = 'static'
             }, 300)

@@ -74,6 +74,7 @@ const BookSection = ({ styles, isMobile }) => {
             document.getElementById('journalCalendar').style.zIndex = 1
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById(from).style.zIndex = 1
             }, 300)
         }, 50)
         document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth

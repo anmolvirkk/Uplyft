@@ -63,6 +63,7 @@ const MobileHeader = () => {
             document.getElementById(to).style.zIndex = 1
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById(to).style.zIndex = 1
                 document.getElementById('journalCalendar').style.display = 'none'
             }, 300)
         }, 50)
@@ -84,6 +85,7 @@ const MobileHeader = () => {
             document.getElementById(to).style.transform = 'translateX(0%)'
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById(to).style.zIndex = 1
             }, 300)
         }, 50)
     }
