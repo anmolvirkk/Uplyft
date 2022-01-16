@@ -90,17 +90,15 @@ const Schedule = () => {
 
     const closeSidebarAfter = (func, target, category) => {
         const setPage = async () => {
+            toggleDetails.show()
+            func()
             if(category){
                 if(!allRoutes.project && category==='tasks'){
                     setAllRoutes({...allRoutes, project: 'all', scheduleSection: category})
                 }else{
                     setAllRoutes({...allRoutes, scheduleSection: category})
                 }
-                console.log(category)
-                console.log(allRoutes.scheduleSection)
             }
-            toggleDetails.show()
-            func()
         }
         if(target){
             if(!target.className.includes('checkBtn')){
@@ -145,7 +143,7 @@ const Schedule = () => {
                                 <div className={styles.options}>
                                     {habits.map((item)=>{
                                         return (
-                                            <NavLink onClick={(e)=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, habit: item.id}), e.target, 'habits')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                            <NavLink onMouseDown={(e)=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, habit: item.id}), e.target, 'habits')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                                 <div className={styles.slotContent}>
                                                     <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                         {iconsSvg[item.icon]}
@@ -168,7 +166,7 @@ const Schedule = () => {
                                         const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                                         const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                                         return (
-                                            <NavLink key={item.id} data-title={item.name} onClick={()=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, project: item.id}), null, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
+                                            <NavLink key={item.id} data-title={item.name} onMouseDown={()=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, project: item.id}), null, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
                                                 <div className={styles.slotContent}>
                                                     <div className={styles.title}>
                                                         <p>{item.name}</p>
@@ -194,7 +192,7 @@ const Schedule = () => {
                                 <div className={styles.options}>
                                     {events.map((item)=>{
                                         return (
-                                            <NavLink onClick={()=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, event: item.id}), null, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                            <NavLink onMouseDown={()=>closeSidebarAfter(()=>setAllRoutes({...allRoutes, event: item.id}), null, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                                 <div className={styles.eventSlot}>
                                                     <p>{item.name}</p>
                                                     <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
