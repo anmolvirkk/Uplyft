@@ -47,32 +47,15 @@ const MobileHeader = () => {
     const [redirect, setRedirect] = useState(false)
 
 
-    const animateToSection = (from, to) => {
+    const animateToSectionHideCalendar = (from, to) => {
+        document.getElementById(to).style.zIndex = 99
+        document.getElementById(from).style.zIndex = 1
         document.getElementById(from).style.position = 'absolute'
         document.getElementById(from).style.top = '160px'
-        document.getElementById(from).style.zIndex = 99
         document.getElementById(to).style.position = 'static'
         document.getElementById(to).style.display = 'flex'
-        setTimeout(()=>{
-            document.getElementById(from).style.transform = 'translateX(-100%)'
-            document.getElementById(to).style.transform = 'translateX(0%)'
-            document.getElementById(to).style.zIndex = 1
-            setTimeout(()=>{
-                document.getElementById(from).style.display = 'none'
-            }, 300)
-        }, 50)
-    }
-
-    
-    const animateToSectionForCalendar = (from, to) => {
-        document.getElementById(from).style.position = 'absolute'
-        document.getElementById(from).style.top = '160px'
-        document.getElementById(from).style.zIndex = 99
         document.getElementById('journalCalendar').style.position = 'absolute'
         document.getElementById('journalCalendar').style.top = '60px'
-        document.getElementById('journalCalendar').style.zIndex = 99
-        document.getElementById(to).style.position = 'static'
-        document.getElementById(to).style.display = 'flex'
         setTimeout(()=>{
             document.getElementById(from).style.transform = 'translateX(-100%)'
             document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
@@ -81,6 +64,26 @@ const MobileHeader = () => {
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
                 document.getElementById('journalCalendar').style.display = 'none'
+            }, 300)
+        }, 50)
+    }
+
+    
+    const animateToSectionShowCalendar = (from, to) => {
+        document.getElementById(to).style.zIndex = 99
+        document.getElementById(from).style.zIndex = 1
+        document.getElementById(from).style.position = 'absolute'
+        document.getElementById(from).style.top = '60px'
+        document.getElementById('journalCalendar').style.position = 'static'
+        document.getElementById('journalCalendar').style.display = 'flex'
+        document.getElementById(to).style.position = 'static'
+        document.getElementById(to).style.display = 'flex'
+        setTimeout(()=>{
+            document.getElementById(from).style.transform = 'translateX(-100%)'
+            document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
+            document.getElementById(to).style.transform = 'translateX(0%)'
+            setTimeout(()=>{
+                document.getElementById(from).style.display = 'none'
             }, 300)
         }, 50)
     }
@@ -105,7 +108,7 @@ const MobileHeader = () => {
                 setOpenSlot(slot.id)
             },
             onBack: ()=>{
-                animateToSectionForCalendar('journalSideSection', 'bookSection')
+                animateToSectionHideCalendar('journalSideSection', 'bookSection')
                 setCurrentMobileSection(0)
             }
         },
@@ -115,7 +118,7 @@ const MobileHeader = () => {
                 setNotesDropDown(true)
             },
             onBack: ()=>{
-                animateToSection('journalMainSection', 'journalSideSection')
+                animateToSectionShowCalendar('journalMainSection', 'journalSideSection')
                 setCurrentMobileSection(1)
             }
         },
@@ -125,10 +128,6 @@ const MobileHeader = () => {
             onBack: ()=>{
                 document.getElementById('mainSideBar').style.position = 'fixed'
                 document.getElementById('mainSideBar').style.bottom = '0'
-                document.getElementById('journalCalendar').style.display = 'flex'
-                document.getElementById('journalCalendar').style.position = 'absolute'
-                document.getElementById('journalCalendar').style.top = '60px'
-                document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
                 setCurrentMobileSection(2)
                 let falseRedirect = async () => {
                     setRedirect(false)
@@ -141,10 +140,7 @@ const MobileHeader = () => {
                 }
                 hideSection().then(()=>{
                     setTimeout(()=>{
-                        document.getElementById('journalCalendar').style.position = 'static'
                         document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
-                        document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
-                        document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
                         document.getElementById('mainSideBar').style.position = 'static'
                         falseRedirect().then(()=>{
                             trueRedirect().then(()=>{

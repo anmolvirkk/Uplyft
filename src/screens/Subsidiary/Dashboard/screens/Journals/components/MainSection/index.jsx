@@ -15,7 +15,7 @@ import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 
-const mobileHeight = window.innerHeight - 80 - 60 - 100
+const mobileHeight = window.innerHeight - 80 - 60
 
 const MainSection = ({styles, isMobile}) => {
 
@@ -91,12 +91,10 @@ const MainSection = ({styles, isMobile}) => {
                 document.getElementById('mainSideBar').style.position = 'fixed'
                 document.getElementById('mainSideBar').style.bottom = '0'
                 document.getElementById('journalMainSection').style.transform = 'translateX(-100%)'
-                document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
             }
             hideSection().then(()=>{
                 setTimeout(()=>{
                     document.getElementById('journalMainSection').style.transform = 'translateX(0%)'
-                    document.getElementById('journalCalendar').style.display = 'none'
                     document.getElementById('mainSideBar').style.position = 'static'
                 }, 300)
             })
@@ -146,8 +144,8 @@ const MainSection = ({styles, isMobile}) => {
                                                 }
                                             </div>
                 
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${window.innerHeight - 80 - 60 - 100}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
                                         
                                     }
                                     <div className={styles.noteSelect}>

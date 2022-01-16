@@ -60,21 +60,20 @@ const SlotsSection = ({styles, isMobile}) => {
 
     const animateToSection = (from, to) => {
         document.getElementById(from).style.position = 'absolute'
-        document.getElementById(from).style.zIndex = 99
-        document.getElementById(to).style.position = 'static'
-        document.getElementById(to).style.display = 'flex'
-        document.getElementById('journalCalendar').style.position = 'static'
-        document.getElementById('journalCalendar').style.display = 'flex'
+        document.getElementById(from).style.top = '160px'
         document.getElementById('mainSideBar').style.position = 'fixed'
         document.getElementById('mainSideBar').style.bottom = '0'
+        document.getElementById('journalCalendar').style.position = 'absolute'
+        document.getElementById('journalCalendar').style.top = '60px'
+        document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
         setTimeout(()=>{
             document.getElementById(from).style.transform = 'translateX(-100%)'
             document.getElementById(to).style.transform = 'translateX(0%)'
-            document.getElementById(to).style.zIndex = 1
-            document.getElementById('journalCalendar').style.transform = 'translateX(0%)'
-            document.getElementById('journalCalendar').style.zIndex = 1
+            document.getElementById(to).style.position = 'static'
+            document.getElementById(to).style.display = 'block'
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
+                document.getElementById('journalCalendar').style.display = 'none'
                 document.getElementById('mainSideBar').style.position = 'static'
             }, 300)
         }, 50)
