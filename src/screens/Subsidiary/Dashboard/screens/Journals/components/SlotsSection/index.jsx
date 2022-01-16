@@ -59,6 +59,8 @@ const SlotsSection = ({styles, isMobile}) => {
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
     const animateToSection = (from, to) => {
+        document.getElementById(from).style.zIndex = 99
+        document.getElementById(to).style.zIndex = 1
         document.getElementById(from).style.position = 'absolute'
         document.getElementById(from).style.top = '160px'
         document.getElementById('mainSideBar').style.position = 'fixed'
@@ -66,8 +68,8 @@ const SlotsSection = ({styles, isMobile}) => {
         document.getElementById('journalCalendar').style.position = 'absolute'
         document.getElementById('journalCalendar').style.top = '60px'
         document.getElementById('journalCalendar').style.transform = 'translateX(-100%)'
+        document.getElementById(from).style.transform = 'translateX(-100%)'
         setTimeout(()=>{
-            document.getElementById(from).style.transform = 'translateX(-100%)'
             document.getElementById(to).style.transform = 'translateX(0%)'
             document.getElementById(to).style.position = 'static'
             document.getElementById(to).style.display = 'block'
