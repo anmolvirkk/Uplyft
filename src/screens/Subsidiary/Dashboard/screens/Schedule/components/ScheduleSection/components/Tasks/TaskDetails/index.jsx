@@ -15,6 +15,9 @@ import completedOpenAtom from '../../../../../recoil-atoms/completedOpenAtom'
 import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
 import tagsAtom from '../../../../../../../components/Modal/components/AddTask/tagsAtom'
 
+const isMobile = window.innerWidth < 1450
+const mobileHeight = window.innerHeight - 80 - 60
+
 const TaskDetails = () => {
     
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -529,7 +532,7 @@ const TaskDetails = () => {
 
     return (
         <div>
-            <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 80px - 40px)'}}>
+            <div className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 80px - 40px)':mobileHeight}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
                         <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>

@@ -16,6 +16,9 @@ import company from '../../../../../../../../../company'
 import schdetailStyles from '../_scheduleSection.module.sass'
 import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 
+const isMobile = window.innerWidth < 1450
+const mobileHeight = window.innerHeight - 80 - 60
+
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
@@ -88,7 +91,7 @@ const Events = () => {
     return (
         <div>
             <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
-            <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px - 40px)'}}>
+            <div className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 160px - 40px)':mobileHeight}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{
                     return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${journalStyles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
                     <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
