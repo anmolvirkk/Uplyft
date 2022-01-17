@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NavLink, Switch, Route } from 'react-router-dom'
 import {RefreshCw, Check, Calendar} from 'react-feather'
 import styles from './_main.module.sass'
@@ -56,18 +56,7 @@ const DetailSection = ({mobileHeight}) => (
 )
 
 const ScheduleSection = () => {
-    const [forceStateUpdate, setForceStateUpdate] = useState(0)
     const mobileHeight = window.innerHeight - 80 - 60
-    
-    if(isMobile){
-        let timeout = null
-        window.addEventListener('resize', () => {
-            clearTimeout(timeout)
-            timeout = setTimeout(()=>{
-                setForceStateUpdate(forceStateUpdate+1)
-            }, 300)
-        }, true)
-    }
 
     return (
         <React.Fragment>
