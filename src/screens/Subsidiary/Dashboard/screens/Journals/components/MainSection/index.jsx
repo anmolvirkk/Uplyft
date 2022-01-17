@@ -15,8 +15,6 @@ import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 
-const mobileHeight = window.innerHeight - 80 - 60
-
 const MainSection = ({styles, isMobile}) => {
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -84,20 +82,23 @@ const MainSection = ({styles, isMobile}) => {
     }
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
+
+    const mobileHeight = window.innerHeight - 80 - 60
+    
     if(allRoutes['book']){
     return (
         <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${mobileHeight}px`}:null}>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
-                            <div style={{display: 'flex', width: '100%', height: isMobile?mobileHeight:null}}>
+                            <div style={{display: 'flex', width: '100%', height: isMobile?'100%':null}}>
                                 {
                                 allRoutes[allRoutes['book']][allRoutes['date']] ?
-                                <div style={{width: '100%'}}>
+                                <div style={{width: '100%', height: isMobile?'100%':null}}>
                                     {
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]]?
                                         notes[allRoutes[allRoutes['book']][allRoutes['date']]].length > 0 ?
                                 
-                                            <div className={styles.noteSection} style={isMobile?{height: `${mobileHeight}px`}:null}>
+                                            <div className={styles.noteSection}>
                                                 {
                                                     notes[allRoutes[allRoutes['book']][allRoutes['date']]].map((item)=>(
                                                         <div key={item.id} className={styles.note}>
