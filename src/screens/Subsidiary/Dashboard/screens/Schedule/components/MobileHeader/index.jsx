@@ -29,7 +29,7 @@ const MobileHeader = () => {
                 <p>Schedule</p>
             </div>
             <div className={styles.options}>
-                <Plus onMouseDown={()=>setScheduleAddDropDown(true)} />
+                <Plus onMouseDown={()=>setScheduleAddDropDown(true)} id='mobileHeaderAddBtn' />
                 <div className={styles.moremenu}>
                     <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: null}]} pos={{right: '0', top: '6vh'}} />
                 </div>
