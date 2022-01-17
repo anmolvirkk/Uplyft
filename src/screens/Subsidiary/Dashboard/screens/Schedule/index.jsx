@@ -100,10 +100,13 @@ const Schedule = () => {
             toggleDetails.show()
         }
         if(target){
-            if(!target.className.includes('checkBtn')){
-                setPage().then(()=>{
-                    setScheduleSideMenu(false)
-                })
+            if(target.className){
+                console.log(target.className.includes())
+                if(!target.className.includes('checkBtn')){
+                    setPage().then(()=>{
+                        setScheduleSideMenu(false)
+                    })
+                }
             }
         }else{
             setPage().then(()=>{

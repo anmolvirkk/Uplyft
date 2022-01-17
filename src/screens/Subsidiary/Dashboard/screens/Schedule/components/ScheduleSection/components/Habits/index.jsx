@@ -62,11 +62,14 @@ const Habits = () => {
     let date = new Date()
     const [dropDownDay, setDropDownDay] = useState({day: date.toLocaleDateString('en-US', {weekday: 'long'}), open: false})
     const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
+
+    const isMobile = window.innerWidth < 1450
+    const mobileHeight = window.innerHeight - 80 - 60
    
     return (
-        <div>
+        <div style={isMobile?{height: mobileHeight}:null}>
             {allRoutes['habit']?<Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`} />:null}
-            <div className={styles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
+            <div className={styles.slotSection} style={{height: !isMobile?'calc(100vh - 160px)':mobileHeight}}>
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
                 <div>
                     <div className={styles.category}>

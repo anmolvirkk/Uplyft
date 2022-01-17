@@ -16,9 +16,6 @@ import company from '../../../../../../../../../company'
 import schdetailStyles from '../_scheduleSection.module.sass'
 import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 
-const isMobile = window.innerWidth < 1450
-const mobileHeight = window.innerHeight - 80 - 60
-
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
@@ -88,8 +85,11 @@ const Events = () => {
         setEvents([...newEvents])
         setAllCalendarEvents([...newAllCalendarEvents])
     }
+
+    const isMobile = window.innerWidth < 1450
+    const mobileHeight = window.innerHeight - 80 - 60
     return (
-        <div>
+        <div style={isMobile?{height: mobileHeight}:null}>
             <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
             <div className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 160px - 40px)':mobileHeight}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{

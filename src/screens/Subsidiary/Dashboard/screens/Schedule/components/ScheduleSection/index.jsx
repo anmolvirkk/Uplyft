@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, Switch, Route } from 'react-router-dom'
 import {RefreshCw, Check, Calendar} from 'react-feather'
 import styles from './_main.module.sass'
@@ -14,7 +14,6 @@ import company from '../../../../../../../company'
 
 
 const isMobile = window.innerWidth < 1450
-const mobileHeight = window.innerHeight - 80 - 60
 
 const SideSection = () => {
 
@@ -29,7 +28,7 @@ const SideSection = () => {
     }
 
     return (
-        <div className={styles.sideSection} style={isMobile?{height: mobileHeight}:null}>
+        <div className={styles.sideSection} style={isMobile?{display: 'none'}:null}>
             <div className={styles.sectionHeader}>
                 <NavLink onMouseUp={()=>setRoute('habits')} to={allRoutes['habit']?`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} activeClassName={styles.activeSection}><RefreshCw /></NavLink>
                 <NavLink onMouseUp={()=>setRoute('tasks')} to={allRoutes['project']?`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${allRoutes['project']}`:`/${company.subsidiary}/dashboard/${company.schedule}/tasks/all`} activeClassName={styles.activeSection}><Check /></NavLink>
@@ -44,7 +43,7 @@ const SideSection = () => {
     )
 }
 
-const DetailSection = () => (
+const DetailSection = ({mobileHeight}) => (
     
     <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null} id='scheduleSideSection'>
         <Switch>
@@ -57,10 +56,23 @@ const DetailSection = () => (
 )
 
 const ScheduleSection = () => {
+    const [forceStateUpdate, setForceStateUpdate] = useState(0)
+    const mobileHeight = window.innerHeight - 80 - 60
+    
+    if(isMobile){
+        let timeout = null
+        window.addEventListener('resize', () => {
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                setForceStateUpdate(forceStateUpdate+1)
+            }, 300)
+        }, true)
+    }
+
     return (
         <React.Fragment>
             <SideSection />
-            <DetailSection />
+            <DetailSection mobileHeight={mobileHeight} />
         </React.Fragment>
 )
 }

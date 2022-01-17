@@ -10,7 +10,19 @@ import Construction from './screens/Construction'
 import company from '../../../company'
 
 const Dashboard = () => {
-    const [modalConfig] = useRecoilState(modalConfigAtom)
+    
+    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
+    const isMobile = window.innerWidth < 1450
+
+    if(isMobile){
+        let timeout = null
+        window.addEventListener('resize', () => {
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                setModalConfig({type: ''})
+            }, 300)
+        }, true)
+    }
 
     return (
         <Router>

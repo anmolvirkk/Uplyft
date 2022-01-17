@@ -9,7 +9,6 @@ import schdetailStyles from '../../_scheduleSection.module.sass'
 let allIntervals = []
 
 const isMobile = window.innerWidth < 1450
-const mobileHeight = window.innerHeight - 80 - 60
 
 const TimeRemaining = () => {
     let sec, min, hour, days
@@ -92,7 +91,7 @@ const EventDetails = () => {
     let activeEvent = events.filter(i=>i.id===allRoutes.event)[0]
     if(activeEvent){
         return (
-            <div className={`${journalStyles.slotSection} ${schdetailStyles.details}`} style={isMobile?{height: mobileHeight}:null}>
+            <div className={`${journalStyles.slotSection} ${schdetailStyles.details}`} style={isMobile?{height: '100%'}:null}>
                 <h3>{activeEvent.name}</h3>
                 <p>{activeEvent.details}</p>
                 {activeEvent.start?
