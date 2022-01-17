@@ -89,7 +89,7 @@ const Events = () => {
     const isMobile = window.innerWidth < 1450
     const mobileHeight = window.innerHeight - 80 - 60
     return (
-        <div style={isMobile?{height: mobileHeight}:null}>
+        <div style={isMobile?{display: 'none'}:null}>
             <Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${allRoutes.event?allRoutes.event:''}`} />
             <div className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 160px - 40px)':mobileHeight}}>
                 {events.length!==0 ? filterEvents(events).map((item)=>{

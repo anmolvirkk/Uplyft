@@ -100,8 +100,9 @@ const Projects = () => {
 
 const Tasks = () => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
+    const isMobile = window.innerWidth < 1450
     return (
-        <div>
+        <div style={isMobile?{display: 'none'}:null}>
             <div className={journalStyles.slotSection} style={{height: 'calc(100vh - 160px)'}}>
                 <Projects />
             </div>

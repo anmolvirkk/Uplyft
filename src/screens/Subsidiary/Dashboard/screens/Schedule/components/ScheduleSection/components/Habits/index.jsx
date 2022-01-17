@@ -67,7 +67,7 @@ const Habits = () => {
     const mobileHeight = window.innerHeight - 80 - 60
    
     return (
-        <div style={isMobile?{height: mobileHeight}:null}>
+        <div style={isMobile?{display: 'none'}:null}>
             {allRoutes['habit']?<Redirect to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${allRoutes['habit']}`} />:null}
             <div className={styles.slotSection} style={{height: !isMobile?'calc(100vh - 160px)':mobileHeight}}>
                 {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
