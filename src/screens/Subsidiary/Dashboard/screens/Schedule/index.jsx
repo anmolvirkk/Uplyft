@@ -101,11 +101,12 @@ const Schedule = () => {
         }
         if(target){
             if(target.className){
-                console.log(target.className.includes())
-                if(!target.className.includes('checkBtn')){
-                    setPage().then(()=>{
-                        setScheduleSideMenu(false)
-                    })
+                if(typeof target.className === 'string'){
+                    if(!target.className.includes('checkBtn')){
+                        setPage().then(()=>{
+                            setScheduleSideMenu(false)
+                        })
+                    }
                 }
             }
         }else{

@@ -65,8 +65,8 @@ const MobileHeader = () => {
                 document.getElementById(from).style.display = 'none'
                 document.getElementById(to).style.zIndex = 1
                 document.getElementById('journalCalendar').style.display = 'none'
-            }, 300)
-        }, 50)
+            }, 100)
+        }, 25)
     }
 
     
@@ -86,8 +86,8 @@ const MobileHeader = () => {
             setTimeout(()=>{
                 document.getElementById(from).style.display = 'none'
                 document.getElementById(to).style.zIndex = 1
-            }, 300)
-        }, 50)
+            }, 100)
+        }, 25)
     }
 
     const sections = [
