@@ -125,6 +125,12 @@ const Schedule = () => {
         })
     }
 
+    const closeSideMenu = (e) => {
+        if(e.target.id !== 'mobileHeaderMenuBtn'){
+            setScheduleSideMenu(false)
+        }
+    }
+
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
@@ -142,81 +148,81 @@ const Schedule = () => {
                         </OutsideClickHandler>
                     </div>
             :null}
-            {scheduleSideMenu?
-                    <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`}}>
-                        <OutsideClickHandler onOutsideClick={()=>setScheduleSideMenu(false)}>
-                            <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={showCalendar}>
-                                <div className={styles.slotContent}>
-                                    <p>Show Calendar</p>
-                                </div>
-                            </div>   
-                            <div className={styles.sideMenuCategory}>
-                                <h3><RefreshCw /><p>Habits</p></h3>
-                                <div className={styles.options}>
-                                    {habits.map((item)=>{
-                                        return (
-                                            <NavLink onMouseDown={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
-                                                <div className={styles.slotContent}>
-                                                    <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
-                                                        {iconsSvg[item.icon]}
-                                                    </div>
-                                                    <p>{item.name}</p>
-                                                </div>
-                                                <div className={styles.habitOptions}>
-                                                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'edithabit', habit: item})}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                                                    <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
-                                                </div>
-                                            </NavLink>   
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <div className={styles.sideMenuCategory}>
-                                <h3><Folder /><p>Projects</p></h3>
-                                <div className={styles.options}>
-                                    {projects.map((item)=>{
-                                        const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
-                                        const totalTasks = projects.find(i=>i.id===item.id).tasks.length
-                                        return (
-                                            <NavLink key={item.id} data-title={item.name} onMouseDown={()=>closeSidebarAfter({project: item.id}, null, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
-                                                <div className={styles.slotContent}>
-                                                    <div className={styles.title}>
-                                                        <p>{item.name}</p>
-                                                    </div>
-                                                    <div className={styles.title}>
-                                                        {item.id!=='all'&&item.id!=='today'?<div className={styles.projectMoreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
-                                                        <div className={styles.projectProgressNum} style={{marginLeft: '12px'}}>
-                                                            {completedTasks}/
-                                                            {totalTasks}
-                                                        </div>  
-                                                    </div>
-                                                </div>
-                                                <div className={styles.progress}>
-                                                        <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
-                                                </div>
-                                            </NavLink>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <div className={styles.sideMenuCategory}>
-                                <h3><Calendar /><p>Events</p></h3>
-                                <div className={styles.options}>
-                                    {events.map((item)=>{
-                                        return (
-                                            <NavLink onMouseDown={()=>closeSidebarAfter({event: item.id}, null, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
-                                                <div className={styles.eventSlot}>
-                                                    <p>{item.name}</p>
-                                                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
-                                                </div>
-                                            </NavLink>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </OutsideClickHandler>
+            {console.log(scheduleSideMenu?0:-100)}
+            {console.log(scheduleSideMenu)}
+            <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`, transform: `translateX(${scheduleSideMenu?0:-100}%)`}}>
+                <OutsideClickHandler onOutsideClick={(e)=>closeSideMenu(e)}>
+                    <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={showCalendar}>
+                        <div className={styles.slotContent}>
+                            <p>Show Calendar</p>
+                        </div>
+                    </div>   
+                    <div className={styles.sideMenuCategory}>
+                        <h3><RefreshCw /><p>Habits</p></h3>
+                        <div className={styles.options}>
+                            {habits.map((item)=>{
+                                return (
+                                    <NavLink onMouseDown={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                        <div className={styles.slotContent}>
+                                            <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
+                                                {iconsSvg[item.icon]}
+                                            </div>
+                                            <p>{item.name}</p>
+                                        </div>
+                                        <div className={styles.habitOptions}>
+                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'edithabit', habit: item})}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                                            <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
+                                        </div>
+                                    </NavLink>   
+                                )
+                            })}
+                        </div>
                     </div>
-            :null}
+                    <div className={styles.sideMenuCategory}>
+                        <h3><Folder /><p>Projects</p></h3>
+                        <div className={styles.options}>
+                            {projects.map((item)=>{
+                                const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
+                                const totalTasks = projects.find(i=>i.id===item.id).tasks.length
+                                return (
+                                    <NavLink key={item.id} data-title={item.name} onMouseDown={()=>closeSidebarAfter({project: item.id}, null, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
+                                        <div className={styles.slotContent}>
+                                            <div className={styles.title}>
+                                                <p>{item.name}</p>
+                                            </div>
+                                            <div className={styles.title}>
+                                                {item.id!=='all'&&item.id!=='today'?<div className={styles.projectMoreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
+                                                <div className={styles.projectProgressNum} style={{marginLeft: '12px'}}>
+                                                    {completedTasks}/
+                                                    {totalTasks}
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div className={styles.progress}>
+                                                <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
+                                        </div>
+                                    </NavLink>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <div className={styles.sideMenuCategory}>
+                        <h3><Calendar /><p>Events</p></h3>
+                        <div className={styles.options}>
+                            {events.map((item)=>{
+                                return (
+                                    <NavLink onMouseDown={()=>closeSidebarAfter({event: item.id}, null, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                        <div className={styles.eventSlot}>
+                                            <p>{item.name}</p>
+                                            <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
+                                        </div>
+                                    </NavLink>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </OutsideClickHandler>
+            </div>
         </div>
     )
 }

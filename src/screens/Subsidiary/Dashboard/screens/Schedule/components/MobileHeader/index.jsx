@@ -25,7 +25,7 @@ const MobileHeader = () => {
         <div className={styles.header}>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} />:null}
             <div className={styles.options}>
-                <Menu onMouseDown={()=>setScheduleSideMenu(!scheduleSideMenu)} />
+                <Menu onMouseDown={()=>setScheduleSideMenu(!scheduleSideMenu)} id='mobileHeaderMenuBtn' />
                 <p>Schedule</p>
             </div>
             <div className={styles.options}>
