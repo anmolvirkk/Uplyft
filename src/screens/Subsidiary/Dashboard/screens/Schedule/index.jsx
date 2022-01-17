@@ -112,6 +112,15 @@ const Schedule = () => {
         }
     }
 
+    const showCalendar = () => {
+        const showCalendar = async () => {
+            toggleDetails.hide()
+        }
+        showCalendar().then(()=>{
+            setScheduleSideMenu(false)
+        })
+    }
+
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
@@ -132,7 +141,7 @@ const Schedule = () => {
             {scheduleSideMenu?
                     <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`}}>
                         <OutsideClickHandler onOutsideClick={()=>setScheduleSideMenu(false)}>
-                            <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={()=>closeSidebarAfter(toggleDetails.hide)}>
+                            <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={showCalendar}>
                                 <div className={styles.slotContent}>
                                     <p>Show Calendar</p>
                                 </div>
