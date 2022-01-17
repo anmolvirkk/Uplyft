@@ -19,7 +19,7 @@ const Dashboard = () => {
         window.onresize = () => {
             clearTimeout(timeout)
             timeout = setTimeout(()=>{
-                setModalConfig({type: ''})
+                setModalConfig({...modalConfig})
             }, 300)
         }
     }
