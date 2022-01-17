@@ -86,10 +86,10 @@ const MainSection = ({styles, isMobile}) => {
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     if(allRoutes['book']){
     return (
-        <div className={styles.mainSection} id='journalMainSection'>
+        <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${mobileHeight}px`}:null}>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
-                            <div style={{display: 'flex', width: '100%'}}>
+                            <div style={{display: 'flex', width: '100%', height: isMobile?mobileHeight:null}}>
                                 {
                                 allRoutes[allRoutes['book']][allRoutes['date']] ?
                                 <div style={{width: '100%'}}>
