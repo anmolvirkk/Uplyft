@@ -99,14 +99,13 @@ const Schedule = () => {
             }
             toggleDetails.show()
         }
-        if(target){
-            if(target.className){
-                if(typeof target.className === 'string'){
-                    if(!target.className.includes('checkBtn')){
-                        setPage().then(()=>{
-                            setScheduleSideMenu(false)
-                        })
-                    }
+        if(target.className){
+            if(typeof target.className === 'string'){
+                console.log(target.className)
+                if(!target.className.includes('checkBtn') && !target.className.includes('moremenu')){
+                    setPage().then(()=>{
+                        setScheduleSideMenu(false)
+                    })
                 }
             }
         }else{
@@ -148,8 +147,6 @@ const Schedule = () => {
                         </OutsideClickHandler>
                     </div>
             :null}
-            {console.log(scheduleSideMenu?0:-100)}
-            {console.log(scheduleSideMenu)}
             <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`, transform: `translateX(${scheduleSideMenu?0:-100}%)`}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeSideMenu(e)}>
                     <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={showCalendar}>
@@ -185,7 +182,7 @@ const Schedule = () => {
                                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                                 return (
-                                    <NavLink key={item.id} data-title={item.name} onMouseDown={()=>closeSidebarAfter({project: item.id}, null, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
+                                    <NavLink key={item.id} data-title={item.name} onMouseDown={(e)=>closeSidebarAfter({project: item.id}, e.target, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
                                         <div className={styles.slotContent}>
                                             <div className={styles.title}>
                                                 <p>{item.name}</p>
@@ -211,7 +208,7 @@ const Schedule = () => {
                         <div className={styles.options}>
                             {events.map((item)=>{
                                 return (
-                                    <NavLink onMouseDown={()=>closeSidebarAfter({event: item.id}, null, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                    <NavLink onMouseDown={(e)=>closeSidebarAfter({event: item.id}, e.target, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
                                         <div className={styles.eventSlot}>
                                             <p>{item.name}</p>
                                             <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
