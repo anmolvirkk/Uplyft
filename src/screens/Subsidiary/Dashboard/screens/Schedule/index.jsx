@@ -141,7 +141,7 @@ const Schedule = () => {
             <ScheduleSection />
             <MainCalendar isMobile={isMobile} />
             <MobileHeader />
-            <div className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:100}%)`}}>
+            <div className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeAddMenu(e)}>
                     <button onClick={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>
                     <button onClick={()=>setModalConfig({type: 'addProject'})}><Folder /><p>Add Project</p></button>
