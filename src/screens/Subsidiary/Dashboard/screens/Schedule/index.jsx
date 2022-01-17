@@ -14,7 +14,6 @@ import { Calendar, Check, Folder, RefreshCw } from 'react-feather'
 import modalConfigAtom from '../Journals/recoil-atoms/modalConfigAtom'
 import scheduleSideMenuAtom from './recoil-atoms/scheduleSideMenuAtom'
 import habitsAtom from './recoil-atoms/habitsAtom'
-import { NavLink } from 'react-router-dom'
 import { colors, iconsSvg } from '../../variables/journalConfig'
 import MoreMenu from '../../components/MoreMenu'
 import allCalendarEventsAtom from './recoil-atoms/allCalendarEventsAtom'
@@ -101,7 +100,6 @@ const Schedule = () => {
         }
         if(target.className){
             if(typeof target.className === 'string'){
-                console.log(target.className)
                 if(!target.className.includes('checkBtn') && !target.className.includes('moremenu')){
                     setPage().then(()=>{
                         setScheduleSideMenu(false)
@@ -159,7 +157,7 @@ const Schedule = () => {
                         <div className={styles.options}>
                             {habits.map((item)=>{
                                 return (
-                                    <NavLink onMouseDown={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/habits/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                    <div onMouseDown={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits')} key={item.id} className={styles.sideSectionSlot} data-title={item.name}>
                                         <div className={styles.slotContent}>
                                             <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                 {iconsSvg[item.icon]}
@@ -170,7 +168,7 @@ const Schedule = () => {
                                             <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'edithabit', habit: item})}, {name: "delete", function: ()=>deleteHabit(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
                                             <CheckBtn times={item.times} id={item.id} timesCompleted={item.timesCompleted} datesCompleted={item.datesCompleted} />
                                         </div>
-                                    </NavLink>   
+                                    </div>   
                                 )
                             })}
                         </div>
@@ -182,7 +180,7 @@ const Schedule = () => {
                                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                                 return (
-                                    <NavLink key={item.id} data-title={item.name} onMouseDown={(e)=>closeSidebarAfter({project: item.id}, e.target, 'tasks')} to={`/${company.subsidiary}/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.projectSideSectionSlot} activeClassName={styles.projectActiveSectionSlot}>
+                                    <div key={item.id} data-title={item.name} onMouseDown={(e)=>closeSidebarAfter({project: item.id}, e.target, 'tasks')} className={styles.projectSideSectionSlot}>
                                         <div className={styles.slotContent}>
                                             <div className={styles.title}>
                                                 <p>{item.name}</p>
@@ -198,7 +196,7 @@ const Schedule = () => {
                                         <div className={styles.progress}>
                                                 <hr style={{width: `${completedTasks/totalTasks*100?completedTasks/totalTasks*100:0}%`}} />
                                         </div>
-                                    </NavLink>
+                                    </div>
                                 )
                             })}
                         </div>
@@ -208,12 +206,12 @@ const Schedule = () => {
                         <div className={styles.options}>
                             {events.map((item)=>{
                                 return (
-                                    <NavLink onMouseDown={(e)=>closeSidebarAfter({event: item.id}, e.target, 'events')} key={item.id} to={`/${company.subsidiary}/dashboard/${company.schedule}/events/${item.id}`} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={styles.activeSectionSlot} data-title={item.name}>
+                                    <div onMouseDown={(e)=>closeSidebarAfter({event: item.id}, e.target, 'events')} key={item.id} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} data-title={item.name}>
                                         <div className={styles.eventSlot}>
                                             <p>{item.name}</p>
                                             <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
                                         </div>
-                                    </NavLink>
+                                    </div>
                                 )
                             })}
                         </div>
