@@ -12,13 +12,20 @@ const MoreMenu = ({items, id, pos}) => {
             setVisible(false)
         }
     }
-    
-    if(document.getElementById('scheduleSideMenu') && visible){
-        document.getElementById('scheduleSideMenu').onscroll = () => {
-            setVisible(false)
-            document.getElementById('scheduleSideMenu').onscroll = null
+
+    const closeOnScroll = (elem) => {
+        if(elem && visible){
+            elem.onscroll = () => {
+                setVisible(false)
+                elem.onscroll = null
+            }
         }
     }
+
+    closeOnScroll(document.getElementById('scheduleSideMenu'))
+    closeOnScroll(document.getElementById('bookSectionScroller'))
+    closeOnScroll(document.getElementById('slotSectionScroller'))
+    closeOnScroll(document.getElementById('scheduleSlotSectionScroller'))
 
     return (
         <div className={styles.moreMenuWrapper}>

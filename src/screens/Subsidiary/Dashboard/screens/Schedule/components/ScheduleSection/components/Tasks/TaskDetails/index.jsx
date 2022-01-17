@@ -531,7 +531,7 @@ const TaskDetails = () => {
 
     return (
         <div style={isMobile?{height: '100%'}:null}>
-            <div className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 80px - 40px)':'calc(100% - 40px)'}}>
+            <div id='scheduleSlotSectionScroller' className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 80px - 40px)':'calc(100% - 40px)'}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
                         <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>

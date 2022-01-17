@@ -94,7 +94,7 @@ const BookSection = ({ styles, isMobile }) => {
 
     return (
     <div className={styles.journalBooks} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null} id="bookSection">
-        <div className={styles.bookSection}>
+        <div className={styles.bookSection} id="bookSectionScroller">
             {
             books.length > 0 ?
             books.map((props)=>(
