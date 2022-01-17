@@ -149,7 +149,7 @@ const Schedule = () => {
                     <button onClick={()=>setModalConfig({type: 'addEvent'})}><Calendar /><p>Add Event</p></button>
                 </OutsideClickHandler>
             </div>
-            <div className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`, transform: `translateX(${scheduleSideMenu?0:-100}%)`}}>
+            <div id='scheduleSideMenu' className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`, transform: `translateX(${scheduleSideMenu?0:-100}%)`}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeSideMenu(e)}>
                     <div className={`${styles.sideSectionSlot} ${styles.showCalendar}`} onMouseDown={showCalendar}>
                         <div className={styles.slotContent}>

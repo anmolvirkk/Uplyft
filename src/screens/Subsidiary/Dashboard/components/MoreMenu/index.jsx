@@ -12,6 +12,13 @@ const MoreMenu = ({items, id, pos}) => {
             setVisible(false)
         }
     }
+    
+    if(document.getElementById('scheduleSideMenu') && visible){
+        document.getElementById('scheduleSideMenu').onscroll = () => {
+            setVisible(false)
+            document.getElementById('scheduleSideMenu').onscroll = null
+        }
+    }
 
     return (
         <div className={styles.moreMenuWrapper}>
