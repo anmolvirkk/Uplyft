@@ -21,6 +21,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
   window.onresize = () => {
     if(document.getElementById('textEditorHeader')){
+      document.getElementById('textEditorHeader').style.display = 'block'
       document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-35)+'px'
     }
   }
