@@ -11,19 +11,7 @@ import company from '../../../company'
 
 const Dashboard = () => {
 
-    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
-    const isMobile = window.innerWidth < 1450
-    if(isMobile){
-        let timeout = null
-        window.onresize = () => {
-            if(!document.getElementById('textEditor')){
-                clearTimeout(timeout)
-                timeout = setTimeout(()=>{
-                    setModalConfig({...modalConfig})
-                }, 300)
-            }
-        }
-    }
+    const [modalConfig] = useRecoilState(modalConfigAtom)
 
     return (
         <Router>

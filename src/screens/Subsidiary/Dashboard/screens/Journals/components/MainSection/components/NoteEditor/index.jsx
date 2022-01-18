@@ -7,6 +7,8 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
 
+import { editorHeight } from '../../../../../../variables/mobileHeights'
+
 const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
   const editorBody = useRef(value)
@@ -16,7 +18,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     setEditorData(val)
     setNote(id, val, prompt, name)
   }
-  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: (window.innerHeight-80-60-40-24-12)+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: editorHeight+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 

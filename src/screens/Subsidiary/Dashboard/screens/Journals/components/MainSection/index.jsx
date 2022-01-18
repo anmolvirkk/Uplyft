@@ -14,6 +14,7 @@ import notesAtom from '../../recoil-atoms/notesAtom'
 import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
+import { mobileHeight } from '../../../../variables/mobileHeights'
 
 const MainSection = ({styles, isMobile}) => {
 
@@ -83,8 +84,6 @@ const MainSection = ({styles, isMobile}) => {
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
 
-    const mobileHeight = window.innerHeight - 80 - 60
-    
     if(allRoutes['book']){
     return (
         <div className={styles.mainSection} id='journalMainSection' style={isMobile?{height: `${mobileHeight}px`}:null}>
