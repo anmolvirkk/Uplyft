@@ -7,7 +7,7 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
 
-import { editorHeight } from '../../../../../../variables/mobileHeights'
+import { editorHeight, windowHeight } from '../../../../../../variables/mobileHeights'
 
 const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
@@ -19,25 +19,18 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     setNote(id, val, prompt, name)
   }
 
-  window.onscroll = () => {
+  window.onresize = () => {
     if(document.getElementById('textEditorHeader')){
-      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-50+document.documentElement.scrollTop*1.1)+'px'
+      if(window.innerHeight < windowHeight){
+        document.getElementById('textEditorHeader').style.display = 'block'
+        document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-33)+'px'
+      }else{
+        document.getElementById('textEditorHeader').style.display = 'none'
+      }
     }
   }
 
-  const toggleToolbar = {
-    show: () => {
-      document.getElementById('mainSideBar').style.display = 'none'
-      document.getElementById('textEditorHeader').style.display = 'block'
-      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-100+document.documentElement.scrollTop)+'px'
-    },
-    hide: () => {
-      document.getElementById('textEditorHeader').style.display = 'none'
-      document.getElementById('mainSideBar').style.display = 'flex'
-    }
-  }
-
-  return <div onFocus={toggleToolbar.show} onBlur={toggleToolbar.hide} id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: editorHeight+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: editorHeight+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
