@@ -7,7 +7,7 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
 
-import { editorHeight, windowHeight } from '../../../../../../variables/mobileHeights'
+import { editorHeight } from '../../../../../../variables/mobileHeights'
 
 const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
