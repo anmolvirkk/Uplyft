@@ -8,10 +8,6 @@ import company from './company'
 import Auth from './screens/Subsidiary/Auth'
 
 const App = () => {
-    
-    
-    document.getElementsByTagName('html')[0].style.height = window.innerHeight+'px'
-    document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px'
 
     const [darkMode] = useRecoilState(darkModeAtom)
 
