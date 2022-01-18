@@ -17,6 +17,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
   const handleInput = (val) => {
     setEditorData(val)
     setNote(id, val, prompt, name)
+  }
 
   window.onscroll = () => {
     if(document.getElementById('textEditorHeader')){
