@@ -17,22 +17,10 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
   const handleInput = (val) => {
     setEditorData(val)
     setNote(id, val, prompt, name)
-  }
-
-  // window.onresize = () => {
-  //   if(document.getElementById('textEditorHeader')){
-  //     if(window.innerHeight < windowHeight){
-  //       document.getElementById('textEditorHeader').style.display = 'block'
-  //       document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-33)+'px'
-  //     }else{
-  //       document.getElementById('textEditorHeader').style.display = 'none'
-  //     }
-  //   }
-  // }
 
   window.onscroll = () => {
     if(document.getElementById('textEditorHeader')){
-      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-100+document.documentElement.scrollTop)+'px'
+      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-50+document.documentElement.scrollTop*2)+'px'
     }
   }
 
