@@ -125,7 +125,7 @@ const Header = () => {
         </OutsideClickHandler>
     )
 
-    return <header className={styles.textEditorHeader} id='textEditorHeader' onMouseDown={()=>document.getElementById('textEditor').focus()}>
+    return <header className={styles.textEditorHeader} id='textEditorHeader' onMouseDown={()=>setTimeout(()=>{document.getElementById('textEditor').focus()}, 0)}>
                 <div className={styles.textOptions}>
                     <TextSizeDropDown />
                     <TextStyleOptions />
