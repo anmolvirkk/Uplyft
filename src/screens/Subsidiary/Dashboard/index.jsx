@@ -8,15 +8,17 @@ import { useRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
-import { isMobile } from './variables/mobileHeights'
 
 const Dashboard = () => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
-
+    
+    document.getElementsByTagName('html')[0].style.maxHeight = window.innerHeight+'px'
+    document.getElementsByTagName('body')[0].style.maxHeight = window.innerHeight+'px'
+    
     return (
         <Router>
-            <div className="container" style={isMobile?{height: window.innerHeight+'px'}:null}>
+            <div className="container">
                 {modalConfig.type!=='' ? 
                 <Modal />
                 : null}
