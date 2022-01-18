@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import styles from './_textEditor.module.sass'
 import Header from './components/Header'
 import Prompts from './components/Prompts'
@@ -6,8 +6,6 @@ import Prompts from './components/Prompts'
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
-
-import { editorHeight } from '../../../../../../variables/mobileHeights'
 
 const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
@@ -23,7 +21,13 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     }, 300)
   }
 
-  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: (window.innerHeight - 80 - 60 - 24)>editorHeight?(window.innerHeight - 80 - 60 - 24):editorHeight, minHeight: editorHeight+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  useEffect(()=>{
+    if(document.getElementById('textEditor')){
+      document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 24)+'px'
+    }
+  }, [])
+
+  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 

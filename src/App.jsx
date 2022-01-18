@@ -11,7 +11,6 @@ import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeigh
 const App = () => {
 
     const [darkMode] = useRecoilState(darkModeAtom)
-    document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px'
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
@@ -20,21 +19,23 @@ const App = () => {
 
     let timeout
     const [forceUpdate, setForceUpdate] = useState(false)
-    
+
     window.onresize = () => {
         if(document.getElementById('textEditorHeader')){
             if(window.innerHeight < windowHeight){
+                document.getElementById('mainSideBar').style.display = 'none'
                 document.getElementById('textEditorHeader').style.display = 'block'
-                document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-33)+'px'
+                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 24)+'px'
             }else{
+                document.getElementById('mainSideBar').style.display = 'flex'
                 document.getElementById('textEditorHeader').style.display = 'none'
+                document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 24)+'px'
             }
         }
 
         clearTimeout(timeout)
         timeout = setTimeout(()=>{
             setForceUpdate(!forceUpdate)
-            console.log('x')
         }, 300)
 
     }
