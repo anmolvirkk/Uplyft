@@ -26,7 +26,7 @@ const Dashboard = () => {
 
     return (
         <Router>
-            <div className="container" onScroll={()=>console.log('x')}>
+            <div className="container">
                 {modalConfig.type!=='' ? 
                 <Modal />
                 : null}
