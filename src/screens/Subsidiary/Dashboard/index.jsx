@@ -13,9 +13,6 @@ const Dashboard = () => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
     
-    document.getElementsByTagName('html')[0].style.maxHeight = window.innerHeight+'px'
-    document.getElementsByTagName('body')[0].style.maxHeight = window.innerHeight+'px'
-    
     return (
         <Router>
             <div className="container">
