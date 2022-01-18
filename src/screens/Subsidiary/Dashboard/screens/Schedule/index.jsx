@@ -135,7 +135,7 @@ const Schedule = () => {
     }
 
     return (
-        <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null, maxHeight: isMobile?window.innerHeight:null}}>
+        <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
             <SideBar />
             <ScheduleSection />
