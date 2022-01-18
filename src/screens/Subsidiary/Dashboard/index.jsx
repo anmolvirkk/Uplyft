@@ -14,7 +14,7 @@ const Dashboard = () => {
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
     const isMobile = window.innerWidth < 1450
 
-    if(isMobile){
+    if(isMobile && !document.getElementById('textEditor')){
         let timeout = null
         window.onresize = () => {
             clearTimeout(timeout)
