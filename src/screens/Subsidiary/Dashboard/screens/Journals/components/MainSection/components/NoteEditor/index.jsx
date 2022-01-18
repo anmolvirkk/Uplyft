@@ -21,15 +21,14 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
   window.onresize = () => {
     if(document.getElementById('textEditorHeader')){
-      if(window.innerHeight < windowHeight){
+      if(document.documentElement.scrollHeight < windowHeight){
         document.getElementById('textEditorHeader').style.display = 'block'
-        // if(navigator.vendor === 'Apple Computer, Inc.'){
+        document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40-50)+'px'
+        // if(document.documentElement.scrollHeight){
         //   document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40-50)+'px'
         // }else{
         //   document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-35)+'px'
         // }
-        document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40-150)+'px'
-        document.getElementById('textEditorHeader').style.zIndex = 9999999
       }else{
         document.getElementById('textEditorHeader').style.display = 'none'
       }
