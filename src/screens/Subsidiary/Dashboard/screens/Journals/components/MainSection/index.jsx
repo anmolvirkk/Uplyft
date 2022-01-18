@@ -14,9 +14,9 @@ import notesAtom from '../../recoil-atoms/notesAtom'
 import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
-import { mobileHeight } from '../../../../variables/mobileHeights'
 
 const MainSection = ({styles, isMobile}) => {
+    const mobileHeight = window.innerHeight - 80 - 60
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
