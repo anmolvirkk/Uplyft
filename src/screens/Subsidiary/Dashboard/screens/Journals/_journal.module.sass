@@ -98,14 +98,14 @@
     width: 100%
     height: calc( 100vh - 80px )
     display: grid
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
-    grid-template-rows: repeat(auto-fill, minmax(400px, 1fr))
+    grid-template-rows: repeat(auto-fill, minmax(40vh, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
     overflow-y: overlay
     grid-gap: 2.5vh
     padding: 2.5vh
 
 .note
-    min-height: 300px
+    min-height: 40vh
     border-radius: 1.25vh 1.25vh
     background-color: rgb(var(--background))
     text-decoration: none
@@ -328,6 +328,12 @@
         display: none
     .noteSection
         height: 100%
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+        grid-template-rows: repeat(auto-fill, minmax(400px, 1fr))
+        grid-gap: 12px
+        padding: 12px
+    .note
+        min-height: 400px
     .helperTextAddEntry
         position: absolute
         width: calc( 100% )
