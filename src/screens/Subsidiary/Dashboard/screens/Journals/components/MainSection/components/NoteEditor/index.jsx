@@ -22,10 +22,10 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
   }
 
   useEffect(()=>{
-    if(document.getElementById('textEditor')){
+    if(document.getElementById('textEditor') && isMobile){
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 24)+'px'
     }
-  }, [])
+  }, [isMobile])
 
   return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 

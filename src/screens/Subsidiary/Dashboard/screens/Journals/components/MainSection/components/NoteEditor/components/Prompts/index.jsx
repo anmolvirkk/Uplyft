@@ -1,4 +1,4 @@
-import React, {useState} from 'react' 
+import React, {useEffect, useState} from 'react' 
 import styles from './_prompts.module.sass'
 import {ChevronDown, ChevronRight, ChevronUp, Plus} from 'react-feather'
 import MoreMenu from '../../../../../../../../components/MoreMenu'
@@ -8,8 +8,6 @@ import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 import {useSetRecoilState} from 'recoil' 
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
-
-const mobileHeight = window.innerHeight - 60 - 80 - 40 - 24 - 15
 
 const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt, isMobile}) => {
 
@@ -38,12 +36,18 @@ const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt, isMobil
         }
     }
 
+    useEffect(()=>{
+        if(document.getElementById('promptsSelector') && isMobile){
+        document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 15)+'px'
+        }
+    }, [isMobile])
+
     return (
         <OutsideClickHandler onOutsideClick={()=>setPromptsOpen(false)}>
             <div className={styles.promptContainer} id="prompts">
                 <div data-item={prompt} onClick={()=>setPromptsOpen(!promptsOpen)} id="currentPrompt" className={`${styles.currentPrompt} allPrompts`}><p>{prompt === '' ? 'Choose a prompt (optional)' : prompt}</p>{promptsOpen?<ChevronUp />:<ChevronDown />}</div>
                 <div className={promptsOpen ? `${styles.prompts} ${styles.promptsOpen}` : styles.prompts}>
-                    <ul onMouseUp={(e)=>closePrompts(e)} style={isMobile?{height: `${mobileHeight}px`}:null}>
+                    <ul onMouseUp={(e)=>closePrompts(e)} id='promptsSelector'>
                         <li onClick={()=>updatePrompt('')}><p>None</p><ChevronRight /></li>
                         {prompts.map((item, index)=>{
                             return <li onMouseEnter={(e)=>addToolTipForPrompts(e)} className='allPrompts' data-item={item} onClick={()=>updatePrompt(item)} key={index}><p>{item==='' ? 'None' : item}</p>
