@@ -30,6 +30,13 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     }
   }
 
+  window.onscroll = () => {
+    if(document.getElementById('textEditorHeader')){
+      document.getElementById('textEditorHeader').style.display = 'block'
+      document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-33-100)+'px'
+    }
+  }
+
   return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={isMobile?{height: editorHeight+'px', paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}:{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
