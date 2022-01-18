@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 
 const Auth = () => {
     return (
-        <div className={styles.auth}>
+        <div className={`${styles.auth} light`}>
             <div className={styles.form}>
                 <div className={styles.title}>
                     <img src='/logos/main.png' alt={company.subsidiary} />
