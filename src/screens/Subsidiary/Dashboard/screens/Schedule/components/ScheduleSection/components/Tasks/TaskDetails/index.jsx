@@ -530,7 +530,7 @@ const TaskDetails = () => {
     }
 
     return (
-        <div style={isMobile?{height: '100%'}:null}>
+        <div style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
             <div id='scheduleSlotSectionScroller' className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 80px - 40px)':'calc(100% - 40px)'}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>

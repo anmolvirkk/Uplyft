@@ -148,10 +148,12 @@ const HabitDetails = () => {
             </div>
         )
     }
+
+    const isMobile = window.innerWidth < 1450
     return habits.map((item, index)=>{
         if(allRoutes.habit && item.id === allRoutes['habit']){
             return (
-                <div key={index} className={styles.habitDetailSection}>
+                <div key={index} className={styles.habitDetailSection} style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
 
                     <Calendar color={colors[item.color]} index={index} />
 
