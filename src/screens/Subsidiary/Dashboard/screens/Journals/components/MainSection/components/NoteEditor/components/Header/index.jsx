@@ -125,7 +125,7 @@ const Header = () => {
         </OutsideClickHandler>
     )
 
-    return <header className={styles.textEditorHeader}>
+    return <header className={styles.textEditorHeader} id='textEditorHeader'>
                 <div className={styles.textOptions}>
                     <TextSizeDropDown />
                     <TextStyleOptions />
