@@ -10,7 +10,7 @@ import Auth from './screens/Subsidiary/Auth'
 const App = () => {
 
     const [darkMode] = useRecoilState(darkModeAtom)
-    // document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px'
+    document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px'
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
