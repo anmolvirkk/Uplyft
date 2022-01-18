@@ -116,7 +116,7 @@ const Header = () => {
                     textDropDown ? 
                     <ul className={styles.textSizeDropDown}>
                         <li onMouseDown={heading}><h1>Heading</h1><ChevronRight /></li>
-                        <li onMouseDown={subheading}><h3>Sub Heading</h3><ChevronRight /></li>
+                        <li onMouseDown={subheading}><h3>Subtitle</h3><ChevronRight /></li>
                         <li onMouseDown={normal}><span>Normal</span><ChevronRight /></li>
                     </ul>
                     : null
