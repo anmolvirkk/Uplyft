@@ -23,7 +23,11 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     if(document.getElementById('textEditorHeader')){
       if(window.innerHeight < windowHeight){
         document.getElementById('textEditorHeader').style.display = 'block'
-        document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40)+'px'
+        if(navigator.vendor === 'Apple Computer, Inc.'){
+          document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40-50)+'px'
+        }else{
+          document.getElementById('textEditorHeader').style.top = (window.innerHeight-80-40)+'px'
+        }
       }else{
         document.getElementById('textEditorHeader').style.display = 'none'
       }
