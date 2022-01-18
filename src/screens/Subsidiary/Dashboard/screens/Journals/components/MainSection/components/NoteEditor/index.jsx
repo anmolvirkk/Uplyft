@@ -21,7 +21,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
   window.onscroll = () => {
     if(document.getElementById('textEditorHeader')){
-      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-50+document.documentElement.scrollTop*2)+'px'
+      document.getElementById('textEditorHeader').style.top = ((window.innerHeight/2)-50+document.documentElement.scrollTop*1.1)+'px'
     }
   }
 
