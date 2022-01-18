@@ -14,9 +14,13 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
   const editorBody = useRef(value)
   const textEditor = useRef()
 
+  let timeout
   const handleInput = (val) => {
-    setEditorData(val)
-    setNote(id, val, prompt, name)
+    clearTimeout(timeout)
+    timeout = setTimeout(()=>{
+      setEditorData(val)
+      setNote(id, val, prompt, name)
+    }, 300)
   }
 
   window.onresize = () => {
