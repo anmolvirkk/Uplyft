@@ -89,7 +89,7 @@ const MainSection = ({styles, isMobile}) => {
         <div className={styles.mainSection} id='journalMainSection'>
                         <Switch>
                             <Route exact path={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`}>
-                            <div style={{display: 'flex', width: '100%', height: isMobile?'100%':null}}>
+                            <div style={{display: 'flex', width: '100%', height: isMobile?(window.innerHeight-80-60)+'px':null}}>
                                 {
                                 allRoutes[allRoutes['book']][allRoutes['date']] ?
                                 <div style={{width: '100%', height: isMobile?'100%':null}}>
