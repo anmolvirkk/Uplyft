@@ -9,7 +9,7 @@ import {useSetRecoilState} from 'recoil'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 
-const mobileHeight = window.innerHeight - 60 - 80 - 40 - 24 - 65 - 3
+const mobileHeight = window.innerHeight - 60 - 80 - 40 - 24 - 15
 
 const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt, isMobile}) => {
 
