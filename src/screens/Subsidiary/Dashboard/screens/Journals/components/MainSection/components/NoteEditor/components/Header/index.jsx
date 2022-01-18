@@ -69,6 +69,14 @@ const Header = () => {
         insertUnorderedList: ()=>{
             document.execCommand('insertUnorderedList')
             setIsList(document.queryCommandState("insertUnorderedList"))
+            const el = document.getElementById('textEditor')
+            const selection = window.getSelection()
+            const range = document.createRange()
+            selection.removeAllRanges()
+            range.selectNodeContents(el); 
+            range.collapse(false)
+            selection.addRange(range)
+            el.focus()
         }
     }
 
