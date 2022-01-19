@@ -65,7 +65,9 @@ const SideBar = () => {
             func: () => {
                 setScheduleHeader({title: 'Schedule', onAdd: null})
                 setScheduleSideMenu(false)
-                document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+                if(document.getElementById('scheduleSideSection')){
+                    document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+                }
             }
         },
         {
