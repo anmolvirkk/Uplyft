@@ -15,23 +15,27 @@
     position: relative
     cursor: pointer
     p
-        background-color: rgb(var(--sideBar))
         line-height: 1
         display: flex
         justify-content: space-between
         align-items: center
-        width: 20vh
         height: 5vh
-        padding: 0 2.5vh
         font-size: 1.5vh
         color: rgb(var(--titles))
+        border-bottom: 1px solid rgb(var(--border))
+        white-space: nowrap
+        width: 12vh
+        svg
+            min-width: 3vh
+            position: absolute
+            right: -5px
     ul
         list-style: none
         position: absolute
         padding: 0
         margin: 0
         background-color: rgb(var(--sideBar))
-        color: rgb(var(--text), 0.7)
+        color: rgb(var(--text), 1)
         box-shadow: 0 5px 10px rgba(var(--border), 0.1)
         z-index: 9
         li:first-child
@@ -65,7 +69,10 @@
         cursor: pointer
         svg
             stroke: rgb(var(--titles))
-
+    .activeBtn
+        background-color: rgb(var(--primary))
+        svg
+            stroke: white
 .list
     margin-left: 2vh
     height: 5vh
@@ -87,9 +94,6 @@
         border-radius: 100%
         cursor: pointer
 
-.activeBtn
-    background-color: rgb(var(--sideBar))
-
 @media screen and (max-width: 1450px)
     header
         height: 40px
@@ -100,9 +104,11 @@
         display: none
     .textEditorHeader
         display: none
-        width: calc( 100% - 5px )
+        width: 100%
         margin: 0
         margin-left: 0
+        padding-left: 12px
+        padding-right: 3px
     .textOptions
         width: 100%
         justify-content: space-between
@@ -119,14 +125,11 @@
                 height: 100%
                 width: 100%
                 padding: 8px
-                padding-top: 16px
-                padding-bottom: 0
     .textSizeDropDown
         p
             width: 120px
-            height: 100%
-            padding: 0 12px
             font-size: 12px
+            height: 100%
         svg
             transform: rotate(180deg)
         ul

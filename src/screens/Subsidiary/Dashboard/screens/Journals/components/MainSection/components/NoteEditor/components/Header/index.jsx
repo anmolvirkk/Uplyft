@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Bold, Italic, Underline, List, ChevronDown, ChevronRight} from 'react-feather'
+import {Bold, Italic, Underline, List, ChevronDown, ChevronRight, ChevronUp} from 'react-feather'
 import styles from './_header.module.sass'
 
 import { colors } from '../../../../../../../../variables/journalConfig'
@@ -107,7 +107,7 @@ const Header = () => {
     }
 
     const subheading = () => {
-        setCurrentTextSize('Sub Heading')
+        setCurrentTextSize('Subtitle')
         document.execCommand('formatBlock', false, '<h3>')
     }
 
@@ -119,7 +119,7 @@ const Header = () => {
     const TextSizeDropDown = () => (
         <OutsideClickHandler onOutsideClick={()=>setTextDropDown(false)}>
             <div className={styles.textSizeDropDown} onMouseDown={()=>setTextDropDown(!textDropDown)}> 
-                <p id="currentTextSize"><span>{currentTextSize}</span><ChevronDown /></p>
+                <p id="currentTextSize"><span>{currentTextSize}</span>{textDropDown?<ChevronUp />:<ChevronDown />}</p>
                 {
                     textDropDown ? 
                     <ul className={styles.textSizeDropDown}>
