@@ -124,7 +124,7 @@ const Header = () => {
                         <div className={styles.circle} style={{backgroundColor: textcolors[color]}} />
                     </div>
                 </div>
-                <ul className={styles.allColors} id='mobileToolbarColors'>
+                <ul className={styles.allColors} id='mobileToolbarColors' style={{maxHeight: (window.innerHeight - 60 - 40)+'px'}}>
                         {textcolors.map((item, index)=>{
                             if(item !== textcolors[color]){
                                 return <li key={index} style={{backgroundColor: item}} onMouseDown={()=>setColorMobile(index)} />
