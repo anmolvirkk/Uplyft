@@ -8,6 +8,8 @@ import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import DarkMode from './components/DarkMode'
 import company from '../../../../../company'
 import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/currentMobileSectionAtom'
+import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
+import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -23,6 +25,8 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
 const SideBar = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
+    const setScheduleHeader = useSetRecoilState(setScheduleHeaderAtom)
+    const setScheduleSideMenu = useSetRecoilState(setScheduleSideMenuAtom)
 
     const sidebarButtons = [
         {
@@ -58,7 +62,11 @@ const SideBar = () => {
             icon: '/logos/schedule.png',
             link: allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`,
             underConstruction: false,
-            func: null
+            func: () => {
+                setScheduleHeader({title: 'Schedule', onAdd: null})
+                setScheduleSideMenu(false)
+                document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+            }
         },
         {
             name: company.notes,
