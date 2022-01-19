@@ -10,7 +10,7 @@ import MobileHeader from './components/MobileHeader'
 import scheduleAddDropDownAtom from './recoil-atoms/scheduleAddDropDownAtom'
 import styles from './_schedule.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
-import { Calendar, Folder, RefreshCw } from 'react-feather'
+import { Calendar, Folder, Plus, RefreshCw } from 'react-feather'
 import modalConfigAtom from '../Journals/recoil-atoms/modalConfigAtom'
 import scheduleSideMenuAtom from './recoil-atoms/scheduleSideMenuAtom'
 import habitsAtom from './recoil-atoms/habitsAtom'
@@ -169,9 +169,9 @@ const Schedule = () => {
             <MobileHeader />
             <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`, top: document.getElementById('scheduleAddDropDownContainer')?`${window.innerHeight-80-document.getElementById('scheduleAddDropDownContainer').clientHeight}px`:'100vh'}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeAddMenu(e)}>
-                    <button onClick={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>
-                    <button onClick={()=>setModalConfig({type: 'addProject'})}><Folder /><p>Add Project</p></button>
-                    <button onClick={()=>setModalConfig({type: 'addEvent'})}><Calendar /><p>Add Event</p></button>
+                    <button onMouseDown={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>
+                    <button onMouseDown={()=>setModalConfig({type: 'addProject'})}><Folder /><p>Add Project</p></button>
+                    <button onMouseDown={()=>setModalConfig({type: 'addEvent'})}><Calendar /><p>Add Event</p></button>
                 </OutsideClickHandler>
             </div>
             <div id='scheduleSideMenu' className={styles.scheduleSideMenu} style={{height: `${sideMenuHeight}px`, maxHeight: `${sideMenuHeight}px`, transform: `translateX(${scheduleSideMenu?0:-100}%)`}}>
@@ -182,7 +182,7 @@ const Schedule = () => {
                         </div>
                     </div>   
                     <div className={styles.sideMenuCategory}>
-                        <h3><RefreshCw /><p>Habits</p></h3>
+                        <h3><p><RefreshCw />Habits</p><Plus onMouseDown={()=>setModalConfig({type: 'addhabit'})} /></h3>
                         <div className={styles.options}>
                             {habits.map((item)=>{
                                 return (
@@ -203,7 +203,7 @@ const Schedule = () => {
                         </div>
                     </div>
                     <div className={styles.sideMenuCategory}>
-                        <h3><Folder /><p>Projects</p></h3>
+                        <h3><p><Folder />Projects</p><Plus onMouseDown={()=>setModalConfig({type: 'addProject'})} /></h3>
                         <div className={styles.options}>
                             {projects.map((item)=>{
                                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
@@ -231,7 +231,7 @@ const Schedule = () => {
                         </div>
                     </div>
                     <div className={styles.sideMenuCategory}>
-                        <h3><Calendar /><p>Events</p></h3>
+                        <h3><p><Calendar />Events</p><Plus onMouseDown={()=>setModalConfig({type: 'addEvent'})} /></h3>
                         <div className={styles.options}>
                             {events.map((item)=>{
                                 return (
