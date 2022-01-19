@@ -72,18 +72,6 @@ const AddProject = ({icons, type, currentProject}) => {
         setModalConfig({type: ''})
     }
 
-    
-    const selectIcon = (name) => {
-
-        return iconsSvg.map((icon, index)=>{
-            if(icon.type.render.displayName === name.type.render.displayName){
-                return <span style={{height: '100%', width: '100%'}} key={index}>{iconsSvg[index]}</span>
-            }
-            return null
-        })
-
-    }
-
     const ProjectCustomize = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit} ${styles.habitCustomize}`}>
@@ -97,7 +85,7 @@ const AddProject = ({icons, type, currentProject}) => {
                 <li>
                     <p>Icon</p>
                     <ol>
-                        {icons.map((icon, i)=><li className="iconButtons" onClick={()=>setProject({...project, icon: i})} key={i} id={`icon${i}`}>{selectIcon(icon)}<div className={i===project.icon ? styles.activeButton : null} /></li>)}
+                        {iconsSvg.map((icon, i)=><li className="iconButtons" onClick={()=>setProject({...project, icon: i})} key={i} id={`icon${i}`}>{icon}<div className={i===project.icon ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li>
             </ul>
