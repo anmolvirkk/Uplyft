@@ -113,7 +113,7 @@ const Header = () => {
 
     const normal = () => {
         setCurrentTextSize('Normal')
-        document.execCommand('formatBlock', false, '<p>')
+        document.execCommand('formatBlock', false, '<div>')
     }
 
     const TextSizeDropDown = () => (
