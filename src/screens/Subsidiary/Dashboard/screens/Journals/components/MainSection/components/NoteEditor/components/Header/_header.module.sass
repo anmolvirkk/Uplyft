@@ -103,7 +103,7 @@
         margin: 0
         margin-left: 0
         padding-left: 12px
-        padding-right: 3px
+        padding-right: 12px
         height: 40px
         position: absolute
         bottom: 0
@@ -114,6 +114,31 @@
         height: 100%
         div
             height: 100%
+        .currentColor
+            margin-left: 8px
+            width: 28px
+            height: 100%
+            .circleWrapper
+                +mixins.center
+                background-color: rgb(var(--background))
+                position: absolute
+                z-index: 9
+            .circle
+                height: 28px
+                width: 28px
+                border-radius: 100%
+        .allColors
+            position: absolute
+            bottom: calc( 28px + 6px )
+            right: 12px
+            transition: 0.2s
+            transform: translateY(calc( 100% + 40px ))
+            z-index: 1
+            li
+                height: 28px
+                width: 28px
+                border-radius: 100%
+                margin-bottom: 12px
     .textStyleOptions
         margin: 0
         height: 100%
