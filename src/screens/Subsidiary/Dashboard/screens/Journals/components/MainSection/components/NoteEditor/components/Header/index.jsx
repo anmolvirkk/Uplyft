@@ -96,7 +96,7 @@ const Header = () => {
 
     const setColorMobile = (index) => {
         setColor(index)
-        document.execCommand('foreColor', false, textcolors[color])
+        document.execCommand('foreColor', false, textcolors[index])
     }
 
     const toggleColors = () => {
