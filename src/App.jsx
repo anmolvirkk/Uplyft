@@ -25,7 +25,7 @@ const App = () => {
             if(window.innerHeight < windowHeight){
                 document.getElementById('mainSideBar').style.display = 'none'
                 document.getElementById('textEditorHeader').style.display = 'block'
-                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 12)+'px'
+                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 12 - 3)+'px'
                 document.getElementById('textEditor').style.marginBottom = '0px'
                 document.getElementById('textEditor').style.paddingBottom = '50px'
                 document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
