@@ -30,16 +30,11 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     }
   }, [isMobile])
 
-  const refocus = () => {
-    const blur = async () => {
-      document.getElementById('textEditor').blur()
-    }
-    blur().then(()=>{
-      document.getElementById('textEditor').focus()
-    })
+  const refocus = (e) => {
+    document.getElementById('textEditor').scrollTo(0, (e.target.offsetTop-50-12))
   }
 
-  return <div onMouseDown={refocus} id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  return <div onMouseDown={(e)=>refocus(e)} id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
