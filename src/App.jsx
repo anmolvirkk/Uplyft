@@ -27,13 +27,13 @@ const App = () => {
                 document.getElementById('textEditorHeader').style.display = 'block'
                 document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 50 - 12 - 24 - 30 + 1)+'px'
                 document.getElementById('textEditor').style.marginBottom = '50px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
+                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24 - 3)+'px'
             }else{
                 document.getElementById('mainSideBar').style.display = 'flex'
                 document.getElementById('textEditorHeader').style.display = 'none'
                 document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24)+'px'
                 document.getElementById('textEditor').style.marginBottom = '12px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 8)+'px'
+                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 14)+'px'
             }
         }
 
