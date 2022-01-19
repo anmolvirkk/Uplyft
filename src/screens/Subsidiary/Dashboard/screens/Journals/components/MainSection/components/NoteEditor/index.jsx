@@ -27,17 +27,19 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24)+'px'
       document.getElementById('textEditor').style.opacity = 1
 
-      const blur = async () => {
-        document.getElementById('textEditor').blur()
-      }
-      blur().then(()=>{
-        document.getElementById('textEditor').focus()
-      })
-      
     }
   }, [isMobile])
 
-  return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  const refocus = () => {
+    const blur = async () => {
+      document.getElementById('textEditor').blur()
+    }
+    blur().then(()=>{
+      document.getElementById('textEditor').focus()
+    })
+  }
+
+  return <div onMouseDown={refocus} id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
