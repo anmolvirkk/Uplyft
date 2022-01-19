@@ -162,12 +162,14 @@ const Schedule = () => {
 
     
     useEffect(()=>{
-        setScheduleHeader({title: 'Schedule', onAdd: null})
-        setScheduleSideMenu(false)
-        if(document.getElementById('scheduleSideSection')){
-            document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+        if(isMobile){
+            setScheduleHeader({title: 'Schedule', onAdd: null})
+            setScheduleSideMenu(false)
+            if(document.getElementById('scheduleSideSection')){
+                document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+            }
         }
-    }, [setScheduleHeader, setScheduleSideMenu])
+    }, [setScheduleHeader, setScheduleSideMenu, isMobile])
 
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
