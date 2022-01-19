@@ -25,12 +25,12 @@ const App = () => {
             if(window.innerHeight < windowHeight){
                 document.getElementById('mainSideBar').style.display = 'none'
                 document.getElementById('textEditorHeader').style.display = 'block'
-                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 24)+'px'
+                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 12)+'px'
                 document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24 - 15)+'px'
             }else{
                 document.getElementById('mainSideBar').style.display = 'flex'
                 document.getElementById('textEditorHeader').style.display = 'none'
-                document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 24)+'px'
+                document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 12)+'px'
                 document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 15)+'px'
             }
         }
