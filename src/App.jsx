@@ -21,21 +21,23 @@ const App = () => {
     const [forceUpdate, setForceUpdate] = useState(false)
 
     window.onresize = () => {
-        if(document.getElementById('textEditorHeader')){
             if(window.innerHeight < windowHeight){
                 document.getElementById('mainSideBar').style.display = 'none'
-                document.getElementById('textEditorHeader').style.display = 'block'
-                document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 40 - 12 - 24 - 40)+'px'
-                document.getElementById('textEditor').style.marginBottom = '38px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
+                if(document.getElementById('textEditorHeader')){
+                    document.getElementById('textEditorHeader').style.display = 'block'
+                    document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 40 - 12 - 24 - 40)+'px'
+                    document.getElementById('textEditor').style.marginBottom = '38px'
+                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
+                }
             }else{
                 document.getElementById('mainSideBar').style.display = 'flex'
-                document.getElementById('textEditorHeader').style.display = 'none'
-                document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24)+'px'
-                document.getElementById('textEditor').style.marginBottom = '12px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 10)+'px'
+                if(document.getElementById('textEditorHeader')){
+                    document.getElementById('textEditorHeader').style.display = 'none'
+                    document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24)+'px'
+                    document.getElementById('textEditor').style.marginBottom = '12px'
+                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 10)+'px'
+                }
             }
-        }
 
         clearTimeout(timeout)
         timeout = setTimeout(()=>{
