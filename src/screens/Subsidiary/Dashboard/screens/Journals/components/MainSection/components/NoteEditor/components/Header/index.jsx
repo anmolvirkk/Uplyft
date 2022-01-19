@@ -50,17 +50,6 @@ const Header = () => {
         }
     }
 
-    useEffect(()=>{
-        if(document.getElementById('textEditor')){
-            document.getElementById('textEditor').onclick = (e) => {
-                setTextTags(e)
-            }
-            document.getElementById('textEditor').onkeydown = (e) => {
-                setTextTags(e)
-            }
-        }
-    })
-
     const [isBold, setIsBold] = useState(false)
     const [isItalic, setIsItalic] = useState(false)
     const [isUnderline, setIsUnderline] = useState(false)
@@ -109,6 +98,25 @@ const Header = () => {
 
     const hideColors = () => {
         document.getElementById('mobileToolbarColors').style.transform = 'translateY(calc( 100% + 40px ))'
+    }
+
+    const checkColors = (e) => {
+        let prompts = document.getElementById('prompts')
+        const rgba2hex = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
+        const clickedColor = rgba2hex(document.queryCommandValue('foreColor')).toUpperCase()
+        const currentColor = textcolors[color].toUpperCase()
+        const clickedColorIndex = textcolors.indexOf(clickedColor)
+        if(prompts){
+            if(!prompts.contains(e.target) && e.target !== prompts){
+                if(currentColor !== clickedColor){
+                    if(textcolors.indexOf(clickedColor) < 0){
+                        setColor(0)
+                    }else{
+                        setColor(clickedColorIndex)
+                    }
+                }
+            }
+        }
     }
 
     const TextStyleOptions = () => (
@@ -181,6 +189,35 @@ const Header = () => {
             </div>
         </OutsideClickHandler>
     )
+
+    useEffect(()=>{
+        if(document.getElementById('textEditor')){
+            document.getElementById('textEditor').onMouseDown = (e) => {
+                setTextTags(e)
+                if(isMobile){
+                    checkColors(e)
+                }
+            }
+            document.getElementById('textEditor').onmouseup = (e) => {
+                setTextTags(e)
+                if(isMobile){
+                    checkColors(e)
+                }
+            }
+            document.getElementById('textEditor').onkeydown = (e) => {
+                setTextTags(e)
+                if(isMobile){
+                    checkColors(e)
+                }
+            }
+            document.getElementById('textEditor').onkeyup = (e) => {
+                setTextTags(e)
+                if(isMobile){
+                    checkColors(e)
+                }
+            }
+        }
+    })
 
     return <header className={styles.textEditorHeader} id='textEditorHeader' onMouseDown={(e)=>e.preventDefault()}>
                 <div className={styles.textOptions}>
