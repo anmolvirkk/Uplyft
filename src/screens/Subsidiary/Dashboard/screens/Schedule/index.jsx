@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideBar from '../../components/SideBar'
 import ScheduleSection from './components/ScheduleSection'
 import MainCalendar from './components/Calendar'
@@ -159,6 +159,15 @@ const Schedule = () => {
             setScheduleAddDropDown(false)
         }
     }
+
+    
+    useEffect(()=>{
+        setScheduleHeader({title: 'Schedule', onAdd: null})
+        setScheduleSideMenu(false)
+        if(document.getElementById('scheduleSideSection')){
+            document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+        }
+    }, [setScheduleHeader, setScheduleSideMenu])
 
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
