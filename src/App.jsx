@@ -28,14 +28,14 @@ const App = () => {
                 document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 12)+'px'
                 document.getElementById('textEditor').style.marginBottom = '0px'
                 document.getElementById('textEditor').style.paddingBottom = '50px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24 - 15)+'px'
+                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
             }else{
                 document.getElementById('mainSideBar').style.display = 'flex'
                 document.getElementById('textEditorHeader').style.display = 'none'
                 document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 12 - 6)+'px'
                 document.getElementById('textEditor').style.marginBottom = '6px'
                 document.getElementById('textEditor').style.paddingBottom = '12px'
-                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 15)+'px'
+                document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 8)+'px'
             }
         }
 
