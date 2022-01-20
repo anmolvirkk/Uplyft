@@ -26,11 +26,10 @@ const TaskDetails = () => {
 
     useEffect(() => {
         const setTodayTasks = () => {
-            if(allRoutes['project']==='today'){
-                const setTasks = () => {
-                    let tasks = []
-                    let today = new Date().toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: '2-digit'})
-                    const getSubtasks = (subtasks) => subtasks.forEach((item)=>{
+            const setTasks = () => {
+                let tasks = []
+                let today = new Date().toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: '2-digit'})
+                const getSubtasks = (subtasks) => subtasks.forEach((item)=>{
                         if(new Date(item.start).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: '2-digit'}) === today){
                             tasks = [...tasks, item]
                         }else if(item.subtasks){
@@ -45,12 +44,12 @@ const TaskDetails = () => {
                         let newData = {...item}
                         if(newData.id === 'today'){
                             newData.tasks = setTasks()
+                            console.log(setTasks())
                         }
                         return newData
                     })
                     setProjects([...newProjects])
                 }
-            }
         }
 
         setTodayTasks()
