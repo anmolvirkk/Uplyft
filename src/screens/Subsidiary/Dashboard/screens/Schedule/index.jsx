@@ -55,7 +55,6 @@ const Schedule = () => {
             return newData
         })
         setProjects([...newProjects])
-        setAllRoutes({...allRoutes, project: newProjects[newProjects.length-1].id})
         let newAllCalendarEvents = allCalendarEvents.map((event)=>{
             let shouldReturn = false
             for(let i=0; i<projects.filter(i=>i.id===id)[0].tasks.length; i++){
@@ -73,11 +72,7 @@ const Schedule = () => {
             }
         })
         setAllCalendarEvents([...newAllCalendarEvents.filter(i=>i!==null)])
-        if(newProjects[newProjects.length-1]){
-            closeSidebarAfter({project: newProjects[newProjects.length-1].id}, {className: ''}, 'tasks', newProjects[newProjects.length-1].name)
-        }else{
-            showCalendar()
-        }
+        closeSidebarAfter({project: newProjects[newProjects.length-1].id}, {className: ''}, 'tasks', newProjects[newProjects.length-1].name)
     }
 
     const deleteEvent = (id) => {
@@ -108,33 +103,35 @@ const Schedule = () => {
     const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
 
     const closeSidebarAfter = (route, target, category, name) => {
-        const setPage = async () => {
-            if(category){
-                if(!allRoutes.project && category==='tasks'){
-                    setAllRoutes({...allRoutes, project: 'all', scheduleSection: category})
-                    setScheduleHeader({title: name, onAdd: ()=>setModalConfig({type: 'addTask'})})
-                }else if(category==='tasks'){
-                    setAllRoutes({...allRoutes, scheduleSection: category, ...route})
-                    setScheduleHeader({title: name, onAdd: ()=>setModalConfig({type: 'addTask'})})
-                }else{
-                    setAllRoutes({...allRoutes, scheduleSection: category, ...route})
-                    setScheduleHeader({title: name, onAdd: null})
+        if(target.tagName !== 'LI'){
+            const setPage = async () => {
+                if(category){
+                    if(!allRoutes.project && category==='tasks'){
+                        setAllRoutes({...allRoutes, project: 'all', scheduleSection: category})
+                        setScheduleHeader({title: name, onAdd: ()=>setModalConfig({type: 'addTask'})})
+                    }else if(category==='tasks'){
+                        setAllRoutes({...allRoutes, scheduleSection: category, ...route})
+                        setScheduleHeader({title: name, onAdd: ()=>setModalConfig({type: 'addTask'})})
+                    }else{
+                        setAllRoutes({...allRoutes, scheduleSection: category, ...route})
+                        setScheduleHeader({title: name, onAdd: null})
+                    }
                 }
+                toggleDetails.show()
             }
-            toggleDetails.show()
-        }
-        if(target.className){
-            if(typeof target.className === 'string'){
-                if(!target.className.includes('checkBtn') && !target.className.includes('moremenu')){
-                    setPage().then(()=>{
-                        setScheduleSideMenu(false)
-                    })
+            if(target.className){
+                if(typeof target.className === 'string'){
+                    if(!target.className.includes('checkBtn') && !target.className.includes('moremenu')){
+                        setPage().then(()=>{
+                            setScheduleSideMenu(false)
+                        })
+                    }
                 }
+            }else{
+                setPage().then(()=>{
+                    setScheduleSideMenu(false)
+                })
             }
-        }else{
-            setPage().then(()=>{
-                setScheduleSideMenu(false)
-            })
         }
     }
 
@@ -197,7 +194,7 @@ const Schedule = () => {
                         <div className={styles.options}>
                             {habits.map((item)=>{
                                 return (
-                                    <div onMouseDown={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits', item.name)} key={item.id} className={styles.sideSectionSlot} data-title={item.name}>
+                                    <div onClick={(e)=>closeSidebarAfter({habit: item.id}, e.target, 'habits', item.name)} key={item.id} className={styles.sideSectionSlot} data-title={item.name}>
                                         <div className={styles.slotContent}>
                                             <div style={{backgroundColor: colors[item.color]}} className={styles.habitIcon}>
                                                 {iconsSvg[item.icon]}
@@ -220,7 +217,7 @@ const Schedule = () => {
                                 const completedTasks = projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true)?projects.find(i=>i.id===item.id).tasks.filter(i=>i.completed===true).length:0
                                 const totalTasks = projects.find(i=>i.id===item.id).tasks.length
                                 return (
-                                    <div key={item.id} data-title={item.name} onMouseDown={(e)=>closeSidebarAfter({project: item.id}, e.target, 'tasks', item.name)} className={styles.projectSideSectionSlot}>
+                                    <div key={item.id} data-title={item.name} onClick={(e)=>closeSidebarAfter({project: item.id}, e.target, 'tasks', item.name)} className={styles.projectSideSectionSlot}>
                                         <div className={styles.slotContent}>
                                             <div className={styles.title}>
                                                 <p>{item.name}</p>
@@ -246,7 +243,7 @@ const Schedule = () => {
                         <div className={styles.options}>
                             {events.map((item)=>{
                                 return (
-                                    <div onMouseDown={(e)=>closeSidebarAfter({event: item.id}, e.target, 'events', item.name)} key={item.id} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} data-title={item.name}>
+                                    <div onClick={(e)=>closeSidebarAfter({event: item.id}, e.target, 'events', item.name)} key={item.id} className={`${styles.sideSectionSlot} ${styles.eventSlot}`} data-title={item.name}>
                                         <div className={styles.eventSlot}>
                                             <p>{item.name}</p>
                                             <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} />
