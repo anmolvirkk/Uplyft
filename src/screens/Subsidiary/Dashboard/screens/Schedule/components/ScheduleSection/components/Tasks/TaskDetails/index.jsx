@@ -44,7 +44,6 @@ const TaskDetails = () => {
                         let newData = {...item}
                         if(newData.id === 'today'){
                             newData.tasks = setTasks()
-                            console.log(setTasks())
                         }
                         return newData
                     })

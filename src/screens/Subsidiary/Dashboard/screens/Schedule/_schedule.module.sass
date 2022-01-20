@@ -188,6 +188,20 @@
     width: calc( 100% - 24px )
     p
         color: white
+
+.switchCategory
+    list-style: none
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 12px
+    color: rgba(var(--text), 0.5)
+    li
+        padding: 12px
+    .activeCategory
+        margin-bottom: -3px
+        border-bottom: 3px solid rgb(var(--primary))
+        color: rgb(var(--text))
     
 @media screen and (max-width: 1450px)
     .scheduleAddDropDown, .scheduleSideMenu
