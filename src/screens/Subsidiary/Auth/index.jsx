@@ -30,9 +30,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input type='text' placeholder='Email' />
-                        <input type='password' placeholder='Password' />
-                        <input type='password' placeholder='Confirm Password' />
+                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='text' placeholder='Email' />
+                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='password' placeholder='Password' />
+                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='password' placeholder='Confirm Password' />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
