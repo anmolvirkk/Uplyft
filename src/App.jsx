@@ -35,13 +35,6 @@ const App = () => {
                 }
             }
 
-
-            if(document.activeElement.tagName === 'INPUT'){
-                if(document.getElementById('authWrapper')){
-                    document.getElementById('authWrapper').scroll({top: document.activeElement.offsetTop, behavior: 'smooth'})
-                }
-            }
-
             clearTimeout(timeout)
             timeout = setTimeout(()=>{
                 setForceUpdate(!forceUpdate)
