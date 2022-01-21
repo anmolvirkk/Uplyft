@@ -10,8 +10,12 @@ const Auth = () => {
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
 
+    let scrollTimeout
     const scrollToView = (target) => {
-        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+        clearTimeout(scrollTimeout)
+        scrollTimeout = setTimeout(()=>{
+            document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+        }, 300)
     }
 
     return (
