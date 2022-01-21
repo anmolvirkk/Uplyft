@@ -12,6 +12,7 @@ const App = () => {
     const [forceUpdate, setForceUpdate] = useState(false)
 
     window.onresize = () => {
+
             if(window.innerHeight < windowHeight){
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
@@ -34,10 +35,17 @@ const App = () => {
                 }
             }
 
-        clearTimeout(timeout)
-        timeout = setTimeout(()=>{
-            setForceUpdate(!forceUpdate)
-        }, 300)
+
+            if(document.activeElement.tagName === 'INPUT'){
+                if(document.getElementById('authWrapper')){
+                    document.getElementById('authWrapper').scroll({top: document.activeElement.offsetTop, behavior: 'smooth'})
+                }
+            }
+
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                setForceUpdate(!forceUpdate)
+            }, 300)
 
     }
 
