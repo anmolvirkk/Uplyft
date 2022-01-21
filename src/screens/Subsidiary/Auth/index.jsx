@@ -12,13 +12,12 @@ const Auth = () => {
     }, [])
 
     const scrollToView = (target) => {
-        target.focus()
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
-                target.focus()
                 scrollToView(target)
+                alert(windowHeight.innerHeight < windowHeight)
             }, 100)
         }
     }
