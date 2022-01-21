@@ -16,6 +16,7 @@ const Auth = () => {
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
             const checkResize = () => {
+                alert('check')
                 if(window.innerHeight < windowHeight){
                     document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
                 }else{
