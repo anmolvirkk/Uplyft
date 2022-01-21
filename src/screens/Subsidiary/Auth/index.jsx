@@ -14,9 +14,7 @@ const Auth = () => {
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else{
-            setTimeout(()=>{
-                scrollToView(target)
-            }, 100)
+            scrollToView(target)
         }
     }
 
