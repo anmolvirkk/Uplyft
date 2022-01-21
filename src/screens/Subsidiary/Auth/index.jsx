@@ -15,7 +15,7 @@ const Auth = () => {
         clearTimeout(scrollTimeout)
         scrollTimeout = setTimeout(()=>{
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        }, 1000)
+        }, 500)
     }
 
     return (
