@@ -32,6 +32,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
   const scrollToView = (e) => {
     e.stopPropagation()
+    e.preventDefault()
     alert(e.target.offsetTop)
     if(e.target.id === 'textEditor'){
       alert(e.target.children.length)
