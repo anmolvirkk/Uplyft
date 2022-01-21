@@ -27,7 +27,9 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
       for(let i=0; i<document.getElementById('textEditor').children.length; i++){
-        document.getElementById('textEditor').children[i].onmousedown = (e) => document.getElementById('textEditor').scroll({top: e.target.offsetTop-100, behavior: 'smooth'})
+        if(!document.getElementById('textEditor').children[i].onmousedown){
+          document.getElementById('textEditor').children[i].onmousedown = (e) => document.getElementById('textEditor').scroll({top: e.target.offsetTop-100, behavior: 'smooth'})
+        }
       }
 
     }
