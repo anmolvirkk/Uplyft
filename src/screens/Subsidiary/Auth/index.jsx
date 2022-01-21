@@ -16,6 +16,7 @@ const Auth = () => {
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
+                target.focus()
                 scrollToView(target)
             }, 300)
         }
@@ -42,9 +43,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
+                        <input onFocus={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
+                        <input onFocus={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
+                        <input onFocus={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
