@@ -10,22 +10,17 @@ const Auth = () => {
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
 
+    let scrollInterval
     const scrollToView = (target) => {
-        const waitToScroll = async () => {
-            if(window.innerHeight < windowHeight){
-                document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-            }else{
-                setTimeout(()=>{
-                    waitToScroll()
-                }, 100)
-            }
-        }
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
-            waitToScroll().then(()=>{
-                alert(window.innerHeight < windowHeight)
-            })
+            scrollInterval = setInterval(()=>{
+                if(window.innerHeight < windowHeight){
+                    document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+                    clearInterval(scrollInterval)
+                }
+            }, 100)
         }
     }
 
