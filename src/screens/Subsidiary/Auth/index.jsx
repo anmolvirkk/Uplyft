@@ -11,7 +11,7 @@ const Auth = () => {
     }, [])
 
     const scrollToView = (target) => {
-        const waitToScroll = () => {
+        const waitToScroll = async () => {
             if(window.innerHeight < windowHeight){
                 document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
             }else{
@@ -23,7 +23,9 @@ const Auth = () => {
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
-            waitToScroll()
+            waitToScroll().then(()=>{
+                alert(window.innerHeight < windowHeight)
+            })
         }
     }
 
