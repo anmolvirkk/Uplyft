@@ -101,18 +101,20 @@ const Header = () => {
     }
 
     const checkColors = (e) => {
-        let prompts = document.getElementById('prompts')
-        const rgba2hex = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
-        const clickedColor = rgba2hex(document.queryCommandValue('foreColor')).toUpperCase()
-        const currentColor = textcolors[color].toUpperCase()
-        const clickedColorIndex = textcolors.indexOf(clickedColor)
-        if(prompts){
-            if(!prompts.contains(e.target) && e.target !== prompts){
-                if(currentColor !== clickedColor){
-                    if(textcolors.indexOf(clickedColor) < 0){
-                        setColor(0)
-                    }else{
-                        setColor(clickedColorIndex)
+        if(document.queryCommandValue('foreColor')){
+            let prompts = document.getElementById('prompts')
+            const rgba2hex = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
+            const clickedColor = rgba2hex(document.queryCommandValue('foreColor')).toUpperCase()
+            const currentColor = textcolors[color].toUpperCase()
+            const clickedColorIndex = textcolors.indexOf(clickedColor)
+            if(prompts){
+                if(!prompts.contains(e.target) && e.target !== prompts){
+                    if(currentColor !== clickedColor){
+                        if(textcolors.indexOf(clickedColor) < 0){
+                            setColor(0)
+                        }else{
+                            setColor(clickedColorIndex)
+                        }
                     }
                 }
             }

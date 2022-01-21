@@ -26,13 +26,17 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
 
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
+      for(let i=0; i<document.getElementById('textEditor').children.length; i++){
+        document.getElementById('textEditor').children[i].onMouseDown = (e) => {
+          e.stopPropagation()
+          e.preventDefault()
+        }
+      }
 
     }
   }, [isMobile])
 
   const scrollToView = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
     alert(e.target.offsetTop)
     if(e.target.id === 'textEditor'){
       alert(e.target.children.length)
@@ -40,7 +44,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     // document.getElementById('textEditor').scroll({top: getCaretTop()?getCaretTop():e.target.scrollTop, behavior: 'smooth'})
   }
 
-return <div id='textEditor' onClick={(e)=>scrollToView(e)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+return <div id='textEditor' onMouseDown={(e)=>scrollToView(e)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
