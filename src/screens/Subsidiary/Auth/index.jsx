@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import company from '../../../company'
 import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
-import {windowHeight} from '../Dashboard/variables/mobileHeights'
+import {isMobile, windowHeight} from '../Dashboard/variables/mobileHeights'
 
 const Auth = () => {
 
@@ -14,10 +14,10 @@ const Auth = () => {
     const scrollToView = (target) => {
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        }else{
+        }else if(isMobile){
             setTimeout(()=>{
                 scrollToView(target)
-            }, 500)
+            }, 300)
         }
     }
 
