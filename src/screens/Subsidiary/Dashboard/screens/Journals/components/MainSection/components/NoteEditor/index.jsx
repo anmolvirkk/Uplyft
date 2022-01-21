@@ -7,7 +7,7 @@ import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
 
-const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
+const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
   const editorBody = useRef(value)
   const textEditor = useRef()
@@ -27,24 +27,15 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
       for(let i=0; i<document.getElementById('textEditor').children.length; i++){
-        document.getElementById('textEditor').children[i].onMouseDown = (e) => {
-          e.stopPropagation()
-          e.preventDefault()
-        }
+        document.getElementById('textEditor').children[i].addEventListener('mousedown', (e) => {
+          document.getElementById('textEditor').scroll({top: e.target.offsetTop-100, behavior: 'smooth'})
+        })
       }
 
     }
-  }, [isMobile])
+  }, [isMobile, editorData])
 
-  const scrollToView = (e) => {
-    alert(e.target.offsetTop)
-    if(e.target.id === 'textEditor'){
-      alert(e.target.children.length)
-    }
-    // document.getElementById('textEditor').scroll({top: getCaretTop()?getCaretTop():e.target.scrollTop, behavior: 'smooth'})
-  }
-
-return <div id='textEditor' onMouseDown={(e)=>scrollToView(e)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
@@ -88,7 +79,7 @@ const NoteEditor = ({id, setNote, colors, notes, isMobile, ...props}) => {
         <div className={styles.noteEditor}>
           <Header colors={colors} />
           {allPrompts[category.replace(/ /g, "")] ? <Prompts isMobile={isMobile} updatePrompt={updatePrompt} deletePrompt={deletePrompt} prompts={allPrompts[category.replace(/ /g, "")]} prompt={prompt} category={category} /> : null}
-          <TextEditor isMobile={isMobile} allPrompts={allPrompts} value={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
+          <TextEditor isMobile={isMobile} allPrompts={allPrompts} value={editorData} editorData={editorData} setEditorData={setEditorData} setNote={setNote} id={id} category={category} prompt={prompt} setPrompt={setPrompt} />
         </div>
     )
 }
