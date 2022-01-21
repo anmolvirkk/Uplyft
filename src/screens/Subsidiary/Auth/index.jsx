@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import company from '../../../company'
 import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
+import {windowHeight} from '../Dashboard/variables/mobileHeights'
 
 const Auth = () => {
+    useEffect(()=>{
+        console.log('x')
+        document.getElementsByTagName('html')[0].className = 'light'
+    }, [])
     return (
-        <div className={`${styles.auth} light`} style={{height: window.innerHeight}}>
+        <div className={styles.auth} style={{height: windowHeight+'px'}}>
             <div className={styles.form}>
                 <div className={styles.title}>
                     <img src='/logos/main.png' alt={company.subsidiary} />

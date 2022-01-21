@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
-import {useRecoilState} from 'recoil'
-import darkModeAtom from './screens/Subsidiary/Dashboard/components/SideBar/components/DarkMode/darkModeAtom'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
@@ -9,13 +7,6 @@ import Auth from './screens/Subsidiary/Auth'
 import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
 
 const App = () => {
-
-    const [darkMode] = useRecoilState(darkModeAtom)
-
-    useEffect(()=>{
-        document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
-    }, [darkMode])
-
 
     let timeout
     const [forceUpdate, setForceUpdate] = useState(false)

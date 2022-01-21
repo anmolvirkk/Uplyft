@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Footer from './components/Footer'
@@ -9,8 +9,11 @@ import Features from './components/Features'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 
 const LandingPage = () => {
+    useEffect(()=>{
+        document.getElementsByTagName('html')[0].className = 'light'
+    }, [])
     return (
-        <div className={`${styles.container} light`} style={{height: windowHeight+'px'}}>
+        <div className={styles.container} style={{height: windowHeight+'px'}}>
             <Header />
             <Hero />
             <About />

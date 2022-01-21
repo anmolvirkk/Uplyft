@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
@@ -8,10 +8,17 @@ import { useRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
+import darkModeAtom from './components/SideBar/components/DarkMode/darkModeAtom'
 
 const Dashboard = () => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
+
+    const [darkMode] = useRecoilState(darkModeAtom)
+
+    useEffect(()=>{
+        document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
+    }, [darkMode])
     
     return (
         <Router>
