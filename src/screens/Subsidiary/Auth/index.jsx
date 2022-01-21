@@ -17,8 +17,10 @@ const Auth = () => {
         }else if(isMobile){
             scrollInterval = setInterval(()=>{
                 if(window.innerHeight < windowHeight){
-                    document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
                     clearInterval(scrollInterval)
+                    setTimeout(()=>{
+                        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+                    }, 100)
                 }
             }, 100)
         }
