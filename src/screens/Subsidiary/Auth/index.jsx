@@ -10,16 +10,15 @@ const Auth = () => {
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
 
-    let scrollTimeout
     const scrollToView = (target) => {
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
-            clearTimeout(scrollTimeout)
-            scrollTimeout = setTimeout(()=>{
-                scrollToView(target)
-                alert('test')
-            }, 100)
+            while(window.innerHeight === windowHeight){
+                if(window.innerHeight < windowHeight){
+                    document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+                }
+            }
         }
     }
 
