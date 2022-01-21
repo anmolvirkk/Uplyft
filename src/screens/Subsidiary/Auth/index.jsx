@@ -38,9 +38,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input onMouseUp={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
-                        <input onMouseUp={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
-                        <input onMouseUp={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
+                        <input onTouchEnd={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
+                        <input onPointerUp={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
+                        <input onFocus={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
