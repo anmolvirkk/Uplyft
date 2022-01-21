@@ -12,14 +12,13 @@ const Auth = () => {
     }, [])
 
     const scrollToView = (target) => {
-        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        // if(window.innerHeight < windowHeight){
-        //     document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        // }else if(isMobile){
-        //     setTimeout(()=>{
-        //         document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        //     }, 500)
-        // }
+        if(window.innerHeight < windowHeight){
+            document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+        }else if(isMobile){
+            setTimeout(()=>{
+                document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+            }, 500)
+        }
     }
 
     return (
