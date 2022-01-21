@@ -9,8 +9,13 @@ const Auth = () => {
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
+
+    const scrollToView = (target) => {
+        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+    }
+
     return (
-        <div className={styles.wrapper} style={{height: window.innerHeight+'px'}}>
+        <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
                     <div className={styles.title}>
@@ -30,9 +35,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='text' placeholder='Email' />
-                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='password' placeholder='Password' />
-                        <input onMouseDown={(e)=>e.target.scrollIntoView()} type='password' placeholder='Confirm Password' />
+                        <input onMouseDown={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
+                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
+                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
