@@ -2,11 +2,12 @@
 @use 'src/styles/_mixins'
 
 .container
-    height: 100vh
+    height: 100%
     width: 100%
     background-color: rgb(var(--background))
     text-align: left
     overflow-y: overlay
+    overflow-x: hidden
     padding-top: 64px
     --primary: 75, 209, 255
     --secondary: 54, 254, 255
@@ -25,63 +26,3 @@
     +mixins.center
     font-size: 1.5vh
     pointer-events: all
-
-canvas
-    height: 100vh
-    width: 100%
-    position: absolute
-    filter: invert(100%)
-    z-index: 0
-
-[class^="letter"] 
-  -webkit-transition: opacity 3s ease
-  -moz-transition: opacity 3s ease
-  transition: opacity 3s ease
-
-.letter-0 
-    transition-delay: 0.2s
-
-.letter-1 
-    transition-delay: 0.4s
-
-.letter-2 
-    transition-delay: 0.6s
-
-.letter-3 
-    transition-delay: 0.8s
-
-.letter-4 
-    transition-delay: 1.0s
-
-.letter-5 
-    transition-delay: 1.2s
-
-.letter-6 
-    transition-delay: 1.4s
-
-.letter-7 
-    transition-delay: 1.6s
-
-.letter-8 
-    transition-delay: 1.8s
-
-.letter-9 
-    transition-delay: 2.0s
-
-.letter-10 
-    transition-delay: 2.2s
-
-.letter-11 
-    transition-delay: 2.4s
-
-.letter-12 
-    transition-delay: 2.6s
-
-.letter-13 
-    transition-delay: 2.8s
-
-.letter-14 
-    transition-delay: 3.0s
-
-.letter-15 
-    transition-delay: 3.2s

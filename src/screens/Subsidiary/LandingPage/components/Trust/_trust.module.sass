@@ -121,25 +121,24 @@
 
 @media screen and (max-width: 1450px)
     .trustSection
-        margin-top: 3vh
+        margin-top: 30px
     .statement
-        padding: 0 3vh
+        padding: 0 12px
         flex-flow: column-reverse
         text-align: center
         h3
-            font-size: 3.5vh
+            font-size: 36px
             width: 100%
-            text-align: left
-            margin-top: 10vh
+            margin-top: 70px
         ul
             width: 100%
-            margin-top: 0vh
+            margin-top: 0
             flex-flow: column
             padding: 0
             background-color: transparent
             display: grid
             grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
-            grid-gap: 3vh
+            grid-gap: 24px
             box-shadow: none
             li
                 margin: 3vh 0
@@ -149,22 +148,37 @@
                 width: 100%
                 +mixins.center
                 border-radius: 7px 7px
+                h6
+                    font-size: 48px
+                p
+                    margin: 0
+                    margin-top: 12px
+                    font-size: 14px
                 .stars
+                    margin-top: 8px
                     svg
-                        height: 3.5vh
-                        width: 3.5vh
+                        height: 36px
+                        width: 36px
 
     .testimonials
-        padding: 0 3vh
-        margin-top: 6vh
+        padding: 0 12px
+        margin-top: 40px
         .reviews
             grid-template-columns: repeat(auto-fill, minmax(100%, 1fr))
-            grid-gap: 8vh
+            grid-gap: 40px
             .card
+                img
+                    height: 60px
+                    width: 60px
+                p
+                    font-size: 14px
+                h6
+                    font-size: 16px
+                    font-weight: 500
                 .stars
                     svg
-                        height: 3.5vh
-                        width: 3.5vh
+                        height: 36px
+                        width: 36px
 
 
     .logos

@@ -75,17 +75,22 @@
 
 
 @media screen and (max-width: 1450px)
+    .featureSection
+        margin-top: 40px
+        h2
+            font-size: 24px
     .wrapper
         flex-flow: column-reverse
         padding: 0
+        margin-top: 40px
         .icons
             width: 100%
-            padding: 1.5vh 3vh
+            padding: 12px
             display: grid
             grid-template-columns: repeat(5, 1fr)
-            grid-gap: 1.5vh
+            grid-gap: 14px
             div
-                padding: 1.5vw 1.5vw 3vw 1.5vw
+                padding: 6px 6px 12px 6px
             img
                 width: 100%
         .features::-webkit-scrollbar
@@ -95,19 +100,20 @@
             display: flex
             overflow-x: overlay
             .feature
-                margin-left: 3vh
-                padding: 2vh 3vh 2vh 1.5vh
-                margin-top: 3vh
+                padding: 24px
+                margin: 12px 0
+                margin-left: 12px
                 .title
                     svg
-                        height: 4vw
-                        width: 4vw
+                        height: 22px
+                        width: 22px
                     h3
-                        font-size: 2.5vw
-                        margin-left: 2vw
+                        font-size: 16px
+                        margin-left: 12px
                         white-space: nowrap
             .feature:last-child
-                margin-right: 3vh
+                margin-right: 12px
         .content
-            width: calc( 100% - 6vh )
-            padding: 3vw
+            width: calc( 100% - 24px )
+            padding: 12px
+            margin-bottom: 12px

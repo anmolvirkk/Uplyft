@@ -9,7 +9,7 @@ import Features from './components/Features'
 
 const LandingPage = () => {
     return (
-        <div className={`${styles.container} light`}>
+        <div className={`${styles.container} light`} style={{height: window.innerHeight}}>
             <Header />
             <Hero />
             <About />

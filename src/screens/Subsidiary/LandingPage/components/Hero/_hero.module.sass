@@ -17,7 +17,6 @@
         h1
             font-size: 6vh
             font-weight: 600
-            text-transform: capitalize
         p
             width: 75%
             margin-top: 3vh
@@ -30,9 +29,6 @@
                 text-transform: capitalize
         p:first-letter
             text-transform: uppercase
-        .cta
-            +main.cta
-            margin-top: 3vh
     .heroImg
         height: 60vh
         filter: contrast(120%) hue-rotate(-25deg)
@@ -44,12 +40,23 @@
 @media screen and (max-width: 1450px)
     .hero
         flex-flow: column
-        padding: 3vh 0
+        padding: 0
         .heroImg
             height: auto
             width: 100%
         .content
-            width: calc( 100% - 6vh )
+            width: 100%
+            padding: 0 12px
+            +mixins.center
+            h1
+                font-size: 36px
+                font-weight: 500
+            p
+                width: 100%
+                margin-top: 24px
+                font-size: 16px
+                margin-bottom: 40px
         .subsidiaryLogo
-            height: 2vh
-            margin-bottom: 1.5vh
+            height: 25px
+            margin-bottom: 24px
+            margin-top: 40px

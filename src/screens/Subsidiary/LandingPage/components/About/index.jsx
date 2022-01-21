@@ -1,6 +1,7 @@
 import React from 'react'
 import company from '../../../../../company'
 import styles from './_about.module.sass'
+import { Link } from 'react-router-dom'
 
 const collection = [
     {
@@ -41,7 +42,7 @@ const About = () => {
                                 </div>
                                 <p>{item.about}</p>
                                 <hr />
-                                <button className={styles.cta}>Try for free</button>
+                                <Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Try for free</Link>
                             </div>
                         </div>
                     )
