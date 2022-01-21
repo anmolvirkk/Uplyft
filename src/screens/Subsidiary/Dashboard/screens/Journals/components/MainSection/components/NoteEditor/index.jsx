@@ -33,7 +33,13 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     }
   }, [isMobile, editorData])
 
-return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+const test = (e) => {
+  const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
+  console.log(top)
+  document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+}
+
+return <div id='textEditor' onMouseDown={(e)=>test(e)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
