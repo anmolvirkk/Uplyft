@@ -27,14 +27,13 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
       if(!editorData){
-        document.getElementById('textEditor').focus()
         document.execCommand('formatBlock', false, '<div>')
       }
 
     }
   }, [isMobile, editorData])
 
-return <div id='textEditor' ref={textEditor} onMouseDown={(e)=>document.getElementById('textEditor').scroll({top: e.target.offsetTop-100, behavior: 'smooth'})} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+return <div id='textEditor' ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
