@@ -34,7 +34,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     document.getElementById('textEditor').scroll({top: target.offsetTop-120, behavior: 'smooth'})
   }
 
-  return <div id='textEditor' onMouseDown={(e)=>scrollToView(e.target)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  return <div id='textEditor' onFocus={(e)=>scrollToView(e.target)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
