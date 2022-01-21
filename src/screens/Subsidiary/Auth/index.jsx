@@ -3,26 +3,17 @@ import { Link } from 'react-router-dom'
 import company from '../../../company'
 import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
-import {isMobile, windowHeight} from '../Dashboard/variables/mobileHeights'
+import {windowHeight} from '../Dashboard/variables/mobileHeights'
 
 const Auth = () => {
+
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
 
-    let scrollInterval
     const scrollToView = (target) => {
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        }else if(isMobile){
-            scrollInterval = setInterval(()=>{
-                if(window.innerHeight < windowHeight){
-                    clearInterval(scrollInterval)
-                    setTimeout(()=>{
-                        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-                    }, 100)
-                }
-            }, 100)
         }
     }
 
@@ -47,9 +38,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
+                        <input onMouseUp={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
+                        <input onMouseUp={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
+                        <input onMouseUp={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
