@@ -11,14 +11,19 @@ const Auth = () => {
     }, [])
 
     const scrollToView = (target) => {
+        const waitToScroll = () => {
+            if(window.innerHeight < windowHeight){
+                document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
+            }else{
+                setTimeout(()=>{
+                    waitToScroll()
+                }, 100)
+            }
+        }
         if(window.innerHeight < windowHeight){
             document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
         }else if(isMobile){
-            while(window.innerHeight === windowHeight){
-                if(window.innerHeight < windowHeight){
-                    document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-                }
-            }
+            waitToScroll()
         }
     }
 
