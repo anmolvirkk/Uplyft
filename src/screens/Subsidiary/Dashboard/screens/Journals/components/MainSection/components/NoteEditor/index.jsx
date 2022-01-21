@@ -31,7 +31,7 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
   }, [isMobile])
 
   const scrollToView = (target) => {
-    console.log(target.offsetTop)
+    alert(target.offsetTop)
     // document.getElementById('textEditor').scroll({top: target.offsetTop+120, behavior: 'smooth'})
   }
 
