@@ -18,6 +18,7 @@ const Auth = () => {
             clearTimeout(scrollTimeout)
             scrollTimeout = setTimeout(()=>{
                 scrollToView(target)
+                alert('test')
             }, 100)
         }
     }
