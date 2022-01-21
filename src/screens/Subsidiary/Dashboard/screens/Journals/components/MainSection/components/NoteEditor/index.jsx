@@ -26,7 +26,9 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
 
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
+      alert(document.getElementById('textEditor').children.length)
       for(let i=0; i<document.getElementById('textEditor').children.length; i++){
+        alert(document.getElementById('textEditor').children[i])
         if(!document.getElementById('textEditor').children[i].onmousedown){
           document.getElementById('textEditor').children[i].onmousedown = (e) => {
             alert(e.target.offsetTop)
