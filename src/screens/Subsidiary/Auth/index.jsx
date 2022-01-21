@@ -17,13 +17,11 @@ const Auth = () => {
         }else if(isMobile){
             const checkResize = () => {
                 if(window.innerHeight < windowHeight){
-                    setTimeout(()=>{
-                        document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-                    }, 100)
+                    document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
                 }else{
                     setTimeout(()=>{
                         checkResize()
-                    }, 100)
+                    }, 300)
                 }
             }
             checkResize()
