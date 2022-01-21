@@ -30,17 +30,16 @@ const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, 
     }
   }, [isMobile])
 
-  const scrollToView = (target) => {
-    alert(target.offsetTop)
-    if(target.id === 'textEditor'){
-      alert(target.children)
-      alert(target.children.length)
-      alert(target.children[0])
+  const scrollToView = (e) => {
+    e.stopPropagation()
+    alert(e.target.offsetTop)
+    if(e.target.id === 'textEditor'){
+      alert(e.target.children.length)
     }
     // document.getElementById('textEditor').scroll({top: getCaretTop()?getCaretTop():e.target.scrollTop, behavior: 'smooth'})
   }
 
-return <div id='textEditor' onMouseDown={(e)=>scrollToView(e.target)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+return <div id='textEditor' onClick={(e)=>scrollToView(e)} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
