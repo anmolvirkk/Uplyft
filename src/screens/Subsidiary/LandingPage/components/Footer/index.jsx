@@ -16,8 +16,8 @@ const Footer = () => {
             <div className={styles.bottom}>
                 <div className={styles.nav}>
                     <img loading='lazy' decoding='async' src = "/logos/main.png" alt = {company.main} />
-                    <div>About Skyhance</div>
-                    <div>Skyhance Products</div>
+                    <div>About</div>
+                    <div>Products</div>
                     <div>Privacy</div>
                 </div>
                 <div className={styles.nav}>
