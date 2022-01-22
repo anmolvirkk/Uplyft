@@ -210,54 +210,60 @@ const Modal = () => {
             </div>
     )
 
-    const [newPrompt, setNewPrompt] = useState('')
+
+    const newPrompt = useRef('')
+    const setNewPrompt = (val) => {
+        newPrompt.current = val
+    }
 
     const addPrompt = () => {
         
         for(let key in allPrompts){
             if(key === modalConfig.category.replace(/\s/g, "")){
                 let prompts = allPrompts[key]
-                setAllPrompts({...allPrompts, [key]: [...prompts, newPrompt]})
+                setAllPrompts({...allPrompts, [key]: [...prompts, newPrompt.current]})
             }
         }
-        modalConfig.updatePrompt(newPrompt)
+        modalConfig.updatePrompt(newPrompt.current)
         setModalConfig({type: ''})
 
     }
 
     const AddPrompt = () => (
-        <div className={styles.form} id='modalForm'>
-                <div className={styles.header}>
-                    <p>Add Prompt</p>
-                    <X onClick={()=>setModalConfig({type: ''})} />
-                </div>
-                <div className={styles.renameEntry}>
-                    <input autoFocus type="text" placeholder='Enter Prompt' value={newPrompt} onChange={e => setNewPrompt(e.target.value)} />
-                </div>
-                <div className={styles.footer}>
-                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
-                    <button className={styles.continueBtn} onClick={addPrompt}>Continue</button>
-                </div>
+        <div className={`${styles.form} ${styles.renameEntry}`} id='modalForm'>
+            <div className={styles.header}>
+                <p>Add Prompt</p>
+                <X onClick={()=>setModalConfig({type: ''})} />
             </div>
+            <InputBox name="Enter Prompt" type="text" onChange={e=>setNewPrompt(e.target.value)} />
+            <div className={styles.footer}>
+                <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                <button className={styles.continueBtn} onClick={addPrompt}>Continue</button>
+            </div>
+        </div>
     )
 
-    const [editedPrompt, setEditedPrompt] = useState(modalConfig.current)
     const [editPromptPlaceholder, setEditPromptPlaceholder] = useState('Enter Prompt')
 
+    const editedPrompt = useRef(modalConfig.current)
+    const setEditedPrompt = (val) => {
+        editedPrompt.current = val
+    }
+
     const editPrompt = () => {
-        if(editedPrompt.replace(/\s/g, "") !== ''){
+        if(editedPrompt.current.replace(/\s/g, "") !== ''){
 
             let newPrompts = allPrompts[modalConfig.category.replace(/\s/g, "")].map((data)=>{
                 let newData = data
                 if(modalConfig.current === data){
-                    newData = editedPrompt
+                    newData = editedPrompt.current
                 }
                 return newData
             })
 
             
             setAllPrompts({...allPrompts, [modalConfig.category.replace(/\s/g, "")]: [...newPrompts]})
-            modalConfig.updatePrompt(editedPrompt)
+            modalConfig.updatePrompt(editedPrompt.current)
             setModalConfig({type: ''})
             setEditPromptPlaceholder('Enter Prompt')
 
@@ -267,14 +273,12 @@ const Modal = () => {
     }
 
     const EditPrompt = () => (
-        <div className={styles.form} id='modalForm'>
+        <div className={`${styles.form} ${styles.renameEntry}`} id='modalForm'>
                 <div className={styles.header}>
                     <p>Edit Prompt</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <div className={styles.renameEntry}>
-                    <input autoFocus type="text" placeholder={editPromptPlaceholder} value={editedPrompt} onChange={e => setEditedPrompt(e.target.value)} />
-                </div>
+                <InputBox value={editedPrompt.current} name={editPromptPlaceholder} type="text" onChange={e=>setEditedPrompt(e.target.value)} />
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                     <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
