@@ -4,13 +4,22 @@ import { windowHeight, isMobile } from '../../../Dashboard/variables/mobileHeigh
 
 const scrollToView = (e, wrapper) => {
     let elem = document.getElementById(wrapper)
+    const checkParent = (elem) => {
+        let parent = elem.parentNode
+        if(parent.id){
+            return parent
+        }else if(parent){
+            return checkParent(parent)
+        }
+    }
     if(elem){
+        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY-(checkParent(e.target).clientHeight/2)))
         if(window.innerHeight < windowHeight){
-            elem.scroll({top: window.innerHeight/5, behavior: 'smooth'})
+            elem.scroll({top: top/2, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
                 if(window.innerHeight < windowHeight){
-                    elem.scroll({top: 1500, behavior: 'smooth'})
+                    elem.scroll({top: top/2, behavior: 'smooth'})
                 }
             }, 500)
         }

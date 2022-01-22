@@ -32,7 +32,7 @@ const Auth = () => {
                         <p>or</p>
                         <hr />
                     </div>
-                    <div className={styles.input}>
+                    <div className={styles.input} id='authForm'>
                         <InputBox marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
                         <InputBox marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
                         <InputBox marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />
