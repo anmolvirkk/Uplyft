@@ -7,10 +7,10 @@ const scrollToView = (e, wrapper) => {
     if(elem){
         const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY))
         if(window.innerHeight < windowHeight){
-            elem.scroll({top: top/2, behavior: 'smooth'})
+            elem.scroll({top: top, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
-                elem.scroll({top: top/2, behavior: 'smooth'})
+                elem.scroll({top: top, behavior: 'smooth'})
             }, 500)
         }
     }

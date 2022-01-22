@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
@@ -42,6 +42,13 @@ const Modal = () => {
             }
         }
     }
+
+    const [forceUpdate, setForceUpdate] = useState(false)
+    useEffect(()=>{
+        if(window.innerHeight === windowHeight){
+            setForceUpdate(!forceUpdate)
+        }
+    }, [forceUpdate])
 
     let currentSlotTitle
     if(slots&&slots[allRoutes['book']]&&slots[allRoutes['book']][allRoutes['date']]){
