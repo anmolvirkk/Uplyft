@@ -10,6 +10,7 @@ import company from '../../../../../company'
 import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/currentMobileSectionAtom'
 import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
 import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
+import { isMobile } from '../../variables/mobileHeights'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -35,7 +36,7 @@ const SideBar = () => {
             link: allRoutes&&allRoutes['date']&&allRoutes['book']&&allRoutes[allRoutes['book']][allRoutes['date']]?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:allRoutes&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}`:`/${company.subsidiary}/dashboard/${company.journals}`,
             underConstruction: false,
             func: ()=>{
-                if(window.innerWidth<1450){
+                if(isMobile){
                     if(document.getElementById('bookSection')){
                         document.getElementById('bookSection').style.transform = 'translateX(0%)'
                         document.getElementById('bookSection').style.display = 'block'
@@ -63,10 +64,12 @@ const SideBar = () => {
             link: allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'all':allRoutes['scheduleSection']==='events'?allRoutes['event']?allRoutes['event']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`,
             underConstruction: false,
             func: () => {
-                setScheduleHeader({title: 'Schedule', onAdd: null})
-                setScheduleSideMenu(false)
-                if(document.getElementById('scheduleSideSection')){
-                    document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+                if(isMobile){
+                    setScheduleHeader({title: 'Schedule', onAdd: null})
+                    setScheduleSideMenu(false)
+                    if(document.getElementById('scheduleSideSection')){
+                        document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
+                    }
                 }
             }
         },

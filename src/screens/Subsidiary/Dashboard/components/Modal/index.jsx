@@ -258,7 +258,7 @@ const Modal = () => {
     )
 
     return (
-        <div className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
+        <div style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
             {modalConfig.type === 'addjournal' ? 
             <AddJournal /> 
             : modalConfig.type === 'entry' ? 

@@ -6,16 +6,16 @@ import company from '../../../../../company'
 const features = {
     journals: [
         {
-            title: 'Customizable Journals',
-            description: '',
-            icon: <Sliders />,
-            img: 'customJournals.png'
-        },
-        {
             title: 'Multiple Journals',
             description: '',
             icon: <Book />,
             img: 'multipleJournals.png'
+        },
+        {
+            title: 'Customizable Journals',
+            description: '',
+            icon: <Sliders />,
+            img: 'customJournals.png'
         },
         {
             title: 'Multiple Notes',

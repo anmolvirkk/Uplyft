@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-d
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
-import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
+import {isMobile, windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
 
 const App = () => {
 
@@ -12,7 +12,7 @@ const App = () => {
     const [forceUpdate, setForceUpdate] = useState(false)
 
     window.onresize = () => {
-
+        if(isMobile){
             if(window.innerHeight < windowHeight){
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
@@ -39,7 +39,7 @@ const App = () => {
             timeout = setTimeout(()=>{
                 setForceUpdate(!forceUpdate)
             }, 300)
-
+        }
     }
 
     return (
