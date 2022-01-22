@@ -37,10 +37,8 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
   }
 
   const scrollToViewOnSelect = (e) => {
-    setTimeout(()=>{
-      const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.changedTouches[0].clientY-160))
-      document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
-    }, 500)
+    const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+window.getSelection().getRangeAt(0).getBoundingClientRect().y-160))
+    document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
   }
 
   window.onscroll = () => {
@@ -49,7 +47,7 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     }
   }
 
-  return <div id='textEditor' onTouchEndCapture={isMobile?(e)=>scrollToViewOnSelect(e):null} onMouseDown={isMobile?(e)=>scrollToView(e):null} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  return <div id='textEditor' onSelect={isMobile?(e)=>scrollToViewOnSelect(e):null} onMouseDown={isMobile?(e)=>scrollToView(e):null} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
