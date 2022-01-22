@@ -5,13 +5,12 @@ import { windowHeight, isMobile } from '../../../Dashboard/variables/mobileHeigh
 const scrollToView = (e, wrapper) => {
     let elem = document.getElementById(wrapper)
     if(elem){
-        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY))
         if(window.innerHeight < windowHeight){
-            elem.scroll({top: elem.scrollTop/2, behavior: 'smooth'})
+            elem.scroll({top: elem.scrollHeight/4.5, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
                 if(window.innerHeight < windowHeight){
-                    elem.scroll({top: top/2, behavior: 'smooth'})
+                    elem.scroll({top: 1500, behavior: 'smooth'})
                 }
             }, 500)
         }
