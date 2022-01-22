@@ -30,14 +30,6 @@
         color: rgba(var(--text), 0.5)
         width: 2.5vh
         height: 2.5vh
-    input
-        all: unset
-        padding-bottom: 1vh
-        border-bottom: 1px solid rgba(var(--border))
-        text-align: left
-        width: 35vh
-        font-size: 1.5vh
-        color: rgba(var(--text), 0.25)
 
 .addEvent
     .form
@@ -105,11 +97,6 @@
     .cancelBtn:hover
         background-color: rgb(var(--text), 0.05)
         border-color: transparent
-
-.renameEntry
-    input
-        width: 100%
-        margin: 2vh 0
 
 .editJournal
     ul
@@ -823,7 +810,21 @@
         --primary: 49,173,254
         stroke: rgb(var(--primary))
 
+.renameEntry
+    min-width: 50vh
+    position: relative
+    .header
+        margin-bottom: 4.5vh
+    .footer
+        margin-top: 3vh
+
 @media screen and (max-width: 1450px)
+    .renameEntry
+        min-width: 50vh
+        .header
+            margin-bottom: 36px
+        .footer
+            margin-top: 24px
     .habitCustomize
         margin-top: 2vh
         margin-bottom: 2vh

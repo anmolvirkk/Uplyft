@@ -19,6 +19,7 @@ import AddProject from './components/AddProject'
 import AddEvent from './components/AddEvent'
 
 import { iconsSvg } from '../../variables/journalConfig'
+import InputBox from '../../../Auth/components/InputBox'
 
 const Modal = () => {
 
@@ -52,13 +53,16 @@ const Modal = () => {
 
     }
 
-    const [renameText, setRenameText] = useState(currentSlotTitle)
+    const renameText = useRef(currentSlotTitle)
+    const setRenameText = (val) => {
+        renameText.current = val
+    }
 
     const renameEntry = () => {
         let newSlots = slots[allRoutes['book']][allRoutes['date']].map((data)=>{
             let newData = {...data}
             if(data.id === allRoutes[allRoutes['book']][allRoutes['date']]){
-                newData.title = renameText
+                newData.title = renameText.current
             }
             return newData
         })
@@ -67,14 +71,12 @@ const Modal = () => {
     }
 
     const RenameEntry = () => (
-        <div className={styles.form} id='modalForm' style={{minWidth: '50vh'}}>
+        <div className={`${styles.form} ${styles.renameEntry}`} id='modalForm'>
                 <div className={styles.header}>
                     <p>Rename Entry</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <div className={styles.renameEntry}>
-                    <input autoFocus type="text" placeholder='Entry Name' value={renameText} onChange={e => setRenameText(e.target.value)} />
-                </div>
+                <InputBox value={renameText.current} name="Entry Name" type="text" onChange={e=>setRenameText(e.target.value)} />
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                     <button className={styles.continueBtn} onClick={renameEntry}>Continue</button>
