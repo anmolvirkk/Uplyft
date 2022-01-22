@@ -10,6 +10,12 @@ const App = () => {
 
     window.onresize = () => {
         if(isMobile){
+            if(document.getElementById('modalContainer')){
+                document.getElementById('modalContainer').style.height = window.innerHeight
+            }
+            if(document.getElementById('authWrapper')){
+                document.getElementById('authWrapper').style.height = window.innerHeight
+            }
             if(window.innerHeight < windowHeight){
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
