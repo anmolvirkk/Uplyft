@@ -37,8 +37,10 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
   }
 
   const scrollToViewOnSelect = (e) => {
-    const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+window.getSelection().getRangeAt(0).getBoundingClientRect().y-160))
-    document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+    if(window.getSelection().getRangeAt(0).startOffset !== window.getSelection().getRangeAt(0).endOffset){
+      const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+window.getSelection().getRangeAt(0).getBoundingClientRect().y-160))
+      document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+    }
   }
 
   window.onscroll = () => {
