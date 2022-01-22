@@ -119,6 +119,7 @@
             color: rgb(var(--titles))
             width: 2.5vh
             height: 2.5vh
+            padding: 0
         p
             line-height: 2
             color: rgb(var(--text))
@@ -824,9 +825,9 @@
 
 @media screen and (max-width: 1450px)
     .form
-        max-width: 94vw
-        width: 94vw
-        min-width: 94vw
+        max-width: calc(100% - 24px)
+        width: calc(100% - 24px)
+        min-width: calc(100% - 24px)
     .habitCustomize
         margin-top: 2vh
         margin-bottom: 2vh
@@ -863,3 +864,51 @@
                 min-width: 24px
                 height: 30px
                 padding: 12px
+    
+    .header
+        margin-bottom: 12px
+
+    .footer
+        margin-top: 24px
+        button
+            padding: 12px 24px
+            font-size: 14px
+            border-radius: 5px 5px
+        button:first-child
+            margin-right: 12px
+    
+    .form
+        padding: 24px
+        border-radius: 12px 12px
+        max-height: calc(100% - 24px)
+        min-width: calc(100% - 24px)
+        max-width: calc(100% - 24px)
+        p
+            font-size: 21px
+        svg
+            width: 45px
+            height: 45px
+            padding: 10px 0 10px 20px
+
+
+    .editJournal
+        ul
+            svg
+                width: 24px
+                height: 24px
+                padding: 0
+            p
+                font-size: 14px
+                font-weight: 400
+                color: rgb(var(--titles))
+            .colors
+                margin-bottom: 24px
+            ol
+                margin-top: 20px
+                grid-template-columns: repeat(auto-fill, minmax(48px, 1fr))
+                grid-gap: 24px
+                li
+                    height: 24px
+                    width: 24px
+                    div
+                        padding: 18px
