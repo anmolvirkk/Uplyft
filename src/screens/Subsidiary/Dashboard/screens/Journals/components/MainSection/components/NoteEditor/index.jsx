@@ -36,12 +36,16 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     }
   }, [editorData])
 
-const scrollToView = (e) => {
-  const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
-  document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
-}
+  const scrollToView = (e) => {
+    const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
+    document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+  }
 
-return <div id='textEditor' onMouseDown={isMobile?(e)=>scrollToView(e):null} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
+  window.onscroll = (e) => {
+    alert(e.target.scrollTop)
+  }
+
+  return <div id='textEditor' onMouseDown={isMobile?(e)=>scrollToView(e):null} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />
 
 }
 
