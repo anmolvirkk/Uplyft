@@ -288,7 +288,7 @@ const Modal = () => {
     )
 
     return (
-        <div style={{height: windowHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
+        <div style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
             <div className={styles.modalContainer} id='modalContainer' style={{height: window.innerHeight+'px'}}>
                 <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
                     {modalConfig.type === 'addjournal' ? 
