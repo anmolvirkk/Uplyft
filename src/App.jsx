@@ -12,13 +12,13 @@ const App = () => {
 
     window.onresize = (e) => {
         if(isMobile){
+            if(document.getElementById('modalContainer')){
+                document.getElementById('modalContainer').style.height = window.innerHeight+'px'
+            }
+            if(document.getElementById('authWrapper')){
+                document.getElementById('authWrapper').style.height = window.innerHeight+'px'
+            }
             if(e.target.innerHeight < windowHeight){
-                if(document.getElementById('modalContainer')){
-                    document.getElementById('modalContainer').style.height = window.innerHeight+'px'
-                }
-                if(document.getElementById('authWrapper')){
-                    document.getElementById('authWrapper').style.height = window.innerHeight+'px'
-                }
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
                 }
