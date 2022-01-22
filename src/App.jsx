@@ -34,11 +34,11 @@ const App = () => {
                     document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 30)+'px'
                 }
             }
-                clearTimeout(timeout)
-                timeout = setTimeout(()=>{
-                    setForceUpdate(!forceUpdate)
-                }, 300)
-            }
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                setForceUpdate(!forceUpdate)
+            }, 300)
+        }
     }
 
     return (

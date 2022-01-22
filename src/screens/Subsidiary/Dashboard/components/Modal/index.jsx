@@ -236,7 +236,7 @@ const Modal = () => {
                 <p>Add Prompt</p>
                 <X onClick={()=>setModalConfig({type: ''})} />
             </div>
-            <InputBox  wrapper='modalContainer' name="Enter Prompt" type="text" onChange={e=>setNewPrompt(e.target.value)} />
+            <InputBox wrapper='modalContainer' name="Enter Prompt" type="text" onChange={e=>setNewPrompt(e.target.value)} />
             <div className={styles.footer}>
                 <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                 <button className={styles.continueBtn} onClick={addPrompt}>Continue</button>
@@ -279,7 +279,7 @@ const Modal = () => {
                     <p>Edit Prompt</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <InputBox  wrapper='modalContainer' value={editedPrompt.current} name={editPromptPlaceholder} type="text" onChange={e=>setEditedPrompt(e.target.value)} />
+                <InputBox wrapper='modalContainer' value={editedPrompt.current} name={editPromptPlaceholder} type="text" onChange={e=>setEditedPrompt(e.target.value)} />
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                     <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
