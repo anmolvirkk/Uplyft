@@ -8,15 +8,15 @@ import {isMobile, windowHeight} from './screens/Subsidiary/Dashboard/variables/m
 
 const App = () => {
 
-    window.onresize = () => {
+    window.onresize = (e) => {
         if(isMobile){
-            if(document.getElementById('modalContainer')){
-                document.getElementById('modalContainer').style.height = window.innerHeight
-            }
-            if(document.getElementById('authWrapper')){
-                document.getElementById('authWrapper').style.height = window.innerHeight
-            }
-            if(window.innerHeight < windowHeight){
+            if(e.target.innerHeight < windowHeight){
+                if(document.getElementById('modalContainer')){
+                    document.getElementById('modalContainer').style.height = window.innerHeight+'px'
+                }
+                if(document.getElementById('authWrapper')){
+                    document.getElementById('authWrapper').style.height = window.innerHeight+'px'
+                }
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
                 }
