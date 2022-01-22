@@ -1,6 +1,12 @@
 @use 'src/styles/_mixins'
 @use 'src/styles/_variables'
     
+.addhabitvar, .edithabitvar
+    --primary: 49,173,254
+
+.journalvar, .addjournalvar, .entryvar, .promptvar, .editpromptvar
+    --primary: 255,64,182
+
 .modal
     width: 100%
     position: absolute
@@ -255,7 +261,6 @@
     height: 12px
 
 .addHabit
-    --primary: 49,173,254
     form
         display: flex
         flex-flow: column
@@ -335,9 +340,6 @@
         .habitAttractive
             display: flex
             align-items: center
-    
-.addJournal, .editJournal
-    --primary: 255,64,182
     
 .habitFooter
     position: sticky
@@ -811,7 +813,6 @@
 
 .activeTaskNav
     svg
-        --primary: 49,173,254
         stroke: rgb(var(--primary))
 
 .renameEntry

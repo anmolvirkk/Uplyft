@@ -287,8 +287,11 @@ const Modal = () => {
             </div>
     )
 
+    console.log(modalConfig.type+'var')
+    console.log(styles[modalConfig.type+'var'])
+
     return (
-        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
+        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:styles[modalConfig.type+'var']}`} onMouseDown={(e)=>closeModal(e)}>
             <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
                 {modalConfig.type === 'addjournal' ? 
                 <AddJournal /> 
