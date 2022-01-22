@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
@@ -82,15 +82,38 @@ const Modal = () => {
         </div>
     )
 
-    const [journalColor, setJournalColor] = useState(0)
-    const [journalIcon, setJournalIcon] = useState(0)
+    const journalDetail = useRef({color: 0, icon: 0})
+
+    const updateJournalDetails =  {
+        color: (num) => {
+            journalDetail.current.color = num
+            for(let i=0; i<document.getElementById('journalColors').children.length; i++){
+                if(i === num){
+                    document.getElementById('journalColors').children[i].children[0].className = styles.activeButton
+                }else{
+                    document.getElementById('journalColors').children[i].children[0].classList.remove(styles.activeButton)
+                }
+            }
+        },
+        icon: (num) => {
+            journalDetail.current.icon = num
+            for(let i=0; i<document.getElementById('journalIcons').children.length; i++){
+                if(i === num){
+                    document.getElementById('journalIcons').children[i].children[0].className = styles.activeButton
+                }else{
+                    document.getElementById('journalIcons').children[i].children[0].classList.remove(styles.activeButton)
+                }
+            }
+
+        }
+    }
 
     const editJournal = () => {
         let newBooks = books.map((data)=>{
             let newData = {...data}
                 if(data.id === allRoutes['book']) {
-                    newData.icon = journalIcon
-                    newData.color = colors[journalColor]
+                    newData.icon = journalDetail.current.icon
+                    newData.color = colors[journalDetail.current.color]
                 }
             return newData
         })
@@ -108,15 +131,15 @@ const Modal = () => {
                     <ul>
                         <li>
                             <p>Color</p>
-                            <ol className={styles.colors}>
-                                {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalColor ? styles.activeButton : null} /></li>)}
+                            <ol className={styles.colors} id='journalColors'>
+                                {colors.map((color, i)=><li className="colorButtons" onMouseDown={()=>updateJournalDetails.color(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalDetail.current.color ? styles.activeButton : null} /></li>)}
                             </ol>
                         </li> 
                         <li>
                             <p>Icon</p>
-                            <ol>
+                            <ol id='journalIcons'>
                                 {iconsSvg.map((icon, i)=>{
-                                    return <li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>
+                                    return <li className="iconButtons" onMouseDown={()=>updateJournalDetails.icon(i)} key={i}><div className={i===journalDetail.current.icon ? styles.activeButton : null} />{icon}</li>
                                 })}
                             </ol>
                         </li>   
@@ -135,8 +158,8 @@ const Modal = () => {
 
         let newBook = {
             id: date.valueOf(),
-            icon: journalIcon,
-            color: colors[journalColor]
+            icon: journalDetail.current.icon,
+            color: colors[journalDetail.current.color]
         }
 
         setBooks([...books, newBook])
@@ -164,15 +187,15 @@ const Modal = () => {
                     <ul>
                         <li>
                             <p>Color</p>
-                            <ol className={styles.colors}>
-                                {colors.map((color, i)=><li className="colorButtons" onClick={()=>setJournalColor(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalColor ? styles.activeButton : null} /></li>)}
+                            <ol className={styles.colors} id='journalColors'>
+                                {colors.map((color, i)=><li className="colorButtons" onMouseDown={()=>updateJournalDetails.color(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===journalDetail.current.color ? styles.activeButton : null} /></li>)}
                             </ol>
                         </li> 
                         <li>
                             <p>Icon</p>
-                            <ol>
+                            <ol id='journalIcons'>
                                 {iconsSvg.map((icon, i)=>{
-                                    return <li className="iconButtons" onClick={()=>setJournalIcon(i)} key={i}><div className={i===journalIcon ? styles.activeButton : null} />{icon}</li>
+                                    return <li className="iconButtons" onMouseDown={()=>updateJournalDetails.icon(i)} key={i}><div className={i===journalDetail.current.icon ? styles.activeButton : null} />{icon}</li>
                                 })}
                             </ol>
                         </li>   
