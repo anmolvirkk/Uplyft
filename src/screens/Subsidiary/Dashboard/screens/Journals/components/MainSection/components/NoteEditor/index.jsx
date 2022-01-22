@@ -75,19 +75,9 @@ const NoteEditor = ({id, setNote, colors, notes, isMobile, ...props}) => {
   }
 
   const deletePrompt = (name, prompt) => {
-    for(let key in allPrompts){
-        if(key === name.replace(/\s/g, "")){
-            allPrompts[key].forEach((item, index)=>{
-                if(item === prompt){
-                    let newPrompts = allPrompts[key].filter((val, i)=>i!==index)
-                    allPrompts[key] = [...newPrompts]
-                }
-            })
-        }
-    }
-    
-    setAllPrompts({...allPrompts})
-}
+    let newPrompts = {...allPrompts, [name.replace(/\s/g, "")]: allPrompts[name.replace(/\s/g, "")].filter((val)=>val!==prompt)}
+    setAllPrompts({...newPrompts})
+  }
 
     return (
         <div className={styles.noteEditor}>
