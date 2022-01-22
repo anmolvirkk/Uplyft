@@ -36,9 +36,7 @@ const App = () => {
             }
                 clearTimeout(timeout)
                 timeout = setTimeout(()=>{
-                    if(document.querySelectorAll('input').length === 0){
-                        setForceUpdate(!forceUpdate)
-                    }
+                    setForceUpdate(!forceUpdate)
                 }, 300)
             }
     }
