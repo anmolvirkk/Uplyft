@@ -45,7 +45,7 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
 
   window.onscroll = () => {
     if(window.innerHeight === windowHeight){
-      console.log('isIphone')
+      alert('isIphone')
     }
   }
 
