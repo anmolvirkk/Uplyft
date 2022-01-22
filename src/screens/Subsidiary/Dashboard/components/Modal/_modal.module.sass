@@ -8,8 +8,13 @@
     background: rgb(var(--overlay), 0.5)
     left: 0
     top: 0
-    +mixins.center
     z-index: 999999999
+    overflow-x: hidden
+    overflow-y: overlay
+
+.modalWrapper
+    width: 100%
+    +mixins.center
 
 .form
     background: rgb(var(--background))

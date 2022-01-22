@@ -33,9 +33,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <InputBox marginBottom={28} wrapper={document.getElementById('authWrapper')} name="Email" type="text" />
-                        <InputBox marginBottom={28} wrapper={document.getElementById('authWrapper')} name="Password" type="password" />
-                        <InputBox marginBottom={40} wrapper={document.getElementById('authWrapper')} name="Confirm Password" type="password" />
+                        <InputBox marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
+                        <InputBox marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
+                        <InputBox marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>

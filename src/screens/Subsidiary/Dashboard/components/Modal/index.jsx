@@ -20,6 +20,7 @@ import AddEvent from './components/AddEvent'
 
 import { iconsSvg } from '../../variables/journalConfig'
 import InputBox from '../../../Auth/components/InputBox'
+import { windowHeight } from '../../variables/mobileHeights'
 
 const Modal = () => {
 
@@ -76,7 +77,7 @@ const Modal = () => {
                     <p>Rename Entry</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <InputBox value={renameText.current} name="Entry Name" type="text" onChange={e=>setRenameText(e.target.value)} />
+                <InputBox wrapper='modalContainer' value={renameText.current} name="Entry Name" type="text" onChange={e=>setRenameText(e.target.value)} />
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                     <button className={styles.continueBtn} onClick={renameEntry}>Continue</button>
@@ -235,7 +236,7 @@ const Modal = () => {
                 <p>Add Prompt</p>
                 <X onClick={()=>setModalConfig({type: ''})} />
             </div>
-            <InputBox name="Enter Prompt" type="text" onChange={e=>setNewPrompt(e.target.value)} />
+            <InputBox  wrapper='modalContainer' name="Enter Prompt" type="text" onChange={e=>setNewPrompt(e.target.value)} />
             <div className={styles.footer}>
                 <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                 <button className={styles.continueBtn} onClick={addPrompt}>Continue</button>
@@ -278,7 +279,7 @@ const Modal = () => {
                     <p>Edit Prompt</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
-                <InputBox value={editedPrompt.current} name={editPromptPlaceholder} type="text" onChange={e=>setEditedPrompt(e.target.value)} />
+                <InputBox  wrapper='modalContainer' value={editedPrompt.current} name={editPromptPlaceholder} type="text" onChange={e=>setEditedPrompt(e.target.value)} />
                 <div className={styles.footer}>
                     <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
                     <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
@@ -287,35 +288,37 @@ const Modal = () => {
     )
 
     return (
-        <div style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
-            {modalConfig.type === 'addjournal' ? 
-            <AddJournal /> 
-            : modalConfig.type === 'entry' ? 
-            <RenameEntry /> 
-            : modalConfig.type === 'journal' ?
-            <EditJournal />
-            : modalConfig.type === 'prompt' ?
-            <AddPrompt />
-            : modalConfig.type === 'editprompt' ?
-            <EditPrompt />
-            : modalConfig.type === 'addhabit' ?
-            <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
-            : modalConfig.type === 'edithabit' ?
-            <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
-            : modalConfig.type === 'addTask' ?
-            <AddTask icons={iconsSvg} type="add" currentTask={null} />
-            : modalConfig.type === 'editTask' ?
-            <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} currentActiveTask={modalConfig.activeTask} />
-            : modalConfig.type === 'addProject' ?
-            <AddProject icons={iconsSvg} type="add" currentTask={null} />
-            : modalConfig.type === 'editProject' ?
-            <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
-            : modalConfig.type === 'addEvent' ?
-            <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
-            : modalConfig.type === 'editEvent' ?
-            <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
-            : null
-            }
+        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
+            <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
+                {modalConfig.type === 'addjournal' ? 
+                <AddJournal /> 
+                : modalConfig.type === 'entry' ? 
+                <RenameEntry /> 
+                : modalConfig.type === 'journal' ?
+                <EditJournal />
+                : modalConfig.type === 'prompt' ?
+                <AddPrompt />
+                : modalConfig.type === 'editprompt' ?
+                <EditPrompt />
+                : modalConfig.type === 'addhabit' ?
+                <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
+                : modalConfig.type === 'edithabit' ?
+                <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
+                : modalConfig.type === 'addTask' ?
+                <AddTask icons={iconsSvg} type="add" currentTask={null} />
+                : modalConfig.type === 'editTask' ?
+                <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} currentActiveTask={modalConfig.activeTask} />
+                : modalConfig.type === 'addProject' ?
+                <AddProject icons={iconsSvg} type="add" currentTask={null} />
+                : modalConfig.type === 'editProject' ?
+                <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
+                : modalConfig.type === 'addEvent' ?
+                <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
+                : modalConfig.type === 'editEvent' ?
+                <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
+                : null
+                }
+            </div>
         </div>
     )
 }

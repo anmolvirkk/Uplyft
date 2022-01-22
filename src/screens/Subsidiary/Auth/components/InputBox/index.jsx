@@ -3,13 +3,14 @@ import styles from './_inputBox.module.sass'
 import { windowHeight, isMobile } from '../../../Dashboard/variables/mobileHeights'
 
 const scrollToView = (e, wrapper) => {
-    if(wrapper){
-        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY))
+    let elem = document.getElementById(wrapper)
+    if(elem){
+        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY))
         if(window.innerHeight < windowHeight){
-            wrapper.scroll({top: top, behavior: 'smooth'})
+            elem.scroll({top: top/2, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
-                wrapper.scroll({top: top, behavior: 'smooth'})
+                elem.scroll({top: top/2, behavior: 'smooth'})
             }, 500)
         }
     }
