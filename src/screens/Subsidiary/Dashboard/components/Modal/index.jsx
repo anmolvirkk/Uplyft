@@ -288,36 +288,38 @@ const Modal = () => {
     )
 
     return (
-        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
-            <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
-                {modalConfig.type === 'addjournal' ? 
-                <AddJournal /> 
-                : modalConfig.type === 'entry' ? 
-                <RenameEntry /> 
-                : modalConfig.type === 'journal' ?
-                <EditJournal />
-                : modalConfig.type === 'prompt' ?
-                <AddPrompt />
-                : modalConfig.type === 'editprompt' ?
-                <EditPrompt />
-                : modalConfig.type === 'addhabit' ?
-                <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
-                : modalConfig.type === 'edithabit' ?
-                <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
-                : modalConfig.type === 'addTask' ?
-                <AddTask icons={iconsSvg} type="add" currentTask={null} />
-                : modalConfig.type === 'editTask' ?
-                <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} currentActiveTask={modalConfig.activeTask} />
-                : modalConfig.type === 'addProject' ?
-                <AddProject icons={iconsSvg} type="add" currentTask={null} />
-                : modalConfig.type === 'editProject' ?
-                <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
-                : modalConfig.type === 'addEvent' ?
-                <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
-                : modalConfig.type === 'editEvent' ?
-                <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
-                : null
-                }
+        <div className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:null}`} onMouseDown={(e)=>closeModal(e)}>
+            <div className={styles.modalContainer} id='modalContainer' style={{height: window.innerHeight+'px'}}>
+                <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
+                    {modalConfig.type === 'addjournal' ? 
+                    <AddJournal /> 
+                    : modalConfig.type === 'entry' ? 
+                    <RenameEntry /> 
+                    : modalConfig.type === 'journal' ?
+                    <EditJournal />
+                    : modalConfig.type === 'prompt' ?
+                    <AddPrompt />
+                    : modalConfig.type === 'editprompt' ?
+                    <EditPrompt />
+                    : modalConfig.type === 'addhabit' ?
+                    <AddHabit icons={iconsSvg} type="add" currentHabit={null} />
+                    : modalConfig.type === 'edithabit' ?
+                    <AddHabit icons={iconsSvg} type="edit" currentHabit={modalConfig.habit} />
+                    : modalConfig.type === 'addTask' ?
+                    <AddTask icons={iconsSvg} type="add" currentTask={null} />
+                    : modalConfig.type === 'editTask' ?
+                    <AddTask icons={iconsSvg} type="edit" currentTask={modalConfig.task} currentActiveTask={modalConfig.activeTask} />
+                    : modalConfig.type === 'addProject' ?
+                    <AddProject icons={iconsSvg} type="add" currentTask={null} />
+                    : modalConfig.type === 'editProject' ?
+                    <AddProject icons={iconsSvg} type="edit" currentProject={modalConfig.project} />
+                    : modalConfig.type === 'addEvent' ?
+                    <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
+                    : modalConfig.type === 'editEvent' ?
+                    <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
+                    : null
+                    }
+                </div>
             </div>
         </div>
     )
