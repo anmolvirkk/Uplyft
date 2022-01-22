@@ -96,7 +96,7 @@
             +mixins.center
 
 
-@media screen and (max-width: 1450px)
+@media screen and (max-width: 1440px)
     .about
         margin-top: 24px
         h2
@@ -105,6 +105,7 @@
         padding: 0 12px
         grid-gap: 48px
         margin-top: 40px
+        grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr))
         .card
             .content
                 padding: 24px
@@ -128,3 +129,14 @@
                 font-size: 16px
                 width: 100%
                 margin-left: 0%
+
+@media screen and (max-width: 1290px)
+    .collection
+        grid-template-columns: repeat(auto-fit, minmax(30vh, 1fr))
+
+@media screen and (max-width: 750px)
+    .collection
+        grid-template-columns: repeat(auto-fit, minmax(80vw, 1fr))
+        .card
+            .background
+                height: 50vw

@@ -85,14 +85,14 @@
         margin-top: 40px
         .icons
             width: 100%
-            padding: 12px
-            display: grid
-            grid-template-columns: repeat(5, 1fr)
-            grid-gap: 14px
+            padding: 12px 150px
+            display: flex
+            justify-content: space-between
+            align-items: center
             div
-                padding: 6px 6px 12px 6px
+                padding: 10px 10px 20px 10px
             img
-                width: 100%
+                width: 100px
         .features::-webkit-scrollbar
             height: 0
         .features
@@ -117,3 +117,27 @@
             width: calc( 100% - 24px )
             padding: 12px
             margin-bottom: 12px
+
+@media screen and (max-width: 1050px)
+    .wrapper
+        .icons
+            padding: 12px 24px
+
+@media screen and (max-width: 750px)
+    .wrapper
+        .icons
+            padding: 0 12px
+            img
+                width: 80px
+
+@media screen and (max-width: 600px)
+    .wrapper
+        .icons
+            width: 100%
+            display: grid
+            grid-template-columns: repeat(5, 1fr)
+            grid-gap: 12px
+            div
+                padding: 6px 6px 12px 6px
+            img
+                width: 100%
