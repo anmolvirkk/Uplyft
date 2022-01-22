@@ -13,13 +13,13 @@ const scrollToView = (e, wrapper) => {
         }
     }
     if(elem){
-        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY-(checkParent(e.target).clientHeight/2)))
+        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY-(checkParent(e.target).clientHeight)))
         if(window.innerHeight < windowHeight){
-            elem.scroll({top: top/2, behavior: 'smooth'})
+            elem.scroll({top: top, behavior: 'smooth'})
         }else if(isMobile){
             setTimeout(()=>{
                 if(window.innerHeight < windowHeight){
-                    elem.scroll({top: top/2, behavior: 'smooth'})
+                    elem.scroll({top: top, behavior: 'smooth'})
                 }
             }, 500)
         }
