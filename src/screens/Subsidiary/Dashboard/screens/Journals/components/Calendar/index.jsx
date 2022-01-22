@@ -24,7 +24,7 @@ const Calendar = ({isMobile}) => {
         }else{
             document.getElementById('journalCalendar').scrollTop = document.getElementById('journalCalendar').scrollHeight
         }
-    }, [isMobile])
+    })
 
     if(slots.length !== 0) {
 
