@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
@@ -7,6 +7,9 @@ import Auth from './screens/Subsidiary/Auth'
 import {isMobile, windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
 
 const App = () => {
+
+    let timeout
+    const [forceUpdate, setForceUpdate] = useState(false)
 
     window.onresize = () => {
         if(isMobile){
@@ -31,7 +34,13 @@ const App = () => {
                     document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 30)+'px'
                 }
             }
-        }
+                clearTimeout(timeout)
+                timeout = setTimeout(()=>{
+                    if(document.querySelectorAll('input').length === 0){
+                        setForceUpdate(!forceUpdate)
+                    }
+                }, 300)
+            }
     }
 
     return (
