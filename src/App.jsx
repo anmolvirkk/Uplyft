@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
@@ -7,6 +7,8 @@ import Auth from './screens/Subsidiary/Auth'
 import {isMobile, windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
 
 const App = () => {
+
+    const [forceUpdate, setForceUpdate] = useState(false)
 
     window.onresize = (e) => {
         if(isMobile){
@@ -36,6 +38,7 @@ const App = () => {
                     document.getElementById('textEditor').style.marginBottom = '-3px'
                     document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 30)+'px'
                 }
+                setForceUpdate(!forceUpdate)
             }
         }
     }
