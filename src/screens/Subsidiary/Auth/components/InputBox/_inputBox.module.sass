@@ -1,0 +1,57 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+*, :before, :after
+    box-sizing: border-box
+
+.group
+    position: relative
+    width: 100%
+
+input
+    background: none
+    color: rgb(var(--titles))
+    font-size: 16px
+    padding: 10px 10px 15px 5px
+    display: block
+    width: 100%
+    border: none
+    border-radius: 0
+    border-bottom: 1px solid rgb(var(--border))
+    height: 100%
+    font-size: 14px
+    &:focus
+        outline: none
+    &:focus ~ label, &:valid ~ label
+        top: -15px
+        font-size: 12px
+        color: rgb(var(--primary))
+    &:focus ~ .bar:before
+        width: 100%
+
+input[type="password"]
+    letter-spacing: 0.2em
+
+label
+    color: rgb(var(--titles))
+    font-size: 16px
+    font-weight: normal
+    position: absolute
+    pointer-events: none
+    left: 5px
+    top: 10px
+    transition: 0.2s ease all
+
+.bar 
+    position: relative
+    display: block
+    width: 100%
+    &:before 
+        content: ''
+        height: 2px
+        width: 0
+        bottom: 0px
+        position: absolute
+        transition: 0.2s ease all
+        left: 0%
+        background: rgb(var(--primary))

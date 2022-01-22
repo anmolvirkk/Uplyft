@@ -3,23 +3,14 @@ import { Link } from 'react-router-dom'
 import company from '../../../company'
 import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
-import {isMobile, windowHeight} from '../Dashboard/variables/mobileHeights'
+import {windowHeight} from '../Dashboard/variables/mobileHeights'
+import InputBox from './components/InputBox'
 
 const Auth = () => {
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
-
-    const scrollToView = (target) => {
-        if(window.innerHeight < windowHeight){
-            document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-        }else if(isMobile){
-            setTimeout(()=>{
-                document.getElementById('authWrapper').scroll({top: target.offsetTop, behavior: 'smooth'})
-            }, 500)
-        }
-    }
 
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
@@ -42,9 +33,9 @@ const Auth = () => {
                         <hr />
                     </div>
                     <div className={styles.input}>
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='text' placeholder='Email' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Password' />
-                        <input onMouseDown={(e)=>scrollToView(e.target)} type='password' placeholder='Confirm Password' />
+                        <InputBox marginBottom={28} wrapper={document.getElementById('authWrapper')} name="Email" type="text" />
+                        <InputBox marginBottom={28} wrapper={document.getElementById('authWrapper')} name="Password" type="password" />
+                        <InputBox marginBottom={40} wrapper={document.getElementById('authWrapper')} name="Confirm Password" type="password" />
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
                     <div className={styles.signin}>
