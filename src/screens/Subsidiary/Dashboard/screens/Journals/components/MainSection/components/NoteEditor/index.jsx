@@ -26,12 +26,15 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
 
       document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
       document.getElementById('textEditor').style.opacity = 1
-      if(!editorData){
-        document.execCommand('formatBlock', false, '<div>')
-      }
 
     }
-  }, [isMobile, editorData])
+  }, [isMobile])
+
+  useEffect(()=>{
+    if(!editorData){
+      document.execCommand('formatBlock', false, '<div>')
+    }
+  }, [editorData])
 
 const scrollToView = (e) => {
   const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
