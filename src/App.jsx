@@ -37,7 +37,6 @@ const App = () => {
                 clearTimeout(timeout)
                 timeout = setTimeout(()=>{
                     setForceUpdate(!forceUpdate)
-                    alert('resize')
                 }, 300)
             }
     }
