@@ -194,7 +194,7 @@ const Header = () => {
 
     useEffect(()=>{
         if(document.getElementById('textEditor')){
-            document.getElementById('textEditor').onMouseDown = (e) => {
+            document.getElementById('textEditor').onmousedown = (e) => {
                 setTextTags(e)
                 if(isMobile){
                     checkColors(e)
