@@ -6,6 +6,7 @@ import Prompts from './components/Prompts'
 import {useRecoilState} from 'recoil'
 import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
 import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
+import { windowHeight } from '../../../../../../variables/mobileHeights'
 
 const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
@@ -24,7 +25,7 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
   useEffect(()=>{
     if(document.getElementById('textEditor') && isMobile){
 
-      document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
+      document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12)+'px'
       document.getElementById('textEditor').style.opacity = 1
 
     }
@@ -41,8 +42,10 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
   }
 
-  window.onscroll = (e) => {
-    alert(e.target.scrollTop)
+  window.onscroll = () => {
+    if(window.innerHeight === windowHeight){
+      console.log('isIphone')
+    }
   }
 
   return <div id='textEditor' onMouseDown={isMobile?(e)=>scrollToView(e):null} ref={textEditor} contentEditable data-placeholder="Start Writing..." onInput={(e)=>handleInput(e.target.innerHTML)} dangerouslySetInnerHTML={{__html: editorBody.current}} className={styles.textEditor} style={{paddingTop: allPrompts[category.replace(/ /g, "")]&&allPrompts[category.replace(/ /g, "")].length<=0 ? '2.5vh' : null}} />

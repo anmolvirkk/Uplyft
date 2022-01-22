@@ -19,9 +19,8 @@ const App = () => {
                 }
                 if(document.getElementById('textEditorHeader')){
                     document.getElementById('textEditorHeader').style.display = 'block'
-                    document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 40 - 12 - 24 - 40)+'px'
-                    document.getElementById('textEditor').style.marginBottom = '38px'
-                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 40 - 24)+'px'
+                    document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 40 - 24)+'px'
+                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 40 - 24 - 12)+'px'
                 }
             }else{
                 if(document.getElementById('mainSideBar')){
@@ -29,9 +28,8 @@ const App = () => {
                 }
                 if(document.getElementById('textEditorHeader')){
                     document.getElementById('textEditorHeader').style.display = 'none'
-                    document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12 - 24 - 3)+'px'
-                    document.getElementById('textEditor').style.marginBottom = '12px'
-                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 10)+'px'
+                    document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 50 - 12)+'px'
+                    document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40)+'px'
                 }
             }
 

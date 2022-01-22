@@ -4,6 +4,7 @@
 .noteEditor
     width: 100%
     position: relative
+    height: fit-content
 
 .textEditor:empty:before
     content: attr(data-placeholder)
@@ -64,11 +65,12 @@
 
 @media screen and (max-width: 1450px)
     .textEditor
-        margin: 12px
+        margin: 0
+        margin-bottom: -3px
         padding: 50px 12px 12px 12px
         font-size: 12px
         opacity: 0
-        width: calc( 100% - 24px - 24px )
+        width: calc( 100% - 24px )
         box-sizing: content-box
         scroll-behavior: smooth
         p  

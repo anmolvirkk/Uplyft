@@ -38,7 +38,7 @@ const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt, isMobil
 
     useEffect(()=>{
         if(document.getElementById('promptsSelector') && isMobile){
-        document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40 - 24 - 15)+'px'
+        document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 40)+'px'
         }
     }, [isMobile])
 
