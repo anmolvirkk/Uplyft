@@ -13,7 +13,7 @@ const scrollToView = (e, wrapper) => {
                 if(window.innerHeight < windowHeight){
                     elem.scroll({top: top/2, behavior: 'smooth'})
                 }
-            }, 500)
+            }, 1000)
         }
     }
 }
