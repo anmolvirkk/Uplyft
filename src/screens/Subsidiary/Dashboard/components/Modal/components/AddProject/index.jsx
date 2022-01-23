@@ -11,6 +11,7 @@ import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConf
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
+import InputBox from '../../../../../Auth/components/InputBox'
 
 const AddProject = ({icons, type, currentProject}) => {
 
@@ -97,7 +98,7 @@ const AddProject = ({icons, type, currentProject}) => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
-                    <input style={{marginTop: '2vh'}} defaultValue={project.name}  onBlur={(e)=>setProject({...project, name: e.target.value})} placeholder='Enter Project Name' />
+                    <InputBox type='text' name='Enter Project Name' value={project.name} onBlur={(e)=>setProject({...project, name: e.target.value})} />
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />

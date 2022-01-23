@@ -157,6 +157,11 @@ const Schedule = () => {
         }
     }
 
+    const addTaskToProject = (route) => {
+        setAllRoutes({...allRoutes, ...route})
+        setModalConfig({type: 'addTask'})
+    }
+
     
     useEffect(()=>{
         if(isMobile){
@@ -239,6 +244,7 @@ const Schedule = () => {
                                                         {completedTasks}/
                                                         {totalTasks}
                                                     </div>  
+                                                    <Plus className={styles.addTaskBtn} onMouseDown={()=>addTaskToProject({project: item.id})} />
                                                 </div>
                                             </div>
                                             <div className={styles.progress}>
