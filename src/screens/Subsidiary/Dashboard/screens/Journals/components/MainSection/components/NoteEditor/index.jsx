@@ -25,7 +25,7 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
   useEffect(()=>{
     if(document.getElementById('textEditor') && isMobile){
 
-      document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 42 - 12)+'px'
+      document.getElementById('textEditor').style.height = (window.innerHeight - 80 - 60 - 72 - 12)+'px'
       document.getElementById('textEditor').style.opacity = 1
 
     }
