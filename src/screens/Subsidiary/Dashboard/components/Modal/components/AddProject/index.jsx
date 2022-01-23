@@ -127,7 +127,7 @@ const AddProject = ({icons, type, currentProject}) => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form className={styles.projectForm}>
-                    <InputBox type='text' name='Enter Project Name' value={project.current.name} onBlur={(e)=>setProject('name', e.target.value)} />
+                    <InputBox type='text' name='Enter Project Name' value={project.current.name} onChange={(e)=>setProject('name', e.target.value)} />
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />
