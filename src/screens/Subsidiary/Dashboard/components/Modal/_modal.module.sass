@@ -403,8 +403,9 @@
     .removeTime
         all: unset
         cursor: pointer
-        margin-left: 2vh
+        margin-left: 1.5vh
         stroke: rgb(var(--titles))
+        stroke-width: 2
     .time
         width: 100%
         display: flex
@@ -944,6 +945,8 @@
             input
                 padding: 14px
                 width: 42px
+                margin: 0
+                margin-right: 12px
 
     .habitCards
         margin-top: 12px
@@ -999,10 +1002,7 @@
         align-items: center
         margin-top: 24px
         .removeTime
-            all: unset
-            cursor: pointer
             margin-left: 6px
-            stroke: rgb(var(--titles))
         .time
             margin: 0
             padding: 12px 0
