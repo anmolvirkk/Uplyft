@@ -31,15 +31,33 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     }
   }, [isMobile])
 
+  let scrollTimeout
+
   const scrollToView = (e) => {
-    const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
-    document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+    if(window.innerHeight < windowHeight){
+      const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
+      document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+    }else{
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(()=>{
+        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
+        document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+      }, 500)
+    }
   }
 
   const scrollToViewOnSelect = (e) => {
-    if(window.getSelection().getRangeAt(0).startOffset !== window.getSelection().getRangeAt(0).endOffset){
-      const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+window.getSelection().getRangeAt(0).getBoundingClientRect().y-160))
-      document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+    if(window.innerHeight < windowHeight){
+      if(window.getSelection().getRangeAt(0).startOffset !== window.getSelection().getRangeAt(0).endOffset){
+        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+window.getSelection().getRangeAt(0).getBoundingClientRect().y-160))
+        document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+      }
+    }else{
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(()=>{
+        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
+        document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+      }, 500)
     }
   }
 
