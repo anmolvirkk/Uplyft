@@ -97,7 +97,7 @@ const AddProject = ({icons, type, currentProject}) => {
     const ProjectForm = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
-                <form>
+                <form className={styles.projectForm}>
                     <InputBox type='text' name='Enter Project Name' value={project.name} onBlur={(e)=>setProject({...project, name: e.target.value})} />
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
