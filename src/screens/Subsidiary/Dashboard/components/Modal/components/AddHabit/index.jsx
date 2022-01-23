@@ -12,6 +12,8 @@ import { habitCards } from '../../../../variables/habitCards'
 import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
 import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
+import InputBox from '../../../../../Auth/components/InputBox'
+
 const addToolTipForHabitCards = (e) => {
     if(e.target.classList.contains(styles.habitCard)){
         if(e.target.getElementsByTagName('p')[0].scrollWidth > e.target.getElementsByTagName('p')[0].offsetWidth){
@@ -22,7 +24,7 @@ const addToolTipForHabitCards = (e) => {
     }
 }
 
-const AddHabit = ({icons, type, currentHabit}) => {
+const AddHabit = ({ type, currentHabit}) => {
 
     const date = new Date()
 
@@ -272,8 +274,18 @@ const AddHabit = ({icons, type, currentHabit}) => {
 
     const removeTimeFromAll = (index) => {
         if(habit.repeat.all.length!==1){
-            let newTimes = habit.repeat.all.filter((val, i)=>i!==index)
-            setHabit({...habit, repeat: {...habit.repeat, all: [...newTimes]}})
+            let habitRepeat = {}
+            for(let key in habit.repeat){
+                if(key!=='unique'){
+                    if(habit.repeat[key] !== null){
+                        let newData = habit.repeat[key].filter((val, i)=>i!==index)
+                        habitRepeat = {...habitRepeat, [key]: [...newData]}
+                    }
+                }else{
+                    habitRepeat = {...habitRepeat, [key]: habit.repeat[key]}
+                }
+            }
+            setHabit({...habit, repeat: {...habit.repeat, ...habitRepeat}})
         }
     }
 
@@ -331,8 +343,8 @@ const AddHabit = ({icons, type, currentHabit}) => {
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.habitNum}>
-                        <input defaultValue={habit.name}  onBlur={(e)=>setHabit({...habit, name: e.target.value})} placeholder='Enter Habit' />
-                        <div>
+                        <InputBox type='text' value={habit.name} name='Enter Habit' onBlur={(e)=>setHabit({...habit, name: e.target.value})} />
+                        <div className={styles.habitTimes}>
                             <input type="number" defaultValue={habit.times} onBlur={(e)=>timesBlur(e)} />
                             <span>times</span>
                         </div>
@@ -355,185 +367,185 @@ const AddHabit = ({icons, type, currentHabit}) => {
                             <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, sat: habit.repeat.sat===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.sat!==null?styles.activeDay:null}>Sat</div>
                             <div onClick={()=>setHabit({...habit, repeat: {...habit.repeat, sun: habit.repeat.sun===null?[{from: "00:00", to: "12:00"}]:null}})} className={habit.repeat.sun!==null?styles.activeDay:null}>Sun</div>
                     </div>
-
-                    <div className={styles.days} style={{display: !habit.repeat.unique?'block':'none'}}>
-                        {!habit.repeat.unique?
-                        <div>
-                            {habit.repeat.all.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForAll(e.target.value, index, 'from')} type="time" />
+                    {habit.repeat.unique?
+                        <div className={styles.days}>
+                            {
+                                habit.repeat.mon!==null?
+                                <div className={styles.day}>
+                                <p>Monday</p>
+                                {habit.repeat.mon.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'mon')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'mon')} type="time" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForAll(e.target.value, index, 'to')} type="time" />
-                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'mon')} />
                                     </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromAll(index)} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={addAllTime} />
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('mon')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.tue!==null?
+                                <div className={styles.day}>
+                                <p>Tuesday</p>
+                                {habit.repeat.tue.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'tue')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'tue')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'tue')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('tue')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.wed!==null?
+                                <div className={styles.day}>
+                                <p>Wednesday</p>
+                                {habit.repeat.wed.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'wed')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'wed')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'wed')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('wed')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.thu!==null?
+                                <div className={styles.day}>
+                                <p>Thurday</p>
+                                {habit.repeat.thu.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'thu')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'thu')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'thu')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('thu')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.fri!==null?
+                                <div className={styles.day}>
+                                <p>Friday</p>
+                                {habit.repeat.fri.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'fri')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'fri')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'fri')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('fri')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.sat!==null?
+                                <div className={styles.day}>
+                                <p>Saturday</p>
+                                {habit.repeat.sat.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sat')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sat')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sat')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('sat')} />
+                                </div> : null
+                            }
+                            {
+                                habit.repeat.sun!==null?
+                                <div className={styles.day}>
+                                <p>Sunday</p>
+                                {habit.repeat.sun.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sun')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sun')} type="time" />
+                                            </div>
+                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sun')} />
+                                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={()=>addUniqueTime('sun')} />
+                                </div> : null
+                            }
                         </div>
-                        :null}
-                    </div>
-                    <div className={styles.days} style={{display: habit.repeat.unique?'block':'none'}}>
-                        {
-                            habit.repeat.mon!==null?
-                            <div className={styles.day}>
-                            <p>Monday</p>
-                            {habit.repeat.mon.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'mon')} type="time" />
+                    :   
+                        <div className={styles.days}>
+                            <div>
+                                {habit.repeat.all.map((item, index)=>(
+                                    <div className={styles.times} key={index}>
+                                        <div className={styles.time}> 
+                                            <div className={styles.timeTitle}>
+                                                <p>From</p>
+                                                <input defaultValue={item.from} onBlur={(e)=>setTimeForAll(e.target.value, index, 'from')} type="time" />
+                                            </div>
+                                            <div className={styles.timeTitle}>
+                                                <p>To</p>
+                                                <input defaultValue={item.to} onBlur={(e)=>setTimeForAll(e.target.value, index, 'to')} type="time" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'mon')} type="time" />
-                                        </div>
+                                        <Minus className={styles.removeTime} onClick={()=>removeTimeFromAll(index)} />
                                     </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'mon')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('mon')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.tue!==null?
-                            <div className={styles.day}>
-                            <p>Tuesday</p>
-                            {habit.repeat.tue.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'tue')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'tue')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'tue')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('tue')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.wed!==null?
-                            <div className={styles.day}>
-                            <p>Wednesday</p>
-                            {habit.repeat.wed.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'wed')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'wed')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'wed')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('wed')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.thu!==null?
-                            <div className={styles.day}>
-                            <p>Thurday</p>
-                            {habit.repeat.thu.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'thu')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'thu')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'thu')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('thu')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.fri!==null?
-                            <div className={styles.day}>
-                            <p>Friday</p>
-                            {habit.repeat.fri.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'fri')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'fri')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'fri')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('fri')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.sat!==null?
-                            <div className={styles.day}>
-                            <p>Saturday</p>
-                            {habit.repeat.sat.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sat')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sat')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sat')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('sat')} />
-                            </div> : null
-                        }
-                        {
-                            habit.repeat.sun!==null?
-                            <div className={styles.day}>
-                            <p>Sunday</p>
-                            {habit.repeat.sun.map((item, index)=>(
-                                <div className={styles.times} key={index}>
-                                    <div className={styles.time}> 
-                                        <div>
-                                            <p>From</p>
-                                            <input defaultValue={item.from} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'from', 'sun')} type="time" />
-                                        </div>
-                                        <div>
-                                            <p>To</p>
-                                            <input defaultValue={item.to} onBlur={(e)=>setTimeForUnique(e.target.value, index, 'to', 'sun')} type="time" />
-                                        </div>
-                                    </div>
-                                    <Minus className={styles.removeTime} onClick={()=>removeTimeFromUnique(index, 'sun')} />
-                                </div>
-                            ))}
-                            <Plus className={styles.addTime} onClick={()=>addUniqueTime('sun')} />
-                            </div> : null
-                        }
-                    </div>
+                                ))}
+                                <Plus className={styles.addTime} onClick={addAllTime} />
+                            </div>
+                        </div>
+                    }
                 </li>
             </ul>
                 <div className={`${styles.footer} ${styles.habitFooter}`}>

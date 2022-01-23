@@ -26,10 +26,10 @@ const scrollToView = (e, wrapper) => {
     }
 }
 
-const InputBox = ({wrapper, name, type, marginBottom, value, onChange}) => {
+const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur}) => {
     return (
     <div onMouseDown={(e)=>scrollToView(e, wrapper)} className={styles.group} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
-        <input onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
+        <input onBlur={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
         <label>{name}</label>
     </div>
     )
