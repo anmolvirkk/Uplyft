@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef} from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -17,7 +17,7 @@ const AddProject = ({icons, type, currentProject}) => {
 
     const date = new Date()
 
-    const [project, setProject] = useState(currentProject?{
+    const project = useRef(currentProject?{
         id: currentProject.id,
         color: currentProject.color,
         icon: currentProject.icon,
@@ -35,6 +35,35 @@ const AddProject = ({icons, type, currentProject}) => {
         tasks: []
     })
 
+    const setProject = (key, val) => {
+        project.current[key] = val
+    }
+
+    
+    const updateDecor =  {
+        color: (num) => {
+            project.current.color = num
+            for(let i=0; i<document.getElementById('colors').children.length; i++){
+                if(i === num){
+                    document.getElementById('colors').children[i].children[0].className = styles.activeButton
+                }else{
+                    document.getElementById('colors').children[i].children[0].classList.remove(styles.activeButton)
+                }
+            }
+        },
+        icon: (num) => {
+            project.current.icon = num
+            for(let i=0; i<document.getElementById('icons').children.length; i++){
+                if(i === num){
+                    document.getElementById('icons').children[i].children[0].className = styles.activeButton
+                }else{
+                    document.getElementById('icons').children[i].children[0].classList.remove(styles.activeButton)
+                }
+            }
+
+        }
+    }
+
     const [projects, setProjects] = useRecoilState(projectsAtom)
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -44,17 +73,17 @@ const AddProject = ({icons, type, currentProject}) => {
 
     const submitProject = () => {
         if(type === 'add'){
-            setProjects([...projects, project])
-            setAllRoutes({...allRoutes, project: project.id})
+            setProjects([...projects, project.current])
+            setAllRoutes({...allRoutes, project: project.current.id})
         }else if(type==='edit'){
             let newProjects = projects.map((data)=>{
                 let newData = {...data}
                     if(data.id === currentProject.id) {
-                        newData.id = project.id
-                        newData.color = project.color
-                        newData.icon = project.icon
-                        newData.name = project.name
-                        newData.deadline = project.deadline
+                        newData.id = project.current.id
+                        newData.color = project.current.color
+                        newData.icon = project.current.icon
+                        newData.name = project.current.name
+                        newData.deadline = project.current.deadline
                     }
                 return newData
             })
@@ -79,14 +108,14 @@ const AddProject = ({icons, type, currentProject}) => {
             <ul>
                 <li>
                     <p>Color</p>
-                    <ol className={styles.colors}>
-                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>setProject({...project, color: i})} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===project.color ? styles.activeButton : null} /></li>)}
+                    <ol className={styles.colors} id='colors'>
+                        {colors.map((color, i)=><li className="colorButtons" onClick={()=>updateDecor.color(i)} key={i} id={`color${i}`} style={{backgroundColor: color}}><div style={{borderColor: color}} className={i===project.current.color ? styles.activeButton : null} /></li>)}
                     </ol>
                 </li> 
                 <li>
                     <p>Icon</p>
-                    <ol>
-                        {iconsSvg.map((icon, i)=><li className="iconButtons" onClick={()=>setProject({...project, icon: i})} key={i} id={`icon${i}`}>{icon}<div className={i===project.icon ? styles.activeButton : null} /></li>)}
+                    <ol id='icons'>
+                        {iconsSvg.map((icon, i)=><li className="iconButtons" onClick={()=>updateDecor.icon(i)} key={i} id={`icon${i}`}><div className={i===project.current.icon ? styles.activeButton : null} />{icon}</li>)}
                     </ol>
                 </li>
             </ul>
@@ -98,15 +127,15 @@ const AddProject = ({icons, type, currentProject}) => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form className={styles.projectForm}>
-                    <InputBox type='text' name='Enter Project Name' value={project.name} onBlur={(e)=>setProject({...project, name: e.target.value})} />
+                    <InputBox type='text' name='Enter Project Name' value={project.current.name} onBlur={(e)=>setProject('name', e.target.value)} />
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />
-                            <Datetime initialValue={project.start?project.start:'Add Start Date'} onClose={(e)=>setProject({...project, start: e._d})} />         
+                            <Datetime initialValue={project.current.start?project.current.start:'Add Start Date'} onClose={(e)=>setProject('start', e._d)} />         
                         </div>
                         <div className={`${styles.inputWithIcon}`}>
                             <Flag />
-                            <Datetime initialValue={project.deadline?project.deadline:'Add Deadline'} onClose={(e)=>setProject({...project, deadline: e._d})} />        
+                            <Datetime initialValue={project.current.deadline?project.current.deadline:'Add Deadline'} onClose={(e)=>setProject('deadline', e._d)} />        
                         </div>
                     </div>
                 </form>
