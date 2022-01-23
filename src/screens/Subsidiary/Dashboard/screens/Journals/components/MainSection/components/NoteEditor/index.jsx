@@ -31,17 +31,13 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
     }
   }, [isMobile])
 
-  let scrollTimeout
-
   const scrollToView = (e) => {
     if(window.innerHeight < windowHeight){
       const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
       document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
     }else{
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(()=>{
-        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
-        document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+      setTimeout(()=>{
+        scrollToView(e)
       }, 500)
     }
   }
@@ -53,10 +49,8 @@ const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name
         document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
       }
     }else{
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(()=>{
-        const top = e.target.scrollHeight-(e.target.scrollHeight-(e.target.scrollTop+e.clientY-160))
-        document.getElementById('textEditor').scroll({top: top, behavior: 'smooth'})
+      setTimeout(()=>{
+          scrollToViewOnSelect(e)
       }, 500)
     }
   }
