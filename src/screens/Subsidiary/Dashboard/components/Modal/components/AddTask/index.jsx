@@ -79,6 +79,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const currentProjectId = allRoutes['project']?allRoutes['project']==='today'?'all':allRoutes['project']:'all'
     const currentProject = projects.find(i=>i.id===currentProjectId)
     const allProject = projects.find(i=>i.id==='all')
+
+    let taskText = {name: '', details: ''}
     
     const currentTaskRoute = useCallback(() => {
 
@@ -105,14 +107,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
-        let newActiveTask = {...activeTask}
+        let newActiveTask = {...activeTask, ...taskText}
         if(activeTask.id === task.id){
             newActiveTask[key] = val
             setTask({...newActiveTask})
         }else{
             let newTask = {...task}
             const setSubtasks = (subtasks) => subtasks.map((item)=>{
-                let newItem = {...item}
+                let newItem = {...item, ...taskText}
                 if(item.id === activeTask.id){
                     newItem[key] = val
                     newActiveTask = newItem
@@ -382,14 +384,25 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         useEffect(()=>{
             if(!document.getElementsByClassName('form-control')[0].readOnly){
                 for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                    document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
+                        e.preventDefault()
+                        e.target.parentNode.childNodes[1].onmousedown = (e) => {
+                            e.preventDefault()
+                        }
+                    }
                     document.getElementsByClassName('form-control')[i].readOnly = true
                 }
             }
         })
 
-        const setTaskText = (key, id) => {
-            if(document.getElementById(id).value !== '' && document.getElementById(id).value!==activeTask[key]){
-                setActiveTask(key, document.getElementById(id).value)
+        const setTaskText = (key, id, e) => {
+            taskText = {...taskText, [key]: document.getElementById(id).value}
+            if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
+                if(taskText[key] !== '' && taskText[key]!==activeTask[key]){
+                    setTimeout(()=>{
+                        setActiveTask([key], taskText[key])
+                    }, 200)
+                }
             }
         }
 
@@ -398,13 +411,13 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={()=>setTaskText('name', 'taskText')}>
-                                <InputBox onBlur={()=>setTaskText('name', 'taskText')} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
+                                <InputBox autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={()=>setTaskText('details', 'taskDetails')}>
-                                <InputBox onBlur={()=>setTaskText('details', 'taskDetails')} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', 'taskDetails', e)}>
+                                <InputBox autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
