@@ -548,14 +548,14 @@
     svg
         position: absolute
         left: 0
-        height: 2vh
-        bottom: 0.9vh
-        stroke-width: 1.5px
+        height: 2.5vh
+        width: 2.5vh
+        bottom: 11px
+        stroke-width: 1.7
         pointer-events: none
     input
         box-sizing: border-box
-        padding-left: 4vh
-        padding-right: 4vh
+        padding: 12px 12px 14px 36px 
 
 .addTask
     .header
@@ -774,9 +774,10 @@
 .taskNavigation
     display: flex
     align-items: center
-    margin-bottom: 2vh
     max-width: 70vh
     overflow-x: overlay
+    padding-bottom: 30vh
+    margin-bottom: -28vh
 .taskNavigation::-webkit-scrollbar
     height: 0
 
@@ -819,13 +820,17 @@
         border-radius: 5px 5px
         position: absolute
         top: 5.5vh
-        z-index: 1
+        z-index: 9
         ul
             list-style: none
-            width: 10vh
+            width: 12vh
+            max-height: 25vh
+            overflow-y: overlay
+            overflow-x: hidden
             li
-                border-bottom: 1px solid rgba(var(--secondary), 0.025)
+                border-bottom: 1px solid rgba(var(--border), 1)
                 padding: 1vh 0
+                color: rgb(var(--titles))
 
 .activeTaskNav
     svg
@@ -916,9 +921,12 @@
             margin-bottom: 12px
             p
                 font-size: 18px
+
+    
     .inputWithIcon
-        input
-            padding: 12px 12px 12px 34px 
+        svg
+            height: 22px
+            bottom: 11px
 
     .projectForm
         padding-top: 24px
@@ -1044,9 +1052,60 @@
             font-size: 14px
             margin-left: 6px
 
+    .taskNavigation
+        margin-bottom: calc( 0px - 30vh )
+        max-width: 100%
+
+    .taskNav
+        margin-left: 12px
+        svg
+            height: 22px
+            margin-right: 12px
+        .navContent
+            font-size: 14px
+            font-weight: 400
+            .navSubTaskSelect
+                margin-top: 6px
+                height: 22px
+            svg
+                width: 22px
+            .subTaskNum
+                font-size: 12px
+                margin-right: 6px
+                margin: 0 6px
+        .taskDropDown
+            padding: 0 12px 12px 12px
+            top: 56px
+            ul
+                width: 120px
+                li
+                    padding: 12px 0
+
     .setDates
         margin-top: 20px
-        margin-bottom: 15px
+        margin-bottom: 24px
+
+    
+    .taskInputSection
+        margin-top: 24px
+        margin-bottom: 0
+        .addSubTask
+            svg
+                height: 22px
+                margin: 0 12px 0 0
+
+    
+    .taskInputSection, .roles, .projects
+        p
+            font-size: 14px
+            margin-bottom: 12px
+            svg
+                height: 22px
+                margin-left: 12px
+
+    .moreTasks
+        margin-top: 24px
+        margin-bottom: -24px
 
 
 @media screen and (max-width: 600px)

@@ -410,14 +410,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <Datetime initialValue={activeTask.start?activeTask.start:'Add Start Date'} onClose={(e)=>setActiveTask('start', e._d)} />         
+                                <Datetime initialValue={activeTask.start?activeTask.start:'Add Start'} onClose={(e)=>setActiveTask('start', e._d)} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
                                 <Datetime initialValue={activeTask.deadline?activeTask.deadline:'Add Deadline'} onClose={(e)=>setActiveTask('deadline', new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d)} />        
                             </div>
                         </div>
-                        <div className={styles.taskInputSection} style={{marginTop: '2.5vh'}}>
+                        <div className={styles.taskInputSection}>
                             <p><span>Priority</span></p>
                             <div className={styles.tags}>
                                 {reorderTags(tags.priority).map((item, index)=>{
@@ -495,7 +495,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
                         {allTasks?  
                             <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
-                                <div className={styles.subTaskNum}>{allTasks.length}</div>
+                                <div className={styles.subTaskNum}>{allTasks.length-1}</div>
                                 {allTasks.length>1?dropDownOpen?<ChevronUp />:<ChevronDown />:null}
                             </div>
                         : <div />}
