@@ -19,6 +19,8 @@ import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAt
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import tagsAtom from './tagsAtom'
 
+import InputBox from '../../../../../Auth/components/InputBox'
+
 const AddTask = ({type, currentTask, currentActiveTask}) => {
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
@@ -381,13 +383,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={activeTask.name} onBlur={(e)=>setActiveTask('name', e.target.value)} placeholder='New Task' />
+                            <InputBox type='text' name='New Task' value={activeTask.name} onBlur={(e)=>e.target.value!==''?setActiveTask('name', e.target.value):null} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <div className={styles.inputWithIcon}>
+                            <InputBox icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} onBlur={(e)=>e.target.value!==''?setActiveTask('details', e.target.value):null} />
+                            {/* <div className={styles.inputWithIcon}>
                                 <AlignLeft />
                                 <input type="text" defaultValue={activeTask.details} placeholder="Add Details" onBlur={(e)=>setActiveTask('details', e.target.value)} />
-                            </div>
+                            </div> */}
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
