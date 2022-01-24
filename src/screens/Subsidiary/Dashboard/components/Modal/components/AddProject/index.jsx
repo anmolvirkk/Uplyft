@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -123,6 +123,16 @@ const AddProject = ({icons, type, currentProject}) => {
         )
     }
 
+    useEffect(()=>{
+        if(!document.getElementsByClassName('form-control')[0].onclick){
+            for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                document.getElementsByClassName('form-control')[i].onclick = (e) => {
+                    e.preventDefault()
+                }
+            }
+        }
+    })
+
     const ProjectForm = () => {
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -131,11 +141,11 @@ const AddProject = ({icons, type, currentProject}) => {
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />
-                            <Datetime initialValue={project.current.start?project.current.start:'Add Start Date'} onClose={(e)=>setProject('start', e._d)} />         
+                            <Datetime initialValue={project.current.start?project.current.start:'Add Start Date'} onChange={(e)=>setProject('start', e._d)} />         
                         </div>
                         <div className={`${styles.inputWithIcon}`}>
                             <Flag />
-                            <Datetime initialValue={project.current.deadline?project.current.deadline:'Add Deadline'} onClose={(e)=>setProject('deadline', e._d)} />        
+                            <Datetime initialValue={project.current.deadline?project.current.deadline:'Add Deadline'} onChange={(e)=>setProject('deadline', e._d)} />        
                         </div>
                     </div>
                 </form>
