@@ -131,11 +131,11 @@ const AddProject = ({icons, type, currentProject}) => {
                     <div className={styles.setDates}>
                         <div className={`${styles.inputWithIcon}`}>
                             <Navigation />
-                            <Datetime initialValue={project.current.start?project.current.start:'Add Start Date'} onChange={(e)=>setProject('start', e._d)} />         
+                            <Datetime initialValue={project.current.start?project.current.start:'Add Start Date'} onClose={(e)=>setProject('start', e._d)} />         
                         </div>
                         <div className={`${styles.inputWithIcon}`}>
                             <Flag />
-                            <Datetime initialValue={project.current.deadline?project.current.deadline:'Add Deadline'} onChange={(e)=>setProject('deadline', e._d)} />        
+                            <Datetime initialValue={project.current.deadline?project.current.deadline:'Add Deadline'} onClose={(e)=>setProject('deadline', e._d)} />        
                         </div>
                     </div>
                 </form>
