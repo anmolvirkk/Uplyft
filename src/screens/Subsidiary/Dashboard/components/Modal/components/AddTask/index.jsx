@@ -378,6 +378,21 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
         }
         
+
+        useEffect(()=>{
+            if(!document.getElementsByClassName('form-control')[0].onmousedown){
+                for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                    document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
+                        e.preventDefault()
+                        e.target.parentNode.childNodes[1].onmousedown = (e) => {
+                            e.preventDefault()
+                        }
+                    }
+                    document.getElementsByClassName('form-control')[i].readOnly = true
+                }
+            }
+        })
+
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
@@ -387,10 +402,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                         </div>
                         <div className={styles.taskInputSection}>
                             <InputBox icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} onBlur={(e)=>e.target.value!==''?setActiveTask('details', e.target.value):null} />
-                            {/* <div className={styles.inputWithIcon}>
-                                <AlignLeft />
-                                <input type="text" defaultValue={activeTask.details} placeholder="Add Details" onBlur={(e)=>setActiveTask('details', e.target.value)} />
-                            </div> */}
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
