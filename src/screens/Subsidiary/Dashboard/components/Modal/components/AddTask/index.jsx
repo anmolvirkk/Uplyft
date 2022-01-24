@@ -380,7 +380,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         
 
         useEffect(()=>{
-            if(!document.getElementsByClassName('form-control')[0].onmousedown){
+            if(!document.getElementsByClassName('form-control')[0].readOnly){
                 for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
                     document.getElementsByClassName('form-control')[i].readOnly = true
                 }
