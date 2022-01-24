@@ -72,7 +72,7 @@ const TaskDeadline = ({task, project}) => {
         setSubtasks(task.subtasks)
     }
 
-    if(timeline.length > 0){
+    if(timeline.length > 0 && task.name !== ''){
         return (
             <div className={styles.taskDeadline}>
                 <hr />

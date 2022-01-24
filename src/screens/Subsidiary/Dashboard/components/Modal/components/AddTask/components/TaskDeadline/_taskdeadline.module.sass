@@ -17,7 +17,7 @@
         height: 1px
         top: 5px
         width: 100%
-        background-color: rgba(var(--text), 0.05)
+        background-color: rgba(var(--border), 1)
         border: none
         outline: none
     ul::-webkit-scrollbar
@@ -27,7 +27,7 @@
         display: flex
         justify-content: space-between
         align-items: flex-start
-        color: rgba(var(--text), 0.3)
+        color: rgb(var(--text))
         overflow: hidden
         overflow-x: scroll
         position: absolute
@@ -41,7 +41,7 @@
                 +mixins.center
         p
             font-size: 1.25vh
-            font-weight: 100
+            font-weight: 400
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis
@@ -49,7 +49,7 @@
             padding: 0 5px
             pointer-events: none
             background-color: rgb(var(--background))
-            color: rgba(var(--text), 0.1)
+            color: rgba(var(--titles), 1)
         h3
             font-size: 1.5vh
             font-weight: 100
@@ -82,3 +82,17 @@
     border: 8px solid transparent  
     border-bottom: 8px solid rgb(var(--dropdown))
     z-index: 99
+
+    
+@media screen and (max-width: 1450px)
+    .taskDeadline
+        margin-top: 24px
+        margin-bottom: 24px
+        ul
+            height: 120px
+            li
+                min-width: 115px
+            p
+                font-size: 12px
+            h3
+                font-size: 14px
