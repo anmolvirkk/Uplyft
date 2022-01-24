@@ -114,10 +114,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         }else{
             let newTask = {...task}
             const setSubtasks = (subtasks) => subtasks.map((item)=>{
-                let newItem = {...item, ...taskText}
+                let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
-                    newActiveTask = newItem
+                    newActiveTask = {...newItem, ...taskText}
                 }else if(item.subtasks){
                     newItem.subtasks = setSubtasks(item.subtasks)
                 }
