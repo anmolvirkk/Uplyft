@@ -1,8 +1,10 @@
 import React from 'react'
 import styles from './_inputBox.module.sass'
-import { windowHeight, isMobile } from '../../../Dashboard/variables/mobileHeights'
+import { windowHeight } from '../../../Dashboard/variables/mobileHeights'
+import { useRecoilState } from 'recoil'
+import isMobileAtom from '../../../Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
 
-const scrollToView = (e, wrapper) => {
+const scrollToView = (e, wrapper, isMobile) => {
     let elem = document.getElementById(wrapper)
     const checkParent = (elem) => {
         let parent = elem.parentNode
@@ -27,8 +29,9 @@ const scrollToView = (e, wrapper) => {
 }
 
 const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur}) => {
+    const [isMobile] = useRecoilState(isMobileAtom)
     return (
-    <div onMouseDown={(e)=>scrollToView(e, wrapper)} className={styles.group} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
+    <div onMouseDown={(e)=>scrollToView(e, wrapper, isMobile)} className={styles.group} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
         <input onBlur={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
         <label>{name}</label>
     </div>

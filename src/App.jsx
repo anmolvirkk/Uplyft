@@ -4,13 +4,21 @@ import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-d
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
-import {isMobile, windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
+import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
+import { useRecoilState } from 'recoil'
+import isMobileAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
 
 const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
+    const [isMobile, setIsMobile] = useRecoilState(isMobileAtom)
 
     window.onresize = (e) => {
+        if(window.innerWidth < 1450){
+            setIsMobile(true)
+        }else{
+            setIsMobile(false)
+        }
         if(isMobile){
             if(document.getElementById('modalContainer')){
                 document.getElementById('modalContainer').style.height = window.innerHeight+'px'

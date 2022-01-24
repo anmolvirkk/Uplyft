@@ -5,15 +5,16 @@ import styles from './_header.module.sass'
 import { colors } from '../../../../../../../../variables/journalConfig'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
-import { isMobile } from '../../../../../../../../variables/mobileHeights'
 import { useRecoilState } from 'recoil'
 import darkModeAtom from '../../../../../../../../components/SideBar/components/DarkMode/darkModeAtom'
+import isMobileAtom from '../../../../../../recoil-atoms/isMobileAtom'
 
 let textcolors = ['#000000', ...colors]
 
 const Header = () => {
 
     const [darkMode] = useRecoilState(darkModeAtom)
+    const [isMobile] = useRecoilState(isMobileAtom)
 
     if(darkMode){
         textcolors = ['#FFFFFF', ...colors]

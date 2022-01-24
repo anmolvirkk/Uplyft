@@ -10,7 +10,7 @@ import company from '../../../../../company'
 import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/currentMobileSectionAtom'
 import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
 import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
-import { isMobile } from '../../variables/mobileHeights'
+import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -28,6 +28,7 @@ const SideBar = () => {
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     const setScheduleHeader = useSetRecoilState(setScheduleHeaderAtom)
     const setScheduleSideMenu = useSetRecoilState(setScheduleSideMenuAtom)
+    const [isMobile] = useRecoilState(isMobileAtom)
 
     const sidebarButtons = [
         {

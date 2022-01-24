@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { Book, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw, Filter, List, Share2, Link, Image, Search, CreditCard, DollarSign, TrendingUp, BarChart2, Briefcase, PieChart, Coffee } from 'react-feather'
 import styles from './_features.module.sass'
 import company from '../../../../../company'
-import { isMobile } from '../../../Dashboard/variables/mobileHeights'
+import { useRecoilState } from 'recoil'
+import isMobileAtom from '../../../Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
 
 const features = {
     journals: [
@@ -200,6 +201,7 @@ const features = {
 const Features = () => {
     
     const [currentFeature, setCurrentFeature] = useState({icon: 'journals', feature: 0})
+    const [isMobile] = useRecoilState(isMobileAtom)
 
     return (
         <div className={styles.featureSection}>
@@ -236,7 +238,6 @@ const Features = () => {
                     })}
                 </div>
                 <div className={styles.content}>
-                    {console.log(features[currentFeature.icon][currentFeature.feature].img)}
                     <img src={`/screens/${features[currentFeature.icon][currentFeature.feature].img}${!isMobile?'.png':'Mobile.png'}`} alt='' />
                 </div>
             </div>

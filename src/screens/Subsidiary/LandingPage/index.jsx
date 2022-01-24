@@ -6,14 +6,13 @@ import styles from './_main.module.sass'
 import About from './components/About'
 import Trust from './components/Trust'
 import Features from './components/Features'
-import {windowHeight} from '../Dashboard/variables/mobileHeights'
 
 const LandingPage = () => {
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
     return (
-        <div className={styles.container} style={{height: windowHeight+'px'}}>
+        <div className={styles.container} style={{height: window.innerHeight+'px'}}>
             <Header />
             <Hero />
             <About />
