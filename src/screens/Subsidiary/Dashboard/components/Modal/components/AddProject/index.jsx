@@ -124,8 +124,11 @@ const AddProject = ({icons, type, currentProject}) => {
     }
 
     useEffect(()=>{
-        if(!document.getElementsByClassName('form-control')[0].readOnly){
+        if(!document.getElementsByClassName('form-control')[0].onmousedown){
             for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
+                    e.preventDefault()
+                }
                 document.getElementsByClassName('form-control')[i].readOnly = true
             }
         }
