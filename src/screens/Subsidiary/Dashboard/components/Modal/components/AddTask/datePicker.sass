@@ -6,7 +6,7 @@
     background-color: rgb(var(--background))
     border-radius: 10px 10px
     padding-bottom: 1vh
-    box-shadow: 0 0 10px rgba(var(--titles), 0.25)
+    box-shadow: 0 0 10px rgba(var(--border), 0.5)
     color: rgb(var(--titles))
     font-weight: 100
     th
@@ -34,3 +34,27 @@
         border: 1px solid rgba(var(--titles), 0.3)
     td.rdtToday:before
         display: none
+    .rdtBtn, span
+        color: rgb(var(--titles))
+
+@media screen and (max-width: 1450px)
+    .rdtPicker
+        position: fixed
+        left: 0
+        top: -3px
+        background: rgba(0,0,0,0.5)
+        width: 100%
+        height: calc( 100% + 3px  )
+        border-radius: 0
+        pointer-events: none
+        .rdtDays, .rdtMonths, .rdtYears, .rdtTime
+            position: absolute
+            left: 50%
+            top: 50%
+            transform: translateX(-50%) translateY(-50%)
+            width: 70%
+            border-radius: 10px 10px
+            background-color: rgb(var(--background))
+            box-shadow: 0 0 10px rgba(0,0,0,0.15)
+            pointer-events: all
+            padding: 12px
