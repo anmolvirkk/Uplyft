@@ -399,12 +399,12 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
-                                <InputBox id='taskText' type='text' name='New Task' value={activeTask.name} />
+                                <InputBox autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', 'taskDetails', e)}>
-                                <InputBox id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                                <InputBox autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
