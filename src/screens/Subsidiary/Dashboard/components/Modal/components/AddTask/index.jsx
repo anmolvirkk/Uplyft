@@ -377,6 +377,15 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
             setSavedActiveTask(parent.subtasks.find(i=>i.id===parallelTaskInfo.id))
         }
+        
+
+        useEffect(()=>{
+            if(!document.getElementsByClassName('form-control')[0].onmousedown){
+                for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                    document.getElementsByClassName('form-control')[i].readOnly = true
+                }
+            }
+        })
 
         const setTaskText = (key, id) => {
             if(document.getElementById(id).value !== '' && document.getElementById(id).value!==activeTask[key]){
