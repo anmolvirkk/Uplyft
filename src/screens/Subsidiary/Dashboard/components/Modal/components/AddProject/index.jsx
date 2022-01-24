@@ -128,6 +128,9 @@ const AddProject = ({icons, type, currentProject}) => {
             for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
                 document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
                     e.preventDefault()
+                    e.target.parentNode.childNodes[1].onmousedown = (e) => {
+                        e.preventDefault()
+                    }
                 }
                 document.getElementsByClassName('form-control')[i].readOnly = true
             }
