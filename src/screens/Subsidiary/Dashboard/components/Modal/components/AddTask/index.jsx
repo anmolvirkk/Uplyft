@@ -492,14 +492,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <CornerDownRight />
                 <div className={styles.navContent}>
                     <span>{thisTask.name}</span>
+                    {allTasks&&allTasks.length>1?
                     <OutsideClickHandler onOutsideClick={()=>setDropDownOpen(false)}>
-                        {allTasks?  
-                            <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
-                                <div className={styles.subTaskNum}>{allTasks.length-1}</div>
-                                {allTasks.length>1?dropDownOpen?<ChevronUp />:<ChevronDown />:null}
-                            </div>
-                        : <div />}
+                        <div className={styles.navSubTaskSelect} onMouseUp={()=>setDropDownOpen(!dropDownOpen)}>
+                            <div className={styles.subTaskNum}>{allTasks.length-1}</div>
+                            {dropDownOpen?<ChevronUp />:<ChevronDown />}
+                        </div>
                     </OutsideClickHandler>
+                    :null}
                     {dropDownOpen&&allTasks.length>1?
                             <div className={styles.taskDropDown}>
                                 <ul>
