@@ -129,6 +129,7 @@ const AddProject = ({icons, type, currentProject}) => {
                 document.getElementsByClassName('form-control')[i].onclick = (e) => {
                     e.preventDefault()
                 }
+                document.getElementsByClassName('form-control')[i].readOnly = true
             }
         }
     })
