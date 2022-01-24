@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Book, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar, Folder, RefreshCw, Filter, List, Share2, Link, Image, Search, CreditCard, DollarSign, TrendingUp, BarChart2, Briefcase, PieChart, Coffee } from 'react-feather'
 import styles from './_features.module.sass'
 import company from '../../../../../company'
+import { isMobile } from '../../../Dashboard/variables/mobileHeights'
 
 const features = {
     journals: [
@@ -9,37 +10,37 @@ const features = {
             title: 'Multiple Journals',
             description: '',
             icon: <Book />,
-            img: 'multipleJournals.png'
+            img: 'multipleJournals'
         },
         {
             title: 'Customizable Journals',
             description: '',
             icon: <Sliders />,
-            img: 'customJournals.png'
+            img: 'customJournals'
         },
         {
             title: 'Multiple Notes',
             description: '',
             icon: <Grid />,
-            img: 'multipleNotes.png'
+            img: 'multipleNotes'
         },
         {
             title: 'Prompts to get you started',
             description: '',
             icon: <Navigation />,
-            img: 'journalPrompts.png'
+            img: 'journalPrompts'
         },
         {
             title: 'Minimalistic Note Editor',
             description: '',
             icon: <Edit />,
-            img: 'journalEditor.png'
+            img: 'journalEditor'
         },
         {
             title: 'Dark Mode',
             description: '',
             icon: <Moon />,
-            img: 'darkModeJournals.png'
+            img: 'darkModeJournals'
         }
     ],
     schedule: [
@@ -47,37 +48,37 @@ const features = {
             title: 'Track habits',
             description: '',
             icon: <RefreshCw />,
-            img: 'trackHabits.png'
+            img: 'trackHabits'
         },
         {
             title: 'Track projects',
             description: '',
             icon: <Folder />,
-            img: 'trackProjects.png'
+            img: 'trackProjects'
         },
         {
             title: 'Track events',
             description: '',
             icon: <Calendar />,
-            img: 'trackEvents.png'
+            img: 'trackEvents'
         },
         {
             title: 'Multiple Subtasks',
             description: '',
             icon: <CornerDownRight />,
-            img: 'multipleSubtasks.png'
+            img: 'multipleSubtasks'
         },
         {
             title: 'Filter Tasks',
             description: '',
             icon: <Filter />,
-            img: 'filterTasks.png'
+            img: 'filterTasks'
         },
         {
             title: 'Dark Mode',
             description: '',
             icon: <Moon />,
-            img: 'darkModeSchedule.png'
+            img: 'darkModeSchedule'
         }
     ],
     notes: [
@@ -85,37 +86,37 @@ const features = {
             title: 'Efficiently structured notes',
             description: '',
             icon: <List />,
-            img: 'notes.png'
+            img: 'notes'
         },
         {
             title: 'One tap to mind map',
             description: '',
             icon: <Share2 />,
-            img: 'notes.png'
+            img: 'notes'
         },
         {
             title: 'Fluid note linking',
             description: '',
             icon: <Link />,
-            img: 'notes.png'
+            img: 'notes'
         },
         {
             title: 'Mix media',
             description: '',
             icon: <Image />,
-            img: 'notes.png'
+            img: 'notes'
         },
         {
             title: 'Folders to stay organized',
             description: '',
             icon: <Folder />,
-            img: 'notes.png'
+            img: 'notes'
         },
         {
             title: 'Powerful Search',
             description: '',
             icon: <Search />,
-            img: 'notes.png'
+            img: 'notes'
         }
     ],
     finances: [
@@ -123,37 +124,37 @@ const features = {
             title: 'Automate credit card payments',
             description: '',
             icon: <CreditCard />,
-            img: 'finances.png'
+            img: 'finances'
         },
         {
             title: 'Build credit',
             description: '',
             icon: <DollarSign />,
-            img: 'finances.png'
+            img: 'finances'
         },
         {
             title: 'Future Financial Planning',
             description: '',
             icon: <TrendingUp />,
-            img: 'finances.png'
+            img: 'finances'
         },
         {
             title: 'Taxes on autopilot',
             description: '',
             icon: <RefreshCw />,
-            img: 'finances.png'
+            img: 'finances'
         },
         {
             title: 'Expense Management',
             description: '',
             icon: <BarChart2 />,
-            img: 'finances.png'
+            img: 'finances'
         },
         {
             title: 'Manage your portfolio',
             description: '',
             icon: <Briefcase />,
-            img: 'finances.png'
+            img: 'finances'
         }
     ],
     fitness: [
@@ -161,37 +162,37 @@ const features = {
             title: 'Track calories',
             description: '',
             icon: <Coffee />,
-            img: 'fitness.png'
+            img: 'fitness'
         },
         {
             title: 'Create custom recipies',
             description: '',
             icon: <Book />,
-            img: 'fitness.png'
+            img: 'fitness'
         },
         {
             title: 'Create custom workout routines',
             description: '',
             icon: <RefreshCw />,
-            img: 'fitness.png'
+            img: 'fitness'
         },
         {
             title: 'Workout Log',
             description: '',
             icon: <Edit />,
-            img: 'fitness.png'
+            img: 'fitness'
         },
         {
             title: 'Fitness progress tracking',
             description: '',
             icon: <TrendingUp />,
-            img: 'fitness.png'
+            img: 'fitness'
         },
         {
             title: 'Micros & Macros tracking',
             description: '',
             icon: <PieChart />,
-            img: 'fitness.png'
+            img: 'fitness'
         }
     ]
 }
@@ -235,7 +236,8 @@ const Features = () => {
                     })}
                 </div>
                 <div className={styles.content}>
-                    <img src={`/screens/${features[currentFeature.icon][currentFeature.feature].img}`} alt='' />
+                    {console.log(features[currentFeature.icon][currentFeature.feature].img)}
+                    <img src={`/screens/${features[currentFeature.icon][currentFeature.feature].img}${!isMobile?'.png':'Mobile.png'}`} alt='' />
                 </div>
             </div>
         </div>
