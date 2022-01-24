@@ -393,15 +393,25 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         })
 
+        const setTaskText = (key, id) => {
+            if(document.getElementById(id).value !== '' && document.getElementById(id).value!==activeTask[key]){
+                setActiveTask(key, document.getElementById(id).value)
+            }
+        }
+
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <InputBox type='text' name='New Task' value={activeTask.name} onBlur={(e)=>e.target.value!==''?setActiveTask('name', e.target.value):null} />
+                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
+                                <InputBox id='taskText' type='text' name='New Task' value={activeTask.name} />
+                            </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
-                            <InputBox icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} onBlur={(e)=>e.target.value!==''?setActiveTask('details', e.target.value):null} />
+                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', 'taskDetails', e)}>
+                                <InputBox id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                            </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>

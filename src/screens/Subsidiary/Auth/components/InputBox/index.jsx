@@ -28,12 +28,12 @@ const scrollToView = (e, wrapper, isMobile) => {
     }
 }
 
-const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon}) => {
+const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon, autoFocus, onFocus, id}) => {
     const [isMobile] = useRecoilState(isMobileAtom)
     return (
     <div onMouseDown={(e)=>scrollToView(e, wrapper, isMobile)} className={`${styles.group} ${icon?styles.icon:null}`} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
         {icon?icon:null}
-        <input onBlur={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
+        <input id={id?id:null} onFocus={onFocus?(e)=>onFocus(e):null} autoFocus={autoFocus?autoFocus:null} onBlurCapture={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
         <label>{name}</label>
     </div>
     )
