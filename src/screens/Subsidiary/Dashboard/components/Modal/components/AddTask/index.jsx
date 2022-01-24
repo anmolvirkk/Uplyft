@@ -389,7 +389,9 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, id) => {
             if(document.getElementById(id).value !== '' && document.getElementById(id).value!==activeTask[key]){
-                setActiveTask(key, document.getElementById(id).value)
+                setTimeout(()=>{
+                    setActiveTask(key, document.getElementById(id).value)
+                }, 200)
             }
         }
 
