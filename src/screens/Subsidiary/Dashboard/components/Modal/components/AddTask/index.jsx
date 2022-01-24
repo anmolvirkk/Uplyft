@@ -389,9 +389,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, id) => {
             if(document.getElementById(id).value !== '' && document.getElementById(id).value!==activeTask[key]){
-                setTimeout(()=>{
-                    setActiveTask(key, document.getElementById(id).value)
-                }, 200)
+                setActiveTask(key, document.getElementById(id).value)
             }
         }
 
@@ -400,13 +398,13 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
-                                <InputBox autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                            <OutsideClickHandler onOutsideClick={()=>setTaskText('name', 'taskText')}>
+                                <InputBox onBlur={()=>setTaskText('name', 'taskText')} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', 'taskDetails', e)}>
-                                <InputBox autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                            <OutsideClickHandler onOutsideClick={()=>setTaskText('details', 'taskDetails')}>
+                                <InputBox onBlur={()=>setTaskText('details', 'taskDetails')} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
