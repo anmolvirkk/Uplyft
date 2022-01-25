@@ -34,8 +34,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     }
 
     let taskText = useRef({
-        name: '',
-        details: ''
+        name: {val: '', id: ''},
+        details: {val: '', id: ''}
     })
 
     const taskformat = {
@@ -110,7 +110,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
-        let newActiveTask = {...activeTask, ...taskText.current}
+        let newActiveTask = {...activeTask, name: taskText.current.name.val, details: taskText.current.details.val}
         if(activeTask.id === task.id){
             newActiveTask[key] = val
             setTask({...newActiveTask})
@@ -120,7 +120,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
-                    newActiveTask = {...newItem, ...taskText.current}
+                    newActiveTask = {...newItem, name: taskText.current.name.val, details: taskText.current.details.val}
                 }else if(item.subtasks){
                     newItem.subtasks = setSubtasks(item.subtasks)
                 }
@@ -399,19 +399,19 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, e) => {
             if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
-                if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key]){
+                if(taskText.current[key].val !== '' && taskText.current[key].val!==activeTask[key]){
                     setTimeout(()=>{
-                        setActiveTask([key], taskText.current[key])
+                        setActiveTask([key], taskText.current[key].val)
                     }, 200)
                 }
             }
         }
 
         useEffect(()=>{
-            if(taskText.current.name !== activeTask.name && taskText.current.name!==''){
+            if(taskText.current.name.val !== activeTask.name && taskText.current.name.val!=='' && taskText.current.name.id===activeTask.id){
                 setTaskText('name', {target: {id: ''}})
             }
-            if(taskText.current.details !== activeTask.details && taskText.current.details!==''){
+            if(taskText.current.details.val !== activeTask.details && taskText.current.details.val!=='' && taskText.current.details.id===activeTask.id){
                 setTaskText('details', {target: {id: ''}})
             }
         }, [])
@@ -422,12 +422,12 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', e)}>
-                                <InputBox onChange={(e)=>taskText.current.name=e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''?taskText.current.name:activeTask.name} />
+                                <InputBox onChange={(e)=>taskText.current.name={id: activeTask.id, val: e.target.value}} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name.val!==''&&taskText.current.name.id===activeTask.id?taskText.current.name.val:activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', e)}>
-                                <InputBox onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''?taskText.current.details:activeTask.details} />
+                                <InputBox onChange={(e)=>taskText.current.details={id: activeTask.id, val: e.target.value}} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details.val!==''&&taskText.current.details.id===activeTask.id?taskText.current.details.val:activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
