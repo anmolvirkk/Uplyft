@@ -409,10 +409,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         useEffect(()=>{
             if(taskText.current.name !== activeTask.name && taskText.current.name!==''){
-                setTaskText('name', {})
+                setTaskText('name', {target: {id: ''}})
             }
             if(taskText.current.details !== activeTask.details && taskText.current.details!==''){
-                setTaskText('details', {})
+                setTaskText('details', {target: {id: ''}})
             }
         }, [])
 
