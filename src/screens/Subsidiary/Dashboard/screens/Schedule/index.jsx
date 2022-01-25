@@ -170,6 +170,10 @@ const Schedule = () => {
             if(document.getElementById('scheduleSideSection')){
                 document.getElementById('scheduleSideSection').style.transform = 'translateX(-100%)'
             }
+        }else{
+            if(document.getElementById('scheduleSideSection')){
+                document.getElementById('scheduleSideSection').style.transform = 'translateX(0%)'
+            }
         }
     }, [setScheduleHeader, setScheduleSideMenu, isMobile])
 
