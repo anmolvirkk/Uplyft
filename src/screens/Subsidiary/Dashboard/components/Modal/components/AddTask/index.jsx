@@ -407,6 +407,15 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         }
 
+        useEffect(()=>{
+            if(taskText.current.name !== activeTask.name){
+                setTaskText('name', {})
+            }
+            if(taskText.current.details !== activeTask.details){
+                setTaskText('details', {})
+            }
+        }, [])
+
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
