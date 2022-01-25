@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState, useCallback, useRef} from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -33,10 +33,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         return arr.slice().sort((a, b) => a.value - b.value)
     }
 
-    let taskText = {
+    let taskText = useRef({
         name: '',
         details: ''
-    }
+    })
 
     const taskformat = {
         id: date.valueOf(),
@@ -110,7 +110,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
-        let newActiveTask = {...activeTask, ...taskText}
+        let newActiveTask = {...activeTask, ...taskText.current}
         if(activeTask.id === task.id){
             newActiveTask[key] = val
             setTask({...newActiveTask})
@@ -120,7 +120,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
-                    newActiveTask = {...newItem, ...taskText}
+                    newActiveTask = {...newItem, ...taskText.current}
                 }else if(item.subtasks){
                     newItem.subtasks = setSubtasks(item.subtasks)
                 }
@@ -399,9 +399,9 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, e) => {
             if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
-                if(taskText[key] !== '' && taskText[key]!==activeTask[key]){
+                if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key]){
                     setTimeout(()=>{
-                        setActiveTask([key], taskText[key])
+                        setActiveTask([key], taskText.current[key])
                     }, 200)
                 }
             }
@@ -413,12 +413,12 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', e)}>
-                                <InputBox onChange={(e)=>taskText.name=e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.name!==''?taskText.name:activeTask.name} />
+                                <InputBox onChange={(e)=>taskText.current.name=e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''?taskText.current.name:activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', e)}>
-                                <InputBox onChange={(e)=>taskText.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.details!==''?taskText.details:activeTask.details} />
+                                <InputBox onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''?taskText.current.details:activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
