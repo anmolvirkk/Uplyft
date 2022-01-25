@@ -428,6 +428,9 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 if(taskText.current.start !== activeTask.start && taskText.current.start!==''){
                     setActiveTask('start', taskText.current.start)
                 }
+                if(taskText.current.deadline !== activeTask.deadline && taskText.current.deadline!==''){
+                    setActiveTask('deadline', taskText.current.deadline)
+                }
             }
         }, [])
 
