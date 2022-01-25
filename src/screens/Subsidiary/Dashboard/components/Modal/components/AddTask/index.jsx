@@ -34,8 +34,11 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     }
 
     let taskText = useRef({
-        name: {val: '', id: ''},
-        details: {val: '', id: ''}
+        id: '',
+        name: '',
+        details: '',
+        start: null,
+        deadline: null
     })
 
     const taskformat = {
@@ -111,8 +114,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
         let newActiveTask = {...activeTask}
-        if(taskText.current.name.id === activeTask.id){
-            newActiveTask = {...activeTask, name: taskText.current.name.val, details: taskText.current.details.val}
+        if(taskText.current.id === activeTask.id){
+            newActiveTask = {...activeTask, name: taskText.current.name, details: taskText.current.details}
         }
         if(activeTask.id === task.id){
             newActiveTask[key] = val
@@ -123,8 +126,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
-                    if(taskText.current.name.id === activeTask.id){
-                        newActiveTask = {...newItem, name: taskText.current.name.val, details: taskText.current.details.val}
+                    if(taskText.current.id === activeTask.id){
+                        newActiveTask = {...newItem, name: taskText.current.name, details: taskText.current.details}
                     }else{
                         newActiveTask = {...newItem}
                     }
@@ -406,20 +409,25 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, e) => {
             if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
-                if(taskText.current[key].val !== '' && taskText.current[key].val!==activeTask[key] && taskText.current[key].id === activeTask.id){
+                if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key] && taskText.current.id === activeTask.id){
                     setTimeout(()=>{
-                        setActiveTask([key], taskText.current[key].val)
+                        setActiveTask([key], taskText.current[key])
                     }, 200)
                 }
             }
         }
 
         useEffect(()=>{
-            if(taskText.current.name.val !== activeTask.name && taskText.current.name.val!=='' && taskText.current.name.id===activeTask.id){
-                setTaskText('name', {target: {id: ''}})
-            }
-            if(taskText.current.details.val !== activeTask.details && taskText.current.details.val!=='' && taskText.current.details.id===activeTask.id){
-                setTaskText('details', {target: {id: ''}})
+            if(taskText.current.id===activeTask.id){
+                if(taskText.current.name !== activeTask.name && taskText.current.name!==''){
+                    setTaskText('name', {target: {id: ''}})
+                }
+                if(taskText.current.details !== activeTask.details && taskText.current.details!==''){
+                    setTaskText('details', {target: {id: ''}})
+                }
+                if(taskText.current.start !== activeTask.start && taskText.current.start!==''){
+                    setActiveTask('start', taskText.current.start)
+                }
             }
         }, [])
 
@@ -429,22 +437,22 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', e)}>
-                                <InputBox onChange={(e)=>taskText.current.name={id: activeTask.id, val: e.target.value}} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name.val!==''&&taskText.current.name.id===activeTask.id?taskText.current.name.val:activeTask.name} />
+                                <InputBox onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', e)}>
-                                <InputBox onChange={(e)=>taskText.current.details={id: activeTask.id, val: e.target.value}} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details.val!==''&&taskText.current.details.id===activeTask.id?taskText.current.details.val:activeTask.details} />
+                                <InputBox onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <Datetime initialValue={activeTask.start?activeTask.start:'Add Start'} onClose={(e)=>setActiveTask('start', e._d)} />         
+                                <Datetime onOpen={()=>taskText.current.id = activeTask.id} initialValue={taskText.current.start!==null&&taskText.current.id===activeTask.id?taskText.current.start:activeTask.start!==null?activeTask.start:'Add Start'} onChange={(e)=>taskText.current.start=e._d} onClose={()=>setActiveTask('start', taskText.current.start)} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue={activeTask.deadline?activeTask.deadline:'Add Deadline'} onClose={(e)=>setActiveTask('deadline', new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d)} />        
+                                <Datetime initialValue={taskText.current.deadline!==null&&taskText.current.id===activeTask.id?taskText.current.deadline:activeTask.deadline!==null?activeTask.deadline:'Add Deadline'} onChange={(e)=>taskText.current.deadline=new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d} onClose={()=>setActiveTask('deadline', taskText.current.deadline)} />        
                             </div>
                         </div>
                         <div className={styles.taskInputSection}>
