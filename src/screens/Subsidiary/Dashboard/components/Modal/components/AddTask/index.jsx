@@ -259,11 +259,9 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const appendTagWithValue = (e, type) => {
             let shouldAppend = true
-            console.log(shouldAppend)
             if(e.target.textContent === ''){
                 shouldAppend = false
             }
-            console.log(shouldAppend)
             tags[type].forEach((item)=>{
                 if(item.label === e.target.textContent){
                     shouldAppend = false
@@ -272,7 +270,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     shouldAppend = false
                 }
             })
-            console.log(shouldAppend)
             if(shouldAppend){
                 setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: activeTask[type].value}]})
             }
@@ -414,7 +411,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
-                                <InputBox autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                                <InputBox onBlur={(e)=>alert(e.target)} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
