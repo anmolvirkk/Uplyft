@@ -638,11 +638,11 @@
     flex-flow: wrap
     max-width: 70vh
     .tag
-        background-color: rgba(var(--tags))
+        background-color: rgba(var(--primary), 0.15)
         border-radius: 5px 5px
-        padding: 0
+        padding: 0 0.5vh
         font-size: 1.5vh
-        color: rgba(var(--text), 0.35)
+        color: rgb(var(--titles), 1)
         cursor: pointer
         display: flex
         align-items: center
@@ -650,36 +650,35 @@
         height: 3vh
         width: fit-content
         margin: 0 1.5vh 1.5vh 0
-        box-shadow: 0 0 10px rgba(0,0,0,0.1)
         div
-            background-color: rgb(var(--activeSlot))
-            color: rgb(var(--primary))
-            opacity: 0.5
-            padding: 0.5vh
-            border-radius: 5px 5px
+            padding: 1vh 0
+            line-height: 0
+            color: rgba(var(--titles), 0.7)
         span
             height: 100%
             width: fit-content
             +mixins.center
-            padding: 1vh
+            padding: 1vh 0
             text-transform: lowercase
             pointer-events: none
+            line-height: 0
+            margin: 0 1vh
         svg
-            background-color: rgb(var(--activeSlot))
             stroke: rgb(var(--primary))
-            opacity: 0.5
-            height: 100%
-            width: 2.5vh
-            padding: 0 0.5vh
-            +mixins.center
+            stroke-width: 2
+            width: 1.5vh
+            height: fit-content
     .tag::-webkit-scrollbar
         height: 0 !important
     .tagActive
+        background-color: rgb(var(--primary))
+        div
+            color: rgba(255,255,255, 0.7)
         span
-            background-color: rgb(var(--primary))
             color: white
+        svg
+            stroke: white
     .addTag
-        border: 1px solid rgba(var(--text), 0.025)
         display: flex
         width: fit-content
         height: 3vh
@@ -689,6 +688,7 @@
         color: rgb(var(--text))
         justify-content: center
         align-items: center
+        background-color: rgba(var(--primary), 0.15)
         span
             outline: none
             border: 1px solid rgba(var(--text), 0.05)
@@ -698,26 +698,27 @@
             border: none
             outline: none
             white-space: nowrap
-            background-color: rgb(var(--activeSlot))
             color: rgb(var(--primary))
-            opacity: 0.5
             height: 100%
             +mixins.center
             padding: 0.5vh
             pointer-events: none
             font-size: 1.5vh
+            border-radius: 5px 0 0 5px
         svg
-            stroke: rgba(var(--text))
-            height: 1.75vh
-            stroke-width: 1px
+            stroke: rgb(var(--primary))
+            height: 2vh
+            padding: 0.2vh
+            stroke-width: 2
             pointer-events: none
             display: block
     .tagInput
         span
             min-width: 3vh
             width: fit-content
-            height: 3vh
+            height: fit-content
             padding: 0.5vh
+            border: none
         div
             display: none
         svg
@@ -868,13 +869,16 @@
             font-size: 14px
             height: 30px
             margin: 0 12px 12px 0
+            padding: 0
+            padding-left: 10px
+            padding-right: 5px
             div
-                padding: 12px
+                padding: 12px 0
             span
-                padding: 12px
+                padding: 12px 0
+                margin: 0 12px
             svg
-                width: 22px
-                padding: 0 3px
+                width: 18px
         .addTag
             height: 30px
             div
@@ -885,7 +889,6 @@
         .tagInput
             span
                 min-width: 24px
-                height: 30px
                 padding: 12px
 
     .footer
