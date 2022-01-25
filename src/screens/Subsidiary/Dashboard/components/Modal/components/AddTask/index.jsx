@@ -110,7 +110,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
     const [savedActiveTask, setSavedActiveTask] = useState(currentActiveTask?currentActiveTask:false)
     let activeTask = savedActiveTask?savedActiveTask:currentTaskRoute().length>0?currentTaskRoute()[currentTaskRoute().length-1]:task
     const setActiveTask = (key, val) => {
-        let newActiveTask = {...activeTask, name: taskText.current.name.val, details: taskText.current.details.val}
+        let newActiveTask = {...activeTask}
+        if(taskText.current.name.id === activeTask.id){
+            newActiveTask = {...activeTask, name: taskText.current.name.val, details: taskText.current.details.val}
+        }
         if(activeTask.id === task.id){
             newActiveTask[key] = val
             setTask({...newActiveTask})
@@ -120,7 +123,11 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 let newItem = {...item}
                 if(item.id === activeTask.id){
                     newItem[key] = val
-                    newActiveTask = {...newItem, name: taskText.current.name.val, details: taskText.current.details.val}
+                    if(taskText.current.name.id === activeTask.id){
+                        newActiveTask = {...newItem, name: taskText.current.name.val, details: taskText.current.details.val}
+                    }else{
+                        newActiveTask = {...newItem}
+                    }
                 }else if(item.subtasks){
                     newItem.subtasks = setSubtasks(item.subtasks)
                 }
@@ -399,7 +406,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key, e) => {
             if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
-                if(taskText.current[key].val !== '' && taskText.current[key].val!==activeTask[key]){
+                if(taskText.current[key].val !== '' && taskText.current[key].val!==activeTask[key] && taskText.current[key].id === activeTask.id){
                     setTimeout(()=>{
                         setActiveTask([key], taskText.current[key].val)
                     }, 200)
