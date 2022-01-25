@@ -5,13 +5,13 @@ import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
 import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import isMobileAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
 
 const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
-    const setIsMobile = useSetRecoilState(isMobileAtom)
+    const [isMobile, setIsMobile] = useRecoilState(isMobileAtom)
 
     window.onresize = (e) => {
         if(window.innerWidth < 1450){
@@ -19,7 +19,7 @@ const App = () => {
         }else{
             setIsMobile(false)
         }
-        if(window.innerWidth < 1450){
+        if(isMobile){
             if(document.getElementById('modalContainer')){
                 document.getElementById('modalContainer').style.height = window.innerHeight+'px'
             }
@@ -46,13 +46,9 @@ const App = () => {
                     document.getElementById('textEditor').style.marginBottom = '-3px'
                     document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 60)+'px'
                 }
-            }
-        }else{
-            if(document.getElementById('mainSideBar')){
-                document.getElementById('mainSideBar').style.display = 'grid'
+                setForceUpdate(!forceUpdate)
             }
         }
-        setForceUpdate(!forceUpdate)
     }
 
     return (

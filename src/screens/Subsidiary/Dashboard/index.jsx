@@ -9,16 +9,27 @@ import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
 import darkModeAtom from './components/SideBar/components/DarkMode/darkModeAtom'
+import isMobileAtom from './screens/Journals/recoil-atoms/isMobileAtom'
 
 const Dashboard = () => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
 
     const [darkMode] = useRecoilState(darkModeAtom)
+    const [isMobile] = useRecoilState(isMobileAtom)
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
-    }, [darkMode])
+        if(isMobile){
+            if(document.getElementById('mainSideBar')){
+                document.getElementById('mainSideBar').style.display = 'flex'
+            }
+        }else{
+            if(document.getElementById('mainSideBar')){
+                document.getElementById('mainSideBar').style.display = 'grid'
+            }
+        }
+    }, [darkMode, isMobile])
     
     return (
         <Router>
