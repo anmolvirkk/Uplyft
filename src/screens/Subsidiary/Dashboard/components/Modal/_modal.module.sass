@@ -638,7 +638,7 @@
     flex-flow: wrap
     max-width: 70vh
     .tag
-        background-color: rgba(var(--primary), 0.15)
+        background-color: rgba(var(--primary), 0.1)
         border-radius: 5px 5px
         padding: 0 0.5vh
         font-size: 1.5vh
@@ -688,7 +688,7 @@
         color: rgb(var(--text))
         justify-content: center
         align-items: center
-        background-color: rgba(var(--primary), 0.15)
+        background-color: rgba(var(--primary), 0.1)
         span
             outline: none
             border: 1px solid rgba(var(--text), 0.05)
@@ -707,11 +707,12 @@
             border-radius: 5px 0 0 5px
         svg
             stroke: rgb(var(--primary))
-            height: 2vh
-            padding: 0.2vh
+            width: 1.5vh
+            height: fit-content
             stroke-width: 2
             pointer-events: none
             display: block
+            margin-right: 0.25vh
     .tagInput
         span
             min-width: 3vh
@@ -885,7 +886,8 @@
                 padding: 12px
                 font-size: 14px
             svg
-                height: 22px
+                width: 18px
+                margin-right: 6px
         .tagInput
             span
                 min-width: 24px
