@@ -411,7 +411,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
                             <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', 'taskText', e)}>
-                                <InputBox onBlur={(e)=>alert(e.target)} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                                <InputBox autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                             </OutsideClickHandler>
                         </div>
                         <div className={styles.taskInputSection}>
