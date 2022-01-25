@@ -28,12 +28,12 @@ const scrollToView = (e, wrapper, isMobile) => {
     }
 }
 
-const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon, autoFocus, onFocus, id, autoComplete}) => {
+const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon, autoFocus, onFocus, id, autoComplete, onTouchEnd}) => {
     const [isMobile] = useRecoilState(isMobileAtom)
     return (
     <div onMouseDown={(e)=>scrollToView(e, wrapper, isMobile)} className={`${styles.group} ${icon?styles.icon:null}`} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
         {icon?icon:null}
-        <input autoComplete={autoComplete?autoComplete:null} id={id?id:null} onFocus={onFocus?(e)=>onFocus(e):null} autoFocus={autoFocus?autoFocus:null} onBlurCapture={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
+        <input onTouchEnd={onTouchEnd?(e)=>onTouchEnd(e):null} autoComplete={autoComplete?autoComplete:null} id={id?id:null} onFocus={onFocus?(e)=>onFocus(e):null} autoFocus={autoFocus?autoFocus:null} onBlurCapture={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
         <label>{name}</label>
     </div>
     )

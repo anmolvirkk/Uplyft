@@ -420,23 +420,22 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         })
 
-        const setTaskText = (key, e) => {
-            if(e.target.id !== 'taskText' && e.target.id !== 'taskDetails' && e.target.className !== 'form-control' && e.target.tagName !== 'TD' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'TH'){
-                if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key] && taskText.current.id === activeTask.id){
-                    setTimeout(()=>{
-                        setActiveTask([key], taskText.current[key])
-                    }, 200)
-                }
+        const setTaskText = (key) => {
+            if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key] && taskText.current.id === activeTask.id){
+                setTimeout(()=>{
+                    setActiveTask([key], taskText.current[key])
+                }, 200)
+                console.log(key)
             }
         }
 
         useEffect(()=>{
             if(taskText.current.id===activeTask.id){
                 if(taskText.current.name !== activeTask.name && taskText.current.name!==''){
-                    setTaskText('name', {target: {id: ''}})
+                    setTaskText('name')
                 }
                 if(taskText.current.details !== activeTask.details && taskText.current.details!==''){
-                    setTaskText('details', {target: {id: ''}})
+                    setTaskText('details')
                 }
                 if(taskText.current.start !== activeTask.start && taskText.current.start!==''){
                     setActiveTask('start', taskText.current.start)
@@ -476,14 +475,14 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('name', e)}>
-                                <InputBox onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
-                            </OutsideClickHandler>
+                            
+                                <InputBox onBlur={()=>setTaskText('name')} onTouchEnd={(e)=>setTaskText('name', e)} onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
+                            
                         </div>
                         <div className={styles.taskInputSection}>
-                            <OutsideClickHandler onOutsideClick={(e)=>setTaskText('details', e)}>
-                                <InputBox onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
-                            </OutsideClickHandler>
+                            
+                                <InputBox onBlur={()=>setTaskText('details')} onTouchEnd={(e)=>setTaskText('details', e)} onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
+                            
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
