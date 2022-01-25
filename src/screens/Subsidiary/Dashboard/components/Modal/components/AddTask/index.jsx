@@ -447,6 +447,12 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 if(taskText.current.priority !== activeTask.priority){
                     setActiveTask('priority', taskText.current.priority)
                 }
+                if(taskText.current.timeRequired !== activeTask.timeRequired){
+                    setActiveTask('timeRequired', taskText.current.timeRequired)
+                }
+                if(taskText.current.effortRequired !== activeTask.effortRequired){
+                    setActiveTask('effortRequired', taskText.current.effortRequired)
+                }
             }
         }, [])
 
