@@ -264,16 +264,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
     const HabitForm = () => {
 
-        useEffect(()=>{
-            tags.priority.forEach((item)=>{
-                if(item.value === activeTask.priority.value){
-                    if(item.label !== activeTask.priority.label){
-                        setActiveTask('priority', {...task.priority, label: item.label})
-                    }
-                }
-            })
-        })
-
         const addTagInputWithValue = (e) => {
             if(e.target.childNodes[0]){
                 if(e.target.childNodes[0].parentNode.classList){
@@ -306,6 +296,9 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             if(taskText.current.tagText.val === ''){
                 shouldAppend = false
             }
+            console.log(tags)
+            console.log(type)
+            console.log(tags[type])
             tags[type].forEach((item)=>{
                 if(item.label.toLowerCase() === taskText.current.tagText.val.toLowerCase()){
                     shouldAppend = false
@@ -454,7 +447,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 }
                 if(taskText.current.tagText.val !== ''){
                     if(taskText.current.tagText.type){
-                        appendTagWithValue(type)
+                        appendTagWithValue(taskText.current.tagText.type)
                     }else{
                         appendTag('tags')
                     }
