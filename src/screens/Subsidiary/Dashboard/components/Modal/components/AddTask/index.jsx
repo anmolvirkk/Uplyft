@@ -451,6 +451,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     }else{
                         appendTag('tags')
                     }
+                    taskText.current.tagText = {val: '', type: false}
                 }
             }
         }, [appendTag, appendTagWithValue])
