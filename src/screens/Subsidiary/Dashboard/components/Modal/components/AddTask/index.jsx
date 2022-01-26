@@ -51,7 +51,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             value: 50,
             label: ''
         },
-        tags: []
+        tags: [],
+        tagText: ''
     })
 
     const taskformat = {
@@ -283,6 +284,23 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         }
 
+        const resetAddTagBtn = () => {
+            let shouldReset = false
+            let elementIndex = 0
+            for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
+                if(document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable === 'true'){
+                    shouldReset = true
+                    elementIndex = i
+                }
+            }
+            if(shouldReset){
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].parentNode.classList.remove(styles.tagInput)
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].contentEditable = 'false'
+                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].textContent = ''
+                taskText.current.tagText = ''
+            }
+        }
+
         const appendTagWithValue = (e, type) => {
             let shouldAppend = true
             if(e.target.textContent === ''){
@@ -299,22 +317,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             if(shouldAppend){
                 setTags({...tags, [type]: [...tags[type], {label: e.target.textContent, value: activeTask[type].value}]})
             }
-        }
-
-        const resetAddTagBtn = () => {
-            let shouldReset = false
-            let elementIndex = 0
-            for(let i=0; i<document.getElementsByClassName(styles.addTag).length; i++){
-                if(document.getElementsByClassName(styles.addTag)[i].childNodes[0].contentEditable === 'true'){
-                    shouldReset = true
-                    elementIndex = i
-                }
-            }
-            if(shouldReset){
-                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].parentNode.classList.remove(styles.tagInput)
-                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].contentEditable = 'false'
-                document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].textContent = ''
-            }
+            resetAddTagBtn()
         }
 
         const removeTagWithValue = (e, type) => {
@@ -331,19 +334,20 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const appendTag = (e, type) => {
             let shouldAppend = true
-            if(e.target.textContent === ''){
+            if(taskText.current.tagText === ''){
                 shouldAppend = false
             }
             tags[type].forEach((item)=>{
-                if(item.toLowerCase() === e.target.textContent.toLowerCase()){
+                if(item.toLowerCase() === taskText.current.tagText.toLowerCase()){
                     shouldAppend = false
                 }
             })
             if(shouldAppend){
-                setTags({...tags, [type]: [...tags[type], e.target.textContent]})
-                setTask({...task, [type]: [...task[type], e.target.textContent]})
-                setActiveTask('tags', [...activeTask.tags, e.target.textContent])
+                setTags({...tags, [type]: [...tags[type], taskText.current.tagText]})
+                setTask({...task, [type]: [...task[type], taskText.current.tagText]})
+                setActiveTask('tags', [...activeTask.tags, taskText.current.tagText])
             }
+            resetAddTagBtn()
         }
 
         const removeTag = (e, type) => {
@@ -425,7 +429,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setTimeout(()=>{
                     setActiveTask([key], taskText.current[key])
                 }, 200)
-                console.log(key)
             }
         }
 
@@ -475,14 +478,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            
-                                <InputBox onBlur={()=>setTaskText('name')} onTouchEnd={(e)=>setTaskText('name', e)} onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
-                            
+                            <InputBox onBlur={()=>setTaskText('name')} onTouchEnd={(e)=>setTaskText('name', e)} onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            
-                                <InputBox onBlur={()=>setTaskText('details')} onTouchEnd={(e)=>setTaskText('details', e)} onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
-                            
+                            <InputBox onBlur={()=>setTaskText('details')} onTouchEnd={(e)=>setTaskText('details', e)} onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
@@ -500,7 +499,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.priority).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'priority'):null} key={index} className={`${styles.tag} ${taskText.current.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'priority')} onTouchEnd={(e)=>appendTagWithValue(e, 'priority')}><span></span><div id="priorityTagValue">{activeTask.priority.value}</div><Plus /></div></OutsideClickHandler>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'priority')} onMouseOut={(e)=>appendTagWithValue(e, 'priority')}><span></span><div id="priorityTagValue">{activeTask.priority.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={taskText.current.priority.value} onMouseUp={(e)=>setSlider('priority', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('priority', parseInt(e.target.value))} />
                         </div>
@@ -510,7 +509,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.timeRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'timeRequired'):null} key={index} className={`${styles.tag} ${taskText.current.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'timeRequired')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'timeRequired')} onTouchEnd={(e)=>appendTagWithValue(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{activeTask.timeRequired.value}</div><Plus /></div></OutsideClickHandler>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'timeRequired')} onMouseOut={(e)=>appendTagWithValue(e, 'timeRequired')}><span></span><div id="timeRequiredTagValue">{activeTask.timeRequired.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={taskText.current.timeRequired.value} onMouseUp={(e)=>setSlider('timeRequired', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('timeRequired', parseInt(e.target.value))} />
                         </div>
@@ -520,7 +519,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.effortRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'effortRequired'):null} key={index} className={`${styles.tag} ${taskText.current.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'effortRequired')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'effortRequired')} onTouchEnd={(e)=>appendTagWithValue(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{activeTask.effortRequired.value}</div><Plus /></div></OutsideClickHandler>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTagWithValue(e, 'effortRequired')} onMouseOut={(e)=>appendTagWithValue(e, 'effortRequired')}><span></span><div id="effortRequiredTagValue">{activeTask.effortRequired.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={taskText.current.effortRequired.value} onMouseUp={(e)=>setSlider('effortRequired', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('effortRequired', parseInt(e.target.value))} />
                         </div>
@@ -530,7 +529,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {tags.tags.map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?taskText.current.tags.includes(item)?setTextTags([...taskText.current.tags.filter((val)=>val!==item)]):setTextTags([...taskText.current.tags, item]):null} key={index} className={`${styles.tag} ${taskText.current.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
                                 })}
-                                <OutsideClickHandler onOutsideClick={resetAddTagBtn}><div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')} onTouchEnd={(e)=>appendTag(e, 'tags')}><span></span><Plus /></div></OutsideClickHandler>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')} onMouseOut={(e)=>appendTag(e, 'tags')}><span onInput={(e)=>taskText.current.tagText = e.target.textContent}></span><Plus /></div>
                             </div>
                         </div>
                         <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
