@@ -452,8 +452,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 if(taskText.current.effortRequired !== activeTask.effortRequired){
                     setActiveTask('effortRequired', taskText.current.effortRequired)
                 }
-                alert(taskText.current.tagText.val)
-                alert(taskText.current.tagText.type)
                 if(taskText.current.tagText.val !== ''){
                     if(taskText.current.tagText.type){
                         appendTagWithValue(type)
