@@ -42,8 +42,10 @@
         height: 2.5vh
 
 .addEvent
-    .form
-        overflow: visible
+    .footer
+        margin-top: 0
+    .taskInputSection
+        margin-bottom: 0
     .eventNotes
         display: flex
         flex-flow: column
@@ -57,13 +59,10 @@
         ul
             background-color: rgba(var(--activeSlot), 1)
             border-radius: 7px 7px
-            max-height: 40vh
-            overflow-y: auto
         li
             background-color: rgba(var(--titles), 0)
             color: rgb(var(--text))
-            padding: 0.5vh 1vh
-            margin: 1vh
+            margin: 0 1.5vh
             font-size: 1.5vh
             font-weight: 100
             border-radius: 7px 7px
@@ -75,7 +74,7 @@
             svg
                 height: 1.5vh
             input
-                padding: 0
+                padding: 1.5vh 0
                 color: rgb(var(--text))
 
 .header
@@ -1111,6 +1110,22 @@
     .moreTasks
         margin-top: 24px
         margin-bottom: -24px
+
+
+    .addEvent
+        .eventNotes
+            p
+                font-size: 14px
+                margin: 14px 0
+            li
+                margin: 0 14px
+                font-size: 14px
+                input
+                    padding: 14px 0
+
+    .addTask
+        .habitCustomize
+            margin-top: 24px
 
 
 @media screen and (max-width: 600px)

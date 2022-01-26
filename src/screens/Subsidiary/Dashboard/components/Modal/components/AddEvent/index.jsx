@@ -255,7 +255,7 @@ const AddEvent = ({type, currentEvent}) => {
                                 </li>
                             </ul>
                         </div>
-                        <div className={styles.taskInputSection} style={{marginTop: '1.5vh'}}>
+                        <div className={styles.taskInputSection}>
                             <p><span>Tags</span></p>
                             <div className={styles.tags}>
                                 {tags.map((item, index)=>{
