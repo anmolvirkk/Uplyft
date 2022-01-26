@@ -331,8 +331,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             setTags({...tags, [type]: [...newTags]})
         }
         
-
-        const appendTag = (e, type) => {
+        const appendTag = useCallback((type) => {
             let shouldAppend = true
             if(taskText.current.tagText === ''){
                 shouldAppend = false
@@ -348,7 +347,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setActiveTask('tags', [...activeTask.tags, taskText.current.tagText])
             }
             resetAddTagBtn()
-        }
+        }, [])
 
         const removeTag = (e, type) => {
             let thisTag = e[0].innerHTML
@@ -426,9 +425,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         const setTaskText = (key) => {
             if(taskText.current[key] !== '' && taskText.current[key]!==activeTask[key] && taskText.current.id === activeTask.id){
-                setTimeout(()=>{
-                    setActiveTask([key], taskText.current[key])
-                }, 200)
+                setActiveTask([key], taskText.current[key])
             }
         }
 
@@ -455,8 +452,11 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 if(taskText.current.effortRequired !== activeTask.effortRequired){
                     setActiveTask('effortRequired', taskText.current.effortRequired)
                 }
+                if(taskText.current.tagText !== ''){
+                    appendTag('tags')
+                }
             }
-        }, [])
+        }, [appendTag])
 
         const setTaskTags = (item, key) => {
             taskText.current[key] = {value: item.value, label: item.label}
@@ -478,10 +478,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={()=>setTaskText('name')} onTouchEnd={(e)=>setTaskText('name', e)} onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
+                            <InputBox onBlur={()=>setTaskText('name')} onTouchEnd={()=>setTaskText('name')} onFocus={()=>taskText.current.id = activeTask.id} onChange={(e)=>taskText.current.name = e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={taskText.current.name!==''&&taskText.current.id===activeTask.id?taskText.current.name:activeTask.name} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={()=>setTaskText('details')} onTouchEnd={(e)=>setTaskText('details', e)} onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
+                            <InputBox onBlur={()=>setTaskText('details')} onTouchEnd={()=>setTaskText('details')} onFocus={()=>taskText.current.id=activeTask.id} onChange={(e)=>taskText.current.details=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={taskText.current.details!==''&&taskText.current.id===activeTask.id?taskText.current.details:activeTask.details} />
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
@@ -529,7 +529,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {tags.tags.map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?taskText.current.tags.includes(item)?setTextTags([...taskText.current.tags.filter((val)=>val!==item)]):setTextTags([...taskText.current.tags, item]):null} key={index} className={`${styles.tag} ${taskText.current.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={(e)=>appendTag(e, 'tags')} onTouchEnd={(e)=>appendTag(e, 'tags')}><span onInput={(e)=>taskText.current.tagText = e.target.textContent}></span><Plus /></div>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTag('tags')} onTouchEnd={()=>appendTag('tags')}><span onInput={(e)=>taskText.current.tagText = e.target.textContent}></span><Plus /></div>
                             </div>
                         </div>
                         <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
