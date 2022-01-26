@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -15,7 +15,23 @@ import eventTagsAtom from './eventTagsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
+import InputBox from '../../../../../Auth/components/InputBox'
+
 const AddEvent = ({type, currentEvent}) => {
+
+    useEffect(()=>{
+        if(!document.getElementsByClassName('form-control')[0].readOnly){
+            for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
+                document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
+                    e.preventDefault()
+                    e.target.parentNode.childNodes[1].onmousedown = (e) => {
+                        e.preventDefault()
+                    }
+                }
+                document.getElementsByClassName('form-control')[i].readOnly = true
+            }
+        }
+    })
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
@@ -45,6 +61,13 @@ const AddEvent = ({type, currentEvent}) => {
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+
+    const eventText = useRef({
+        name: '',
+        details: '',
+        notes: [],
+        noteText: ''
+    })
 
     const submitHabit = () => {
             if(type === 'add'){
@@ -175,6 +198,21 @@ const AddEvent = ({type, currentEvent}) => {
         setTags([...newTags])
         setEvent({...event, tags: [...newEventTags]})
     }
+    
+    const setEventText = useCallback((key) => {
+        if(eventText.current[key] !== '' && eventText.current[key]!==event[key]){
+            setEvent({...event, [key]: eventText.current[key]})
+        }
+    }, [event])
+
+    useEffect(()=>{
+        if(eventText.current.name !== event.name && eventText.current.name!==''){
+            setEventText('name')
+        }
+        if(eventText.current.details !== event.details && eventText.current.details!==''){
+            setEventText('details')
+        }
+    }, [event.details, event.name, setEventText])
 
     const HabitForm = () => {
         return (
@@ -182,13 +220,10 @@ const AddEvent = ({type, currentEvent}) => {
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <input defaultValue={event.name} onBlur={(e)=>setEvent({...event, name: e.target.value})} placeholder='New Task' />
+                            <InputBox onBlur={()=>setEventText('name')} onTouchEnd={()=>setEventText('name')} onChange={(e)=>eventText.current.name = e.target.value} autoComplete='off' type='text' name='New Event' value={eventText.current.name!==''?eventText.current.name:event.name} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <div className={styles.inputWithIcon}>
-                                <AlignLeft />
-                                <input type="text" defaultValue={event.details} placeholder="Add Details" onBlur={(e)=>setEvent({...event, details: e.target.value})} />
-                            </div>
+                            <InputBox icon={<AlignLeft />} onBlur={()=>setEventText('details')} onTouchEnd={()=>setEventText('details')} onChange={(e)=>eventText.current.details = e.target.value} autoComplete='off' type='text' name='Details' value={eventText.current.details!==''?eventText.current.details:event.details} />
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
