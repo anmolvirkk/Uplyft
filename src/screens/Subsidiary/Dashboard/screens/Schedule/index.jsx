@@ -174,6 +174,9 @@ const Schedule = () => {
             if(document.getElementById('scheduleSideSection')){
                 document.getElementById('scheduleSideSection').style.transform = 'translateX(0%)'
             }
+            if(document.getElementById('mainSideBar')){
+                document.getElementById('mainSideBar').style.display = 'grid'
+            }
         }
     }, [setScheduleHeader, setScheduleSideMenu, isMobile])
 
