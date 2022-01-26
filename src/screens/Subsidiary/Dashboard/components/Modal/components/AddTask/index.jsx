@@ -52,7 +52,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             label: ''
         },
         tags: [],
-        tagText: {val: '', withVal: false}
+        tagText: {val: '', type: false}
     })
 
     const taskformat = {
