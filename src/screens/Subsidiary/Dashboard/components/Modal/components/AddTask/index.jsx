@@ -336,6 +336,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setTags({...tags, [type]: [...tags[type], taskText.current.tagText.val]})
                 setTask({...task, [type]: [...task[type], taskText.current.tagText.val]})
                 setActiveTask('tags', [...activeTask.tags, taskText.current.tagText.val])
+                taskText.current.tags = [...taskText.current.tags, taskText.current.tagText.val]
             }
             resetAddTagBtn()
         }, [])
