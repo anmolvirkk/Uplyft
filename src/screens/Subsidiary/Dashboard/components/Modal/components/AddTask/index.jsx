@@ -297,7 +297,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].parentNode.classList.remove(styles.tagInput)
                 document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].contentEditable = 'false'
                 document.getElementsByClassName(styles.addTag)[elementIndex].childNodes[0].textContent = ''
-                taskText.current.tagText = {val: '', type: false}
             }
         }
 
@@ -318,6 +317,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setTags({...tags, [type]: [...tags[type], {label: taskText.current.tagText.val, value: taskText.current[type].value}]})
             }
             resetAddTagBtn()
+            taskText.current.tagText = {val: '', type: false}
         }, [])
 
         const removeTagWithValue = (e, type) => {
@@ -347,6 +347,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 setActiveTask('tags', [...activeTask.tags, taskText.current.tagText.val])
             }
             resetAddTagBtn()
+            taskText.current.tagText = {val: '', type: false}
         }, [])
 
         const removeTag = (e, type) => {
