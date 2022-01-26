@@ -66,7 +66,9 @@ const AddEvent = ({type, currentEvent}) => {
         name: '',
         details: '',
         notes: [],
-        noteText: ''
+        noteText: '',
+        start: null,
+        deadline: null
     })
 
     const submitHabit = () => {
@@ -212,7 +214,13 @@ const AddEvent = ({type, currentEvent}) => {
         if(eventText.current.details !== event.details && eventText.current.details!==''){
             setEventText('details')
         }
-    }, [event.details, event.name, setEventText])
+        if(eventText.current.start !== event.start && eventText.current.start!==''){
+            setEvent({...event, start: eventText.current.start})
+        }
+        if(eventText.current.deadline !== event.deadline && eventText.current.deadline!==''){
+            setEvent({...event, deadline: eventText.current.deadline})
+        }
+    }, [event.details, event.name, setEventText, setEvent, event])
 
     const HabitForm = () => {
         return (
@@ -228,11 +236,11 @@ const AddEvent = ({type, currentEvent}) => {
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Navigation />
-                                <Datetime initialValue={event.start?event.start:'Add Start Date'} onClose={(e)=>setEvent({...event, start: e._d})} />         
+                                <Datetime initialValue={eventText.current.start!==null?eventText.current.start:event.start!==null?event.start:'Add Start'} onChange={(e)=>eventText.current.start=e._d} onClose={(e)=>setEvent({...event, start: e._d})} />         
                             </div>
                             <div className={`${styles.inputWithIcon}`}>
                                 <Flag />
-                                <Datetime initialValue={event.deadline?event.deadline:'Add Deadline'} onClose={(e)=>setEvent({...event, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d})} />        
+                                <Datetime initialValue={eventText.current.deadline!==null?eventText.current.deadline:event.deadline!==null?event.deadline:'Add Deadline'} onChange={(e)=>eventText.current.deadline=new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d} onClose={(e)=>setEvent({...event, deadline: new Date(e._d).getHours()===0&&new Date(e._d).getMinutes()===0?(new Date(e._d).setMinutes(new Date(e._d).getMinutes()-1)):e._d})} />        
                             </div>
                         </div>
                         <div className={styles.eventNotes}>
