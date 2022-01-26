@@ -505,7 +505,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.priority).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'priority'):null} key={index} className={`${styles.tag} ${taskText.current.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('priority')} onMouseOut={()=>appendTagWithValue('priority')}><span onFocus={()=>taskText.current.tagText.type='priority'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="priorityTagValue">{taskText.current.priority.value}</div><Plus /></div>
+                                <div className={styles.addTag} onMouseDown={()=>taskText.current.id = activeTask.id} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('priority')} onMouseOut={()=>appendTagWithValue('priority')}><span onFocus={()=>taskText.current.tagText.type='priority'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="priorityTagValue">{taskText.current.priority.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={taskText.current.priority.value} onMouseUp={(e)=>setSlider('priority', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('priority', parseInt(e.target.value))} />
                         </div>
@@ -515,7 +515,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.timeRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'timeRequired'):null} key={index} className={`${styles.tag} ${taskText.current.timeRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'timeRequired')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('timeRequired')} onMouseOut={()=>appendTagWithValue('timeRequired')}><span onFocus={()=>taskText.current.tagText.type='timeRequired'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="timeRequiredTagValue">{taskText.current.timeRequired.value}</div><Plus /></div>
+                                <div className={styles.addTag} onMouseDown={()=>taskText.current.id = activeTask.id} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('timeRequired')} onMouseOut={()=>appendTagWithValue('timeRequired')}><span onFocus={()=>taskText.current.tagText.type='timeRequired'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="timeRequiredTagValue">{taskText.current.timeRequired.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('timeRequiredTagValue').innerText = e.target.value} defaultValue={taskText.current.timeRequired.value} onMouseUp={(e)=>setSlider('timeRequired', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('timeRequired', parseInt(e.target.value))} />
                         </div>
@@ -525,7 +525,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.effortRequired).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setTaskTags(item, 'effortRequired'):null} key={index} className={`${styles.tag} ${taskText.current.effortRequired.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'effortRequired')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('effortRequired')} onMouseOut={()=>appendTagWithValue('effortRequired')}><span onFocus={()=>taskText.current.tagText.type='effortRequired'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="effortRequiredTagValue">{taskText.current.effortRequired.value}</div><Plus /></div>
+                                <div className={styles.addTag} onMouseDown={()=>taskText.current.id = activeTask.id} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTagWithValue('effortRequired')} onMouseOut={()=>appendTagWithValue('effortRequired')}><span onFocus={()=>taskText.current.tagText.type='effortRequired'} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><div id="effortRequiredTagValue">{taskText.current.effortRequired.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('effortRequiredTagValue').innerText = e.target.value} defaultValue={taskText.current.effortRequired.value} onMouseUp={(e)=>setSlider('effortRequired', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('effortRequired', parseInt(e.target.value))} />
                         </div>
@@ -535,7 +535,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {tags.tags.map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?taskText.current.tags.includes(item)?setTextTags([...taskText.current.tags.filter((val)=>val!==item)]):setTextTags([...taskText.current.tags, item]):null} key={index} className={`${styles.tag} ${taskText.current.tags.includes(item)?styles.tagActive:null}`}><span>{item}</span><X onClick={(e)=>removeTag(e.target.parentNode.childNodes, 'tags')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTag('tags')} onMouseOut={()=>appendTag('tags')}><span onFocus={()=>taskText.current.tagText.type=false} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><Plus /></div>
+                                <div className={styles.addTag} onMouseDown={()=>taskText.current.id = activeTask.id} onClick={(e)=>addTagInputWithValue(e)} onBlur={()=>appendTag('tags')} onMouseOut={()=>appendTag('tags')}><span onFocus={()=>taskText.current.tagText.type=false} onInput={(e)=>taskText.current.tagText.val = e.target.textContent}></span><Plus /></div>
                             </div>
                         </div>
                         <div className={`${styles.taskInputSection} ${styles.moreTasks}`}>
