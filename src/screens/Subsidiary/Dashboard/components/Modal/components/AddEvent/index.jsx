@@ -115,18 +115,12 @@ const AddEvent = ({type, currentEvent}) => {
         setModalConfig({type: ''})
     }
 
-    const [notesAutoFocus, setNotesAutoFocus] = useState(false)
-    const [saveCurrentNote, setSaveCurrentNote] = useState('')
-
-    const notesOnBlur = (val) => {
-        setNotesAutoFocus(false)
-        setSaveCurrentNote(val)
-    }
-
     const addNote = (e) => {
-        if(e.key === 'Enter'){
+        if(e.key === 'Enter' && e.target.value !== ''){
             setEvent({...event, notes: [...event.notes, e.target.value]})
-            setSaveCurrentNote('')
+            setTimeout(()=>{
+                document.getElementById(`eventNoteInput`).focus()
+            }, 50)
         }
     }
 
@@ -143,6 +137,13 @@ const AddEvent = ({type, currentEvent}) => {
             return newItem
         })
         setEvent({...event, notes: newNotes.filter(i=>i!==null)})
+    }
+
+    const deleteNoteOnBackspace = (e, index) => {
+        if(e.key === 'Backspace' && e.target.value===''){
+            let newNotes = event.notes.filter(i=>i!==event.notes[index])
+            setEvent({...event, notes: [...newNotes]})
+        }
     }
 
     const [tags, setTags] = useRecoilState(eventTagsAtom)
@@ -247,10 +248,10 @@ const AddEvent = ({type, currentEvent}) => {
                             <p>Notes</p>
                             <ul>
                                 {event.notes.map((note, i)=>{
-                                    return <li key={i}><input defaultValue={note} onBlur={(e)=>editNote(e.target.value, i)} /></li>
+                                    return <li key={i}><input defaultValue={note} onKeyUp={(e)=>deleteNoteOnBackspace(e, i)} onBlur={(e)=>editNote(e.target.value, i)} /></li>
                                 })}
                                 <li>
-                                    <input defaultValue={saveCurrentNote} autoFocus={notesAutoFocus} onBlur={(e)=>notesOnBlur(e.target.value)} onFocus={()=>setNotesAutoFocus(true)} type="text" onKeyUp={(e)=>addNote(e)} placeholder='Add Note...' />
+                                    <input id='eventNoteInput' defaultValue={eventText.current.noteText} onBlur={(e)=>setEvent({...event, notes: [...event.notes, e.target.value]})} type="text" onKeyUp={(e)=>addNote(e)} placeholder='Add Note...' />
                                 </li>
                             </ul>
                         </div>
