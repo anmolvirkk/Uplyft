@@ -115,11 +115,27 @@ const AddEvent = ({type, currentEvent}) => {
         setModalConfig({type: ''})
     }
 
-    const addNote = (e) => {
-        if(e.key === 'Enter' && e.target.value !== ''){
-            setEvent({...event, notes: [...event.notes, e.target.value]})
+    const addNote = () => {
+        if(eventText.current.noteText !== ''){
+            setEvent({...event, notes: [...event.notes, eventText.current.noteText]})
+            eventText.current.noteText = ''
             setTimeout(()=>{
                 document.getElementById(`eventNoteInput`).focus()
+            }, 50)
+        }
+    }
+
+    const noteInputKeyUp = (e) => {
+        if(e.key === 'Enter' && eventText.current.noteText !== ''){
+            setEvent({...event, notes: [...event.notes, eventText.current.noteText]})
+            eventText.current.noteText = ''
+            setTimeout(()=>{
+                document.getElementById(`eventNoteInput`).focus()
+            }, 50)
+        }
+        if(e.key === 'Backspace' && e.target.value==='' && (event.notes.length-1)>0){
+            setTimeout(()=>{
+                document.getElementById(`eventNote${event.notes.length-1}`).childNodes[0].focus()
             }, 50)
         }
     }
@@ -139,10 +155,43 @@ const AddEvent = ({type, currentEvent}) => {
         setEvent({...event, notes: newNotes.filter(i=>i!==null)})
     }
 
-    const deleteNoteOnBackspace = (e, index) => {
-        if(e.key === 'Backspace' && e.target.value===''){
+    const noteKeyUp = (e, index) => {
+        if(e.key === 'Backspace' && eventText.current.noteText===''){
             let newNotes = event.notes.filter(i=>i!==event.notes[index])
             setEvent({...event, notes: [...newNotes]})
+            console.log(index)
+            if(index-1>=0){
+                setTimeout(()=>{
+                    document.getElementById(`eventNote${index-1}`).childNodes[0].focus()
+                }, 50)
+            }else if((event.notes.length-1)>0){
+                setTimeout(()=>{
+                    document.getElementById(`eventNote0`).childNodes[0].focus()
+                }, 50)
+            }else{
+                setTimeout(()=>{
+                    document.getElementById(`eventNoteInput`).focus()
+                }, 50)
+            }
+        }
+        if(e.key === 'Enter'){
+            if(index+1<(event.notes.length)){ 
+                let prevNotes = event.notes.slice(0, index+1)
+                prevNotes[prevNotes.length-1] = e.target.value
+                let nextNotes = event.notes.slice(index+1)
+                let newNotes = [...prevNotes, '', ...nextNotes]
+                setEvent({...event, notes: [...newNotes]})
+                setTimeout(()=>{
+                    eventText.current.noteText = ''
+                    document.getElementById(`eventNote${index+1}`).childNodes[0].focus()
+                }, 50)
+            }else{
+                eventText.current.noteText = ''
+                document.getElementById(`eventNoteInput`).focus()
+                setTimeout(()=>{
+                    document.getElementById(`eventNoteInput`).focus()
+                }, 50)
+            }
         }
     }
 
@@ -248,10 +297,10 @@ const AddEvent = ({type, currentEvent}) => {
                             <p>Notes</p>
                             <ul>
                                 {event.notes.map((note, i)=>{
-                                    return <li key={i}><input defaultValue={note} onKeyUp={(e)=>deleteNoteOnBackspace(e, i)} onBlur={(e)=>editNote(e.target.value, i)} /></li>
+                                    return <li key={i} id={`eventNote${i}`}><input placeholder='Add Note...' autoComplete='off' defaultValue={note} onChange={(e)=>eventText.current.noteText = e.target.value} onKeyUp={(e)=>noteKeyUp(e, i)} onBlur={(e)=>editNote(e.target.value, i)} /></li>
                                 })}
                                 <li>
-                                    <input id='eventNoteInput' defaultValue={eventText.current.noteText} onBlur={(e)=>setEvent({...event, notes: [...event.notes, e.target.value]})} type="text" onKeyUp={(e)=>addNote(e)} placeholder='Add Note...' />
+                                    <input autoComplete='off' id='eventNoteInput' defaultValue={eventText.current.noteText} onChange={(e)=>eventText.current.noteText = e.target.value} onBlur={(e)=>addNote(e)} type="text" onKeyUp={(e)=>noteInputKeyUp(e)} placeholder='Add Note...' />
                                 </li>
                             </ul>
                         </div>
