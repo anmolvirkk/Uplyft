@@ -296,9 +296,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             if(taskText.current.tagText.val === ''){
                 shouldAppend = false
             }
-            console.log(tags)
-            console.log(type)
-            console.log(tags[type])
             tags[type].forEach((item)=>{
                 if(item.label.toLowerCase() === taskText.current.tagText.val.toLowerCase()){
                     shouldAppend = false
