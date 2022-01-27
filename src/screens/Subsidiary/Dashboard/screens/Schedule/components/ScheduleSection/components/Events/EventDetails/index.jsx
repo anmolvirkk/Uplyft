@@ -113,11 +113,23 @@ const EventDetails = () => {
                     <div>
                         <p className={schdetailStyles.title}>Start</p>
                         <div className={styles.eventDateWrapper}>
-                            <hr />
-                            <div className={styles.eventDateNum}>{new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}</div>
-                            <div className={styles.eventDayWrapper}>
+                            <div className={styles.eventDateBlock}>
+                                <div className={styles.eventDateDay}>
+                                    {new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}
+                                </div>
+                                <div className={styles.eventDate}>
+                                    {new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'short'})}
+                                </div>
+                            </div>
+                            <div>
+                                <div className={styles.eventTime}>
+                                    <span>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
+                                    {new Date(activeEvent.start).toLocaleTimeString('en-US', {minute: '2-digit'})}
+                                </div>
+                                <div>Start</div>
+                            </div>
+                            <div className={styles.eventTagLine}>
                                 <div className={styles.eventDay}>{new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                                <div className={styles.eventDate}>{new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</div>
                             </div>
                         </div>
                     </div>
@@ -127,10 +139,17 @@ const EventDetails = () => {
                         <p className={schdetailStyles.title}>Deadline</p>
                         <div className={styles.eventDateWrapper}>
                             <hr />
-                            <div className={styles.eventDateNum}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}</div>
+                            <div className={styles.eventDateNum}>
+                                <div className={styles.eventDateDay}>
+                                    {new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}
+                                </div>
+                                <div className={styles.eventDate}>
+                                    {new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'short', year: 'numeric'})}
+                                </div>
+                            </div>
                             <div className={styles.eventDayWrapper}>
                                 <div className={styles.eventDay}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                                <div className={styles.eventDate}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</div>
+                                <div className={styles.eventTime}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'})}</div>
                             </div>
                         </div>
                     </div>

@@ -4,22 +4,26 @@
 .eventDateWrapper
     display: flex
     align-items: center
-    hr
-        width: 3px
-        height: 24px
-        border: none
-        outline: none
-        background-color: rgb(var(--primary))
-    .eventDateNum
-        font-size: 5vh
+    position: relative
+    .eventDateBlock
+        background-color: rgba(var(--text), 1)
+        color: rgb(var(--sideSlot))
+        padding: 1.5vh
+    .eventDateDay
+        font-size: 4.5vh
         font-weight: 100
-        margin: 0 1vh 0 2vh
-    .eventDayWrapper
-        font-size: 1.45vh
-        font-weight: 400
-        .eventDate
-            opacity: 0.5
-            margin-top: 0.5vh
+        line-height: 1
+        margin-bottom: 0.5vh
+    .eventDate
+        opacity: 0.75
+        font-size: 1.5vh
+    .eventTime
+        font-size: 1.5vh
+        text-transform: lowercase
+    .eventTagLine
+        position: absolute
+        bottom: 1.5vh
+        right: 1.5vh
 
 .timer
     display: grid

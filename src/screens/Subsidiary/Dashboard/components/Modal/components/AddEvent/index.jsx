@@ -63,10 +63,7 @@ const AddEvent = ({type, currentEvent}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
     const eventText = useRef({
-        name: '',
-        details: '',
-        start: null,
-        deadline: null
+        ...event
     })
 
     const submitHabit = () => {

@@ -33,28 +33,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         return arr.slice().sort((a, b) => a.value - b.value)
     }
 
-    let taskText = useRef({
-        id: '',
-        name: '',
-        details: '',
-        start: null,
-        deadline: null,
-        priority: reorderTags(tags.priority)[0]?reorderTags(tags.priority)[0]:{
-            value: 50,
-            label: ''
-        },
-        effortRequired: reorderTags(tags.effortRequired)[0]?reorderTags(tags.effortRequired)[0]:{
-            value: 50,
-            label: ''
-        },
-        timeRequired: reorderTags(tags.timeRequired)[0]?reorderTags(tags.timeRequired)[0]:{
-            value: 50,
-            label: ''
-        },
-        tags: [],
-        tagText: {val: '', type: false}
-    })
-
     const taskformat = {
         id: date.valueOf(),
         name: '',
@@ -91,6 +69,11 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         subtasks: currentTask.subtasks
     }:{
         ...taskformat
+    })
+
+    let taskText = useRef({
+        ...task,
+        tagText: {val: '', type: false}
     })
 
     const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
