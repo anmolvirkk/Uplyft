@@ -134,7 +134,6 @@ const EventDetails = () => {
                                 </div>
                             </div>
                         :null}
-                        {activeEvent.start&&activeEvent.deadline?<hr className={styles.eventTimeDivider} />:null}
                         {activeEvent.deadline?
                             <div className={styles.eventTimesWrapper}>
                                 <p className={schdetailStyles.title}>Deadline</p>
