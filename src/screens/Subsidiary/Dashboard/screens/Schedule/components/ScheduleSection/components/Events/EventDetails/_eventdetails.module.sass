@@ -1,14 +1,35 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
+.eventTimes
+    +mixins.center
+    width: 100%
+    .eventTimesWrapper
+        width: 100%
+        p
+            width: 100%
+            text-align: left
+            margin-bottom: 1.5vh
+    .eventTimeDivider
+        width: 2px
+        height: 60px
+        margin-bottom: calc( 3vh - 60px )
+        border: none
+        outline: none
+        background-color: rgba(var(--primary), 1)
+    
 .eventDateWrapper
     display: flex
     align-items: center
     position: relative
+    justify-content: space-between
+    width: 100%
     .eventDateBlock
-        background-color: rgba(var(--text), 1)
-        color: rgb(var(--sideSlot))
-        padding: 1.5vh
+        background-color: rgba(var(--sideBar), 1)
+        color: rgb(var(--titles))
+        padding: 1vh
+        border-radius: 5px 5px
+        +mixins.center
     .eventDateDay
         font-size: 4.5vh
         font-weight: 100
@@ -17,21 +38,30 @@
     .eventDate
         opacity: 0.75
         font-size: 1.5vh
-    .eventTime
+    .eventDay
+        opacity: 0.5
         font-size: 1.5vh
+    .eventTimeWrapper
+        text-align: right
+    .eventTime
+        font-size: 4.5vh
         text-transform: lowercase
-    .eventTagLine
-        position: absolute
-        bottom: 1.5vh
-        right: 1.5vh
+        margin-bottom: 0.5vh
+        line-height: 1
+        .hour
+            font-weight: 600
+        .min
+            font-weight: 100
+        .ampm
+            font-weight: 500
+            font-size: 1.5vh
 
 .timer
     display: grid
-    grid-template-columns: repeat(2, minmax(10vh, 1fr))
-    grid-template-rows: repeat(2, minmax(10vh, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(10vh, 1fr))
     .timerBlock
         width: 100%
-        height: 100%
+        height: 10vh
         +mixins.center
         div
             font-size: 4.5vh
@@ -39,11 +69,17 @@
         span
             font-size: 1.5vh
             margin-top: 0.5vh
+            opacity: 0.5
 .detailsWrapper
     .details
         color: rgb(var(--text))
+        white-space: normal
+        line-height: 1.5
 
 .eventSection
     padding-top: 0
+    overflow-x: hidden
+    overflow-y: overlay
+    height: 100vh
     .tags
         margin-bottom: -1vh

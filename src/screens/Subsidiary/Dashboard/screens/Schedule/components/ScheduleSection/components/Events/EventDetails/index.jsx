@@ -109,49 +109,55 @@ const EventDetails = () => {
                         <p className={styles.details}>{activeEvent.details}</p>
                     </div>
                 :null}
-                {activeEvent.start?
-                    <div>
-                        <p className={schdetailStyles.title}>Start</p>
-                        <div className={styles.eventDateWrapper}>
-                            <div className={styles.eventDateBlock}>
-                                <div className={styles.eventDateDay}>
-                                    {new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}
-                                </div>
-                                <div className={styles.eventDate}>
-                                    {new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'short'})}
-                                </div>
-                            </div>
-                            <div>
-                                <div className={styles.eventTime}>
-                                    <span>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
-                                    {new Date(activeEvent.start).toLocaleTimeString('en-US', {minute: '2-digit'})}
-                                </div>
-                                <div>Start</div>
-                            </div>
-                            <div className={styles.eventTagLine}>
-                                <div className={styles.eventDay}>{new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                            </div>
-                        </div>
-                    </div>
-                :null}
-                {activeEvent.deadline?
-                    <div>
-                        <p className={schdetailStyles.title}>Deadline</p>
-                        <div className={styles.eventDateWrapper}>
-                            <hr />
-                            <div className={styles.eventDateNum}>
-                                <div className={styles.eventDateDay}>
-                                    {new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}
-                                </div>
-                                <div className={styles.eventDate}>
-                                    {new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'short', year: 'numeric'})}
+                {activeEvent.start||activeEvent.deadline?
+                    <div className={styles.eventTimes}>
+                        {activeEvent.start?
+                            <div className={styles.eventTimesWrapper}>
+                                <p className={schdetailStyles.title}>Start</p>
+                                <div className={styles.eventDateWrapper}>
+                                    <div className={styles.eventDateBlock}>
+                                        <div className={styles.eventDateDay}>
+                                            {new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}
+                                        </div>
+                                        <div className={styles.eventDate}>
+                                            {new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'short', year: '2-digit'})}
+                                        </div>
+                                    </div>
+                                    <div className={styles.eventTimeWrapper}>
+                                        <div className={styles.eventTime}>
+                                            <span className={styles.hour}>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
+                                            <span className={styles.min}>:{new Date(activeEvent.start).toLocaleTimeString('en-US', {minute: '2-digit', second: '2-digit'}).slice(0, 2)}</span>
+                                            <span className={styles.ampm}>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(-2)}</span>
+                                        </div>
+                                        <div className={styles.eventDay}>{new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long'})}</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className={styles.eventDayWrapper}>
-                                <div className={styles.eventDay}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                                <div className={styles.eventTime}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'})}</div>
+                        :null}
+                        {activeEvent.start&&activeEvent.deadline?<hr className={styles.eventTimeDivider} />:null}
+                        {activeEvent.deadline?
+                            <div className={styles.eventTimesWrapper}>
+                                <p className={schdetailStyles.title}>Deadline</p>
+                                <div className={styles.eventDateWrapper}>
+                                    <div className={styles.eventDateBlock}>
+                                        <div className={styles.eventDateDay}>
+                                            {new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}
+                                        </div>
+                                        <div className={styles.eventDate}>
+                                            {new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'short', year: '2-digit'})}
+                                        </div>
+                                    </div>
+                                    <div className={styles.eventTimeWrapper}>
+                                        <div className={styles.eventTime}>
+                                            <span className={styles.hour}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
+                                            <span className={styles.min}>:{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {minute: '2-digit', second: '2-digit'}).slice(0, 2)}</span>
+                                            <span className={styles.ampm}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(-2)}</span>
+                                        </div>
+                                        <div className={styles.eventDay}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long'})}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        :null}
                     </div>
                 :null}
                 {activeEvent.start||activeEvent.deadline?<TimeRemaining activeEvent={activeEvent} />:null}
