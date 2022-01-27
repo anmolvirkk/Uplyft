@@ -1,11 +1,43 @@
 @use 'src/styles/_variables'
 @use 'src/styles/_mixins'
 
-.notes
-    li
-        list-style: none
-        border-left: 1px solid rgb(var(--text), 0.15)
-        padding-left: 1vh
-        margin: 1.5vh 0
-        line-height: 1.75
+.eventDateWrapper
+    display: flex
+    align-items: center
+    hr
+        width: 3px
+        height: 24px
+        border: none
+        outline: none
+        background-color: rgb(var(--primary))
+    .eventDateNum
+        font-size: 5vh
         font-weight: 100
+        margin: 0 1vh 0 2vh
+    .eventDayWrapper
+        font-size: 1.45vh
+        font-weight: 400
+        .eventDate
+            opacity: 0.5
+            margin-top: 0.5vh
+
+.timer
+    display: grid
+    grid-template-columns: repeat(2, minmax(10vh, 1fr))
+    grid-template-rows: repeat(2, minmax(10vh, 1fr))
+    .timerBlock
+        width: 100%
+        height: 100%
+        +mixins.center
+        div
+            font-size: 4.5vh
+            font-weight: 100
+        span
+            font-size: 1.5vh
+            margin-top: 0.5vh
+.detailsWrapper
+    .details
+        color: rgb(var(--text))
+
+.eventSection
+    padding-top: 0

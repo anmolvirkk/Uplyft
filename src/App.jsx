@@ -48,6 +48,10 @@ const App = () => {
                 }
                 setForceUpdate(!forceUpdate)
             }
+        }else{
+            if(document.getElementById('mainSideBar')){
+                document.getElementById('mainSideBar').style.display = 'grid'
+            }
         }
     }
 

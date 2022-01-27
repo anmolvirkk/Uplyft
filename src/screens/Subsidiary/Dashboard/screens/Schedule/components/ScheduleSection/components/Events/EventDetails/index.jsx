@@ -1,24 +1,24 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { useRecoilState } from 'recoil'
 import eventsAtom from '../../../../../recoil-atoms/eventsAtom'
-import styles from './_eventdetails.module.sass'
 import schdetailStyles from '../../_scheduleSection.module.sass'
+import styles from './_eventdetails.module.sass'
 
 let allIntervals = []
 
 const isMobile = window.innerWidth < 1450
 
-const TimeRemaining = () => {
+const TimeRemaining = ({eventDates}) => {
     let sec, min, hour, days
     const timeLeft = () => {
         if(document.getElementById('eventtimer')){
             let start, deadline
             let now = new Date()
-            if(document.getElementById('eventStart')){
-                if((new Date(document.getElementById('eventStart').innerText).getTime() - now.getTime()) > 0){
-                    start = new Date(document.getElementById('eventStart').innerText)
+            if(eventDates.current.start){
+                if((new Date(eventDates.current.start).getTime() - now.getTime()) > 0){
+                    start = new Date(eventDates.current.start)
                     sec = Math.floor((start.getTime() - now.getTime())/1000)
                     min = Math.floor(sec/60)
                     hour = Math.floor(min/60)
@@ -26,9 +26,9 @@ const TimeRemaining = () => {
                     document.getElementById('eventtimer').innerText = 'Time Until Start'
                 }
             }
-            if(document.getElementById('eventDeadline')){
-                if(!start && (new Date(document.getElementById('eventDeadline').innerText).getTime() - now.getTime()) > 0){
-                    deadline = new Date(document.getElementById('eventDeadline').innerText)
+            if(eventDates.current.deadline){
+                if(!start && (new Date(eventDates.current.deadline).getTime() - now.getTime()) > 0){
+                    deadline = new Date(eventDates.current.deadline)
                     sec = Math.floor((deadline.getTime() - now.getTime())/1000)
                     min = Math.floor(sec/60)
                     hour = Math.floor(min/60)
@@ -67,17 +67,17 @@ const TimeRemaining = () => {
     return (
         <div id="eventtimersection">
             <p className={schdetailStyles.title} id="eventtimer">Time Until Start</p>
-            <div className={schdetailStyles.timer}>
-                <div className={schdetailStyles.timerBlock}>
+            <div className={styles.timer}>
+                <div className={styles.timerBlock}>
                     <div id="eventdays">0</div><span>Days</span>
                 </div>
-                <div className={schdetailStyles.timerBlock}>
+                <div className={styles.timerBlock}>
                     <div id="eventhour">0</div><span>Hours</span>
                 </div>
-                <div className={schdetailStyles.timerBlock}>
+                <div className={styles.timerBlock}>
                     <div id="eventmin">0</div><span>Minutes</span>
                 </div>
-                <div className={schdetailStyles.timerBlock}>
+                <div className={styles.timerBlock}>
                     <div id="eventsec">0</div><span>Seconds</span>
                 </div>
             </div>
@@ -89,40 +89,56 @@ const EventDetails = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const [events] = useRecoilState(eventsAtom)
     let activeEvent = events.filter(i=>i.id===allRoutes.event)[0]
+    const eventDates = useRef({start: activeEvent.start, deadline: activeEvent.deadline})
+    useEffect(()=>{
+        if(activeEvent.start !== eventDates.current.start || activeEvent.deadline !== eventDates.current.deadline){
+            eventDates.current = {start: activeEvent.start, deadline: activeEvent.deadline}
+        }
+    }, [activeEvent])
     if(activeEvent){
         return (
-            <div className={`${journalStyles.slotSection} ${schdetailStyles.details}`} style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
+            <div className={`${journalStyles.slotSection} ${schdetailStyles.details} ${styles.eventSection}`} style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
+                <p className={schdetailStyles.title}>Event</p>
                 <h3>{activeEvent.name}</h3>
-                <p>{activeEvent.details}</p>
+                {activeEvent.details!==''?
+                    <div className={styles.detailsWrapper}>
+                        <p className={schdetailStyles.title}>Details</p>
+                        <p className={styles.details}>{activeEvent.details}</p>
+                    </div>
+                :null}
                 {activeEvent.start?
                     <div>
                         <p className={schdetailStyles.title}>Start</p>
-                        <div id="eventStart" className={schdetailStyles.time}>{new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div className={styles.eventDateWrapper}>
+                            <hr />
+                            <div className={styles.eventDateNum}>{new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}</div>
+                            <div className={styles.eventDayWrapper}>
+                                <div className={styles.eventDay}>{new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long'})}</div>
+                                <div className={styles.eventDate}>{new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</div>
+                            </div>
+                        </div>
                     </div>
                 :null}
                 {activeEvent.deadline?
                     <div>
                         <p className={schdetailStyles.title}>Deadline</p>
-                        <div id="eventDeadline" className={schdetailStyles.time}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        <div className={styles.eventDateWrapper}>
+                            <hr />
+                            <div className={styles.eventDateNum}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}</div>
+                            <div className={styles.eventDayWrapper}>
+                                <div className={styles.eventDay}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long'})}</div>
+                                <div className={styles.eventDate}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</div>
+                            </div>
+                        </div>
                     </div>
                 :null}
-                <TimeRemaining />
+                <TimeRemaining eventDates={eventDates} />
                 {activeEvent.tags.length>0?
                     <div>
                         <p className={schdetailStyles.title}>Tags</p>
                         <div className={schdetailStyles.tagsContainer}>
                             {activeEvent.tags.map((item, i)=><div className={schdetailStyles.tags} key={i}>{item}</div>)}
                         </div>
-                    </div>
-                :null}
-                {activeEvent.notes.length>0?
-                    <div>
-                        <p className={schdetailStyles.title}>Notes</p>
-                        <ul className={styles.notes}>
-                            {activeEvent.notes.map((item, i)=>{
-                                return <li key={i}>{item}</li>
-                            })}
-                        </ul>
                     </div>
                 :null}
             </div>

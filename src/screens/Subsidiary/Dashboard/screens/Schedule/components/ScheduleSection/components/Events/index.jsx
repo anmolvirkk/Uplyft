@@ -51,7 +51,7 @@ const Events = () => {
                                     <h3>Tags</h3>
                                 </div>
                                 <div className={modalStyles.tags}>
-                                    <div onMouseDown={()=>setFilters({...filters, tags: []})} className={`${modalStyles.tag} ${filters.length===0?modalStyles.tagActive:null}`}><span>All</span></div>
+                                    <div onMouseDown={()=>setFilters([])} className={`${modalStyles.tag} ${filters.length===0?modalStyles.tagActive:null}`}><span>All</span></div>
                                     {eventTags.map((item, index)=>{
                                         return <div key={index} onMouseDown={()=>toggleTag(item)} className={`${modalStyles.tag} ${filters.filter(i=>i===item).length>0?modalStyles.tagActive:null}`}><span>{item}</span></div>
                                     })}
@@ -65,14 +65,18 @@ const Events = () => {
     }
     
     const filterEvents = (tasks) => {
-        let newTasks = tasks.map((item)=>{
-            let newTask = null
-            if(filters.every(i=>item.tags.includes(i))){
-                newTask = item
-            }
-            return newTask
-        })
-        return newTasks.filter(i=>i!==null)
+        if(filters.length>0){
+            let newTasks = tasks.map((item)=>{
+                let newTask = null
+                if(filters.every(i=>item.tags.includes(i))){
+                    newTask = item
+                }
+                return newTask
+            })
+            return newTasks.filter(i=>i!==null)
+        }else{
+            return tasks
+        }
     }
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)

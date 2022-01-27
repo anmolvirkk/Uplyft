@@ -45,7 +45,6 @@ const AddEvent = ({type, currentEvent}) => {
         deadline: currentEvent.deadline!==null?new Date(currentEvent.deadline):null,
         icon: currentEvent.icon,
         color: currentEvent.color,
-        notes: currentEvent.notes,
         tags: currentEvent.tags
     }:{
         id: date.valueOf(),
@@ -80,7 +79,6 @@ const AddEvent = ({type, currentEvent}) => {
                     id: event.id,
                     type: 'event',
                     color: colors[event.color],
-                    notes: [...event.notes],
                     tags: [...event.tags]
                 }])
                 setAllRoutes({...allRoutes, event: event.id})
@@ -93,7 +91,6 @@ const AddEvent = ({type, currentEvent}) => {
                         newItem.start = event.start
                         newItem.deadline = event.deadline
                         newItem.color = event.color
-                        newItem.notes = [...event.notes]
                         newItem.tags = [...event.tags]
                     }
                     return newItem
