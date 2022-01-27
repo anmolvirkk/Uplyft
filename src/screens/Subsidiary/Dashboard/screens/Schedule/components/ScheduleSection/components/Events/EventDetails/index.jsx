@@ -66,7 +66,7 @@ const TimeRemaining = ({activeEvent}) => {
     })
     allIntervals.push(startTimer)
     return (
-        <div id="eventtimersection">
+        <div id="eventtimersection" className={styles.eventTimerSection}>
             <p className={schdetailStyles.title} id="eventtimer">Time Until Start</p>
             <div className={styles.timer}>
                 <div className={styles.timerBlock}>
