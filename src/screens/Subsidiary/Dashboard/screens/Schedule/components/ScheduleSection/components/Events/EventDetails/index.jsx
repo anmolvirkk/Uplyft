@@ -109,6 +109,7 @@ const EventDetails = () => {
                         <p className={styles.details}>{activeEvent.details}</p>
                     </div>
                 :null}
+                {activeEvent.start||activeEvent.deadline?<TimeRemaining activeEvent={activeEvent} />:null}
                 {activeEvent.start||activeEvent.deadline?
                     <div className={styles.eventTimes}>
                         {activeEvent.start?
@@ -159,7 +160,6 @@ const EventDetails = () => {
                         :null}
                     </div>
                 :null}
-                {activeEvent.start||activeEvent.deadline?<TimeRemaining activeEvent={activeEvent} />:null}
             </div>
         )
     }else{
