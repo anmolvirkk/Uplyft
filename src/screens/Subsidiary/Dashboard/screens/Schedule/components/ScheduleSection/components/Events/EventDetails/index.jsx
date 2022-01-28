@@ -6,6 +6,7 @@ import eventsAtom from '../../../../../recoil-atoms/eventsAtom'
 import schdetailStyles from '../../_scheduleSection.module.sass'
 import styles from './_eventdetails.module.sass'
 import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
+import {AlignLeft, Clock} from 'react-feather'
 
 let allIntervals = []
 
@@ -67,7 +68,10 @@ const TimeRemaining = ({activeEvent}) => {
     allIntervals.push(startTimer)
     return (
         <div id="eventtimersection" className={styles.eventTimerSection}>
-            <p className={schdetailStyles.title} id="eventtimer">Time Until Start</p>
+            <p className={styles.title}>
+                <Clock />
+                <span id="eventtimer">Time Until Start</span>
+            </p>
             <div className={styles.timer}>
                 <div className={styles.timerBlock}>
                     <div id="eventdays">0</div><span>Days</span>
@@ -93,11 +97,18 @@ const EventDetails = () => {
     if(activeEvent){
         return (
             <div className={`${journalStyles.slotSection} ${schdetailStyles.details} ${styles.eventSection}`} style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
-                <p className={schdetailStyles.title}>Event</p>
-                <h3>{activeEvent.name}</h3>
+                <h3>
+                    <div className={styles.eventTitle}>
+                        <span className={styles.colorTag} />
+                        <span>{activeEvent.name}</span>
+                    </div>
+                    <div className={styles.eventDate}>
+                        {activeEvent.start?new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null} - <br />
+                        {activeEvent.deadline?new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null}
+                    </div>
+                </h3>
                 {activeEvent.tags.length>0?
                     <div className={styles.tags}>
-                        <p className={schdetailStyles.title}>Tags</p>
                         <div className={modalStyles.tags}>
                             {activeEvent.tags.map((item, i)=><div className={`${modalStyles.tag} ${modalStyles.tagActive}`} key={i}><span>{item}</span></div>)}
                         </div>
@@ -105,61 +116,14 @@ const EventDetails = () => {
                 :null}
                 {activeEvent.details!==''?
                     <div className={styles.detailsWrapper}>
-                        <p className={schdetailStyles.title}>Details</p>
+                        <p className={styles.title}>
+                            <AlignLeft />
+                            <span>Details</span>
+                        </p>
                         <p className={styles.details}>{activeEvent.details}</p>
                     </div>
                 :null}
                 {activeEvent.start||activeEvent.deadline?<TimeRemaining activeEvent={activeEvent} />:null}
-                {activeEvent.start||activeEvent.deadline?
-                    <div className={styles.eventTimes}>
-                        {activeEvent.start?
-                            <div className={styles.eventTimesWrapper}>
-                                <p className={schdetailStyles.title}>Start</p>
-                                <div className={styles.eventDateWrapper}>
-                                    <div className={styles.eventDateBlock}>
-                                        <div className={styles.eventDateDay}>
-                                            {new Date(activeEvent.start).toLocaleDateString('en-US', {day: '2-digit'})}
-                                        </div>
-                                        <div className={styles.eventDate}>
-                                            {new Date(activeEvent.start).toLocaleDateString('en-US', {month: 'short', year: '2-digit'})}
-                                        </div>
-                                    </div>
-                                    <div className={styles.eventTimeWrapper}>
-                                        <div className={styles.eventTime}>
-                                            <span className={styles.hour}>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
-                                            <span className={styles.min}>:{new Date(activeEvent.start).toLocaleTimeString('en-US', {minute: '2-digit', second: '2-digit'}).slice(0, 2)}</span>
-                                            <span className={styles.ampm}>{new Date(activeEvent.start).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(-2)}</span>
-                                        </div>
-                                        <div className={styles.eventDay}>{new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        :null}
-                        {activeEvent.deadline?
-                            <div className={styles.eventTimesWrapper}>
-                                <p className={schdetailStyles.title}>Deadline</p>
-                                <div className={styles.eventDateWrapper}>
-                                    <div className={styles.eventDateBlock}>
-                                        <div className={styles.eventDateDay}>
-                                            {new Date(activeEvent.deadline).toLocaleDateString('en-US', {day: '2-digit'})}
-                                        </div>
-                                        <div className={styles.eventDate}>
-                                            {new Date(activeEvent.deadline).toLocaleDateString('en-US', {month: 'short', year: '2-digit'})}
-                                        </div>
-                                    </div>
-                                    <div className={styles.eventTimeWrapper}>
-                                        <div className={styles.eventTime}>
-                                            <span className={styles.hour}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(0, 2)}</span>
-                                            <span className={styles.min}>:{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {minute: '2-digit', second: '2-digit'}).slice(0, 2)}</span>
-                                            <span className={styles.ampm}>{new Date(activeEvent.deadline).toLocaleTimeString('en-US', {hour: '2-digit'}).slice(-2)}</span>
-                                        </div>
-                                        <div className={styles.eventDay}>{new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long'})}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        :null}
-                    </div>
-                :null}
             </div>
         )
     }else{
