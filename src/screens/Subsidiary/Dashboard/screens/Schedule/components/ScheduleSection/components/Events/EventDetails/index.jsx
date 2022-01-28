@@ -46,7 +46,11 @@ const TimeRemaining = ({activeEvent}) => {
                 document.getElementById('eventhour').innerText = hour
                 document.getElementById('eventmin').innerText = min
                 document.getElementById('eventsec').innerText = sec
-                document.getElementById('eventtimersection').style.display = 'block'
+                if(window.innerWidth < 1450){
+                    document.getElementById('eventtimersection').style.display = 'flex'
+                }else{
+                    document.getElementById('eventtimersection').style.display = 'block'
+                }
             }else{
                 clearInterval(startTimer)
                 allIntervals.forEach((item)=>{
