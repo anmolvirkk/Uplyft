@@ -7,6 +7,7 @@ import schdetailStyles from '../../_scheduleSection.module.sass'
 import styles from './_eventdetails.module.sass'
 import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
 import {AlignLeft, Clock} from 'react-feather'
+import { colors } from '../../../../../../../variables/journalConfig'
 
 let allIntervals = []
 
@@ -103,7 +104,7 @@ const EventDetails = () => {
             <div className={`${journalStyles.slotSection} ${schdetailStyles.details} ${styles.eventSection}`} style={isMobile?{height: (window.innerHeight-80-60)+'px'}:null}>
                 <h3>
                     <div className={styles.eventTitle}>
-                        <span className={styles.colorTag} />
+                        <span className={styles.colorTag} style={{backgroundColor: colors[activeEvent.color]}} />
                         <span>{activeEvent.name}</span>
                     </div>
                     <div className={styles.eventDate}>
