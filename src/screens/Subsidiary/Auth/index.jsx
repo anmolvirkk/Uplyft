@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 
-const Auth = () => {
+const Auth = ({type}) => {
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
@@ -35,13 +35,18 @@ const Auth = () => {
                     <div className={styles.input} id='authForm'>
                         <InputBox marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
                         <InputBox marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
-                        <InputBox marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />
+                        {type==='signup'?<InputBox marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
                         <Link to={`/${company.subsidiary}/dashboard/${company.journals}`}>Continue</Link>
                     </div>
-                    <div className={styles.signin}>
-                        <p>Already have an account?</p>
-                        <Link to={`/${company.subsidiary}/signin`}>Sign In</Link>
-                    </div>
+                    {type==='signup'?
+                        <div className={styles.signin}>
+                            <p>Already have an account?</p>
+                            <Link to={`/${company.subsidiary}/login`}>Sign In</Link>
+                        </div>
+                    :<div className={styles.signin}>
+                        <p>Don't have an account?</p>
+                        <Link to={`/${company.subsidiary}/signup`}>Create Account</Link>
+                    </div>}
                 </div>
             </div>
         </div>

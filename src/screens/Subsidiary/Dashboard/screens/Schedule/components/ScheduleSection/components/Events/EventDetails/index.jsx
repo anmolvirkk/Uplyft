@@ -107,10 +107,12 @@ const EventDetails = () => {
                         <span className={styles.colorTag} style={{backgroundColor: colors[activeEvent.color]}} />
                         <span>{activeEvent.name}</span>
                     </div>
-                    <div className={styles.eventDate}>
-                        {activeEvent.start?new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null} - <br />
-                        {activeEvent.deadline?new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null}
-                    </div>
+                    {activeEvent.start||activeEvent.deadline?
+                        <div className={styles.eventDate}>
+                            {activeEvent.start?new Date(activeEvent.start).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null} - <br />
+                            {activeEvent.deadline?new Date(activeEvent.deadline).toLocaleDateString('en-US', {weekday: 'long', day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'}):null}
+                        </div>
+                    :null}
                 </h3>
                 {activeEvent.tags.length>0?
                     <div className={styles.tags}>
