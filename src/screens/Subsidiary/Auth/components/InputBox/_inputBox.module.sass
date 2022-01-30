@@ -7,6 +7,11 @@
 .group
     position: relative
     width: 100%
+    --inputColor: rgb(var(--primary))
+    --initialBar: 0
+    --initialLabelTop: 10px
+    --initialLabelFontSize: 14px
+    --labelColor: rgb(var(--titles))
 
 .icon
     svg
@@ -38,7 +43,7 @@ input
     &:focus ~ label, &:valid ~ label
         top: -15px
         font-size: 12px
-        color: rgb(var(--primary))
+        color: var(--inputColor)
     &:focus ~ .bar:before
         width: 100%
 
@@ -46,13 +51,13 @@ input[type="password"]
     letter-spacing: 0.2em
 
 label
-    color: rgb(var(--titles))
-    font-size: 14px
+    color: var(--labelColor)
+    font-size: var(--initialLabelFontSize)
     font-weight: normal
     position: absolute
     pointer-events: none
     left: 5px
-    top: 10px
+    top: var(--initialLabelTop)
     transition: 0.2s ease all
 
 .bar 
@@ -62,9 +67,9 @@ label
     &:before 
         content: ''
         height: 2px
-        width: 0
+        width: var(--initialBar)
         bottom: 0px
         position: absolute
         transition: 0.2s ease all
         left: 0%
-        background: rgb(var(--primary))
+        background: var(--inputColor)
