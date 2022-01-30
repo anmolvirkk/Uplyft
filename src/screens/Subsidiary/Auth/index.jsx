@@ -34,23 +34,23 @@ const Auth = ({type}) => {
         }
     }, [inputText])
 
-    const [error, setError] = useState(false)
+    const [error, setError] = useState({email: false, password: false})
 
     const onsubmit = () => {
         if(type==='signup'){
             if(inputText.current.password === inputText.current.confirmpassword){
-                if(error){
-                    setError(false)
+                if(error.password){
+                    setError({...error, password: false})
                 }
                 let user = new Backendless.User()
                 user.email = inputText.current.email
                 user.password = inputText.current.password
-                Backendless.UserService.register( user ).then(()=>setRedirect(true)).catch((err)=>console.log(err))
+                Backendless.UserService.register( user ).then(()=>setRedirect(true)).catch((err)=>setError({...error, email: err.message}))
             }else{
-                setError('Password Mismatch')
+                setError({...error, password: 'Password Mismatch'})
             }
         }else{
-            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>setRedirect(true)).catch((err)=>setError(err.message))
+            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>setRedirect(true)).catch((err)=>setError({...error, password: err.message}))
         }
     }
 
@@ -78,9 +78,9 @@ const Auth = ({type}) => {
                         <hr />
                     </div>
                     <div className={styles.input} id='authForm'>
-                        <InputBox id='authEmail' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.email=e.target.value} onChange={(e)=>inputText.current.email=e.target.value} marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
-                        <InputBox id='authPassword' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.password=e.target.value} error={error} onChange={(e)=>inputText.current.password=e.target.value} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
-                        {type==='signup'?<InputBox error={error} id='authConfirmPassword' onChange={(e)=>inputText.current.confirmpassword=e.target.value} marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
+                        <InputBox error={error.email} id='authEmail' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.email=e.target.value} onChange={(e)=>inputText.current.email=e.target.value} marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
+                        <InputBox id='authPassword' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.password=e.target.value} error={error.password} onChange={(e)=>inputText.current.password=e.target.value} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
+                        {type==='signup'?<InputBox error={error.password} id='authConfirmPassword' onChange={(e)=>inputText.current.confirmpassword=e.target.value} marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
                         <button onMouseDown={onsubmit}>Continue</button>
                     </div>
                     {type==='signup'?
