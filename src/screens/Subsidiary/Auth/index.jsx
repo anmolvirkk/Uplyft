@@ -6,6 +6,8 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import Backendless from 'backendless'
+import { useSetRecoilState } from 'recoil'
+import authAtom from './authAtom'
 
 const Auth = ({type}) => {
 
@@ -35,6 +37,7 @@ const Auth = ({type}) => {
     }, [inputText])
 
     const [error, setError] = useState({email: false, password: false})
+    const setAuth = useSetRecoilState(authAtom)
 
     const onsubmit = () => {
         if(type==='signup'){
@@ -45,12 +48,18 @@ const Auth = ({type}) => {
                 let user = new Backendless.User()
                 user.email = inputText.current.email
                 user.password = inputText.current.password
-                Backendless.UserService.register( user ).then(()=>setRedirect(true)).catch((err)=>setError({...error, email: err.message}))
+                Backendless.UserService.register( user ).then(()=>{
+                    setAuth({email: inputText.current.email, password: inputText.current.password}) 
+                    setRedirect(true)
+                }).catch((err)=>setError({...error, email: err.message}))
             }else{
                 setError({...error, password: 'Password Mismatch'})
             }
         }else{
-            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>setRedirect(true)).catch((err)=>setError({...error, password: err.message}))
+            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>{
+                setAuth({email: inputText.current.email, password: inputText.current.password}) 
+                setRedirect(true)
+            }).catch((err)=>setError({...error, password: err.message}))
         }
     }
 
