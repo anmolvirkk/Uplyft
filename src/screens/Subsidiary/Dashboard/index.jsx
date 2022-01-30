@@ -9,10 +9,13 @@ import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
 import darkModeAtom from './components/SideBar/components/DarkMode/darkModeAtom'
+import authAtom from '../Auth/authAtom'
+import { Redirect } from 'react-router-dom'
 
 const Dashboard = () => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
+    const [auth] = useRecoilState(authAtom)
 
     const [darkMode] = useRecoilState(darkModeAtom)
 
@@ -36,6 +39,7 @@ const Dashboard = () => {
                 <Modal />
                 : null}
                 <Switch>
+                    {auth.email===''?<Redirect to={`/${company.subsidiary}/login`} />:null}
                     <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" /></Route>
                     <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" /></Route>
                     <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" /></Route>

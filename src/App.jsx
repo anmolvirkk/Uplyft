@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
@@ -40,6 +40,7 @@ import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components
 
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
+import _ from 'lodash'
 
 const App = () => {
 
@@ -88,87 +89,175 @@ const App = () => {
         }
     }
 
-    const [darkMode] = useRecoilState(darkModeAtom)
-    const [allPrompts] = useRecoilState(allPromptsAtom)
-    const [allRoutes] = useRecoilState(allRoutesAtom)
+    const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
+    const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
+    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
 
-    const [books] = useRecoilState(booksAtom)
-    const [currentMobileSection] = useRecoilState(currentMobileSectionAtom)
-    const [dates] = useRecoilState(datesAtom)
-    const [modalConfig] = useRecoilState(modalConfigAtom)
-    const [newDate] = useRecoilState(newDateAtom)
-    const [notes] = useRecoilState(notesAtom)
-    const [notesDropDown] = useRecoilState(notesDropDownAtom)
-    const [openBook] = useRecoilState(openBookAtom)
-    const [openSlot] = useRecoilState(openSlotAtom)
-    const [slots] = useRecoilState(slotsAtom)
+    const [books, setBooks] = useRecoilState(booksAtom)
+    const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
+    const [dates, setDates] = useRecoilState(datesAtom)
+    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
+    const [newDate, setNewDate] = useRecoilState(newDateAtom)
+    const [notes, setNotes] = useRecoilState(notesAtom)
+    const [notesDropDown, setNotesDropDown] = useRecoilState(notesDropDownAtom)
+    const [openBook, setOpenBook] = useRecoilState(openBookAtom)
+    const [openSlot, setOpenSlot] = useRecoilState(openSlotAtom)
+    const [slots, setSlots] = useRecoilState(slotsAtom)
 
-    const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
-    const [completedOpen] = useRecoilState(completedOpenAtom)
-    const [dropDownDay] = useRecoilState(dropDownDayAtom)
-    const [events] = useRecoilState(eventsAtom)
-    const [habits] = useRecoilState(habitsAtom)
-    const [projects]= useRecoilState(projectsAtom)
-    const [routines] = useRecoilState(routinesAtom)
-    const [scheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
-    const [scheduleHeader] = useRecoilState(scheduleHeaderAtom)
-    const [scheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
-    const [tasks] = useRecoilState(tasksAtom)
+    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
+    const [dropDownDay, setDropDownDay] = useRecoilState(dropDownDayAtom)
+    const [events, setEvents] = useRecoilState(eventsAtom)
+    const [habits, setHabits] = useRecoilState(habitsAtom)
+    const [projects, setProjects]= useRecoilState(projectsAtom)
+    const [routines, setRoutines] = useRecoilState(routinesAtom)
+    const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
+    const [scheduleHeader, setScheduleHeader] = useRecoilState(scheduleHeaderAtom)
+    const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
+    const [tasks, setTasks] = useRecoilState(tasksAtom)
 
-    const [eventTags] = useRecoilState(eventTagsAtom)
-    const [tags] = useRecoilState(tagsAtom)
+    const [eventTags, setEventTags] = useRecoilState(eventTagsAtom)
+    const [tags, setTags] = useRecoilState(tagsAtom)
     const [auth] = useRecoilState(authAtom)
 
+    const saved = useRef(false)
+    const saveToBackend = () => {
+        Backendless.UserService.login(auth.email, auth.password, true).then((loggedUser)=>{    
+            const recoilData = {
+                darkMode: darkMode,
+                allPrompts: allPrompts,
+                allRoutes: allRoutes,
+                books: books,
+                currentMobileSection: currentMobileSection,
+                dates: dates,
+                modalConfig: modalConfig,
+                newDate: newDate,
+                notes: notes,
+                notesDropDown: notesDropDown,
+                openBook: openBook,
+                openSlot: openSlot,
+                slots: slots,
+                allCalendarEvents: allCalendarEvents,
+                completedOpen: completedOpen,
+                dropDownDay: dropDownDay,
+                events: events,
+                habits: habits,
+                projects: projects,
+                routines: routines,
+                scheduleAddDropDown: scheduleAddDropDown,
+                scheduleHeader: scheduleHeader,
+                scheduleSideMenu: scheduleSideMenu,
+                tasks: tasks,
+                eventTags: eventTags,
+                tags: tags
+            }
+            let user = loggedUser
+            if(!_.isEqual(user.data, recoilData)){
+                user.data = {...recoilData}
+                Backendless.UserService.update(user)
+                saved.current = false
+            }
+        })
+    }
 
-    const recoilData = useRef({
-        darkMode: darkMode,
-        allPrompts: allPrompts,
-        allRoutes: allRoutes,
-        books: books,
-        currentMobileSection: currentMobileSection,
-        dates: dates,
-        modalConfig: modalConfig,
-        newDate: newDate,
-        notes: notes,
-        notesDropDown: notesDropDown,
-        openBook: openBook,
-        openSlot: openSlot,
-        slots: slots,
-        allCalendarEvents: allCalendarEvents,
-        completedOpen: completedOpen,
-        dropDownDay: dropDownDay,
-        events: events,
-        habits: habits,
-        projects: projects,
-        routines: routines,
-        scheduleAddDropDown: scheduleAddDropDown,
-        scheduleHeader: scheduleHeader,
-        scheduleSideMenu: scheduleSideMenu,
-        tasks: tasks,
-        eventTags: eventTags,
-        tags: tags
-    })
-
-    useEffect(()=>{
-
-        if(auth.email !== '' && auth.password !== ''){
-            const _ = require('lodash')
-
-            let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-            let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-            Backendless.initApp(APP_ID, API_KEY)
-
-            Backendless.UserService.login(auth.email, auth.password, true).then((loggedUser)=>{
-                if(!_.isEqual(loggedUser.data, recoilData.current)){
-                    let user = loggedUser
-                    user.data = {...recoilData.current}
-                    Backendless.UserService.update(user)
-                }
-            })
-
+    document.onvisibilitychange = () => {
+        if (document.visibilityState === 'hidden' && !saved.current) {
+            saved.current = true
+            saveToBackend() 
         }
+    }
 
-    }, [auth, recoilData])
+    document.onmouseleave = () => { 
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+    }
+
+    document.onkeydown = (e) => {
+        if(!saved.current){
+            if(e.key.toLowerCase()==='w' && e.ctrlKey){
+                saved.current = true
+                saveToBackend() 
+            }
+            if(e.key.toLowerCase()==='f4' && e.altKey){
+                saved.current = true
+                saveToBackend() 
+            }
+        }
+    }
+
+    window.onbeforeunload = () => {
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+        return false
+    }
+
+    document.onclose = () => {
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+    }
+
+    window.onclose = () => {
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+    }
+
+    window.onblur = () => {
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+    }
+
+    document.onblur = () => {
+        if(!saved.current){
+            saved.current = true
+            saveToBackend() 
+        }
+    }
+
+    window.onload = () => {
+        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
+        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+        Backendless.initApp(APP_ID, API_KEY)
+        if(auth.email !== '' && auth.password !== ''){
+            Backendless.UserService.login(auth.email, auth.password, true).then((loggedUser)=>{
+                setDarkMode(loggedUser.data.darkMode)
+                setAllPrompts(loggedUser.data.allPrompts)
+                setAllRoutes(loggedUser.data.allRoutes)
+                setBooks(loggedUser.data.books)
+                setCurrentMobileSection(loggedUser.data.currentMobileSection)
+                setDates(loggedUser.data.dates)
+                setModalConfig(loggedUser.data.modalConfig)
+                setNewDate(loggedUser.data.newDate)
+                setNotes(loggedUser.data.notes)
+                setNotesDropDown(loggedUser.data.notesDropDown)
+                setOpenBook(loggedUser.data.openBook)
+                setOpenSlot(loggedUser.data.openSlot)
+                setSlots(loggedUser.data.slots)
+                setAllCalendarEvents(loggedUser.data.allCalendarEvents)
+                setCompletedOpen(loggedUser.data.completedOpen)
+                setDropDownDay(loggedUser.data.dropDownDay)
+                setEvents(loggedUser.data.events)
+                setHabits(loggedUser.data.habits)
+                setProjects(loggedUser.data.projects)
+                setRoutines(loggedUser.data.routines)
+                setScheduleAddDropDown(loggedUser.data.scheduleAddDropDown)
+                setScheduleHeader(loggedUser.data.scheduleHeader)
+                setScheduleSideMenu(loggedUser.data.scheduleSideMenu)
+                setTasks(loggedUser.data.tasks)
+                setEventTags(loggedUser.data.eventTags)
+                setTags(loggedUser.data.tags)
+            })
+        }
+    }
 
     return (
         <Router>
