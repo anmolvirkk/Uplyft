@@ -188,7 +188,6 @@ const App = () => {
         }
         let user = {...auth, data: {...recoilData}}
         navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
-        return false
     }
 
     window.onpagehide = () => {
