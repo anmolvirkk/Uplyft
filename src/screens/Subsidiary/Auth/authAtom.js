@@ -5,7 +5,7 @@ const {persistAtom} = recoilPersist()
 
 const authAtom = atom({
     key: 'auth',
-    default: {email: '', password: ''},
+    default: {email: ''},
     effects_UNSTABLE: [persistAtom]
 })
 

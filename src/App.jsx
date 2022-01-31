@@ -121,142 +121,117 @@ const App = () => {
     const [auth] = useRecoilState(authAtom)
 
     const saved = useRef(false)
-    const saveToBackend = () => {
-        Backendless.UserService.login(auth.email, auth.password, true).then((loggedUser)=>{    
-            const recoilData = {
-                darkMode: darkMode,
-                allPrompts: allPrompts,
-                allRoutes: allRoutes,
-                books: books,
-                currentMobileSection: currentMobileSection,
-                dates: dates,
-                modalConfig: modalConfig,
-                newDate: newDate,
-                notes: notes,
-                notesDropDown: notesDropDown,
-                openBook: openBook,
-                openSlot: openSlot,
-                slots: slots,
-                allCalendarEvents: allCalendarEvents,
-                completedOpen: completedOpen,
-                dropDownDay: dropDownDay,
-                events: events,
-                habits: habits,
-                projects: projects,
-                routines: routines,
-                scheduleAddDropDown: scheduleAddDropDown,
-                scheduleHeader: scheduleHeader,
-                scheduleSideMenu: scheduleSideMenu,
-                tasks: tasks,
-                eventTags: eventTags,
-                tags: tags
-            }
-            let user = loggedUser
-            if(!_.isEqual(user.data, recoilData)){
-                user.data = {...recoilData}
-                Backendless.UserService.update(user)
-                saved.current = false
-            }
-        })
+    const saveToBackend = () => { 
+        const recoilData = {
+            darkMode: darkMode,
+            allPrompts: allPrompts,
+            allRoutes: allRoutes,
+            books: books,
+            currentMobileSection: currentMobileSection,
+            dates: dates,
+            modalConfig: modalConfig,
+            newDate: newDate,
+            notes: notes,
+            notesDropDown: notesDropDown,
+            openBook: openBook,
+            openSlot: openSlot,
+            slots: slots,
+            allCalendarEvents: allCalendarEvents,
+            completedOpen: completedOpen,
+            dropDownDay: dropDownDay,
+            events: events,
+            habits: habits,
+            projects: projects,
+            routines: routines,
+            scheduleAddDropDown: scheduleAddDropDown,
+            scheduleHeader: scheduleHeader,
+            scheduleSideMenu: scheduleSideMenu,
+            tasks: tasks,
+            eventTags: eventTags,
+            tags: tags
+        }
+        let user = {...auth}
+        if(!_.isEqual(user.data, recoilData)){
+            console.log(recoilData.books)
+            user.data = {...recoilData}
+            Backendless.UserService.update(user)
+            saved.current = false
+        }
     }
 
     document.onvisibilitychange = () => {
         if (document.visibilityState === 'hidden' && !saved.current) {
             saved.current = true
-            saveToBackend() 
+            saveToBackend()
         }
     }
-
-    document.onmouseleave = () => { 
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
-        }
-    }
-
-    document.onkeydown = (e) => {
-        if(!saved.current){
-            if(e.key.toLowerCase()==='w' && e.ctrlKey){
-                saved.current = true
-                saveToBackend() 
-            }
-            if(e.key.toLowerCase()==='f4' && e.altKey){
-                saved.current = true
-                saveToBackend() 
-            }
-        }
-    }
-
+    
     window.onbeforeunload = () => {
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
+        const recoilData = {
+            darkMode: darkMode,
+            allPrompts: allPrompts,
+            allRoutes: allRoutes,
+            books: books,
+            currentMobileSection: currentMobileSection,
+            dates: dates,
+            modalConfig: modalConfig,
+            newDate: newDate,
+            notes: notes,
+            notesDropDown: notesDropDown,
+            openBook: openBook,
+            openSlot: openSlot,
+            slots: slots,
+            allCalendarEvents: allCalendarEvents,
+            completedOpen: completedOpen,
+            dropDownDay: dropDownDay,
+            events: events,
+            habits: habits,
+            projects: projects,
+            routines: routines,
+            scheduleAddDropDown: scheduleAddDropDown,
+            scheduleHeader: scheduleHeader,
+            scheduleSideMenu: scheduleSideMenu,
+            tasks: tasks,
+            eventTags: eventTags,
+            tags: tags
         }
+        let user = {...auth, data: {...recoilData}}
+        navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
         return false
-    }
-
-    document.onclose = () => {
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
-        }
-    }
-
-    window.onclose = () => {
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
-        }
-    }
-
-    window.onblur = () => {
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
-        }
-    }
-
-    document.onblur = () => {
-        if(!saved.current){
-            saved.current = true
-            saveToBackend() 
-        }
     }
 
     window.onload = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
-        if(auth.email !== '' && auth.password !== ''){
-            Backendless.UserService.login(auth.email, auth.password, true).then((loggedUser)=>{
-                setDarkMode(loggedUser.data.darkMode)
-                setAllPrompts(loggedUser.data.allPrompts)
-                setAllRoutes(loggedUser.data.allRoutes)
-                setBooks(loggedUser.data.books)
-                setCurrentMobileSection(loggedUser.data.currentMobileSection)
-                setDates(loggedUser.data.dates)
-                setModalConfig(loggedUser.data.modalConfig)
-                setNewDate(loggedUser.data.newDate)
-                setNotes(loggedUser.data.notes)
-                setNotesDropDown(loggedUser.data.notesDropDown)
-                setOpenBook(loggedUser.data.openBook)
-                setOpenSlot(loggedUser.data.openSlot)
-                setSlots(loggedUser.data.slots)
-                setAllCalendarEvents(loggedUser.data.allCalendarEvents)
-                setCompletedOpen(loggedUser.data.completedOpen)
-                setDropDownDay(loggedUser.data.dropDownDay)
-                setEvents(loggedUser.data.events)
-                setHabits(loggedUser.data.habits)
-                setProjects(loggedUser.data.projects)
-                setRoutines(loggedUser.data.routines)
-                setScheduleAddDropDown(loggedUser.data.scheduleAddDropDown)
-                setScheduleHeader(loggedUser.data.scheduleHeader)
-                setScheduleSideMenu(loggedUser.data.scheduleSideMenu)
-                setTasks(loggedUser.data.tasks)
-                setEventTags(loggedUser.data.eventTags)
-                setTags(loggedUser.data.tags)
-            })
-        }
+        Backendless.UserService.getCurrentUser().then((auth)=>{
+            setDarkMode(auth.data.darkMode)
+            setAllPrompts(auth.data.allPrompts)
+            setAllRoutes(auth.data.allRoutes)
+            setBooks(auth.data.books)
+            setCurrentMobileSection(auth.data.currentMobileSection)
+            setDates(auth.data.dates)
+            setModalConfig(auth.data.modalConfig)
+            setNewDate(auth.data.newDate)
+            setNotes(auth.data.notes)
+            setNotesDropDown(auth.data.notesDropDown)
+            setOpenBook(auth.data.openBook)
+            setOpenSlot(auth.data.openSlot)
+            setSlots(auth.data.slots)
+            setAllCalendarEvents(auth.data.allCalendarEvents)
+            setCompletedOpen(auth.data.completedOpen)
+            setDropDownDay(auth.data.dropDownDay)
+            setEvents(auth.data.events)
+            setHabits(auth.data.habits)
+            setProjects(auth.data.projects)
+            setRoutines(auth.data.routines)
+            setScheduleAddDropDown(auth.data.scheduleAddDropDown)
+            setScheduleHeader(auth.data.scheduleHeader)
+            setScheduleSideMenu(auth.data.scheduleSideMenu)
+            setTasks(auth.data.tasks)
+            setEventTags(auth.data.eventTags)
+            setTags(auth.data.tags)
+        })
     }
 
     return (

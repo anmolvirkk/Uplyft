@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import Backendless from 'backendless'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import authAtom from './authAtom'
 
 const Auth = ({type}) => {
@@ -19,9 +19,6 @@ const Auth = ({type}) => {
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
-        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-        Backendless.initApp(APP_ID, API_KEY)
     }, [])
 
     useEffect(()=>{
@@ -37,7 +34,7 @@ const Auth = ({type}) => {
     }, [inputText])
 
     const [error, setError] = useState({email: false, password: false})
-    const setAuth = useSetRecoilState(authAtom)
+    const [auth, setAuth] = useRecoilState(authAtom)
 
     const onsubmit = () => {
         if(type==='signup'){
@@ -48,16 +45,16 @@ const Auth = ({type}) => {
                 let user = new Backendless.User()
                 user.email = inputText.current.email
                 user.password = inputText.current.password
-                Backendless.UserService.register( user ).then(()=>{
-                    setAuth({email: inputText.current.email, password: inputText.current.password}) 
+                Backendless.UserService.register( user ).then((loggedUser)=>{
+                    setAuth({...loggedUser}) 
                     setRedirect(true)
                 }).catch((err)=>setError({...error, email: err.message}))
             }else{
                 setError({...error, password: 'Password Mismatch'})
             }
         }else{
-            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>{
-                setAuth({email: inputText.current.email, password: inputText.current.password}) 
+            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then((loggedUser)=>{
+                setAuth({...loggedUser}) 
                 setRedirect(true)
             }).catch((err)=>setError({...error, password: err.message}))
         }
@@ -68,6 +65,7 @@ const Auth = ({type}) => {
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
+            {auth.objectId?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
                     <div className={styles.title}>
