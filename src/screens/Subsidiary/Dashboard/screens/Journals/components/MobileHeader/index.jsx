@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 import darkModeAtom from '../../../../components/SideBar/components/DarkMode/darkModeAtom'
+import Backendless from 'backendless'
 
 const MobileHeader = () => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -143,10 +144,19 @@ const MobileHeader = () => {
             }
         }
     ]
+    
+    const [loggedOut, setLoggedOut] = useState(false)
+    const logout = () => {
+        Backendless.UserService.logout().then(()=>{
+            setLoggedOut(true)
+            localStorage.clear()
+        })
+    }
 
     return (
         <div className={styles.header}>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} />:null}
+            {loggedOut?<Redirect to={`/${company.subsidiary}`} />:null}
             <div className={styles.options}>
                 {currentMobileSection===0?null:<ArrowLeft onMouseDown={sections[currentMobileSection].onBack} />}
                 <p>{sections[currentMobileSection].title}</p>
@@ -154,7 +164,7 @@ const MobileHeader = () => {
             <div className={styles.options}>
                 {sections[currentMobileSection].onAdd?<Plus onMouseDown={sections[currentMobileSection].onAdd} />:null}
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: null}]} pos={{right: '8px', top: '50px'}} />
+                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: logout}]} pos={{right: '8px', top: '50px'}} />
                 </div>
             </div>
         </div>

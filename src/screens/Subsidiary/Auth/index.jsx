@@ -37,6 +37,9 @@ const Auth = ({type}) => {
     const [auth, setAuth] = useRecoilState(authAtom)
 
     const onsubmit = () => {
+        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
+        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+        Backendless.initApp(APP_ID, API_KEY)
         if(type==='signup'){
             if(inputText.current.password === inputText.current.confirmpassword){
                 if(error.password){
@@ -65,7 +68,7 @@ const Auth = ({type}) => {
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
-            {auth.objectId?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
+            {auth?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
                     <div className={styles.title}>

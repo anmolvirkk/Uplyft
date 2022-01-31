@@ -37,7 +37,6 @@ import tasksAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-at
 
 import eventTagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddEvent/eventTagsAtom'
 import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddTask/tagsAtom'
-
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
 
@@ -88,36 +87,35 @@ const App = () => {
         }
     }
 
-    const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
-    const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
-    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
+    const [darkMode] = useRecoilState(darkModeAtom)
+    const [allPrompts] = useRecoilState(allPromptsAtom)
+    const [allRoutes] = useRecoilState(allRoutesAtom)
 
-    const [books, setBooks] = useRecoilState(booksAtom)
-    const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
-    const [dates, setDates] = useRecoilState(datesAtom)
-    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
-    const [newDate, setNewDate] = useRecoilState(newDateAtom)
-    const [notes, setNotes] = useRecoilState(notesAtom)
-    const [notesDropDown, setNotesDropDown] = useRecoilState(notesDropDownAtom)
-    const [openBook, setOpenBook] = useRecoilState(openBookAtom)
-    const [openSlot, setOpenSlot] = useRecoilState(openSlotAtom)
-    const [slots, setSlots] = useRecoilState(slotsAtom)
+    const [books] = useRecoilState(booksAtom)
+    const [currentMobileSection] = useRecoilState(currentMobileSectionAtom)
+    const [dates] = useRecoilState(datesAtom)
+    const [modalConfig] = useRecoilState(modalConfigAtom)
+    const [newDate] = useRecoilState(newDateAtom)
+    const [notes] = useRecoilState(notesAtom)
+    const [notesDropDown] = useRecoilState(notesDropDownAtom)
+    const [openBook] = useRecoilState(openBookAtom)
+    const [openSlot] = useRecoilState(openSlotAtom)
+    const [slots] = useRecoilState(slotsAtom)
 
-    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
-    const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
-    const [dropDownDay, setDropDownDay] = useRecoilState(dropDownDayAtom)
-    const [events, setEvents] = useRecoilState(eventsAtom)
-    const [habits, setHabits] = useRecoilState(habitsAtom)
-    const [projects, setProjects]= useRecoilState(projectsAtom)
-    const [routines, setRoutines] = useRecoilState(routinesAtom)
-    const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
-    const [scheduleHeader, setScheduleHeader] = useRecoilState(scheduleHeaderAtom)
-    const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
-    const [tasks, setTasks] = useRecoilState(tasksAtom)
+    const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [completedOpen] = useRecoilState(completedOpenAtom)
+    const [dropDownDay] = useRecoilState(dropDownDayAtom)
+    const [events] = useRecoilState(eventsAtom)
+    const [habits] = useRecoilState(habitsAtom)
+    const [projects]= useRecoilState(projectsAtom)
+    const [routines] = useRecoilState(routinesAtom)
+    const [scheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
+    const [scheduleHeader] = useRecoilState(scheduleHeaderAtom)
+    const [scheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
+    const [tasks] = useRecoilState(tasksAtom)
 
-    const [eventTags, setEventTags] = useRecoilState(eventTagsAtom)
-    const [tags, setTags] = useRecoilState(tagsAtom)
-    const [auth] = useRecoilState(authAtom)
+    const [eventTags] = useRecoilState(eventTagsAtom)
+    const [tags] = useRecoilState(tagsAtom)
 
     const saved = useRef(false)
 
@@ -152,8 +150,14 @@ const App = () => {
                 eventTags: eventTags,
                 tags: tags
             }
-            let user = {...auth, data: {...recoilData}}
-            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
+            console.log(recoilData)
+            Backendless.UserService.getCurrentUser().then((currentUser)=>{
+                let user = {...currentUser, data: {...recoilData}}
+                let xhr = new XMLHttpRequest()
+                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                xhr.send(JSON.stringify(user))
+                saved.current = false
+            })
         }
     }
     
@@ -188,8 +192,13 @@ const App = () => {
                 eventTags: eventTags,
                 tags: tags
             }
-            let user = {...auth, data: {...recoilData}}
-            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
+            Backendless.UserService.getCurrentUser().then((currentUser)=>{
+                let user = {...currentUser, data: {...recoilData}}
+                let xhr = new XMLHttpRequest()
+                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                xhr.send(JSON.stringify(user))
+                saved.current = false
+            })
         }
     }
 
@@ -224,43 +233,14 @@ const App = () => {
                 eventTags: eventTags,
                 tags: tags
             }
-            let user = {...auth, data: {...recoilData}}
-            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
+            Backendless.UserService.getCurrentUser().then((currentUser)=>{
+                let user = {...authAtom, data: {...recoilData}}
+                let xhr = new XMLHttpRequest()
+                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                xhr.send(JSON.stringify(user))
+                saved.current = false
+            })
         }
-    }
-
-    window.onload = () => {
-        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-        Backendless.initApp(APP_ID, API_KEY)
-        Backendless.UserService.getCurrentUser().then((auth)=>{
-            setDarkMode(auth.data.darkMode)
-            setAllPrompts(auth.data.allPrompts)
-            setAllRoutes(auth.data.allRoutes)
-            setBooks(auth.data.books)
-            setCurrentMobileSection(auth.data.currentMobileSection)
-            setDates(auth.data.dates)
-            setModalConfig(auth.data.modalConfig)
-            setNewDate(auth.data.newDate)
-            setNotes(auth.data.notes)
-            setNotesDropDown(auth.data.notesDropDown)
-            setOpenBook(auth.data.openBook)
-            setOpenSlot(auth.data.openSlot)
-            setSlots(auth.data.slots)
-            setAllCalendarEvents(auth.data.allCalendarEvents)
-            setCompletedOpen(auth.data.completedOpen)
-            setDropDownDay(auth.data.dropDownDay)
-            setEvents(auth.data.events)
-            setHabits(auth.data.habits)
-            setProjects(auth.data.projects)
-            setRoutines(auth.data.routines)
-            setScheduleAddDropDown(auth.data.scheduleAddDropDown)
-            setScheduleHeader(auth.data.scheduleHeader)
-            setScheduleSideMenu(auth.data.scheduleSideMenu)
-            setTasks(auth.data.tasks)
-            setEventTags(auth.data.eventTags)
-            setTags(auth.data.tags)
-        })
     }
 
     return (

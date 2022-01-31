@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './_sidebar.module.sass'
 import {Power, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
@@ -11,6 +11,9 @@ import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/curren
 import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
 import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
 import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
+
+import Backendless from 'backendless'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -97,8 +100,17 @@ const SideBar = () => {
         }
     ]
 
+    const [loggedOut, setLoggedOut] = useState(false)
+    const logout = () => {
+        Backendless.UserService.logout().then(()=>{
+            setLoggedOut(true)
+            localStorage.clear()
+        })
+    }
+
     return (
         <aside id='mainSideBar'>
+            {loggedOut?<Redirect to={`/${company.subsidiary}`} />:null}
             <div className={styles.logo}>
                 <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>
@@ -107,7 +119,7 @@ const SideBar = () => {
             })}
             <div className={styles.options}>
                 <DarkMode />
-                <div className={styles.iconButton}>
+                <div className={styles.iconButton} onMouseDown={logout}>
                     <Power />
                     <p>Logout</p>
                 </div>

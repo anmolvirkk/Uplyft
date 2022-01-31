@@ -3,10 +3,10 @@ import {recoilPersist} from 'recoil-persist'
 
 const {persistAtom} = recoilPersist()
 
-const tagsAtom = atom({
+const eventTagsAtom = atom({
     key: 'eventTags',
     default: [],
     effects_UNSTABLE: [persistAtom]
 })
 
-export default tagsAtom
+export default eventTagsAtom
