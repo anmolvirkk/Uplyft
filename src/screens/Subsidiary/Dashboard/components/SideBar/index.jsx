@@ -15,8 +15,6 @@ import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
 
-import { SaveToBackend } from '../../../../../App'
-
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
         <NavLink onMouseDown={func} className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
@@ -104,11 +102,8 @@ const SideBar = () => {
 
     const history = useHistory()
 
-    const [save, setSave] = useState(false)
-
     const logout = () => {
         Backendless.UserService.logout().then(()=>{
-            setSave(true)
             setTimeout(()=>{
                 localStorage.clear()
             }, 150)
@@ -120,7 +115,6 @@ const SideBar = () => {
 
     return (
         <aside id='mainSideBar'>
-            {save?<SaveToBackend />:null}
             <div className={styles.logo}>
                 <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>

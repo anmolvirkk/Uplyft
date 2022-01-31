@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
