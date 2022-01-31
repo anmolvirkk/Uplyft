@@ -28,18 +28,14 @@ const Calendar = ({isMobile}) => {
         }
     })
 
-    if(slots.length > 0) {
+    const showCalendar = slots&&slots[allRoutes.book]&&slots[allRoutes.book][allRoutes.date]?slots[allRoutes.book][allRoutes.date]:false
 
-    return <ul className={styles.calendar} id='journalCalendar'>
+    return <ul className={styles.calendar} id='journalCalendar' style={{opacity: showCalendar?1:0}}>
                 {dates ? dates.map((item, index)=>{
                     let date = new Date(item)
                     return <NavLink onMouseUp={()=>setDateRoute(date.valueOf())} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
                 }) : null}
             </ul>
-
-    }else{
-        return null
-    }
 }
 
 export default Calendar
