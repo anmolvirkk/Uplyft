@@ -19,21 +19,23 @@ const Calendar = ({isMobile}) => {
     }
 
     useEffect(()=>{
-        if(isMobile){
-            document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
-        }else{
-            document.getElementById('journalCalendar').scrollTop = document.getElementById('journalCalendar').scrollHeight
+        if(document.getElementById('journalCalendar')){
+            if(isMobile){
+                document.getElementById('journalCalendar').scrollLeft = document.getElementById('journalCalendar').scrollWidth
+            }else{
+                document.getElementById('journalCalendar').scrollTop = document.getElementById('journalCalendar').scrollHeight
+            }
         }
     })
 
-    if(slots.length !== 0) {
+    if(slots.length > 0) {
 
-        return <ul className={styles.calendar} id='journalCalendar'>
-                    {dates ? dates.map((item, index)=>{
-                        let date = new Date(item)
-                        return <NavLink onMouseUp={()=>setDateRoute(date.valueOf())} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
-                    }) : null}
-                </ul>
+    return <ul className={styles.calendar} id='journalCalendar'>
+                {dates ? dates.map((item, index)=>{
+                    let date = new Date(item)
+                    return <NavLink onMouseUp={()=>setDateRoute(date.valueOf())} to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${date.valueOf()}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} key={index} activeClassName={styles.activeDate}><h1>{index+1}</h1><p>{date.toLocaleDateString('en-us', { weekday:"short", month:"short", day:"numeric"})}</p></NavLink>
+                }) : null}
+            </ul>
 
     }else{
         return null

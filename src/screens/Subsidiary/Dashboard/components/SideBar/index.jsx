@@ -106,7 +106,7 @@ const SideBar = () => {
     const logout = () => {
         Backendless.UserService.logout().then(()=>{
             localStorage.clear()
-            history.push(`/`)
+            history.push(`/${company.subsidiary}`)
         })
     }
 

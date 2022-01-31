@@ -152,11 +152,13 @@ const App = () => {
             }
             console.log(recoilData)
             Backendless.UserService.getCurrentUser().then((currentUser)=>{
-                let user = {...currentUser, data: {...recoilData}}
-                let xhr = new XMLHttpRequest()
-                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                xhr.send(JSON.stringify(user))
-                saved.current = false
+                if(currentUser){
+                    let user = {...currentUser, data: {...recoilData}}
+                    let xhr = new XMLHttpRequest()
+                    xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                    xhr.send(JSON.stringify(user))
+                    saved.current = false
+                }
             })
         }
     }
@@ -193,11 +195,13 @@ const App = () => {
                 tags: tags
             }
             Backendless.UserService.getCurrentUser().then((currentUser)=>{
-                let user = {...currentUser, data: {...recoilData}}
-                let xhr = new XMLHttpRequest()
-                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                xhr.send(JSON.stringify(user))
-                saved.current = false
+                if(currentUser){
+                    let user = {...currentUser, data: {...recoilData}}
+                    let xhr = new XMLHttpRequest()
+                    xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                    xhr.send(JSON.stringify(user))
+                    saved.current = false
+                }
             })
         }
     }
@@ -234,11 +238,13 @@ const App = () => {
                 tags: tags
             }
             Backendless.UserService.getCurrentUser().then((currentUser)=>{
-                let user = {...authAtom, data: {...recoilData}}
-                let xhr = new XMLHttpRequest()
-                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                xhr.send(JSON.stringify(user))
-                saved.current = false
+                if(currentUser){
+                    let user = {...currentUser, data: {...recoilData}}
+                    let xhr = new XMLHttpRequest()
+                    xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+                    xhr.send(JSON.stringify(user))
+                    saved.current = false
+                }
             })
         }
     }
