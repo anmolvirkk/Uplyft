@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './_sidebar.module.sass'
 import {Power, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
@@ -14,6 +14,8 @@ import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
 
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
+
+import { SaveToBackend } from '../../../../../App'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -102,15 +104,23 @@ const SideBar = () => {
 
     const history = useHistory()
 
+    const [save, setSave] = useState(false)
+
     const logout = () => {
         Backendless.UserService.logout().then(()=>{
-            localStorage.clear()
-            history.push(`/${company.subsidiary}`)
+            setSave(true)
+            setTimeout(()=>{
+                localStorage.clear()
+            }, 150)
+            setTimeout(()=>{
+                history.push(`/${company.subsidiary}`)
+            }, 300)
         })
     }
 
     return (
         <aside id='mainSideBar'>
+            {save?<SaveToBackend />:null}
             <div className={styles.logo}>
                 <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>

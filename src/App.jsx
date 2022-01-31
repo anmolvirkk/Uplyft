@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
 import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import isMobileAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
 import darkModeAtom from './screens/Subsidiary/Dashboard/components/SideBar/components/DarkMode/darkModeAtom'
@@ -40,10 +40,147 @@ import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
 
+export const SaveToBackend = () => {
+
+    const [darkMode] = useRecoilState(darkModeAtom)
+    const [allPrompts] = useRecoilState(allPromptsAtom)
+    const [allRoutes] = useRecoilState(allRoutesAtom)
+
+    const [books] = useRecoilState(booksAtom)
+    const [currentMobileSection] = useRecoilState(currentMobileSectionAtom)
+    const [dates] = useRecoilState(datesAtom)
+    const [modalConfig] = useRecoilState(modalConfigAtom)
+    const [newDate] = useRecoilState(newDateAtom)
+    const [notes] = useRecoilState(notesAtom)
+    const [notesDropDown] = useRecoilState(notesDropDownAtom)
+    const [openBook] = useRecoilState(openBookAtom)
+    const [openSlot] = useRecoilState(openSlotAtom)
+    const [slots] = useRecoilState(slotsAtom)
+
+    const [allCalendarEvents] = useRecoilState(allCalendarEventsAtom)
+    const [completedOpen] = useRecoilState(completedOpenAtom)
+    const [dropDownDay] = useRecoilState(dropDownDayAtom)
+    const [events] = useRecoilState(eventsAtom)
+    const [habits] = useRecoilState(habitsAtom)
+    const [projects]= useRecoilState(projectsAtom)
+    const [routines] = useRecoilState(routinesAtom)
+    const [scheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
+    const [scheduleHeader] = useRecoilState(scheduleHeaderAtom)
+    const [scheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
+    const [tasks] = useRecoilState(tasksAtom)
+
+    const [eventTags] = useRecoilState(eventTagsAtom)
+    const [tags] = useRecoilState(tagsAtom)
+
+    const recoilData = {
+        darkMode: darkMode,
+        allPrompts: allPrompts,
+        allRoutes: allRoutes,
+        books: books,
+        currentMobileSection: currentMobileSection,
+        dates: dates,
+        modalConfig: modalConfig,
+        newDate: newDate,
+        notes: notes,
+        notesDropDown: notesDropDown,
+        openBook: openBook,
+        openSlot: openSlot,
+        slots: slots,
+        allCalendarEvents: allCalendarEvents,
+        completedOpen: completedOpen,
+        dropDownDay: dropDownDay,
+        events: events,
+        habits: habits,
+        projects: projects,
+        routines: routines,
+        scheduleAddDropDown: scheduleAddDropDown,
+        scheduleHeader: scheduleHeader,
+        scheduleSideMenu: scheduleSideMenu,
+        tasks: tasks,
+        eventTags: eventTags,
+        tags: tags
+    }
+    Backendless.UserService.getCurrentUser().then((currentUser)=>{
+        if(currentUser){
+            let user = {...currentUser, data: {...recoilData}}
+            let xhr = new XMLHttpRequest()
+            xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
+            xhr.send(JSON.stringify(user))
+        }
+    })
+
+    return null
+}
+
+export const SaveFromBackend = () => {
+    const [auth] = useRecoilState(authAtom)
+    const setDarkMode = useSetRecoilState(darkModeAtom)
+    const setAllRoutes = useSetRecoilState(allRoutesAtom)
+    const setBooks = useSetRecoilState(booksAtom)
+    const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
+    const setDates = useSetRecoilState(datesAtom)
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
+    const setNewDate = useSetRecoilState(newDateAtom)
+    const setNotes = useSetRecoilState(notesAtom)
+    const setNotesDropDown = useSetRecoilState(notesDropDownAtom)
+    const setOpenBook = useSetRecoilState(openBookAtom)
+    const setSlots = useSetRecoilState(slotsAtom)
+    const setAllCalendarEvents = useSetRecoilState(allCalendarEventsAtom)
+    const setCompletedOpen = useSetRecoilState(completedOpenAtom)
+    const setDropDownDay = useSetRecoilState(dropDownDayAtom)
+    const setEvents = useSetRecoilState(eventsAtom)
+    const setHabits = useSetRecoilState(habitsAtom)
+    const setProjects = useSetRecoilState(projectsAtom)
+    const setRoutines = useSetRecoilState(routinesAtom)
+    const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
+    const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
+    const setScheduleSideMenu = useSetRecoilState(scheduleSideMenuAtom)
+    const setTasks = useSetRecoilState(tasksAtom)
+    const setEventTags = useSetRecoilState(eventTagsAtom)
+    const setTags = useSetRecoilState(tagsAtom)
+    const setAllPrompts = useSetRecoilState(allPromptsAtom)
+    const setOpenSlot = useSetRecoilState(openSlotAtom)
+    if(auth.email !== ''){
+        Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
+            if(loggedInUser){
+                setDarkMode(loggedInUser.data.darkMode)
+                setAllPrompts(loggedInUser.data.allPrompts)
+                setAllRoutes(loggedInUser.data.allRoutes)
+                setBooks(loggedInUser.data.books)
+                setCurrentMobileSection(loggedInUser.data.currentMobileSection)
+                setDates(loggedInUser.data.dates)
+                setModalConfig(loggedInUser.data.modalConfig)
+                setNewDate(loggedInUser.data.newDate)
+                setNotes(loggedInUser.data.notes)
+                setNotesDropDown(loggedInUser.data.notesDropDown)
+                setOpenBook(loggedInUser.data.openBook)
+                setOpenSlot(loggedInUser.data.openSlot)
+                setSlots(loggedInUser.data.slots)
+                setAllCalendarEvents(loggedInUser.data.allCalendarEvents)
+                setCompletedOpen(loggedInUser.data.completedOpen)
+                setDropDownDay(loggedInUser.data.dropDownDay)
+                setEvents(loggedInUser.data.events)
+                setHabits(loggedInUser.data.habits)
+                setProjects(loggedInUser.data.projects)
+                setRoutines(loggedInUser.data.routines)
+                setScheduleAddDropDown(loggedInUser.data.scheduleAddDropDown)
+                setScheduleHeader(loggedInUser.data.scheduleHeader)
+                setScheduleSideMenu(loggedInUser.data.scheduleSideMenu)
+                setTasks(loggedInUser.data.tasks)
+                setEventTags(loggedInUser.data.eventTags)
+                setTags(loggedInUser.data.tags)
+            }
+        })
+    }
+}
+
 const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
     const [isMobile, setIsMobile] = useRecoilState(isMobileAtom)
+
+    const [saveToBackend, setSaveToBackend] = useState(false)
+    const [saveFromBackend, setSaveFromBackend] = useState(false)
 
     window.onresize = (e) => {
         if(window.innerWidth < 1450){
@@ -87,197 +224,23 @@ const App = () => {
         }
     }
 
-    const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
-    const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
-    const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
-
-    const [books, setBooks] = useRecoilState(booksAtom)
-    const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
-    const [dates, setDates] = useRecoilState(datesAtom)
-    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
-    const [newDate, setNewDate] = useRecoilState(newDateAtom)
-    const [notes, setNotes] = useRecoilState(notesAtom)
-    const [notesDropDown, setNotesDropDown] = useRecoilState(notesDropDownAtom)
-    const [openBook, setOpenBook] = useRecoilState(openBookAtom)
-    const [openSlot, setOpenSlot] = useRecoilState(openSlotAtom)
-    const [slots, setSlots] = useRecoilState(slotsAtom)
-
-    const [allCalendarEvents, setAllCalendarEvents] = useRecoilState(allCalendarEventsAtom)
-    const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
-    const [dropDownDay, setDropDownDay] = useRecoilState(dropDownDayAtom)
-    const [events, setEvents] = useRecoilState(eventsAtom)
-    const [habits, setHabits] = useRecoilState(habitsAtom)
-    const [projects, setProjects]= useRecoilState(projectsAtom)
-    const [routines, setRoutines] = useRecoilState(routinesAtom)
-    const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
-    const [scheduleHeader, setScheduleHeader] = useRecoilState(scheduleHeaderAtom)
-    const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
-    const [tasks, setTasks] = useRecoilState(tasksAtom)
-
-    const [eventTags, setEventTags] = useRecoilState(eventTagsAtom)
-    const [tags, setTags] = useRecoilState(tagsAtom)
-
-    const saved = useRef(false)
-    const [auth] = useRecoilState(authAtom)
-
     document.onvisibilitychange = () => {
-        if (document.visibilityState === 'hidden' && !saved.current) {
-            saved.current = true
-            const recoilData = {
-                darkMode: darkMode,
-                allPrompts: allPrompts,
-                allRoutes: allRoutes,
-                books: books,
-                currentMobileSection: currentMobileSection,
-                dates: dates,
-                modalConfig: modalConfig,
-                newDate: newDate,
-                notes: notes,
-                notesDropDown: notesDropDown,
-                openBook: openBook,
-                openSlot: openSlot,
-                slots: slots,
-                allCalendarEvents: allCalendarEvents,
-                completedOpen: completedOpen,
-                dropDownDay: dropDownDay,
-                events: events,
-                habits: habits,
-                projects: projects,
-                routines: routines,
-                scheduleAddDropDown: scheduleAddDropDown,
-                scheduleHeader: scheduleHeader,
-                scheduleSideMenu: scheduleSideMenu,
-                tasks: tasks,
-                eventTags: eventTags,
-                tags: tags
-            }
-            Backendless.UserService.getCurrentUser().then((currentUser)=>{
-                if(currentUser){
-                    let user = {...currentUser, data: {...recoilData}}
-                    let xhr = new XMLHttpRequest()
-                    xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                    xhr.send(JSON.stringify(user))
-                    saved.current = false
-                }
-            })
-        }
+        setSaveToBackend(true)
     }
     
     window.onbeforeunload = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
-        }
-        Backendless.UserService.getCurrentUser().then((currentUser)=>{
-            if(currentUser){
-                let user = {...currentUser, data: {...recoilData}}
-                let xhr = new XMLHttpRequest()
-                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                xhr.send(JSON.stringify(user))
-            }
-        })
-        return false
+        setSaveToBackend(true)
     }
 
     window.onpagehide = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
-        }
-        Backendless.UserService.getCurrentUser().then((currentUser)=>{
-            if(currentUser){
-                let user = {...currentUser, data: {...recoilData}}
-                let xhr = new XMLHttpRequest()
-                xhr.open('PUT', `https://deepway.backendless.app/api/users/${currentUser.objectId}`, true)
-                xhr.send(JSON.stringify(user))
-            }
-        })
+        setSaveToBackend(true)
     }
 
     window.onload = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
-        if(auth.email !== ''){
-            Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
-                if(loggedInUser){
-                    setDarkMode(loggedInUser.data.darkMode)
-                    setAllPrompts(loggedInUser.data.allPrompts)
-                    setAllRoutes(loggedInUser.data.allRoutes)
-                    setBooks(loggedInUser.data.books)
-                    setCurrentMobileSection(loggedInUser.data.currentMobileSection)
-                    setDates(loggedInUser.data.dates)
-                    setModalConfig(loggedInUser.data.modalConfig)
-                    setNewDate(loggedInUser.data.newDate)
-                    setNotes(loggedInUser.data.notes)
-                    setNotesDropDown(loggedInUser.data.notesDropDown)
-                    setOpenBook(loggedInUser.data.openBook)
-                    setOpenSlot(loggedInUser.data.openSlot)
-                    setSlots(loggedInUser.data.slots)
-                    setAllCalendarEvents(loggedInUser.data.allCalendarEvents)
-                    setCompletedOpen(loggedInUser.data.completedOpen)
-                    setDropDownDay(loggedInUser.data.dropDownDay)
-                    setEvents(loggedInUser.data.events)
-                    setHabits(loggedInUser.data.habits)
-                    setProjects(loggedInUser.data.projects)
-                    setRoutines(loggedInUser.data.routines)
-                    setScheduleAddDropDown(loggedInUser.data.scheduleAddDropDown)
-                    setScheduleHeader(loggedInUser.data.scheduleHeader)
-                    setScheduleSideMenu(loggedInUser.data.scheduleSideMenu)
-                    setTasks(loggedInUser.data.tasks)
-                    setEventTags(loggedInUser.data.eventTags)
-                    setTags(loggedInUser.data.tags)
-                }
-            })
-        }
+        setSaveFromBackend(true)
     }
 
     return (
@@ -288,6 +251,8 @@ const App = () => {
                 <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
                 <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
                 <Route path={`/${company.subsidiary}/dashboard`}><Dashboard /></Route>
+                {saveToBackend?<SaveToBackend />:null}
+                {saveFromBackend?<SaveFromBackend />:null}
             </Switch>
         </Router>
     )
