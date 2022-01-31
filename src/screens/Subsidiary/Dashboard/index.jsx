@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
 import Modal from './components/Modal'

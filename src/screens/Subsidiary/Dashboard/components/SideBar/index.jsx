@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './_sidebar.module.sass'
 import {Power, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
@@ -11,7 +11,6 @@ import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/curren
 import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
 import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
 import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'

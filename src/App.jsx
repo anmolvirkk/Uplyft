@@ -38,7 +38,6 @@ import tasksAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-at
 import eventTagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddEvent/eventTagsAtom'
 import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddTask/tagsAtom'
 import Backendless from 'backendless'
-import authAtom from './screens/Subsidiary/Auth/authAtom'
 
 const App = () => {
 
@@ -150,7 +149,6 @@ const App = () => {
                 eventTags: eventTags,
                 tags: tags
             }
-            console.log(recoilData)
             Backendless.UserService.getCurrentUser().then((currentUser)=>{
                 if(currentUser){
                     let user = {...currentUser, data: {...recoilData}}
