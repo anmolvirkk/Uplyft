@@ -14,6 +14,7 @@ import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 
 import Backendless from 'backendless'
+import { useHistory } from 'react-router-dom'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -100,17 +101,17 @@ const SideBar = () => {
         }
     ]
 
-    const [loggedOut, setLoggedOut] = useState(false)
+    const history = useHistory()
+
     const logout = () => {
         Backendless.UserService.logout().then(()=>{
-            setLoggedOut(true)
             localStorage.clear()
+            history.push(`/`)
         })
     }
 
     return (
         <aside id='mainSideBar'>
-            {loggedOut?<Redirect to={`/${company.subsidiary}`} />:null}
             <div className={styles.logo}>
                 <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
             </div>
