@@ -158,69 +158,75 @@ const App = () => {
     }
     
     window.onbeforeunload = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
+        if(!saved.current){
+            saved.current = true
+            const recoilData = {
+                darkMode: darkMode,
+                allPrompts: allPrompts,
+                allRoutes: allRoutes,
+                books: books,
+                currentMobileSection: currentMobileSection,
+                dates: dates,
+                modalConfig: modalConfig,
+                newDate: newDate,
+                notes: notes,
+                notesDropDown: notesDropDown,
+                openBook: openBook,
+                openSlot: openSlot,
+                slots: slots,
+                allCalendarEvents: allCalendarEvents,
+                completedOpen: completedOpen,
+                dropDownDay: dropDownDay,
+                events: events,
+                habits: habits,
+                projects: projects,
+                routines: routines,
+                scheduleAddDropDown: scheduleAddDropDown,
+                scheduleHeader: scheduleHeader,
+                scheduleSideMenu: scheduleSideMenu,
+                tasks: tasks,
+                eventTags: eventTags,
+                tags: tags
+            }
+            let user = {...auth, data: {...recoilData}}
+            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
         }
-        let user = {...auth, data: {...recoilData}}
-        navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
     }
 
     window.onpagehide = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
+        if(!saved.current){
+            saved.current = true
+            const recoilData = {
+                darkMode: darkMode,
+                allPrompts: allPrompts,
+                allRoutes: allRoutes,
+                books: books,
+                currentMobileSection: currentMobileSection,
+                dates: dates,
+                modalConfig: modalConfig,
+                newDate: newDate,
+                notes: notes,
+                notesDropDown: notesDropDown,
+                openBook: openBook,
+                openSlot: openSlot,
+                slots: slots,
+                allCalendarEvents: allCalendarEvents,
+                completedOpen: completedOpen,
+                dropDownDay: dropDownDay,
+                events: events,
+                habits: habits,
+                projects: projects,
+                routines: routines,
+                scheduleAddDropDown: scheduleAddDropDown,
+                scheduleHeader: scheduleHeader,
+                scheduleSideMenu: scheduleSideMenu,
+                tasks: tasks,
+                eventTags: eventTags,
+                tags: tags
+            }
+            let user = {...auth, data: {...recoilData}}
+            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
         }
-        let user = {...auth, data: {...recoilData}}
-        navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
     }
 
     window.onload = () => {
