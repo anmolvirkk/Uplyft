@@ -40,7 +40,6 @@ import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components
 
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
-import _ from 'lodash'
 
 const App = () => {
 
@@ -121,48 +120,40 @@ const App = () => {
     const [auth] = useRecoilState(authAtom)
 
     const saved = useRef(false)
-    const saveToBackend = () => { 
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
-        }
-        let user = {...auth}
-        if(!_.isEqual(user.data, recoilData)){
-            console.log(recoilData.books)
-            user.data = {...recoilData}
-            Backendless.UserService.update(user)
-            saved.current = false
-        }
-    }
 
     document.onvisibilitychange = () => {
         if (document.visibilityState === 'hidden' && !saved.current) {
             saved.current = true
-            saveToBackend()
+            const recoilData = {
+                darkMode: darkMode,
+                allPrompts: allPrompts,
+                allRoutes: allRoutes,
+                books: books,
+                currentMobileSection: currentMobileSection,
+                dates: dates,
+                modalConfig: modalConfig,
+                newDate: newDate,
+                notes: notes,
+                notesDropDown: notesDropDown,
+                openBook: openBook,
+                openSlot: openSlot,
+                slots: slots,
+                allCalendarEvents: allCalendarEvents,
+                completedOpen: completedOpen,
+                dropDownDay: dropDownDay,
+                events: events,
+                habits: habits,
+                projects: projects,
+                routines: routines,
+                scheduleAddDropDown: scheduleAddDropDown,
+                scheduleHeader: scheduleHeader,
+                scheduleSideMenu: scheduleSideMenu,
+                tasks: tasks,
+                eventTags: eventTags,
+                tags: tags
+            }
+            let user = {...auth, data: {...recoilData}}
+            navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
         }
     }
     
@@ -198,6 +189,39 @@ const App = () => {
         let user = {...auth, data: {...recoilData}}
         navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
         return false
+    }
+
+    window.onpagehide = () => {
+        const recoilData = {
+            darkMode: darkMode,
+            allPrompts: allPrompts,
+            allRoutes: allRoutes,
+            books: books,
+            currentMobileSection: currentMobileSection,
+            dates: dates,
+            modalConfig: modalConfig,
+            newDate: newDate,
+            notes: notes,
+            notesDropDown: notesDropDown,
+            openBook: openBook,
+            openSlot: openSlot,
+            slots: slots,
+            allCalendarEvents: allCalendarEvents,
+            completedOpen: completedOpen,
+            dropDownDay: dropDownDay,
+            events: events,
+            habits: habits,
+            projects: projects,
+            routines: routines,
+            scheduleAddDropDown: scheduleAddDropDown,
+            scheduleHeader: scheduleHeader,
+            scheduleSideMenu: scheduleSideMenu,
+            tasks: tasks,
+            eventTags: eventTags,
+            tags: tags
+        }
+        let user = {...auth, data: {...recoilData}}
+        navigator.sendBeacon(`https://deepway.backendless.app/api/users/${auth.objectId}`, JSON.stringify(user))
     }
 
     window.onload = () => {
