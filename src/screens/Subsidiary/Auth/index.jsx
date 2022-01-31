@@ -6,8 +6,6 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import Backendless from 'backendless'
-import { useRecoilState } from 'recoil'
-import authAtom from './authAtom'
 
 const Auth = ({type}) => {
 
@@ -34,7 +32,6 @@ const Auth = ({type}) => {
     }, [inputText])
 
     const [error, setError] = useState({email: false, password: false})
-    const [auth, setAuth] = useRecoilState(authAtom)
 
     const onsubmit = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
@@ -49,7 +46,6 @@ const Auth = ({type}) => {
                 user.email = inputText.current.email
                 user.password = inputText.current.password
                 Backendless.UserService.register( user ).then((loggedUser)=>{
-                    setAuth({...loggedUser}) 
                     setRedirect(true)
                 }).catch((err)=>setError({...error, email: err.message}))
             }else{
@@ -57,7 +53,6 @@ const Auth = ({type}) => {
             }
         }else{
             Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then((loggedUser)=>{
-                setAuth({...loggedUser}) 
                 setRedirect(true)
             }).catch((err)=>setError({...error, password: err.message}))
         }
@@ -68,7 +63,6 @@ const Auth = ({type}) => {
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
-            {auth?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
                     <div className={styles.title}>
