@@ -87,7 +87,6 @@ const Dashboard = () => {
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
         Backendless.UserService.getCurrentUser().then((loggedInUser)=>{
-            console.log(loggedInUser)
             if(loggedInUser){
                 setDarkMode(loggedInUser.data.darkMode)
                 setAllPrompts(loggedInUser.data.allPrompts)
