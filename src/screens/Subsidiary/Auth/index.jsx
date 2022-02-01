@@ -48,8 +48,8 @@ const Auth = ({type}) => {
                 let user = new Backendless.User()
                 user.email = inputText.current.email
                 user.password = inputText.current.password
-                setAuth({email: inputText.current.email, password: inputText.current.password})
                 Backendless.UserService.register( user ).then(()=>{
+                    setAuth({email: inputText.current.email, password: inputText.current.password})
                     setRedirect(true)
                 }).catch((err)=>setError({...error, email: err.message}))
             }else{
