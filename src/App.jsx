@@ -10,6 +10,7 @@ import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSe
  newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
 completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
 scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom } from './screens/Subsidiary/Dashboard/allAtoms'
+import {EventEmitter} from 'events'
 
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
@@ -235,6 +236,17 @@ const App = () => {
         set(tagsAtom, data.tags)
     }, [])
 
+    const eventEmitter = new EventEmitter()
+
+    eventEmitter.on('updateAtoms', () => {
+        Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
+            if(loggedInUser){
+                setLoggedUser(loggedInUser)
+                batchUpdate(loggedInUser.data)
+            }
+        })
+    })
+
     window.onload = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
@@ -243,7 +255,7 @@ const App = () => {
             Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
                 if(loggedInUser){
                     setLoggedUser(loggedInUser)
-                    batchUpdate(loggedInUser.data)
+                    eventEmitter.emit('updateAtoms')
                 }
             })
         }

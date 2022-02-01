@@ -12,6 +12,8 @@ import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allR
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
 
+import {EventEmitter} from 'events'
+
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
         <NavLink onMouseDown={func} className={styles.iconButton} to={link} activeClassName={styles.activeIconButton} exact={link===`/${company.subsidiary}/dashboard`}>
@@ -99,8 +101,11 @@ const SideBar = () => {
 
     const history = useHistory()
 
+    const eventEmitter = new EventEmitter()
+
     const logout = () => {
         Backendless.UserService.logout().then(()=>{
+            eventEmitter.emit('updateAtoms')
             setTimeout(()=>{
                 localStorage.clear()
             }, 150)
