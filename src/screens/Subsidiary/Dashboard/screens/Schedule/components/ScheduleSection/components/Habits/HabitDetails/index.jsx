@@ -2,10 +2,9 @@ import React from 'react'
 import styles from './_habitDetails.module.sass'
 
 import {useRecoilState} from 'recoil' 
-import habitsAtom from '../../../../../recoil-atoms/habitsAtom'
-import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 
 import { colors, iconsSvg } from '../../../../../../../variables/journalConfig'
+import { habitsAtom, allRoutesAtom } from '../../../../../../../allAtoms'
 
 import Calendar from './components/Calendar'
 

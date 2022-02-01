@@ -5,40 +5,16 @@ import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
 import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
+import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSectionAtom, datesAtom, 
+ newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
+completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
+scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom } from './screens/Subsidiary/Dashboard/allAtoms'
 
-import isMobileAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
-import darkModeAtom from './screens/Subsidiary/Dashboard/components/SideBar/components/DarkMode/darkModeAtom'
-
-import allPromptsAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/allPromptsAtom'
-import allRoutesAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/allRoutesAtom'
-import booksAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/booksAtom'
-import currentMobileSectionAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/currentMobileSectionAtom'
-import datesAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/datesAtom'
-import modalConfigAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/modalConfigAtom'
-import newDateAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/newDateAtom'
-import notesAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/notesAtom'
-import notesDropDownAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/notesDropDownAtom'
-import openBookAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/openBookAtom'
-import openSlotAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/openSlotAtom'
-import slotsAtom from './screens/Subsidiary/Dashboard/screens/Journals/recoil-atoms/slotsAtom'
-
-import allCalendarEventsAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-import completedOpenAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/completedOpenAtom'
-import dropDownDayAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/dropDownDayAtom'
-import eventsAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/eventsAtom'
-import habitsAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/habitsAtom'
-import projectsAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/projectsAtom'
-import routinesAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/routinesAtom'
-import scheduleAddDropDownAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/scheduleAddDropDownAtom'
-import scheduleHeaderAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/scheduleHeaderAtom'
-import scheduleSideMenuAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
-import tasksAtom from './screens/Subsidiary/Dashboard/screens/Schedule/recoil-atoms/tasksAtom'
-
-import eventTagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddEvent/eventTagsAtom'
-import tagsAtom from './screens/Subsidiary/Dashboard/components/Modal/components/AddTask/tagsAtom'
 import Backendless from 'backendless'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
+import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAtom'
+import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalConfigAtom'
 
 const App = () => {
 

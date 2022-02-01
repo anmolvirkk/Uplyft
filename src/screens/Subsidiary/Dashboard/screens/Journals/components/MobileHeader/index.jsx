@@ -1,18 +1,13 @@
 import React, { useState } from 'react'
 import styles from './_mobileHeader.module.sass'
 import {Plus, ArrowLeft} from 'react-feather'
-import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import slotsAtom from '../../recoil-atoms/slotsAtom'
-import openSlotAtom from '../../recoil-atoms/openSlotAtom'
-import MoreMenu from '../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
-import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
-import darkModeAtom from '../../../../components/SideBar/components/DarkMode/darkModeAtom'
 import Backendless from 'backendless'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
+import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom, currentMobileSectionAtom } from '../../../../allAtoms'
+import MoreMenu from '../../../../components/MoreMenu'
 
 const MobileHeader = () => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)

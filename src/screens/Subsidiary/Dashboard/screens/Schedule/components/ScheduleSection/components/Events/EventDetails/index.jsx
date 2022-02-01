@@ -1,13 +1,12 @@
 import React from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
-import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { useRecoilState } from 'recoil'
-import eventsAtom from '../../../../../recoil-atoms/eventsAtom'
 import schdetailStyles from '../../_scheduleSection.module.sass'
 import styles from './_eventdetails.module.sass'
 import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
 import {AlignLeft, Clock} from 'react-feather'
 import { colors } from '../../../../../../../variables/journalConfig'
+import {eventsAtom, allRoutesAtom} from '../../../../../../../allAtoms'
 
 let allIntervals = []
 

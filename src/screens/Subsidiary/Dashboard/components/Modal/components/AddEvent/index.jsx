@@ -5,17 +5,15 @@ import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, AlignLeft, Flag, Navigation, Plus } from 'react-feather'
 
-import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
 
-import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-import eventsAtom from '../../../../screens/Schedule/recoil-atoms/eventsAtom'
-import eventTagsAtom from './eventTagsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
-import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 import InputBox from '../../../../../Auth/components/InputBox'
+
+import { allRoutesAtom, eventTagsAtom, eventsAtom, allCalendarEventsAtom } from '../../../../allAtoms'
 
 const AddEvent = ({type, currentEvent}) => {
 

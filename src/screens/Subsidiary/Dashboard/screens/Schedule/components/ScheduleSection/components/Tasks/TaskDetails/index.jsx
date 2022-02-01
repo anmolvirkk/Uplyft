@@ -5,15 +5,11 @@ import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp,
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import modalConfigAtom from '../../../../../../Journals/recoil-atoms/modalConfigAtom'
-import projectsAtom from '../../../../../recoil-atoms/projectsAtom'
 import MoreMenu from '../../../../../../../components/MoreMenu'
-import allRoutesAtom from '../../../../../../Journals/recoil-atoms/allRoutesAtom'
 import CheckBtn from './components/CheckBtn'
-import allCalendarEventsAtom from '../../../../../recoil-atoms/allCalendarEventsAtom'
-import completedOpenAtom from '../../../../../recoil-atoms/completedOpenAtom'
 import modalStyles from '../../../../../../../components/Modal/_modal.module.sass'
-import tagsAtom from '../../../../../../../components/Modal/components/AddTask/tagsAtom'
+import modalConfigAtom from '../../../../../../../recoil-atoms/modalConfigAtom'
+import { projectsAtom, allRoutesAtom, allCalendarEventsAtom, completedOpenAtom, tagsAtom } from '../../../../../../../allAtoms'
 
 const isMobile = window.innerWidth < 1450
 

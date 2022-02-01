@@ -3,7 +3,7 @@ import styles from './_checkBtn.module.sass'
 import confetti from 'canvas-confetti'
 import { Check } from 'react-feather'
 import { useRecoilState } from 'recoil'
-import projectsAtom from '../../../../../../../recoil-atoms/projectsAtom'
+import { projectsAtom } from '../../../../../../../../../allAtoms'
 
 const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress}) => {
 

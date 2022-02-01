@@ -3,16 +3,14 @@ import journalStyles from '../../../../../Journals/_journal.module.sass'
 import { NavLink } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
 import styles from './_tasks.module.sass'
-import projectsAtom from '../../../../recoil-atoms/projectsAtom'
-import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 import { Folder } from 'react-feather'
 import MoreMenu from '../../../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
-import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 import { iconsSvg } from '../../../../../../variables/journalConfig'
 import company from '../../../../../../../../../company'
+import { allCalendarEventsAtom, allRoutesAtom, projectsAtom } from '../../../../../../allAtoms'
+import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 
 const Projects = () => {
     const [projects, setProjects] = useRecoilState(projectsAtom)

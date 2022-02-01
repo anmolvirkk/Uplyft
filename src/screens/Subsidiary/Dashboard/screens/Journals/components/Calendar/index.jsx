@@ -3,10 +3,8 @@ import styles from './_calendar.module.sass'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState} from 'recoil'
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import datesAtom from '../../recoil-atoms/datesAtom'
-import slotsAtom from '../../recoil-atoms/slotsAtom'
 import company from '../../../../../../../company'
+import { allRoutesAtom, datesAtom, slotsAtom } from '../../../../allAtoms'
 
 const Calendar = ({isMobile}) => {
 

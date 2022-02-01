@@ -5,13 +5,11 @@ import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, Flag, Navigation } from 'react-feather'
 
-import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom'
-import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
-import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 import InputBox from '../../../../../Auth/components/InputBox'
+import { allRoutesAtom, allCalendarEventsAtom, projectsAtom } from '../../../../allAtoms'
 
 const AddProject = ({icons, type, currentProject}) => {
 

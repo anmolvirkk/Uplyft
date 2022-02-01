@@ -7,10 +7,10 @@ import Tasks from './components/Tasks'
 import Events from './components/Events'
 import HabitDetails from './components/Habits/HabitDetails'
 import { useRecoilState } from 'recoil'
-import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 import TaskDetails from './components/Tasks/TaskDetails'
 import EventDetails from './components/Events/EventDetails'
 import company from '../../../../../../../company'
+import { allRoutesAtom } from '../../../../allAtoms'
 
 
 const isMobile = window.innerWidth < 1450

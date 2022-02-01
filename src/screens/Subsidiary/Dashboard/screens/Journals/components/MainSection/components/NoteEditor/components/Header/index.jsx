@@ -6,8 +6,8 @@ import { colors } from '../../../../../../../../variables/journalConfig'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState } from 'recoil'
-import darkModeAtom from '../../../../../../../../components/SideBar/components/DarkMode/darkModeAtom'
-import isMobileAtom from '../../../../../../recoil-atoms/isMobileAtom'
+import isMobileAtom from '../../../../../../../../recoil-atoms/isMobileAtom'
+import {darkModeAtom} from '../../../../../../../../allAtoms'
 
 let textcolors = ['#000000', ...colors]
 

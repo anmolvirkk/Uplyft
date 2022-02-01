@@ -3,7 +3,7 @@ import styles from '../../_sidebar.module.sass'
 import { Moon, Sun } from 'react-feather'
 
 import {useRecoilState} from 'recoil'
-import darkModeAtom from './darkModeAtom'
+import {darkModeAtom} from '../../../../allAtoms'
 
 const DarkMode = () => {
 

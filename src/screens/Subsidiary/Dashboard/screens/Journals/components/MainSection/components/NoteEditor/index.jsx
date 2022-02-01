@@ -4,9 +4,8 @@ import Header from './components/Header'
 import Prompts from './components/Prompts'
 
 import {useRecoilState} from 'recoil'
-import allRoutesAtom from '../../../../recoil-atoms/allRoutesAtom'
-import allPromptsAtom from '../../../../recoil-atoms/allPromptsAtom'
 import { windowHeight } from '../../../../../../variables/mobileHeights'
+import { allRoutesAtom, allPromptsAtom } from '../../../../../../allAtoms'
 
 const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 

@@ -8,12 +8,12 @@ import { Redirect } from 'react-router'
 import Calendar from './components/Calendar'
 
 import {useRecoilState} from 'recoil'
-import allRoutesAtom from './recoil-atoms/allRoutesAtom'
 
 import setDate from '../../functions/setDate'
-import datesAtom from './recoil-atoms/datesAtom'
 import company from '../../../../../company'
 import MobileHeader from './components/MobileHeader'
+
+import { datesAtom, allRoutesAtom } from '../../allAtoms'
 
 const Journals = () => {
 

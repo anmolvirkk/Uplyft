@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import styles from './_inputBox.module.sass'
 import { windowHeight } from '../../../Dashboard/variables/mobileHeights'
 import { useRecoilState } from 'recoil'
-import isMobileAtom from '../../../Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
+import isMobileAtom from '../../../Dashboard/recoil-atoms/isMobileAtom'
 
 const scrollToView = (e, wrapper, isMobile) => {
     let elem = document.getElementById(wrapper)

@@ -5,19 +5,16 @@ import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, Plus, AlignLeft, Flag, Navigation, Folder, CornerDownRight, ArrowRight, ChevronDown, ChevronUp } from 'react-feather'
 
-import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 import { colors } from '../../../../variables/journalConfig'
 
-import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-
 import TaskDeadline from './components/TaskDeadline'
 import './datePicker.sass'
-import projectsAtom from '../../../../screens/Schedule/recoil-atoms/projectsAtom'
-import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
-import tagsAtom from './tagsAtom'
+
+import { tagsAtom, allRoutesAtom, projectsAtom, allCalendarEventsAtom } from '../../../../allAtoms'
 
 import InputBox from '../../../../../Auth/components/InputBox'
 

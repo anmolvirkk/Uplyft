@@ -5,16 +5,13 @@ import {ArrowDown, ChevronDown, ChevronUp} from 'react-feather'
 import { NavLink, Redirect } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
-import eventsAtom from '../../../../recoil-atoms/eventsAtom'
 import styles from './_events.module.sass'
-import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
-import eventTagsAtom from '../../../../../../components/Modal/components/AddEvent/eventTagsAtom'
 import modalStyles from '../../../../../../components/Modal/_modal.module.sass'
 import company from '../../../../../../../../../company'
 import schdetailStyles from '../_scheduleSection.module.sass'
-import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
+import { allCalendarEventsAtom, eventTagsAtom, allRoutesAtom, eventsAtom } from '../../../../../../allAtoms'
+import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 
 const addToolTipForEvents = (e) => {
     if(e.target.getElementsByTagName('p')[0]){

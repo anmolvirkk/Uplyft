@@ -4,10 +4,10 @@ import {ChevronDown, ChevronRight, ChevronUp, Plus} from 'react-feather'
 import MoreMenu from '../../../../../../../../components/MoreMenu'
 
 import openModal from '../../../../../../../../functions/openModal'
-import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 import {useSetRecoilState} from 'recoil' 
 
 import OutsideClickHandler from 'react-outside-click-handler-lite'
+import modalConfigAtom from '../../../../../../../../recoil-atoms/modalConfigAtom'
 
 const Prompts = ({prompts, prompt, updatePrompt, category, deletePrompt, isMobile}) => {
 

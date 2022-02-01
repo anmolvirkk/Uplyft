@@ -1,14 +1,14 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
 import Modal from './components/Modal'
-import modalConfigAtom from './screens/Journals/recoil-atoms/modalConfigAtom'
 import { useRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
-import darkModeAtom from './components/SideBar/components/DarkMode/darkModeAtom'
+import { darkModeAtom } from './allAtoms'
+import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 
 const Dashboard = () => {
 

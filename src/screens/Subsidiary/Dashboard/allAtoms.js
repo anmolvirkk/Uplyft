@@ -3,7 +3,70 @@ import {recoilPersist} from 'recoil-persist'
 
 const {persistAtom} = recoilPersist()
 
-const allPromptsAtom = atom({
+export const eventTagsAtom = atom({
+    key: 'eventTags',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const tagsAtom = atom({
+    key: 'tags',
+    default: {
+        priority: [
+            {
+                label: 'Low',
+                value: 0
+            },
+            {
+                label: 'Medium',
+                value: 50
+            },
+            {
+                label: 'High',
+                value: 100
+            }
+        ],
+        timeRequired: [
+            {
+                label: 'Low',
+                value: 0
+            },
+            {
+                label: 'Medium',
+                value: 50
+            },
+            {
+                label: 'High',
+                value: 100
+            }
+        ],
+        effortRequired: [
+            {
+                label: 'Low',
+                value: 0
+            },
+            {
+                label: 'Medium',
+                value: 50
+            },
+            {
+                label: 'High',
+                value: 100
+            }
+        ],
+        tags: [],
+        skillsRequired: []
+    },
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const darkModeAtom = atom({
+    key: 'darkMode',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const allPromptsAtom = atom({
     key: 'allPrompts',
     default: {
         braindump: [
@@ -583,4 +646,142 @@ const allPromptsAtom = atom({
     effects_UNSTABLE: [persistAtom]
 })
 
-export default allPromptsAtom
+export const allRoutesAtom = atom({
+    key: 'allRoutes',
+    default: {},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const booksAtom = atom({
+    key: 'books',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const currentMobileSectionAtom = atom({
+    key: 'currentMobileSection',
+    default: 0,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const datesAtom = atom({
+    key: 'dates',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const newDateAtom = atom({
+    key: 'newDate',
+    default: {},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const notesAtom = atom({
+    key: 'notes',
+    default: {},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const notesDropDownAtom = atom({
+    key: 'notesDropDown',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const openBookAtom = atom({
+    key: 'openBook',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const openSlotAtom = atom({
+    key: 'openSlot',
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const slotsAtom = atom({
+    key: 'slots',
+    default: {},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const allCalendarEventsAtom = atom({
+    key: 'allCalendarEvents',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const completedOpenAtom = atom({
+    key: 'completedOpen',
+    default: true,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const dropDownDayAtom = atom({
+    key: 'dropDownDay',
+    default: {day: 'All', open: false},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const eventsAtom = atom({
+    key: 'events',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const habitsAtom = atom({
+    key: 'habits',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const projectsAtom = atom({
+    key: 'projects',
+    default: [
+        {
+            id: 'today',
+            color: 0,
+            icon: null,
+            name: 'today',
+            tasks: []
+        },
+        {
+            id: 'all',
+            color: 1,
+            icon: null,
+            name: 'all',
+            tasks: []
+        }
+    ],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const routinesAtom = atom({
+    key: 'routines',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const scheduleAddDropDownAtom = atom({
+    key: 'scheduleAddDropDown',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const scheduleHeaderAtom = atom({
+    key: 'scheduleHeader',
+    default: {title: 'Schedule', onAdd: null},
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const scheduleSideMenuAtom = atom({
+    key: 'scheduleSideMenuAtom',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
+
+export const tasksAtom = atom({
+    key: 'tasks',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
+})

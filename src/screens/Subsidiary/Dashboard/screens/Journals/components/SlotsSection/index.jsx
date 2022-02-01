@@ -5,14 +5,12 @@ import AddButton from '../AddButton'
 import {ArrowDown} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import slotsAtom from '../../recoil-atoms/slotsAtom'
-import booksAtom from '../../recoil-atoms/booksAtom'
 
 import openModal from '../../../../functions/openModal'
-import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
-import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
+
+import { allRoutesAtom, slotsAtom, booksAtom, currentMobileSectionAtom } from '../../../../allAtoms'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 const SlotsSection = ({styles, isMobile}) => {
 

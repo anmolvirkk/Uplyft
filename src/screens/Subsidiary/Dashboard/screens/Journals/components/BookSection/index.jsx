@@ -6,15 +6,14 @@ import MoreMenu from '../../../../components/MoreMenu'
 import {ArrowDown} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil' 
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import booksAtom from '../../recoil-atoms/booksAtom'
 
 import openModal from '../../../../functions/openModal'
-import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import company from '../../../../../../../company'
-import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
 
 import { iconsSvg } from '../../../../variables/journalConfig'
+
+import { currentMobileSectionAtom, allRoutesAtom, booksAtom } from '../../../../allAtoms'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 const BookSection = ({ styles, isMobile }) => {
 

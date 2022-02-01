@@ -3,15 +3,11 @@ import styles from './_modal.module.sass'
 import {X} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
-import slotsAtom from '../../screens/Journals/recoil-atoms/slotsAtom'
-import allPromptsAtom from '../../screens/Journals/recoil-atoms/allPromptsAtom'
-import booksAtom from '../../screens/Journals/recoil-atoms/booksAtom'
 
 import { colors } from '../../variables/journalConfig'
 
-import modalConfigAtom from '../../screens/Journals/recoil-atoms/modalConfigAtom'
-import openBookAtom from '../../screens/Journals/recoil-atoms/openBookAtom'
+import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
+import { openBookAtom, booksAtom, allPromptsAtom, slotsAtom, allRoutesAtom } from '../../allAtoms'
 
 import AddHabit from './components/AddHabit'
 import AddTask from './components/AddTask'

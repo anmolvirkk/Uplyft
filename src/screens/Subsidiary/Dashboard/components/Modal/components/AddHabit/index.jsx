@@ -3,16 +3,14 @@ import styles from '../../_modal.module.sass'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { X, Plus, Minus, ArrowLeft, ArrowRight } from 'react-feather'
 
-import habitsAtom from '../../../../screens/Schedule/recoil-atoms/habitsAtom'
-import modalConfigAtom from '../../../../screens/Journals/recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 import { colors, iconsSvg } from '../../../../variables/journalConfig'
 import { habitCards } from '../../../../variables/habitCards'
 
-import allCalendarEventsAtom from '../../../../screens/Schedule/recoil-atoms/allCalendarEventsAtom'
-import allRoutesAtom from '../../../../screens/Journals/recoil-atoms/allRoutesAtom'
-
 import InputBox from '../../../../../Auth/components/InputBox'
+
+import { allRoutesAtom, allCalendarEventsAtom, habitsAtom } from '../../../../allAtoms'
 
 const addToolTipForHabitCards = (e) => {
     if(e.target.classList.contains(styles.habitCard)){

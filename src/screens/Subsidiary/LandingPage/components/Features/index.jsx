@@ -3,7 +3,7 @@ import { Book, Edit, Grid, Navigation, Sliders, Moon, CornerDownRight, Calendar,
 import styles from './_features.module.sass'
 import company from '../../../../../company'
 import { useRecoilState } from 'recoil'
-import isMobileAtom from '../../../Dashboard/screens/Journals/recoil-atoms/isMobileAtom'
+import isMobileAtom from '../../../Dashboard/recoil-atoms/isMobileAtom'
 
 const features = {
     journals: [

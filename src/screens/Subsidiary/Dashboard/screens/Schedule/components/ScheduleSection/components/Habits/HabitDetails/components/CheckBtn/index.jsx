@@ -4,8 +4,8 @@ import confetti from 'canvas-confetti'
 
 import { Check } from 'react-feather'
 
-import habitsAtom from '../../../../../../../recoil-atoms/habitsAtom'
 import { useRecoilState } from 'recoil'
+import { habitsAtom } from '../../../../../../../../../allAtoms'
 
 const CheckBtn = ({times, id, timesCompleted, datesCompleted}) => {
 

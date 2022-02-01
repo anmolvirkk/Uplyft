@@ -4,14 +4,12 @@ import {Plus} from 'react-feather'
 import { Redirect } from 'react-router'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import slotsAtom from '../../recoil-atoms/slotsAtom'
 
-import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 import openModal from '../../../../functions/openModal'
-import openBookAtom from '../../recoil-atoms/openBookAtom'
 import company from '../../../../../../../company'
-import openSlotAtom from '../../recoil-atoms/openSlotAtom'
+
+import { openBookAtom, openSlotAtom, slotsAtom, allRoutesAtom } from '../../../../allAtoms'
 
 const AddButton = ({name}) => {
     

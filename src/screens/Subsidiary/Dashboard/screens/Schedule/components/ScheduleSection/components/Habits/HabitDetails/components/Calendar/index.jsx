@@ -2,8 +2,8 @@ import React from 'react'
 import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 import { useRecoilState } from 'recoil'
-import habitsAtom from '../../../../../../../recoil-atoms/habitsAtom'
 import './_main.sass'
+import { habitsAtom } from '../../../../../../../../../allAtoms'
 
 const Calendar = ({color, index}) => {
 

@@ -3,9 +3,8 @@ import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './_main.sass'
 import { useRecoilState } from 'recoil'
-import allCalendarEventsAtom from '../../recoil-atoms/allCalendarEventsAtom'
 import moment from 'moment'
-import habitsAtom from '../../recoil-atoms/habitsAtom'
+import { habitsAtom, allCalendarEventsAtom } from '../../../../allAtoms'
 
 const localizer = momentLocalizer(moment)
 

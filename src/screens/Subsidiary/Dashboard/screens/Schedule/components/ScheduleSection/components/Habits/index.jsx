@@ -4,23 +4,19 @@ import {ArrowDown, ChevronDown, ChevronUp, CheckSquare, Inbox} from 'react-feath
 import { NavLink, Redirect } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
-import modalConfigAtom from '../../../../../Journals/recoil-atoms/modalConfigAtom'
-
 import {useRecoilState, useSetRecoilState} from 'recoil' 
-import habitsAtom from '../../../../recoil-atoms/habitsAtom'
 
 import styles from './_habits.module.sass'
 
 import {colors, iconsSvg} from '../../../../../../variables/journalConfig'
 
-import allRoutesAtom from '../../../../../Journals/recoil-atoms/allRoutesAtom'
-
 import CheckBtn from './HabitDetails/components/CheckBtn'
-import allCalendarEventsAtom from '../../../../recoil-atoms/allCalendarEventsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 
-import completedOpenAtom from '../../../../recoil-atoms/completedOpenAtom'
 import company from '../../../../../../../../../company'
+
+import { completedOpenAtom, allCalendarEventsAtom, allRoutesAtom, habitsAtom } from '../../../../../../allAtoms'
+import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
 
 const addToolTipForHabits = (e) => {
     if(e.target.classList.contains(styles.sideSectionSlot)){

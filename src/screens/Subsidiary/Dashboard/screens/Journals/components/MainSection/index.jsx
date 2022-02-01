@@ -4,16 +4,13 @@ import { Switch, Route, Link } from 'react-router-dom'
 import {ArrowDown, Edit, Trash2} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import allRoutesAtom from '../../recoil-atoms/allRoutesAtom'
-import allPromptsAtom from '../../recoil-atoms/allPromptsAtom'
 import company from '../../../../../../../company'
 
 import { noteCategories } from '../../../../variables/noteCategories'
-import currentMobileSectionAtom from '../../recoil-atoms/currentMobileSectionAtom'
-import notesAtom from '../../recoil-atoms/notesAtom'
-import notesDropDownAtom from '../../recoil-atoms/notesDropDownAtom'
 
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
+
+import { notesAtom, notesDropDownAtom, currentMobileSectionAtom, allRoutesAtom, allPromptsAtom } from '../../../../allAtoms'
 
 const MainSection = ({styles, isMobile}) => {
     const mobileHeight = window.innerHeight - 80 - 60

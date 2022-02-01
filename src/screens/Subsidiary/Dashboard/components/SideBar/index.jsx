@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './_sidebar.module.sass'
 import {Power, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import allRoutesAtom from '../../screens/Journals/recoil-atoms/allRoutesAtom'
 import DarkMode from './components/DarkMode'
 import company from '../../../../../company'
-import currentMobileSectionAtom from '../../screens/Journals/recoil-atoms/currentMobileSectionAtom'
-import setScheduleHeaderAtom from '../../screens/Schedule/recoil-atoms/scheduleHeaderAtom'
-import setScheduleSideMenuAtom from '../../screens/Schedule/recoil-atoms/scheduleSideMenuAtom'
-import isMobileAtom from '../../screens/Journals/recoil-atoms/isMobileAtom'
+import isMobileAtom from '../../recoil-atoms/isMobileAtom'
+import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
 
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
@@ -29,8 +26,8 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
 const SideBar = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
-    const setScheduleHeader = useSetRecoilState(setScheduleHeaderAtom)
-    const setScheduleSideMenu = useSetRecoilState(setScheduleSideMenuAtom)
+    const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
+    const setScheduleSideMenu = useSetRecoilState(scheduleSideMenuAtom)
     const [isMobile] = useRecoilState(isMobileAtom)
 
     const sidebarButtons = [

@@ -2,14 +2,10 @@ import React, { useState } from 'react'
 import styles from './_mobileHeader.module.sass'
 import {Plus, Menu} from 'react-feather'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import allRoutesAtom from '../../../Journals/recoil-atoms/allRoutesAtom'
 import MoreMenu from '../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
-import darkModeAtom from '../../../../components/SideBar/components/DarkMode/darkModeAtom'
-import scheduleAddDropDownAtom from '../../recoil-atoms/scheduleAddDropDownAtom'
-import scheduleSideMenuAtom from '../../recoil-atoms/scheduleSideMenuAtom'
-import scheduleHeaderAtom from '../../recoil-atoms/scheduleHeaderAtom'
+import { allRoutesAtom, darkModeAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, scheduleHeaderAtom } from '../../../../allAtoms'
 
 const MobileHeader = () => {
     const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
