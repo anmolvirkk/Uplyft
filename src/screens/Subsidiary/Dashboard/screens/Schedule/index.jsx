@@ -181,7 +181,7 @@ const Schedule = ({updateBackendless}) => {
             <SideBar updateBackendless={updateBackendless} />
             <ScheduleSection />
             <MainCalendar isMobile={isMobile} />
-            <MobileHeader />
+            <MobileHeader updateBackendless={updateBackendless} />
             <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`, top: document.getElementById('scheduleAddDropDownContainer')?`${window.innerHeight-80-document.getElementById('scheduleAddDropDownContainer').clientHeight}px`:'100vh'}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeAddMenu(e)}>
                     <button onMouseDown={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>

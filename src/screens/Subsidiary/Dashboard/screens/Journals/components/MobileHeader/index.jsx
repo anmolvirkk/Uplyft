@@ -8,8 +8,9 @@ import Backendless from 'backendless'
 import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom, currentMobileSectionAtom } from '../../../../allAtoms'
 import MoreMenu from '../../../../components/MoreMenu'
+import { useHistory } from 'react-router-dom'
 
-const MobileHeader = () => {
+const MobileHeader = ({updateBackendless}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
 
@@ -140,18 +141,18 @@ const MobileHeader = () => {
         }
     ]
     
-    const [loggedOut, setLoggedOut] = useState(false)
+    const history = useHistory()
+
     const logout = () => {
+        updateBackendless()
         Backendless.UserService.logout().then(()=>{
-            setLoggedOut(true)
-            localStorage.clear()
+            history.push(`/${company.subsidiary}`)
         })
     }
 
     return (
         <div className={styles.header}>
             {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`} />:null}
-            {loggedOut?<Redirect to={`/${company.subsidiary}`} />:null}
             <div className={styles.options}>
                 {currentMobileSection===0?null:<ArrowLeft onMouseDown={sections[currentMobileSection].onBack} />}
                 <p>{sections[currentMobileSection].title}</p>

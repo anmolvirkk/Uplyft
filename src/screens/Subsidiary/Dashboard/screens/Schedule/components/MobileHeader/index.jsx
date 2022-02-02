@@ -6,8 +6,10 @@ import MoreMenu from '../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import { allRoutesAtom, darkModeAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, scheduleHeaderAtom } from '../../../../allAtoms'
+import { useHistory } from 'react-router-dom'
+import Backendless from 'backendless'
 
-const MobileHeader = () => {
+const MobileHeader = ({updateBackendless}) => {
     const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -19,6 +21,15 @@ const MobileHeader = () => {
     const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
 
     const [scheduleHeader] = useRecoilState(scheduleHeaderAtom)
+    
+    const history = useHistory()
+
+    const logout = () => {
+        updateBackendless()
+        Backendless.UserService.logout().then(()=>{
+            history.push(`/${company.subsidiary}`)
+        })
+    }
 
     return (
         <div className={styles.header}>
@@ -30,7 +41,7 @@ const MobileHeader = () => {
             <div className={styles.options}>
                 <Plus onMouseDown={scheduleHeader.onAdd!==null?()=>scheduleHeader.onAdd():()=>setScheduleAddDropDown(true)} id='mobileHeaderAddBtn' />
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: null}]} pos={{right: '0', top: '6vh'}} />
+                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: logout}]} pos={{right: '0', top: '6vh'}} />
                 </div>
             </div>
         </div>

@@ -40,7 +40,7 @@ const Journals = ({updateBackendless}) => {
             
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar isMobile={isMobile} />:null}
 
-            <MobileHeader />
+            <MobileHeader updateBackendless={updateBackendless} />
 
         </div>
     )
