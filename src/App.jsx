@@ -127,22 +127,31 @@ const App = () => {
     }, [])
 
     const updateAtoms = useCallback(() => {
-        console.log('updateAtoms')
         if(auth.social){
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
             xhr.onload = (loggedInUser) => {
-                if(JSON.parse(loggedInUser.currentTarget.response).data){
+                console.log(window.location.pathname.split('/'))
+                if(!window.location.pathname.split('/').includes('dashboard')){
+                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
+            }
+        }else if(auth.social === undefined){
+            if(window.location.pathname.split('/').length > 2){
+                window.location.replace(`/${company.subsidiary}`)
             }
         }else{
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
             xhr.onload = (loggedInUser) => {
-                if(JSON.parse(loggedInUser.currentTarget.response).data){
+                console.log(window.location.pathname.split('/'))
+                if(!window.location.pathname.split('/').includes('dashboard')){
+                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
             }
@@ -150,7 +159,6 @@ const App = () => {
     }, [auth, batchUpdate])
 
     const updateBackendless = useCallback(() => {
-        console.log('updateBackendless')
         const recoilData = {
             darkMode: darkMode,
             allPrompts: allPrompts,

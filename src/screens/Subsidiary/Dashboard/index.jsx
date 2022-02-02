@@ -31,7 +31,6 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
 
     useEffect(()=>{
         updateAtoms()
-        console.log('update dash')
     }, [updateAtoms])
 
     return (
