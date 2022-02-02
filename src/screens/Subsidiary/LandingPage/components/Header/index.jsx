@@ -17,8 +17,7 @@ const Header = () => {
                 </div>
             </div>
             <div className={styles.cta}>
-                <Link className={styles.login} to={`/${company.subsidiary}/login`}>Login</Link>
-                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/signup`}>Sign Up</Link>
+                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/signup`}>Get Started</Link>
             </div>
         </div>
     )

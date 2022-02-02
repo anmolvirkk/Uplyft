@@ -26,6 +26,7 @@ const Auth = ({type}) => {
             password: document.getElementById('authPassword').value,
             confirm: document.getElementById('authConfirmPassword')?document.getElementById('authConfirmPassword').value:''
         }
+        console.log(form)
         if(type==='signup'){
             if(form.password === form.confirm){
                 if(error.password){
@@ -41,8 +42,22 @@ const Auth = ({type}) => {
             xhr.send(JSON.stringify({login: form.email, password: form.password}))
             localStorage.clear()
             xhr.onload = (e) => {
-                setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                console.log(JSON.parse(e.currentTarget.response).code)
+                if(JSON.parse(e.currentTarget.response).code === undefined){
+                    setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                    history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                }else{
+                    switch (JSON.parse(e.currentTarget.response).code) {
+                        case 3006:
+                            setError({password: form.password===''?'Password cannot be empty':error.password, email: form.email===''?'Email cannot be empty':error.email})
+                        break
+                        case 3003:
+                            setError({password: 'Invalid email or password', email: 'Invalid email or password'})
+                        break
+                        default: setError({password: 'error', email: 'error'})
+                        break
+                    }
+                }
             }
         }
     }

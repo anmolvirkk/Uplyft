@@ -6,8 +6,8 @@ import styles from './_cta.module.sass'
 const CTA = () => {
     return (
         <div>
-            <Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Sign Up</Link>
-            <div className={styles.sub}>free forever. no credit card.</div>
+            <Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Get Started</Link>
+            <div className={styles.sub}>No Login. Free Forever.</div>
         </div>
     )
 }
