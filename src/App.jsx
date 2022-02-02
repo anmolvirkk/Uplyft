@@ -1,26 +1,25 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
 import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
-import { useRecoilCallback, useRecoilState } from 'recoil'
+import { useRecoilCallback, useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSectionAtom, datesAtom, 
  newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
 completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
 scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom } from './screens/Subsidiary/Dashboard/allAtoms'
-import {EventEmitter} from 'events'
 
 import Backendless from 'backendless'
-import authAtom from './screens/Subsidiary/Auth/authAtom'
 import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAtom'
 import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalConfigAtom'
+import authAtom from './screens/Subsidiary/Auth/authAtom'
 
 const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
-    const [isMobile, setIsMobile] = useRecoilState(isMobileAtom)
+    const setIsMobile = useSetRecoilState(isMobileAtom)
 
     window.onresize = (e) => {
         if(window.innerWidth < 1450){
@@ -28,7 +27,7 @@ const App = () => {
         }else{
             setIsMobile(false)
         }
-        if(isMobile){
+        if(window.innerWidth < 1450){
             if(document.getElementById('modalContainer')){
                 document.getElementById('modalContainer').style.height = window.innerHeight+'px'
             }
@@ -96,169 +95,133 @@ const App = () => {
 
     const saved = useRef(false)
     const [auth] = useRecoilState(authAtom)
-    const [loggedUser, setLoggedUser] = useState({})
+    
+    const batchUpdate = useRecoilCallback(({set})=>(data)=>{
+        if(data){
+            set(darkModeAtom, data.darkMode)
+            set(allPromptsAtom, data.allPrompts)
+            set(allRoutesAtom, data.allRoutes)
+            set(booksAtom, data.books)
+            set(currentMobileSectionAtom, data.currentMobileSection)
+            set(datesAtom, data.dates)
+            set(newDateAtom, data.newDate)
+            set(notesAtom, data.notes)
+            set(notesDropDownAtom, data.notesDropDown)
+            set(openBookAtom, data.openBook)
+            set(openSlotAtom, data.openSlot)
+            set(slotsAtom, data.slots)
+            set(allCalendarEventsAtom, data.allCalendarEvents)
+            set(completedOpenAtom, data.completedOpen)
+            set(dropDownDayAtom, data.dropDownDay)
+            set(eventsAtom, data.events)
+            set(habitsAtom, data.habits)
+            set(projectsAtom, data.projects)
+            set(routinesAtom, data.routines)
+            set(scheduleAddDropDownAtom, data.scheduleAddDropDown)
+            set(scheduleHeaderAtom, data.scheduleHeader)
+            set(scheduleSideMenuAtom, data.scheduleSideMenu)
+            set(tasksAtom, data.tasks)
+            set(eventTagsAtom, data.eventTags)
+            set(tagsAtom, data.tags)
+        }
+    }, [])
+
+    const updateAtoms = useCallback(() => {
+        console.log('updateAtoms')
+        if(auth.social){
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+            xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+            xhr.onload = (loggedInUser) => {
+                if(JSON.parse(loggedInUser.currentTarget.response).data){
+                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
+                }
+            }
+        }else{
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
+            xhr.onload = (loggedInUser) => {
+                if(JSON.parse(loggedInUser.currentTarget.response).data){
+                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
+                }
+            }
+        }
+    }, [auth, batchUpdate])
+
+    const updateBackendless = useCallback(() => {
+        console.log('updateBackendless')
+        const recoilData = {
+            darkMode: darkMode,
+            allPrompts: allPrompts,
+            allRoutes: allRoutes,
+            books: books,
+            currentMobileSection: currentMobileSection,
+            dates: dates,
+            modalConfig: modalConfig,
+            newDate: newDate,
+            notes: notes,
+            notesDropDown: notesDropDown,
+            openBook: openBook,
+            openSlot: openSlot,
+            slots: slots,
+            allCalendarEvents: allCalendarEvents,
+            completedOpen: completedOpen,
+            dropDownDay: dropDownDay,
+            events: events,
+            habits: habits,
+            projects: projects,
+            routines: routines,
+            scheduleAddDropDown: scheduleAddDropDown,
+            scheduleHeader: scheduleHeader,
+            scheduleSideMenu: scheduleSideMenu,
+            tasks: tasks,
+            eventTags: eventTags,
+            tags: tags
+        }
+
+        if(auth.social){
+            let xr = new XMLHttpRequest()
+            xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+            xr.send(JSON.stringify({accessToken: auth.accessToken}))
+            xr.onload = (loggedInUser) => {
+                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                Backendless.UserService.update(user)
+            }
+        }else{
+            let xr = new XMLHttpRequest()
+            xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+            xr.onload = (loggedInUser) => {
+                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                Backendless.UserService.update(user)
+            }
+        }
+
+        saved.current = false
+    }, [allCalendarEvents, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if (document.visibilityState === 'hidden' && !saved.current) {
             saved.current = true
-            const recoilData = {
-                darkMode: darkMode,
-                allPrompts: allPrompts,
-                allRoutes: allRoutes,
-                books: books,
-                currentMobileSection: currentMobileSection,
-                dates: dates,
-                modalConfig: modalConfig,
-                newDate: newDate,
-                notes: notes,
-                notesDropDown: notesDropDown,
-                openBook: openBook,
-                openSlot: openSlot,
-                slots: slots,
-                allCalendarEvents: allCalendarEvents,
-                completedOpen: completedOpen,
-                dropDownDay: dropDownDay,
-                events: events,
-                habits: habits,
-                projects: projects,
-                routines: routines,
-                scheduleAddDropDown: scheduleAddDropDown,
-                scheduleHeader: scheduleHeader,
-                scheduleSideMenu: scheduleSideMenu,
-                tasks: tasks,
-                eventTags: eventTags,
-                tags: tags
-            }
-            let user = {...loggedUser, data: {...recoilData}}
-            let xhr = new XMLHttpRequest()
-            xhr.open('PUT', `https://deepway.backendless.app/api/users/${loggedUser.objectId}`, true)
-            xhr.send(JSON.stringify(user))
+            updateBackendless()
         }
     }
     
     window.onbeforeunload = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
-        }
-        let user = {...loggedUser, data: {...recoilData}}
-        let xhr = new XMLHttpRequest()
-        xhr.open('PUT', `https://deepway.backendless.app/api/users/${loggedUser.objectId}`, true)
-        xhr.send(JSON.stringify(user))
+        updateBackendless()
         return false
     }
 
     window.onpagehide = () => {
-        const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
-        }
-        let user = {...loggedUser, data: {...recoilData}}
-        let xhr = new XMLHttpRequest()
-        xhr.open('PUT', `https://deepway.backendless.app/api/users/${loggedUser.objectId}`, true)
-        xhr.send(JSON.stringify(user))
+        updateBackendless()
     }
-
-    
-    const batchUpdate = useRecoilCallback(({set})=>(data)=>{
-        set(darkModeAtom, data.darkMode)
-        set(allPromptsAtom, data.allPrompts)
-        set(allRoutesAtom, data.allRoutes)
-        set(booksAtom, data.books)
-        set(currentMobileSectionAtom, data.currentMobileSection)
-        set(datesAtom, data.dates)
-        set(newDateAtom, data.newDate)
-        set(notesAtom, data.notes)
-        set(notesDropDownAtom, data.notesDropDown)
-        set(openBookAtom, data.openBook)
-        set(openSlotAtom, data.openSlot)
-        set(slotsAtom, data.slots)
-        set(allCalendarEventsAtom, data.allCalendarEvents)
-        set(completedOpenAtom, data.completedOpen)
-        set(dropDownDayAtom, data.dropDownDay)
-        set(eventsAtom, data.events)
-        set(habitsAtom, data.habits)
-        set(projectsAtom, data.projects)
-        set(routinesAtom, data.routines)
-        set(scheduleAddDropDownAtom, data.scheduleAddDropDown)
-        set(scheduleHeaderAtom, data.scheduleHeader)
-        set(scheduleSideMenuAtom, data.scheduleSideMenu)
-        set(tasksAtom, data.tasks)
-        set(eventTagsAtom, data.eventTags)
-        set(tagsAtom, data.tags)
-    }, [])
-
-    const eventEmitter = new EventEmitter()
-
-    eventEmitter.on('updateAtoms', () => {
-        Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
-            if(loggedInUser){
-                setLoggedUser(loggedInUser)
-                batchUpdate(loggedInUser.data)
-            }
-        })
-    })
 
     window.onload = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
-        if(auth.email !== ''){
-            Backendless.UserService.login(auth.email, auth.password, true).then((loggedInUser)=>{
-                if(loggedInUser){
-                    setLoggedUser(loggedInUser)
-                    eventEmitter.emit('updateAtoms')
-                }
-            })
-        }
+        updateAtoms()
     }
 
     return (
@@ -268,7 +231,7 @@ const App = () => {
                 <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>
                 <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
                 <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
-                <Route path={`/${company.subsidiary}/dashboard`}><Dashboard /></Route>
+                <Route path={`/${company.subsidiary}/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
             </Switch>
         </Router>
     )

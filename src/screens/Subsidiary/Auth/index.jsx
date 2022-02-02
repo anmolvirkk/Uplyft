@@ -1,73 +1,65 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import company from '../../../company'
 import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
-import Backendless from 'backendless'
+import { useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import authAtom from './authAtom'
 
 const Auth = ({type}) => {
 
-    const inputText = useRef({
-        email: '',
-        password: '',
-        confirmpassword: ''
-    })
+    const history = useHistory()
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
     }, [])
 
-    useEffect(()=>{
-        if(document.getElementById('authEmail')){
-            inputText.current.email = document.getElementById('authEmail').innerText
-        }
-        if(document.getElementById('authPassword')){
-            inputText.current.password = document.getElementById('authPassword').innerText
-        }
-        if(document.getElementById('authConfirmPassword')){
-            inputText.current.confirmpassword = document.getElementById('authConfirmPassword').innerText
-        }
-    }, [inputText])
-
     const [error, setError] = useState({email: false, password: false})
     const setAuth = useSetRecoilState(authAtom)
 
     const onsubmit = () => {
-        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-        Backendless.initApp(APP_ID, API_KEY)
+        let form = {
+            email: document.getElementById('authEmail').value,
+            password: document.getElementById('authPassword').value,
+            confirm: document.getElementById('authConfirmPassword')?document.getElementById('authConfirmPassword').value:''
+        }
         if(type==='signup'){
-            if(inputText.current.password === inputText.current.confirmpassword){
+            if(form.password === form.confirm){
                 if(error.password){
                     setError({...error, password: false})
                 }
-                let user = new Backendless.User()
-                user.email = inputText.current.email
-                user.password = inputText.current.password
-                Backendless.UserService.register( user ).then(()=>{
-                    setAuth({email: inputText.current.email, password: inputText.current.password})
-                    setRedirect(true)
-                }).catch((err)=>setError({...error, email: err.message}))
+                console.log('signup')
             }else{
                 setError({...error, password: 'Password Mismatch'})
             }
         }else{
-            Backendless.UserService.login(inputText.current.email, inputText.current.password, true).then(()=>{
-                setAuth({email: inputText.current.email, password: inputText.current.password})
-                setRedirect(true)
-            }).catch((err)=>setError({...error, password: err.message}))
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xhr.send(JSON.stringify({login: form.email, password: form.password}))
+            localStorage.clear()
+            xhr.onload = (e) => {
+                setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            }
         }
     }
 
-    const [redirect, setRedirect] = useState(false)
+    const onsocial = (social) => {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+        xhr.send(JSON.stringify({accessToken: social.accessToken}))
+        localStorage.clear()
+        xhr.onload = (e) => {
+            setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+        }
+    }
 
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
-            {redirect?<Redirect to={`/${company.subsidiary}/dashboard/${company.journals}`} />:null}
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
                     <div className={styles.title}>
@@ -77,8 +69,9 @@ const Auth = ({type}) => {
                     </div>
                     <div className={styles.social}>
                     <GoogleLogin
-                        clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                        clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
                         buttonText="Continue with Google"
+                        onSuccess={(e)=>onsocial(e)}
                     />
                     </div>
                     <div className={styles.divide}>
@@ -87,9 +80,9 @@ const Auth = ({type}) => {
                         <hr />
                     </div>
                     <div className={styles.input} id='authForm'>
-                        <InputBox error={error.email} id='authEmail' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.email=e.target.value} onChange={(e)=>inputText.current.email=e.target.value} marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
-                        <InputBox id='authPassword' onBlur={(e)=>inputText.current.email=e.target.value} onLoad={(e)=>inputText.current.password=e.target.value} error={error.password} onChange={(e)=>inputText.current.password=e.target.value} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
-                        {type==='signup'?<InputBox error={error.password} id='authConfirmPassword' onChange={(e)=>inputText.current.confirmpassword=e.target.value} marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
+                        <InputBox error={error.email} id='authEmail' marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
+                        <InputBox id='authPassword' error={error.password} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
+                        {type==='signup'?<InputBox error={error.password} id='authConfirmPassword' marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
                         <button onMouseDown={onsubmit}>Continue</button>
                     </div>
                     {type==='signup'?

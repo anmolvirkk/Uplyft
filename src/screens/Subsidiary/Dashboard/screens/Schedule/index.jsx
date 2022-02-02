@@ -15,7 +15,7 @@ import CheckBtn from './components/ScheduleSection/components/Habits/HabitDetail
 import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, habitsAtom, allCalendarEventsAtom, projectsAtom, eventsAtom, scheduleHeaderAtom } from '../../allAtoms'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 
-const Schedule = () => {
+const Schedule = ({updateBackendless}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const isMobile = (window.innerWidth < 1450)
     const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
@@ -178,7 +178,7 @@ const Schedule = () => {
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
-            <SideBar />
+            <SideBar updateBackendless={updateBackendless} />
             <ScheduleSection />
             <MainCalendar isMobile={isMobile} />
             <MobileHeader />

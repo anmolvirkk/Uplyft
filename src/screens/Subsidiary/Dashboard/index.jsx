@@ -10,7 +10,7 @@ import company from '../../../company'
 import { darkModeAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 
-const Dashboard = () => {
+const Dashboard = ({updateAtoms, updateBackendless}) => {
 
     const [modalConfig] = useRecoilState(modalConfigAtom)
 
@@ -29,17 +29,22 @@ const Dashboard = () => {
         }
     }, [darkMode])
 
+    useEffect(()=>{
+        updateAtoms()
+        console.log('update dash')
+    }, [updateAtoms])
+
     return (
         <div className="container">
             {modalConfig.type!=='' ? 
             <Modal />
             : null}
             <Switch>
-                <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackendless={updateBackendless} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" updateBackendless={updateBackendless} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" updateBackendless={updateBackendless} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals updateBackendless={updateBackendless} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule updateBackendless={updateBackendless} /></Route>
             </Switch>
         </div>
 )

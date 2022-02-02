@@ -9,10 +9,9 @@ import company from '../../../../../company'
 import isMobileAtom from '../../recoil-atoms/isMobileAtom'
 import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
 
-import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
 
-import {EventEmitter} from 'events'
+import Backendless from 'backendless'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -25,7 +24,7 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
     )
 }
 
-const SideBar = () => {
+const SideBar = ({updateBackendless}) => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
@@ -101,17 +100,10 @@ const SideBar = () => {
 
     const history = useHistory()
 
-    const eventEmitter = new EventEmitter()
-
     const logout = () => {
+        updateBackendless()
         Backendless.UserService.logout().then(()=>{
-            eventEmitter.emit('updateAtoms')
-            setTimeout(()=>{
-                localStorage.clear()
-            }, 150)
-            setTimeout(()=>{
-                history.push(`/${company.subsidiary}`)
-            }, 300)
+            history.push(`/${company.subsidiary}`)
         })
     }
 
