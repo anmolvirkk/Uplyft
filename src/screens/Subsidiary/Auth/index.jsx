@@ -39,7 +39,6 @@ const Auth = ({type}) => {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: form.email, password: form.password}))
-            localStorage.clear()
             xhr.onload = (e) => {
                 if(JSON.parse(e.currentTarget.response).code === undefined){
                     setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
@@ -64,7 +63,7 @@ const Auth = ({type}) => {
         let xhr = new XMLHttpRequest()
         xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
-        localStorage.clear()
+        alert(social.accessToken)
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
