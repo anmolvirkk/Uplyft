@@ -15,6 +15,7 @@ import Backendless from 'backendless'
 import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAtom'
 import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalConfigAtom'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
+import Pricing from './screens/Subsidiary/Pricing'
 
 const App = () => {
 
@@ -133,6 +134,7 @@ const App = () => {
             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
+                    alert(auth.social)
                     window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
@@ -143,6 +145,7 @@ const App = () => {
                 window.location.replace(`/${company.subsidiary}`)
             }
         }else{
+            alert(auth.social)
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
@@ -236,9 +239,10 @@ const App = () => {
         <Router>
             <Switch>
                 <Route exact path="/"><Redirect to={`/${company.subsidiary}`} /></Route>
+                <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
+                <Route exact path={`/${company.subsidiary}/pricing`}><Pricing /></Route>
                 <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>
                 <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
-                <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
                 <Route path={`/${company.subsidiary}/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
             </Switch>
         </Router>

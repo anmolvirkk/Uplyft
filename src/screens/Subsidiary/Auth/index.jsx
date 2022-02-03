@@ -85,6 +85,8 @@ const Auth = ({type}) => {
                         clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
                         buttonText="Continue with Google"
                         onSuccess={(e)=>onsocial(e)}
+                        autoLoad={false}
+                        uxMode='popup'
                     />
                     <div id='googleSignIn'></div>
                     </div>
