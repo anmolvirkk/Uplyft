@@ -128,14 +128,12 @@ const App = () => {
     }, [])
 
     const updateAtoms = useCallback(() => {
-        alert('updateAtoms')
         if(auth.social){
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
-                    alert(auth.social)
                     window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
@@ -146,7 +144,6 @@ const App = () => {
                 window.location.replace(`/${company.subsidiary}`)
             }
         }else{
-            alert(auth.social)
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: auth.login, password: auth.password}))

@@ -63,11 +63,9 @@ const Auth = ({type}) => {
         let xhr = new XMLHttpRequest()
         xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
-        alert(social.accessToken)
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-            alert(`/${company.subsidiary}/dashboard/${company.journals}`)
         }
     }
 
