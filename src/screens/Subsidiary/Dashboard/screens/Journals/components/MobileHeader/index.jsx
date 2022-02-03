@@ -145,6 +145,7 @@ const MobileHeader = ({updateBackendless, updateAtoms}) => {
 
     const logout = () => {
         updateBackendless()
+        localStorage.clear()
         Backendless.UserService.logout().then(()=>{
             history.push(`/${company.subsidiary}`)
         })
