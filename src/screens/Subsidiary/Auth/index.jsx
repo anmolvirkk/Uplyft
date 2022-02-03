@@ -71,6 +71,13 @@ const Auth = ({type}) => {
         }
     }
 
+    const errorprint = (e) => {
+        alert(e.code)
+        alert(e.message)
+        alert(e.error)
+        alert(e)
+    }
+
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
@@ -85,8 +92,9 @@ const Auth = ({type}) => {
                         clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
                         buttonText="Continue with Google"
                         onSuccess={(e)=>onsocial(e)}
-                        onFailure={()=>alert('fail')}
+                        onFailure={(e)=>errorprint(e.code)}
                     />
+                    <div id='googleSignIn'></div>
                     </div>
                     <div className={styles.divide}>
                         <hr />

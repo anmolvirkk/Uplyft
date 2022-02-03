@@ -111,7 +111,6 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
     }
 
     const [auth] = useRecoilState(authAtom)
-    console.log(auth.social)
 
     return (
         <aside id='mainSideBar'>

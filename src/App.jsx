@@ -185,7 +185,7 @@ const App = () => {
             eventTags: eventTags,
             tags: tags
         }
-        
+
         if(Object.keys(auth).length > 0){
             if(auth.social){
                 let xr = new XMLHttpRequest()
