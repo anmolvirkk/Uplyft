@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Power, Tool} from 'react-feather'
+import {Power, RefreshCw, Save, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
@@ -118,6 +118,14 @@ const SideBar = ({updateBackendless}) => {
             })}
             <div className={styles.options}>
                 <DarkMode />
+                <div className={styles.iconButton} onMouseDown={logout}>
+                    <RefreshCw />
+                    <p>Sync</p>
+                </div>
+                <div className={styles.iconButton} onMouseDown={logout}>
+                    <Save />
+                    <p>Save</p>
+                </div>
                 <div className={styles.iconButton} onMouseDown={logout}>
                     <Power />
                     <p>Logout</p>

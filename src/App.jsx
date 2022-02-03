@@ -95,127 +95,66 @@ const App = () => {
 
     const saved = useRef(false)
     const [auth] = useRecoilState(authAtom)
-    const [loggedUser, setLoggedUser] = useState(false)
     
     const batchUpdate = useRecoilCallback(({set})=>(data)=>{
         if(data){
-            if(darkMode!==data.darkMode){
-                set(darkModeAtom, data.darkMode)
-            }
-            if(allPrompts!==data.allPrompts){
-                set(allPromptsAtom, data.allPrompts)
-            }
-            if(allRoutes!==data.allRoutes){
-                set(allRoutesAtom, data.allRoutes)
-            }
-            if(books!==data.books){
-                set(booksAtom, data.books)
-            }
-            if(currentMobileSection!==data.currentMobileSection){
-                set(currentMobileSectionAtom, data.currentMobileSection)
-            }
-            if(dates!==data.dates){
-                set(datesAtom, data.dates)
-            }
-            if(newDate!==data.newDate){
-                set(newDateAtom, data.newDate)
-            }
-            if(notes!==data.notes){
-                set(notesAtom, data.notes)
-            }
-            if(notesDropDown!==data.notesDropDown){
-                set(notesDropDownAtom, data.notesDropDown)
-            }
-            if(openBook!==data.openBook){
-                set(openBookAtom, data.openBook)
-            }
-            if(openSlot!==data.openSlot){
-                set(openSlotAtom, data.openSlot)
-            }
-            if(slots!==data.slots){
-                set(slotsAtom, data.slots)
-            }
-            if(allCalendarEvents!==data.allCalendarEvents){
-                set(allCalendarEventsAtom, data.allCalendarEvents)
-            }
-            if(completedOpen!==data.completedOpen){
-                set(completedOpenAtom, data.completedOpen)
-            }
-            if(dropDownDay!==data.dropDownDay){
-                set(dropDownDayAtom, data.dropDownDay)
-            }
-            if(events!==data.events){
-                set(eventsAtom, data.events)
-            }
-            if(habits!==data.habits){
-                set(habitsAtom, data.habits)
-            }
-            if(projects!==data.projects){
-                set(projectsAtom, data.projects)
-            }
-            if(routines!==data.routines){
-                set(routinesAtom, data.routines)
-            }
-            if(scheduleAddDropDown!==data.scheduleAddDropDown){
-                set(scheduleAddDropDownAtom, data.scheduleAddDropDown)
-            }
-            if(scheduleHeader!==data.scheduleHeader){
-                set(scheduleHeaderAtom, data.scheduleHeader)
-            }
-            if(scheduleSideMenu!==data.scheduleSideMenu){
-                set(scheduleSideMenuAtom, data.scheduleSideMenu)
-            }
-            if(tasks!==data.tasks){
-                set(tasksAtom, data.tasks)
-            }
-            if(eventTags!==data.eventTags){
-                set(eventTagsAtom, data.eventTags)
-            }
-            if(tags!==data.tags){
-                set(tagsAtom, data.tags)
-            }
+            set(darkModeAtom, data.darkMode)
+            set(allPromptsAtom, data.allPrompts)
+            set(allRoutesAtom, data.allRoutes)
+            set(booksAtom, data.books)
+            set(currentMobileSectionAtom, data.currentMobileSection)
+            set(datesAtom, data.dates)
+            set(newDateAtom, data.newDate)
+            set(notesAtom, data.notes)
+            set(notesDropDownAtom, data.notesDropDown)
+            set(openBookAtom, data.openBook)
+            set(openSlotAtom, data.openSlot)
+            set(slotsAtom, data.slots)
+            set(allCalendarEventsAtom, data.allCalendarEvents)
+            set(completedOpenAtom, data.completedOpen)
+            set(dropDownDayAtom, data.dropDownDay)
+            set(eventsAtom, data.events)
+            set(habitsAtom, data.habits)
+            set(projectsAtom, data.projects)
+            set(routinesAtom, data.routines)
+            set(scheduleAddDropDownAtom, data.scheduleAddDropDown)
+            set(scheduleHeaderAtom, data.scheduleHeader)
+            set(scheduleSideMenuAtom, data.scheduleSideMenu)
+            set(tasksAtom, data.tasks)
+            set(eventTagsAtom, data.eventTags)
+            set(tagsAtom, data.tags)
         }
     }, [])
 
     const updateAtoms = useCallback(() => {
         if(auth.social){
-            if(!loggedUser){
-                let xhr = new XMLHttpRequest()
-                xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
-                xhr.send(JSON.stringify({accessToken: auth.accessToken}))
-                xhr.onload = (loggedInUser) => {
-                    if(!window.location.pathname.split('/').includes('dashboard')){
-                        window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
-                    }else if(JSON.parse(loggedInUser.currentTarget.response).data){
-                            setLoggedUser(JSON.parse(loggedInUser.currentTarget.response))
-                            batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
-                        }
-                    }
-            }else{
-                batchUpdate(loggedUser.data)
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+            xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+            xhr.onload = (loggedInUser) => {
+                if(!window.location.pathname.split('/').includes('dashboard')){
+                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
+                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
+                }
             }
         }else if(auth.social === undefined){
             if(window.location.pathname.split('/').length > 2){
                 window.location.replace(`/${company.subsidiary}`)
             }
         }else{
-            if(!loggedUser){
-                let xhr = new XMLHttpRequest()
-                xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                xhr.onload = (loggedInUser) => {
-                    if(!window.location.pathname.split('/').includes('dashboard')){
-                        window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
-                    }else if(JSON.parse(loggedInUser.currentTarget.response).data){
-                            setLoggedUser(JSON.parse(loggedInUser.currentTarget.response))
-                            batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
-                        }
-                    }
-            }else{
-                batchUpdate(loggedUser.data)
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
+            xhr.onload = (loggedInUser) => {
+                if(!window.location.pathname.split('/').includes('dashboard')){
+                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
+                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
+                }
             }
         }
-    }, [auth, batchUpdate, loggedUser])
+    }, [auth, batchUpdate])
 
     const updateBackendless = useCallback(() => {
         const recoilData = {
@@ -248,33 +187,25 @@ const App = () => {
         }
 
         if(auth.social){
-            if(!loggedUser){
-                let xr = new XMLHttpRequest()
-                xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
-                xr.send(JSON.stringify({accessToken: auth.accessToken}))
-                xr.onload = (loggedInUser) => {
-                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
-                    Backendless.UserService.update(user)
-                }
-            }else{
-                Backendless.UserService.update({...loggedUser, data: {...recoilData}})
+            let xr = new XMLHttpRequest()
+            xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+            xr.send(JSON.stringify({accessToken: auth.accessToken}))
+            xr.onload = (loggedInUser) => {
+                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                Backendless.UserService.update(user)
             }
         }else{
-            if(!loggedUser){
-                let xr = new XMLHttpRequest()
-                xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                xr.onload = (loggedInUser) => {
-                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
-                    Backendless.UserService.update(user)
-                }
-            }else{
-                Backendless.UserService.update({...loggedUser, data: {...recoilData}})
+            let xr = new XMLHttpRequest()
+            xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+            xr.onload = (loggedInUser) => {
+                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                Backendless.UserService.update(user)
             }
         }
 
         saved.current = false
-    }, [loggedUser, allCalendarEvents, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
+    }, [allCalendarEvents, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if (document.visibilityState === 'hidden' && !saved.current) {
