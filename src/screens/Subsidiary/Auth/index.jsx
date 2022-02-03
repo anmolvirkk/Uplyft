@@ -68,6 +68,7 @@ const Auth = ({type}) => {
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            alert(`/${company.subsidiary}/dashboard/${company.journals}`)
         }
     }
 
