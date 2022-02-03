@@ -185,22 +185,24 @@ const App = () => {
             eventTags: eventTags,
             tags: tags
         }
-
-        if(auth.social){
-            let xr = new XMLHttpRequest()
-            xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
-            xr.send(JSON.stringify({accessToken: auth.accessToken}))
-            xr.onload = (loggedInUser) => {
-                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
-                Backendless.UserService.update(user)
-            }
-        }else{
-            let xr = new XMLHttpRequest()
-            xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-            xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-            xr.onload = (loggedInUser) => {
-                let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
-                Backendless.UserService.update(user)
+        
+        if(Object.keys(auth).length > 0){
+            if(auth.social){
+                let xr = new XMLHttpRequest()
+                xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+                xr.send(JSON.stringify({accessToken: auth.accessToken}))
+                xr.onload = (loggedInUser) => {
+                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                    Backendless.UserService.update(user)
+                }
+            }else{
+                let xr = new XMLHttpRequest()
+                xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+                xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+                xr.onload = (loggedInUser) => {
+                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                    Backendless.UserService.update(user)
+                }
             }
         }
 

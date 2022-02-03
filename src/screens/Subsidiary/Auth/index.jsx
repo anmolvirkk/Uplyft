@@ -86,7 +86,6 @@ const Auth = ({type}) => {
                         buttonText="Continue with Google"
                         onSuccess={(e)=>onsocial(e)}
                         onFailure={()=>alert('fail')}
-                        onRequest={()=>alert('request')}
                     />
                     </div>
                     <div className={styles.divide}>

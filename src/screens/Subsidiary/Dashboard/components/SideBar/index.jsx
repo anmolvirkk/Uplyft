@@ -12,6 +12,8 @@ import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allR
 import { useHistory } from 'react-router-dom'
 
 import Backendless from 'backendless'
+import authAtom from '../../../Auth/authAtom'
+import { GoogleLogout } from 'react-google-login'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -108,6 +110,9 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
         })
     }
 
+    const [auth] = useRecoilState(authAtom)
+    console.log(auth.social)
+
     return (
         <aside id='mainSideBar'>
             <div className={styles.logo}>
@@ -126,11 +131,24 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
                     <Save />
                     <p>Save</p>
                 </div>
-                <div className={styles.iconButton} onMouseDown={logout}>
-                    <Power />
-                    <p>Logout</p>
+                {!auth.social?
+                        <div className={styles.iconButton} onMouseDown={logout}>
+                            <Power />
+                            <p>Logout</p>
+                        </div>
+                    :   <GoogleLogout
+                            clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
+                            buttonText="Logout" 
+                            onLogoutSuccess={logout}
+                            render={e=>(
+                                <div className={styles.iconButton} onMouseDown={e.onClick} onMouseUp={logout}>
+                                    <Power />
+                                    <p>Logout</p>
+                                </div>
+                            )}  
+                        />
+                }
                 </div>
-            </div>
         </aside>
     )
 }
