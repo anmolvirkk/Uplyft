@@ -141,7 +141,7 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
                             buttonText="Logout" 
                             onLogoutSuccess={logout}
                             render={e=>(
-                                <div className={styles.iconButton} onMouseDown={e.onClick} onMouseUp={logout}>
+                                <div className={styles.iconButton} onMouseDown={e.onClick}>
                                     <Power />
                                     <p>Logout</p>
                                 </div>
