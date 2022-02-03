@@ -8,7 +8,6 @@ import Backendless from 'backendless'
 import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom, currentMobileSectionAtom } from '../../../../allAtoms'
 import MoreMenu from '../../../../components/MoreMenu'
-import { useHistory } from 'react-router-dom'
 
 const MobileHeader = ({updateBackendless, updateAtoms}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
@@ -140,13 +139,11 @@ const MobileHeader = ({updateBackendless, updateAtoms}) => {
             }
         }
     ]
-    
-    const history = useHistory()
 
     const logout = () => {
         updateBackendless()
         Backendless.UserService.logout().then(()=>{
-            history.push(`/${company.subsidiary}`)
+            window.location.replace(`/${company.subsidiary}`)
         })
     }
 

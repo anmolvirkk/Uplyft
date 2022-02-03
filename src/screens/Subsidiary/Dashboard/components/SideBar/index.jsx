@@ -9,8 +9,6 @@ import company from '../../../../../company'
 import isMobileAtom from '../../recoil-atoms/isMobileAtom'
 import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
 
-import { useHistory } from 'react-router-dom'
-
 import Backendless from 'backendless'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
@@ -98,13 +96,11 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
         }
     ]
 
-    const history = useHistory()
-
     const logout = () => {
         updateBackendless()
         Backendless.UserService.logout().then(()=>{
             localStorage.clear()
-            history.push(`/${company.subsidiary}`)
+            window.location.replace(`/${company.subsidiary}`)
         })
     }
 

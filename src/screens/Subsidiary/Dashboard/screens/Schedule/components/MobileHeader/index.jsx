@@ -6,7 +6,6 @@ import MoreMenu from '../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import { allRoutesAtom, darkModeAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, scheduleHeaderAtom } from '../../../../allAtoms'
-import { useHistory } from 'react-router-dom'
 import Backendless from 'backendless'
 
 const MobileHeader = ({updateBackendless, updateAtoms}) => {
@@ -21,13 +20,11 @@ const MobileHeader = ({updateBackendless, updateAtoms}) => {
     const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)
 
     const [scheduleHeader] = useRecoilState(scheduleHeaderAtom)
-    
-    const history = useHistory()
 
     const logout = () => {
         updateBackendless()
         Backendless.UserService.logout().then(()=>{
-            history.push(`/${company.subsidiary}`)
+            window.location.replace(`/${company.subsidiary}`)
         })
     }
 
