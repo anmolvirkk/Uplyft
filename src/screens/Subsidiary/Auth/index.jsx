@@ -5,10 +5,13 @@ import styles from './_auth.module.sass'
 import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
+import { useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import authAtom from './authAtom'
 
 const Auth = ({type}) => {
+
+    const history = useHistory()
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = 'light'
@@ -40,7 +43,7 @@ const Auth = ({type}) => {
             xhr.onload = (e) => {
                 if(JSON.parse(e.currentTarget.response).code === undefined){
                     setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                    history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else{
                     switch (JSON.parse(e.currentTarget.response).code) {
                         case 3006:
@@ -64,7 +67,7 @@ const Auth = ({type}) => {
         localStorage.clear()
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-            window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
         }
     }
 
