@@ -42,8 +42,8 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
                 <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackendless={updateBackendless} /></Route>
                 <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" updateBackendless={updateBackendless} /></Route>
                 <Route path={`/${company.subsidiary}/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" updateBackendless={updateBackendless} /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals updateBackendless={updateBackendless} /></Route>
-                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule updateBackendless={updateBackendless} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.journals}`}><Journals updateBackendless={updateBackendless} updateAtoms={updateAtoms} /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule updateBackendless={updateBackendless} updateAtoms={updateAtoms} /></Route>
             </Switch>
         </div>
 )

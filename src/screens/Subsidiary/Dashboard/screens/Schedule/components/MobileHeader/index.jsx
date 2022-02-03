@@ -9,7 +9,7 @@ import { allRoutesAtom, darkModeAtom, scheduleAddDropDownAtom, scheduleSideMenuA
 import { useHistory } from 'react-router-dom'
 import Backendless from 'backendless'
 
-const MobileHeader = ({updateBackendless}) => {
+const MobileHeader = ({updateBackendless, updateAtoms}) => {
     const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -41,7 +41,7 @@ const MobileHeader = ({updateBackendless}) => {
             <div className={styles.options}>
                 <Plus onMouseDown={scheduleHeader.onAdd!==null?()=>scheduleHeader.onAdd():()=>setScheduleAddDropDown(true)} id='mobileHeaderAddBtn' />
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: logout}]} pos={{right: '0', top: '6vh'}} />
+                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Save", function: updateBackendless}, {name: "Sync", function: updateAtoms}, {name: "Logout", function: logout}]} pos={{right: '0', top: '6vh'}} />
                 </div>
             </div>
         </div>

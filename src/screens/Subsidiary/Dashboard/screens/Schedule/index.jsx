@@ -15,7 +15,7 @@ import CheckBtn from './components/ScheduleSection/components/Habits/HabitDetail
 import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, habitsAtom, allCalendarEventsAtom, projectsAtom, eventsAtom, scheduleHeaderAtom } from '../../allAtoms'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 
-const Schedule = ({updateBackendless}) => {
+const Schedule = ({updateBackendless, updateAtoms}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const isMobile = (window.innerWidth < 1450)
     const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
@@ -178,10 +178,10 @@ const Schedule = ({updateBackendless}) => {
     return (
         <div style={{display: 'flex', flexFlow: isMobile?'column-reverse':null}}>
             <Redirect to={allRoutes&&allRoutes['scheduleSection']?`/${company.subsidiary}/dashboard/${company.schedule}/${allRoutes['scheduleSection']}/${allRoutes['scheduleSection']==='habits'?allRoutes['habit']?allRoutes['habit']:'':allRoutes['scheduleSection']==='tasks'?allRoutes['project']?allRoutes['project']:'':''}`:`/${company.subsidiary}/dashboard/${company.schedule}/habits`} />
-            <SideBar updateBackendless={updateBackendless} />
+            <SideBar updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
             <ScheduleSection />
             <MainCalendar isMobile={isMobile} />
-            <MobileHeader updateBackendless={updateBackendless} />
+            <MobileHeader updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
             <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`, top: document.getElementById('scheduleAddDropDownContainer')?`${window.innerHeight-80-document.getElementById('scheduleAddDropDownContainer').clientHeight}px`:'100vh'}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeAddMenu(e)}>
                     <button onMouseDown={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>

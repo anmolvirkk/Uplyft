@@ -24,7 +24,7 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
     )
 }
 
-const SideBar = ({updateBackendless}) => {
+const SideBar = ({updateBackendless, updateAtoms}) => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
@@ -118,11 +118,11 @@ const SideBar = ({updateBackendless}) => {
             })}
             <div className={styles.options}>
                 <DarkMode />
-                <div className={styles.iconButton} onMouseDown={logout}>
+                <div className={styles.iconButton} onMouseDown={updateAtoms}>
                     <RefreshCw />
                     <p>Sync</p>
                 </div>
-                <div className={styles.iconButton} onMouseDown={logout}>
+                <div className={styles.iconButton} onMouseDown={updateBackendless}>
                     <Save />
                     <p>Save</p>
                 </div>

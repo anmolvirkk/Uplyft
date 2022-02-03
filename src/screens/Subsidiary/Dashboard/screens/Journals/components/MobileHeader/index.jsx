@@ -10,7 +10,7 @@ import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom
 import MoreMenu from '../../../../components/MoreMenu'
 import { useHistory } from 'react-router-dom'
 
-const MobileHeader = ({updateBackendless}) => {
+const MobileHeader = ({updateBackendless, updateAtoms}) => {
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [currentMobileSection, setCurrentMobileSection] = useRecoilState(currentMobileSectionAtom)
 
@@ -160,7 +160,7 @@ const MobileHeader = ({updateBackendless}) => {
             <div className={styles.options}>
                 {sections[currentMobileSection].onAdd?<Plus onMouseDown={sections[currentMobileSection].onAdd} />:null}
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: logout}]} pos={{right: '8px', top: '50px'}} />
+                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Save", function: updateBackendless}, {name: "Sync", function: updateAtoms}, {name: "Logout", function: logout}]} pos={{right: '8px', top: '50px'}} />
                 </div>
             </div>
         </div>

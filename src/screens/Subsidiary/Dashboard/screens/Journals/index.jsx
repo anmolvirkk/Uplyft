@@ -15,7 +15,7 @@ import MobileHeader from './components/MobileHeader'
 
 import { datesAtom, allRoutesAtom } from '../../allAtoms'
 
-const Journals = ({updateBackendless}) => {
+const Journals = ({updateBackendless, updateAtoms}) => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates, setDates] = useRecoilState(datesAtom)
@@ -30,7 +30,7 @@ const Journals = ({updateBackendless}) => {
         <div className={styles.journals}>
             <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`} />
             
-            <SideBar updateBackendless={updateBackendless} />
+            <SideBar updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
 
             <BookSection styles={styles} isMobile={isMobile} />
 
@@ -40,7 +40,7 @@ const Journals = ({updateBackendless}) => {
             
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar isMobile={isMobile} />:null}
 
-            <MobileHeader updateBackendless={updateBackendless} />
+            <MobileHeader updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
 
         </div>
     )
