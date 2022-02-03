@@ -128,6 +128,7 @@ const App = () => {
     }, [])
 
     const updateAtoms = useCallback(() => {
+        alert('updateAtoms')
         if(auth.social){
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
