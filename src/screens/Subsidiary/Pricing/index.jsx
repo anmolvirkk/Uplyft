@@ -204,7 +204,7 @@ const Pricing = () => {
             return <Plan {...item} interval={month?'month':'year'} key={i} month={month} />
           })}
         </div>
-        <Footer />
+        <Footer type='pro' />
     </div>
   )
 }
