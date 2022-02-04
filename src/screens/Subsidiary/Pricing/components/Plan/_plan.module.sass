@@ -6,7 +6,8 @@
     width: 45vh
     padding: 3vh
     margin: 0 3vh
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15)
+    margin-bottom: 3vh
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15)
     h1
         font-size: 3vh
     h2
@@ -14,14 +15,16 @@
         margin-top: 0.5vh
         font-weight: 400
         opacity: 0.7
-    h3
+        width: 70%
+        line-height: 1.65
+        span
+            opacity: 0
+    .price
         margin-top: 1.5vh
-        span:first-child
+        display: flex
+        .mainprice
             font-size: 6vh
-        span:last-child
-            font-size: 1.5vh
-            opacity: 0.7
-            font-weight: 400
+            font-weight: 600
     .cta
         margin-top: 2vh
         border: 2px solid rgb(var(--text))
@@ -43,3 +46,57 @@
     .cta
         background-color: rgb(var(--text))
         color: white
+    .prices
+        strike
+            color: white
+            text-decoration-color: rgb(var(--primary))
+
+.prevPrice
+    display: flex
+    flex-flow: column
+    justify-content: flex-end
+    padding-left: 1vh
+    padding-bottom: 1.25vh
+
+.prices
+    strike
+        font-size: 2.15vh
+        margin-right: 1vh
+        font-weight: 600
+        text-decoration-thickness: 2px
+        color: rgb(var(--text))
+        text-decoration-color: #f19e18
+        
+
+.features
+    margin-top: 3vh
+    .title
+        img
+            width: 6vh
+            border-radius: 10px 10px
+    ul
+        padding-left: 2vh
+        margin-top: 3vh
+        li
+            margin-bottom: 3vh
+
+.topcard
+    height: 25vh
+    display: flex
+    flex-flow: column
+    justify-content: space-between
+
+.journals
+    height: 40vh
+
+.schedule
+    height: 55vh
+
+.notes
+    height: 45vh
+
+.finances
+    height: 50vh
+
+.fitness
+    height: 81.5vh
