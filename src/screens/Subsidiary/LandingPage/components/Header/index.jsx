@@ -3,7 +3,7 @@ import styles from './_header.module.sass'
 import company from '../../../../../company'
 import { Link } from 'react-router-dom'
 
-const Header = () => {
+const Header = ({type}) => {
     return (
         <div className={styles.header}>
             <div className={styles.navigation}>
@@ -19,7 +19,7 @@ const Header = () => {
                 </div>
             </div>
             <div className={styles.cta}>
-                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>
+                {type==='pro'?<div className={styles.ctaBtn}>Create Account</div>:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
             </div>
         </div>
     )

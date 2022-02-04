@@ -193,7 +193,7 @@ const Pricing = () => {
 
   return (
     <div className={`${styles.pricing} light`} style={{height: window.innerHeight+'px'}}>
-        <Header />
+        <Header type='pro' />
         <div className={styles.title}>
           <h1>Ready to start with <span>{company.subsidiary}</span>?</h1>
           <p>Choose the plan that suits you.</p>
