@@ -785,3 +785,9 @@ export const tasksAtom = atom({
     default: [],
     effects_UNSTABLE: [persistAtom]
 })
+
+export const planAtom = atom({
+    key: 'plan',
+    default: 'starter',
+    effects_UNSTABLE: [persistAtom]
+})

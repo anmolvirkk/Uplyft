@@ -1,0 +1,52 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.toggleWrapper
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-flow: column
+    margin-top: 4vh
+    position: relative
+
+.toggleContainer
+    width: fit-content
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    h3
+        font-weight: 600
+        color: rgb(var(--text))
+        transition: 0.2s
+        font-size: 1.85vh
+    .toggle
+        width: 8vh
+        height: 4vh
+        border-radius: 100px 100px
+        background-color: rgb(var(--primary))
+        position: relative
+        margin: 0 1.5vh
+        cursor: pointer
+        hr
+            border: none
+            outline: none
+            height: 3vh
+            width: 3vh
+            background-color: white
+            border-radius: 100%
+            position: absolute
+            right: 0.5vh
+            top: 0.5vh
+            transition: 0.2s
+
+.tags
+    display: flex
+.tag
+    font-size: 1.5vh
+    background-color: #FFE87A
+    padding: 1.15vh
+    margin: 0 1.5vh
+    margin-top: 4vh
+    border-radius: 7px 7px

@@ -9,7 +9,7 @@ import { useRecoilCallback, useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSectionAtom, datesAtom, 
  newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
 completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
-scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom } from './screens/Subsidiary/Dashboard/allAtoms'
+scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom, planAtom } from './screens/Subsidiary/Dashboard/allAtoms'
 
 import Backendless from 'backendless'
 import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAtom'
@@ -96,6 +96,8 @@ const App = () => {
 
     const saved = useRef(false)
     const [auth] = useRecoilState(authAtom)
+
+    const [plan] = useRecoilState(planAtom)
     
     const batchUpdate = useRecoilCallback(({set})=>(data)=>{
         if(data){
@@ -211,26 +213,34 @@ const App = () => {
     }, [allCalendarEvents, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
-        if (document.visibilityState === 'hidden' && !saved.current) {
-            saved.current = true
-            updateBackendless()
+        if(plan==='pro'){
+            if (document.visibilityState === 'hidden' && !saved.current) {
+                saved.current = true
+                updateBackendless()
+            }
         }
     }
     
     window.onbeforeunload = () => {
-        updateBackendless()
-        return false
+        if(plan==='pro'){
+            updateBackendless()
+            return false
+        }
     }
 
     window.onpagehide = () => {
-        updateBackendless()
+        if(plan==='pro'){
+            updateBackendless()
+        }
     }
 
     window.onload = () => {
-        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-        Backendless.initApp(APP_ID, API_KEY)
-        updateAtoms()
+        if(plan==='pro'){
+            let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
+            let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+            Backendless.initApp(APP_ID, API_KEY)
+            updateAtoms()
+        }
     }
 
     return (

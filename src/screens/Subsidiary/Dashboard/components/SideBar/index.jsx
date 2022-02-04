@@ -7,7 +7,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil'
 import DarkMode from './components/DarkMode'
 import company from '../../../../../company'
 import isMobileAtom from '../../recoil-atoms/isMobileAtom'
-import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
+import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom, planAtom} from '../../allAtoms'
 
 import { useHistory } from 'react-router-dom'
 
@@ -103,14 +103,20 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
     const history = useHistory()
 
     const logout = () => {
-        updateBackendless()
-        Backendless.UserService.logout().then(()=>{
-            localStorage.clear()
+        if(plan==='pro'){
+            updateBackendless()
+            Backendless.UserService.logout().then(()=>{
+                localStorage.clear()
+                history.push(`/${company.subsidiary}`)
+            })
+        }else{
             history.push(`/${company.subsidiary}`)
-        })
+        }
     }
 
     const [auth] = useRecoilState(authAtom)
+
+    const [plan] = useRecoilState(planAtom)
 
     return (
         <aside id='mainSideBar'>
@@ -122,14 +128,18 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
             })}
             <div className={styles.options}>
                 <DarkMode />
+                {plan==='pro'?
                 <div className={styles.iconButton} onMouseDown={updateAtoms}>
                     <RefreshCw />
                     <p>Sync</p>
                 </div>
+                :null}
+                {plan==='pro'?
                 <div className={styles.iconButton} onMouseDown={updateBackendless}>
                     <Save />
                     <p>Save</p>
                 </div>
+                :null}
                 {!auth.social?
                         <div className={styles.iconButton} onMouseDown={logout}>
                             <Power />

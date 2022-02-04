@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
-import { darkModeAtom } from './allAtoms'
+import { darkModeAtom, planAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 
 const Dashboard = ({updateAtoms, updateBackendless}) => {
@@ -29,9 +29,13 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
         }
     }, [darkMode])
 
+    const [plan] = useRecoilState(planAtom)
+
     useEffect(()=>{
-        updateAtoms()
-    }, [updateAtoms])
+        if(plan==='pro'){
+            updateAtoms()
+        }
+    }, [updateAtoms, plan])
 
     return (
         <div className="container">

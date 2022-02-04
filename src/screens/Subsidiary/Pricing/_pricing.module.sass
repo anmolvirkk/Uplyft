@@ -1,0 +1,23 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.pricing
+    padding-top: 12vh
+    .title
+        width: 100%
+        +mixins.center
+        h1
+            font-size: 6vh
+            span
+                text-transform: capitalize
+        p
+            font-size: 2vh
+            margin-top: 3vh
+            opacity: 0.7
+    
+.plans
+    display: flex
+    width: 100%
+    justify-content: center
+    align-items: center
+    margin-top: 6vh
