@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import Backendless from 'backendless'
 import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
-import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom, currentMobileSectionAtom } from '../../../../allAtoms'
+import { darkModeAtom, notesDropDownAtom, openSlotAtom, slotsAtom, allRoutesAtom, currentMobileSectionAtom, planAtom } from '../../../../allAtoms'
 import MoreMenu from '../../../../components/MoreMenu'
 import { useHistory } from 'react-router-dom'
 
@@ -142,13 +142,18 @@ const MobileHeader = ({updateBackendless, updateAtoms}) => {
     ]
     
     const history = useHistory()
+    const [plan] = useRecoilState(planAtom)
 
     const logout = () => {
-        updateBackendless()
-        localStorage.clear()
-        Backendless.UserService.logout().then(()=>{
+        if(plan==='pro'){
+            updateBackendless()
+            Backendless.UserService.logout().then(()=>{
+                localStorage.clear()
+                history.push(`/${company.subsidiary}`)
+            })
+        }else{
             history.push(`/${company.subsidiary}`)
-        })
+        }
     }
 
     return (
