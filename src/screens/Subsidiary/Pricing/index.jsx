@@ -4,6 +4,7 @@ import Header from '../LandingPage/components/Header'
 import Toggle from './components/Toggle'
 import Plan from './components/Plan'
 import company from '../../../company'
+import Footer from '../LandingPage/components/Footer'
 
 const Pricing = () => {
 
@@ -203,6 +204,7 @@ const Pricing = () => {
             return <Plan {...item} interval={month?'month':'year'} key={i} month={month} />
           })}
         </div>
+        <Footer />
     </div>
   )
 }
