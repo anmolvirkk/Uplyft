@@ -47,6 +47,7 @@ const Plan = ({title, subtitle, price, interval, month, features}) => {
                 <div className={`${styles.feature} ${styles.journals}`}>
                     <div className={styles.title}>
                         <img src='/logos/journals.png' alt={company.journals} />
+                        <img src='/logos/journalsText.png' alt={company.journals} className={styles.titleText} />
                     </div>
                     <ul>
                         {features.journals.map((item, i)=>{
@@ -57,6 +58,7 @@ const Plan = ({title, subtitle, price, interval, month, features}) => {
                 <div className={`${styles.feature} ${styles.schedule}`}>
                     <div className={styles.title}>
                         <img src='/logos/schedule.png' alt={company.schedule} />
+                        <img src='/logos/scheduleText.png' alt={company.journals} className={styles.titleText} />
                     </div>
                     <ul>
                         {features.schedule.map((item, i)=>{
@@ -67,6 +69,7 @@ const Plan = ({title, subtitle, price, interval, month, features}) => {
                 <div className={`${styles.feature} ${styles.notes}`}>
                     <div className={styles.title}>
                         <img src='/logos/notes.png' alt={company.notes} />
+                        <img src='/logos/notesText.png' alt={company.journals} className={styles.titleText} />
                     </div>
                     <ul>
                         {features.notes.map((item, i)=>{
@@ -77,6 +80,7 @@ const Plan = ({title, subtitle, price, interval, month, features}) => {
                 <div className={`${styles.feature} ${styles.finances}`}>
                     <div className={styles.title}>
                         <img src='/logos/finances.png' alt={company.finances} />
+                        <img src='/logos/financesText.png' alt={company.journals} className={styles.titleText} />
                     </div>
                     <ul>
                         {features.finances.map((item, i)=>{
@@ -87,6 +91,7 @@ const Plan = ({title, subtitle, price, interval, month, features}) => {
                 <div className={`${styles.feature} ${styles.fitness}`}>
                     <div className={styles.title}>
                         <img src='/logos/fitness.png' alt={company.fitness} />
+                        <img src='/logos/fitnessText.png' alt={company.journals} className={styles.titleText} />
                     </div>
                     <ul>
                         {features.fitness.map((item, i)=>{
