@@ -48,6 +48,8 @@ const Pricing = () => {
           'Manual budget tracking',
           'Setting up to 5 financial goals',
           'Up to 5 custom income and expense categories',
+          'No automatic seperation of bills and subscription',
+          'No stock market investing',
           'Limited customizable options',
           'Local browser storage',
           'Single device'
@@ -63,6 +65,8 @@ const Pricing = () => {
           'Up to 6 custom recipies',
           'Groccery list',
           'Water tracking',
+          'No food database',
+          'No barcode scanner',
           'Limited customizable options',
           'Local browser storage',
           'Single device'
@@ -106,6 +110,8 @@ const Pricing = () => {
           'Manual budget tracking',
           'Setting unlimited financial goals',
           'Unlimited custom income and expense categories',
+          'No automatic seperation of bills and subscription',
+          'No stock market investing',
           'Unlocked customizable options',
           'Local browser storage',
           'Single device'
@@ -121,6 +127,8 @@ const Pricing = () => {
           'Unlimited custom recipies',
           'Groccery list',
           'Water tracking',
+          'No food database',
+          'No barcode scanner',
           'Limited customizable options',
           'Local browser storage',
           'Single device'
