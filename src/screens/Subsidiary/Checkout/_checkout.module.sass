@@ -1,0 +1,41 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+@use '../LandingPage/_main.module'
+
+.checkout
+    width: 100%
+    +mixins.center
+    .form
+        width: 50vh
+        padding: 3vh
+        box-shadow: 0 0 15px rgba(0,0,0,0.075)
+        border-radius: 10px 10px
+        .title
+            +mixins.center
+            margin-bottom: 4vh
+            img
+                width: 7vh
+            h1
+                font-size: 3.5vh
+                margin-top: 0.5vh
+            p
+                font-size: 1.5vh
+                margin-top: 1vh
+                opacity: 0.65
+                text-transform: initial
+                span
+                    text-transform: capitalize
+        .cname
+            margin-bottom: 2.5vh
+            width: 100%
+        .time
+            display: flex
+            div
+                margin-right: 3vh
+            div:last-child
+                margin-right: 0
+        .cta
+            all: unset
+            +main.cta
+            margin-top: 4vh
+            width: 100%

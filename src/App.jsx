@@ -16,6 +16,7 @@ import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAt
 import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalConfigAtom'
 import authAtom from './screens/Subsidiary/Auth/authAtom'
 import Pricing from './screens/Subsidiary/Pricing'
+import Checkout from './screens/Subsidiary/Checkout'
 
 const App = () => {
 
@@ -235,12 +236,10 @@ const App = () => {
     }
 
     window.onload = () => {
-        if(plan==='pro'){
-            let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-            let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
-            Backendless.initApp(APP_ID, API_KEY)
-            updateAtoms()
-        }
+        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
+        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+        Backendless.initApp(APP_ID, API_KEY)
+        updateAtoms()
     }
 
     return (
@@ -251,6 +250,7 @@ const App = () => {
                 <Route exact path={`/${company.subsidiary}/pricing`}><Pricing /></Route>
                 <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>
                 <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
+                <Route exact path={`/${company.subsidiary}/checkout`}><Checkout /></Route>
                 <Route path={`/${company.subsidiary}/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
             </Switch>
         </Router>

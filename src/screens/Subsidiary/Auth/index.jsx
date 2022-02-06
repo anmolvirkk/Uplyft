@@ -6,8 +6,9 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import { useHistory } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import authAtom from './authAtom'
+import { planAtom } from '../Dashboard/allAtoms'
 
 const Auth = ({type}) => {
 
@@ -18,7 +19,8 @@ const Auth = ({type}) => {
     }, [])
 
     const [error, setError] = useState({email: false, password: false})
-    const setAuth = useSetRecoilState(authAtom)
+    const setPlan = useSetRecoilState(planAtom)
+    const [auth, setAuth] = useRecoilState(authAtom)
 
     const onsubmit = () => {
         let form = {
@@ -31,7 +33,33 @@ const Auth = ({type}) => {
                 if(error.password){
                     setError({...error, password: false})
                 }
-                console.log('signup')
+                let xhr = new XMLHttpRequest()
+                xhr.open('POST', `https://deepway.backendless.app/api/users/register`, true)
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.send(JSON.stringify({email: form.email, password: form.password}))
+                xhr.onload = (e) => {
+                    console.log(JSON.parse(e.currentTarget.response))
+                    if(JSON.parse(e.currentTarget.response).code === undefined){
+                        setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                        setPlan(JSON.parse(e.currentTarget.response).plan)
+                        if(JSON.parse(e.currentTarget.response).plan === 'free'){
+                            history.push(`/${company.subsidiary}/checkout`)
+                        }else{
+                            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                        }
+                    }else{
+                        switch (JSON.parse(e.currentTarget.response).code) {
+                            case 3006:
+                                setError({password: form.password===''?'Password cannot be empty':error.password, email: form.email===''?'Email cannot be empty':error.email})
+                            break
+                            case 3003:
+                                setError({password: 'Invalid email or password', email: 'Invalid email or password'})
+                            break
+                            default: setError({password: false, email: JSON.parse(e.currentTarget.response).message})
+                            break
+                        }
+                    }
+                }
             }else{
                 setError({...error, password: 'Password Mismatch'})
             }
@@ -41,8 +69,13 @@ const Auth = ({type}) => {
             xhr.send(JSON.stringify({login: form.email, password: form.password}))
             xhr.onload = (e) => {
                 if(JSON.parse(e.currentTarget.response).code === undefined){
-                    setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                    history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                    setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                    setPlan(JSON.parse(e.currentTarget.response).plan)
+                    if(JSON.parse(e.currentTarget.response).plan === 'free'){
+                        history.push(`/${company.subsidiary}/checkout`)
+                    }else{
+                        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                    }
                 }else{
                     switch (JSON.parse(e.currentTarget.response).code) {
                         case 3006:
@@ -51,7 +84,7 @@ const Auth = ({type}) => {
                         case 3003:
                             setError({password: 'Invalid email or password', email: 'Invalid email or password'})
                         break
-                        default: setError({password: 'error', email: 'error'})
+                        default: setError({password: false, email: JSON.parse(e.currentTarget.response).message})
                         break
                     }
                 }
@@ -65,7 +98,12 @@ const Auth = ({type}) => {
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            setPlan(JSON.parse(e.currentTarget.response).plan)
+            if(JSON.parse(e.currentTarget.response).plan === 'free'){
+                history.push(`/${company.subsidiary}/checkout`)
+            }else{
+                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            }
         }
     }
 
