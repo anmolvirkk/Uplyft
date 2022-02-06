@@ -14,9 +14,9 @@ import company from '../../../company'
 const Logo = ({auth}) => {
   return (
     <div className={styles.title}>
-        <img src='/logos/main.png' alt={company.subsidiary} />
-        <h1>Skyhance</h1>
-        <p>Unlock {auth.plan.title.toLowerCase()} plan for <span>{company.subsidiary}</span></p>
+        <img src='/logos/subsidiary.png' alt={company.subsidiary} />
+        <h1>{company.subsidiary}</h1>
+        <p>Unlock {auth.plan.title.toLowerCase()} plan</p>
     </div>
   )
 }
