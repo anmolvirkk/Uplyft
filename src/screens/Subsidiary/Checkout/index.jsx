@@ -6,11 +6,6 @@ import styles from './_checkout.module.sass'
 import InputBox from '../Auth/components/InputBox'
 import company from '../../../company'
 
-// const stripePromise = loadStripe('pk_live_51J8IyuSHTJXUmRdNX8wd7xrtiK06wi9DEHmVNRo3ZPJyPSldFiLql5gi18Gycd1HgK2X808UY31x5TD5v3fuIKHc00gqGli8Sw');
-// const options = {
-//   clientSecret: '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'
-// }
-
 const Logo = ({auth}) => {
   return (
     <div className={styles.title}>
