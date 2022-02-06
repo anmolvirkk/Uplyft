@@ -27,9 +27,9 @@ const Checkout = () => {
           <InputBox type='text' name='Card number' autoComplete='cc-number' />
         </div>
         <div className={styles.time}>
-          <InputBox autoComplete='on' type='text' name='MM' autoComplete='cc-exp-month' />
-          <InputBox autoComplete='on' type='text' name='YY' autoComplete='cc-exp-year' />
-          <InputBox autoComplete='on' type='text' name='CVC' autocomplete='cc-csc' />
+          <InputBox type='text' name='MM' autoComplete='cc-exp-month' />
+          <InputBox type='text' name='YY' autoComplete='cc-exp-year' />
+          <InputBox type='text' name='CVC' autocomplete='cc-csc' />
         </div>
         <button className={styles.cta}>Start {auth.plan.title} Plan</button>
       </form>
