@@ -6,7 +6,8 @@ import styles from './_checkout.module.sass'
 import InputBox from '../Auth/components/InputBox'
 import company from '../../../company'
 
-const Logo = ({auth}) => {
+const Logo = () => {
+  const [auth] = useRecoilState(authAtom)
   return (
     <div className={styles.title}>
         <img src='/logos/subsidiary.png' alt={company.subsidiary} />
@@ -21,7 +22,7 @@ const Checkout = () => {
   const Form = () => {
     return (
       <form className={styles.form}>
-        <Logo auth={auth} />
+        <Logo />
         <div className={styles.cname}>
           <InputBox type='text' name='Card number' autoComplete='cc-number' />
         </div>
