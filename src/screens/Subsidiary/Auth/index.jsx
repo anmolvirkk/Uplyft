@@ -71,11 +71,7 @@ const Auth = ({type}) => {
                 if(JSON.parse(e.currentTarget.response).code === undefined){
                     setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                     setPlan(JSON.parse(e.currentTarget.response).plan)
-                    if(JSON.parse(e.currentTarget.response).plan === 'free'){
-                        history.push(`/${company.subsidiary}/checkout`)
-                    }else{
-                        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-                    }
+                    history.push(`/${company.subsidiary}/checkout`)
                 }else{
                     switch (JSON.parse(e.currentTarget.response).code) {
                         case 3006:
@@ -99,11 +95,7 @@ const Auth = ({type}) => {
         xhr.onload = (e) => {
             setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             setPlan(JSON.parse(e.currentTarget.response).plan)
-            if(JSON.parse(e.currentTarget.response).plan === 'free'){
-                history.push(`/${company.subsidiary}/checkout`)
-            }else{
-                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-            }
+            history.push(`/${company.subsidiary}/checkout`)
         }
     }
 

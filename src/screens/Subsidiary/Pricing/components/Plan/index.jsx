@@ -5,6 +5,9 @@ import company from '../../../../../company'
 import { useRecoilState } from 'recoil'
 import authAtom from '../../../Auth/authAtom'
 
+// const stripeSecret = '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'
+const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
+
 const Plan = (props) => {
     let orginalPrice = props.price
     let halfPrice = orginalPrice/2
@@ -23,22 +26,24 @@ const Plan = (props) => {
         plus: () => {
             let xr = new XMLHttpRequest()
             xr.open('GET', `https://api.stripe.com/v1/prices`, true)
-            xr.setRequestHeader('Authorization', 'Bearer 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' )
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
             xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(null)
             xr.onload = (prices) => {
-              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).product}})
-              history.push(`/${company.subsidiary}/signup`)
+                if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100)){
+                    setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id}})
+                    history.push(`/${company.subsidiary}/signup`)
+                }
             }
         },
         pro: () => {
             let xr = new XMLHttpRequest()
             xr.open('GET', `https://api.stripe.com/v1/prices`, true)
-            xr.setRequestHeader('Authorization', 'Bearer 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' )
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
             xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(null)
             xr.onload = (prices) => {
-              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).product}})
+              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id}})
               history.push(`/${company.subsidiary}/signup`)
             }
         }
