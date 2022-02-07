@@ -103,12 +103,26 @@ const Checkout = () => {
                 xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
                 xr.onload = (sub) => {
                   if(!JSON.parse(sub.currentTarget.response).error){
-                    let xr = new XMLHttpRequest()
-                    xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                    xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                    xr.onload = (loggedInUser) => {
-                        let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
-                        Backendless.UserService.update(user)
+                      if(auth.social){
+                        let xhr = new XMLHttpRequest()
+                        xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+                        xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+                        xhr.onload = (loggedInUser) => {
+                          let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
+                          Backendless.UserService.update(user)
+                        }
+                    }else if(auth.social === undefined){
+                        if(window.location.pathname.split('/').length > 2){
+                            window.location.replace(`/${company.subsidiary}`)
+                        }
+                    }else{
+                        let xr = new XMLHttpRequest()
+                        xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+                        xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+                        xr.onload = (loggedInUser) => {
+                            let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
+                            Backendless.UserService.update(user)
+                        }
                     }
                     setPlan(auth.plan.title.toLowerCase())
                     setSuccess(true)
