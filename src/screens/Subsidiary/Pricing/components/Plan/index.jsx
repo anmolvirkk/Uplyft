@@ -21,12 +21,26 @@ const Plan = (props) => {
             history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
         },
         plus: () => {
-            setAuth({...auth, plan: {...props}})
-            history.push(`/${company.subsidiary}/signup`)
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/prices`, true)
+            xr.setRequestHeader('Authorization', 'Bearer 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' )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (prices) => {
+              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).product}})
+              history.push(`/${company.subsidiary}/signup`)
+            }
         },
         pro: () => {
-            setAuth({...auth, plan: {...props}})
-            history.push(`/${company.subsidiary}/signup`)
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/prices`, true)
+            xr.setRequestHeader('Authorization', 'Bearer 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' )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (prices) => {
+              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).product}})
+              history.push(`/${company.subsidiary}/signup`)
+            }
         }
     }
     return (

@@ -31,13 +31,25 @@ const Checkout = () => {
     cvv: ''
   })
   const makepayment = () => {
+
+    const startsubscription = (customer) => {
+      let xr = new XMLHttpRequest()
+      xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
+      xr.setRequestHeader('Authorization', 'Bearer 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' )
+      xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+      xr.send(`customer=${customer};items[0][price]=${0}`)
+      xr.onload = (sub) => {
+        console.log(sub)
+      }
+    }
+
     let xr = new XMLHttpRequest()
     xr.open('GET', `https://api.stripe.com/v1/customers`, true)
     xr.setRequestHeader('Authorization', 'Bearer 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' )
     xr.send(null)
     xr.onload = (customers) => {
       if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
-        console.log(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
+        startsubscription(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
       }else{
         let xr = new XMLHttpRequest()
         xr.open('POST', `https://api.stripe.com/v1/customers`, true)
@@ -45,10 +57,11 @@ const Checkout = () => {
         xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
         xr.send(`email=${auth.login}`)
         xr.onload = (customer) => {
-          console.log(JSON.parse(customer.currentTarget.response).id)
+          startsubscription(JSON.parse(customer.currentTarget.response).id)
         }
       }
     }
+
   }
   const Form = () => {
     return (
