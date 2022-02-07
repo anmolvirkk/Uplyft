@@ -85,26 +85,35 @@ const Checkout = () => {
           }else{
             setError({type: '', message: ''})
             let xr = new XMLHttpRequest()
-            xr.open('GET', `https://api.stripe.com/v1/payment_methods/${JSON.parse(paymentmethod.currentTarget.response).id}`, true)
+            xr.open('POST', `https://api.stripe.com/v1/payment_methods/${JSON.parse(paymentmethod.currentTarget.response).id}/attach`, true)
             xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(`customer=${customer}`)
-            xr.onload = () => {
+            xr.onload = (pm) => {
               let xr = new XMLHttpRequest()
-              xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
+              xr.open('POST', `https://api.stripe.com/v1/customers/${customer}`, true)
               xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
               xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-              xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
-              xr.onload = (sub) => {
-                if(!JSON.parse(sub.currentTarget.response).error){
-                  let xr = new XMLHttpRequest()
-                  xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                  xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                  xr.onload = (loggedInUser) => {
-                      let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
-                      Backendless.UserService.update(user)
+              xr.send(`invoice_settings[default_payment_method]=${JSON.parse(pm.currentTarget.response).id}`)
+              xr.onload = (e) => {
+                let xr = new XMLHttpRequest()
+                xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
+                xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
+                xr.onload = (sub) => {
+                  if(!JSON.parse(sub.currentTarget.response).error){
+                    let xr = new XMLHttpRequest()
+                    xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+                    xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+                    xr.onload = (loggedInUser) => {
+                        let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
+                        Backendless.UserService.update(user)
+                    }
+                    setPlan(auth.plan.title.toLowerCase())
+                    setSuccess(true)
+                  }else{
                   }
-                  setPlan(auth.plan.title.toLowerCase())
-                  setSuccess(true)
                 }
               }
             }

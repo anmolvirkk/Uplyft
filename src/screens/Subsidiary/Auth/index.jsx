@@ -38,7 +38,6 @@ const Auth = ({type}) => {
                 xhr.setRequestHeader('Content-Type', 'application/json')
                 xhr.send(JSON.stringify({email: form.email, password: form.password}))
                 xhr.onload = (e) => {
-                    console.log(JSON.parse(e.currentTarget.response))
                     if(JSON.parse(e.currentTarget.response).code === undefined){
                         setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                         setPlan(JSON.parse(e.currentTarget.response).plan)
@@ -93,7 +92,7 @@ const Auth = ({type}) => {
         xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
         xhr.onload = (e) => {
-            setAuth({accessToken: social.accessToken, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+            setAuth({...auth, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             setPlan(JSON.parse(e.currentTarget.response).plan)
             history.push(`/${company.subsidiary}/checkout`)
         }
