@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './_pricing.module.sass'
 import Header from '../LandingPage/components/Header'
 import Toggle from './components/Toggle'
@@ -9,6 +9,10 @@ import Footer from '../LandingPage/components/Footer'
 const Pricing = () => {
 
   const [month, setMonth] = useState(false)
+  
+  useEffect(()=>{
+    document.getElementsByTagName('html')[0].className = 'light'
+  }, [])
 
   const plans = [
     {

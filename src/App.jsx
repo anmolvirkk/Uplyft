@@ -239,7 +239,9 @@ const App = () => {
         let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
         let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
-        updateAtoms()
+        if(plan==='pro'){
+            updateAtoms()
+        }
     }
 
     return (

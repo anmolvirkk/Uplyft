@@ -28,7 +28,7 @@ const scrollToView = (e, wrapper, isMobile) => {
     }
 }
 
-const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon, autoFocus, onFocus, id, autoComplete, onTouchEnd, error, onLoad}) => {
+const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, icon, autoFocus, onFocus, id, autoComplete, onTouchEnd, error, onLoad, pattern}) => {
     const [isMobile] = useRecoilState(isMobileAtom)
     const input = useRef()
     if(input.current){
@@ -49,7 +49,7 @@ const InputBox = ({wrapper, name, type, marginBottom, value, onChange, onBlur, i
     return (
     <div ref={input} onMouseDown={(e)=>scrollToView(e, wrapper, isMobile)} className={`${styles.group} ${icon?styles.icon:null}`} style={marginBottom?{marginBottom: marginBottom+'px'}:null}>
         {icon?icon:null}
-        <input onLoad={(e)=>onLoad(e)} onTouchEnd={onTouchEnd?(e)=>onTouchEnd(e):null} autoComplete={autoComplete?autoComplete:null} id={id?id:null} onFocus={onFocus?(e)=>onFocus(e):null} autoFocus={autoFocus?autoFocus:null} onBlurCapture={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
+        <input pattern={pattern?pattern:null} onLoad={(e)=>onLoad(e)} onTouchEnd={onTouchEnd?(e)=>onTouchEnd(e):null} autoComplete={autoComplete?autoComplete:null} id={id?id:null} onFocus={onFocus?(e)=>onFocus(e):null} autoFocus={autoFocus?autoFocus:null} onBlurCapture={onBlur?(e)=>onBlur(e):null} onChange={onChange?e=>onChange(e):null} defaultValue={value?value:null} type={type} required="required"/><span className={styles.highlight}></span><span className={styles.bar}></span>
         <label>{error?error:name}</label>
     </div>
     )

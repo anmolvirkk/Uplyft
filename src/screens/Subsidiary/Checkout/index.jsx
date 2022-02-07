@@ -6,6 +6,7 @@ import styles from './_checkout.module.sass'
 import InputBox from '../Auth/components/InputBox'
 import company from '../../../company'
 import { useRef } from 'react'
+import { useEffect } from 'react'
 
 const Logo = () => {
   const [auth] = useRecoilState(authAtom)
@@ -19,6 +20,9 @@ const Logo = () => {
 }
 
 const Checkout = () => {
+  useEffect(()=>{
+    document.getElementsByTagName('html')[0].className = 'light'
+  }, [])
   const [auth] = useRecoilState(authAtom)
   const card = useRef({
     num: '',
@@ -26,20 +30,40 @@ const Checkout = () => {
     yy: '',
     cvv: ''
   })
+  const makepayment = () => {
+    let xr = new XMLHttpRequest()
+    xr.open('GET', `https://api.stripe.com/v1/customers`, true)
+    xr.setRequestHeader('Authorization', 'Bearer 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' )
+    xr.send(null)
+    xr.onload = (customers) => {
+      if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
+        console.log(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
+      }else{
+        let xr = new XMLHttpRequest()
+        xr.open('POST', `https://api.stripe.com/v1/customers`, true)
+        xr.setRequestHeader('Authorization', 'Bearer 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' )
+        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        xr.send(`email=${auth.login}`)
+        xr.onload = (customer) => {
+          console.log(JSON.parse(customer.currentTarget.response).id)
+        }
+      }
+    }
+  }
   const Form = () => {
     return (
-      <form className={styles.form}>
-        <Logo />
-        <div className={styles.cname}>
-          <InputBox type='number' name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
-        </div>
-        <div className={styles.time}>
-          <InputBox type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
-          <InputBox type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
-          <InputBox type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
-        </div>
-        <button className={styles.cta} onMouseDown={()=>alert(card.current.num)}>Start {auth.plan.title} Plan</button>
-      </form>
+        <form className={styles.form}>
+            <Logo />
+            <div className={styles.cname}>
+              <InputBox type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
+            </div>
+            <div className={styles.time}>
+              <InputBox type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
+              <InputBox type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
+              <InputBox type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
+            </div>
+            <button className={styles.cta} onMouseDown={makepayment}>Start {auth.plan.title} Plan</button>
+        </form>
     )
   }
   return (
