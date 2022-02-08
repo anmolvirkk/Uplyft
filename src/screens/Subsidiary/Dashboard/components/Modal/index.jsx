@@ -290,7 +290,7 @@ const Modal = () => {
     )
 
     const Upgrade = ({title}) => {
-        
+
         useEffect(()=>{
             let elem = document.getElementById('modalForm')
             confetti({
@@ -306,7 +306,7 @@ const Modal = () => {
         return (
             <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
                 <div className={styles.header}>
-                    <p>Successfully Upgraded to {title} plan</p>
+                    <p>Upgraded to {title} plan</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <div className={styles.checkWrapper}>
