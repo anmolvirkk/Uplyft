@@ -317,7 +317,7 @@ const Modal = () => {
                     />
                 </div>
                 <div className={styles.footer}>
-                    <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
+                    <button className={styles.continueBtn} onClick={()=>setModalConfig({type: ''})}>Continue</button>
                 </div>
             </div>
         )
