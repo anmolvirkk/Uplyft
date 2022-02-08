@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom'
 import Backendless from 'backendless'
 import { planAtom } from '../Dashboard/allAtoms'
 import modalConfigAtom from '../Dashboard/recoil-atoms/modalConfigAtom'
+import { windowHeight } from '../Dashboard/variables/mobileHeights'
 
 // const stripeSecret = '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'
 const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
@@ -173,31 +174,31 @@ const Checkout = () => {
   }
 
   return (
-        <div className={styles.checkout} style={{height: window.innerHeight+'px'}}>
+        <div className={styles.wrapper} style={{height: window.innerHeight+'px'}}>
+          <div className={styles.checkout} style={{height: windowHeight+'px'}}>
           {showForm?
           <form className={styles.form}>
               <Logo success={false} />
-                <div>
-                  <div className={styles.googlepay} onMouseDown={paywithgoogle}>
-                    Pay with Google
-                  </div>
-                  <div className={styles.divide}>
-                      <hr />
-                      <p>or</p>
-                      <hr />
-                  </div>
-                  <div className={styles.cname}>
-                    <InputBox error={error.type==='card'||error.type==='all'?error.message:null} type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
-                  </div>
-                  <div className={styles.time}>
-                    <InputBox error={error.type==='month'||error.type==='all'?error.message:null} type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
-                    <InputBox error={error.type==='year'||error.type==='all'?error.message:null} type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
-                    <InputBox error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
-                  </div>
-                  <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
-                </div>
+              <div className={styles.googlepay} onMouseDown={paywithgoogle}>
+                Pay with Google
+              </div>
+              <div className={styles.divide}>
+                  <hr />
+                  <p>or</p>
+                  <hr />
+              </div>
+              <div className={styles.cname}>
+                <InputBox error={error.type==='card'||error.type==='all'?error.message:null} type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
+              </div>
+              <div className={styles.time}>
+                <InputBox error={error.type==='month'||error.type==='all'?error.message:null} type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
+                <InputBox error={error.type==='year'||error.type==='all'?error.message:null} type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
+                <InputBox error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
+              </div>
+              <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
           </form>
           :null}
+          </div>
         </div>
     )
 }
