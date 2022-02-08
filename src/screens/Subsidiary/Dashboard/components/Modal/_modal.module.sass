@@ -1,9 +1,12 @@
 @use 'src/styles/_mixins'
 @use 'src/styles/_variables'
-    
-.checkWrapper
-    width: 100%
-    +mixins.center
+
+.upgrade
+    .checkWrapper
+        width: 100%
+        +mixins.center
+        margin-bottom: -35px
+        z-index: 1
 
 .addhabitvar, .edithabitvar, .addProjectvar, .editProjectvar, .addTaskvar, .editTaskvar, .addEvent, .editEvent
     --primary: 49,173,254
