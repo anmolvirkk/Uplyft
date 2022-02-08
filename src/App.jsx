@@ -4,7 +4,6 @@ import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-d
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
-import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
 import { useRecoilCallback, useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSectionAtom, datesAtom, 
  newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
