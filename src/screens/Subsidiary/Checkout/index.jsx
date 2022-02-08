@@ -177,7 +177,7 @@ const Checkout = () => {
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}}>
           <div className={styles.checkout} style={{height: windowHeight+'px'}}>
           {showForm?
-          <form className={styles.form}>
+          <div className={styles.form}>
               <Logo success={false} />
               <div className={styles.googlepay} onMouseDown={paywithgoogle}>
                 Pay with Google
@@ -196,7 +196,7 @@ const Checkout = () => {
                 <InputBox error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
               </div>
               <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
-          </form>
+          </div>
           :null}
           </div>
         </div>
