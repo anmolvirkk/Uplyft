@@ -19,7 +19,7 @@ const Header = ({type}) => {
                 </div>
             </div>
             <div className={styles.cta}>
-                {type==='pro'?<div className={styles.ctaBtn}>Create Account</div>:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
+                {type==='pro'?<div className={styles.ctaBtn} />:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
             </div>
         </div>
     )
