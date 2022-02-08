@@ -10,8 +10,10 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Backendless from 'backendless'
 import { planAtom } from '../Dashboard/allAtoms'
+import modalConfigAtom from '../Dashboard/recoil-atoms/modalConfigAtom'
 
-const stripeSecret = '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'
+// const stripeSecret = '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'
+const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
 
 const Logo = ({success}) => {
   const [auth] = useRecoilState(authAtom)
@@ -46,8 +48,8 @@ const Checkout = () => {
     cvv: ''
   })
   const [error, setError] = useState({type: '', message: ''})
-  const [success, setSuccess] = useState(false)
   const setPlan = useSetRecoilState(planAtom)
+  const setModalConfig = useSetRecoilState(modalConfigAtom)
   const makepayment = (e) => {
 
     e.preventDefault()
@@ -109,6 +111,7 @@ const Checkout = () => {
                         xhr.onload = (loggedInUser) => {
                           let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
                           Backendless.UserService.update(user)
+                          setModalConfig({type: 'upgrade', title: auth.plan.title})
                         }
                     }else if(auth.social === undefined){
                         if(window.location.pathname.split('/').length > 2){
@@ -121,10 +124,10 @@ const Checkout = () => {
                         xr.onload = (loggedInUser) => {
                             let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
                             Backendless.UserService.update(user)
+                            setModalConfig({type: 'upgrade', title: auth.plan.title})
                         }
                     }
                     setPlan(auth.plan.title.toLowerCase())
-                    setSuccess(true)
                   }else{
                   }
                 }
@@ -158,25 +161,31 @@ const Checkout = () => {
 
   }
 
-  const Success = () => {
-    const opendashboard = () => {
-      history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+  const paywithgoogle = () => {
+    let xr = new XMLHttpRequest()
+    xr.open('POST', `https://api.stripe.com/v1/payment_methods`, true)
+    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    xr.send(`type=card;card[wallet]=google_pay`)
+    xr.onload = (e) => {
+      console.log(JSON.parse(e.currentTarget.response))
     }
-    return (
-      <div className={styles.form}>
-        <Logo success={true} />
-        <div onMouseDown={opendashboard} className={styles.cta}>Open Dashboard</div>
-      </div>
-    )
   }
 
   return (
         <div className={styles.checkout} style={{height: window.innerHeight+'px'}}>
-          {!success?
-          showForm?
+          {showForm?
           <form className={styles.form}>
               <Logo success={false} />
                 <div>
+                  <div className={styles.googlepay} onMouseDown={paywithgoogle}>
+                    Pay with Google
+                  </div>
+                  <div className={styles.divide}>
+                      <hr />
+                      <p>or</p>
+                      <hr />
+                  </div>
                   <div className={styles.cname}>
                     <InputBox error={error.type==='card'||error.type==='all'?error.message:null} type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
                   </div>
@@ -188,8 +197,7 @@ const Checkout = () => {
                   <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
                 </div>
           </form>
-          :null
-          :<Success />}
+          :null}
         </div>
     )
 }

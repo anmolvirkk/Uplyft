@@ -18,6 +18,12 @@ import { iconsSvg } from '../../variables/journalConfig'
 import InputBox from '../../../Auth/components/InputBox'
 import { windowHeight } from '../../variables/mobileHeights'
 
+import confetti from 'canvas-confetti'
+import { useEffect } from 'react'
+
+import Lottie from 'react-lottie-player'
+import checkData from './check.json'
+
 const Modal = () => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
@@ -283,6 +289,40 @@ const Modal = () => {
             </div>
     )
 
+    const Upgrade = ({title}) => {
+        useEffect(()=>{
+            let elem = document.getElementById('modalForm')
+            confetti({
+                particleCount: 300,
+                spread: 145,
+                origin: {
+                    x: (elem.offsetLeft+(elem.clientWidth/2))/window.innerWidth,
+                    y: (elem.offsetTop+(elem.clientHeight/2))/window.innerHeight
+                }
+            })
+        }, [])
+
+        return (
+            <div className={`${styles.form} ${styles.renameEntry}`} id='modalForm'>
+                <div className={styles.header}>
+                    <p>Successfully Upgraded to {title} plan</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                <div className={styles.checkWrapper}>
+                    <Lottie
+                        play
+                        loop={false}
+                        animationData={checkData}
+                        style={{ width: 250, height: 250 }}
+                    />
+                </div>
+                <div className={styles.footer}>
+                    <button className={styles.continueBtn} onClick={editPrompt}>Continue</button>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:styles[modalConfig.type+'var']}`} onMouseDown={(e)=>closeModal(e)}>
             <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
@@ -312,6 +352,8 @@ const Modal = () => {
                 <AddEvent icons={iconsSvg} type="add" currentEvent={null} />
                 : modalConfig.type === 'editEvent' ?
                 <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
+                : modalConfig.type === 'upgrade' ?
+                <Upgrade title={modalConfig.title} />
                 : null
                 }
             </div>

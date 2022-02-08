@@ -115,7 +115,6 @@ const Auth = ({type}) => {
                         autoLoad={false}
                         uxMode='popup'
                     />
-                    <div id='googleSignIn'></div>
                     </div>
                     <div className={styles.divide}>
                         <hr />
