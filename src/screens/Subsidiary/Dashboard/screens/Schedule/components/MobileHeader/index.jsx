@@ -47,7 +47,10 @@ const MobileHeader = ({updateBackendless, updateAtoms}) => {
             <div className={styles.options}>
                 <Plus onMouseDown={scheduleHeader.onAdd!==null?()=>scheduleHeader.onAdd():()=>setScheduleAddDropDown(true)} id='mobileHeaderAddBtn' />
                 <div className={styles.moremenu}>
-                    <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Save", function: updateBackendless}, {name: "Sync", function: updateAtoms}, {name: "Logout", function: logout}]} pos={{right: '0', top: '6vh'}} />
+                {plan==='pro'?
+                <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Save", function: updateBackendless}, {name: "Sync", function: updateAtoms}, {name: "Logout", function: logout}]} pos={{right: '8px', top: '50px'}} />
+                :
+                <MoreMenu items={[{name: `${darkMode ? 'Light' : 'Dark'} Mode`, function: ()=>setDarkMode(!darkMode)}, {name: "Logout", function: logout}]} pos={{right: '8px', top: '50px'}} />}
                 </div>
             </div>
         </div>

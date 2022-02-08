@@ -23,7 +23,7 @@ const App = () => {
     const [forceUpdate, setForceUpdate] = useState(false)
     const setIsMobile = useSetRecoilState(isMobileAtom)
 
-    window.onresize = (e) => {
+    window.onresize = () => {
         if(window.innerWidth < 1450){
             setIsMobile(true)
         }else{
@@ -36,7 +36,7 @@ const App = () => {
             if(document.getElementById('authWrapper')){
                 document.getElementById('authWrapper').style.height = window.innerHeight+'px'
             }
-            if(e.target.innerHeight < windowHeight){
+            if(window.innerHeight <= windowHeight){
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
                 }
