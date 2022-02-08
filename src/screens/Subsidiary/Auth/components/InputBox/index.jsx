@@ -7,7 +7,7 @@ import isMobileAtom from '../../../Dashboard/recoil-atoms/isMobileAtom'
 const scrollToView = (e, wrapper, isMobile) => {
     let elem = document.getElementById(wrapper)
     if(elem){
-        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY-window.innerHeight/2))
+        const top = elem.scrollHeight-(elem.scrollHeight-(elem.scrollTop+e.clientY))
         if(window.innerHeight < windowHeight){
             elem.scroll({top: top, behavior: 'smooth'})
         }else if(isMobile){
