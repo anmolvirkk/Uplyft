@@ -12,6 +12,8 @@ import Backendless from 'backendless'
 import { planAtom } from '../Dashboard/allAtoms'
 import modalConfigAtom from '../Dashboard/recoil-atoms/modalConfigAtom'
 import { windowHeight } from '../Dashboard/variables/mobileHeights'
+import Lottie from 'react-lottie-player'
+import loadData from '../loading.json'
 
 // const stripeSecret = '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'
 const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
@@ -32,6 +34,7 @@ const Checkout = () => {
   const [auth] = useRecoilState(authAtom)
   const [showForm, setShowForm] = useState(false)
   const [plan] = useRecoilState(planAtom)
+  const [loading, setLoading] = useState(false)
   useEffect(()=>{
 
     document.getElementsByTagName('html')[0].className = 'light'
@@ -84,6 +87,7 @@ const Checkout = () => {
                 setError({type: 'card', message: JSON.parse(paymentmethod.currentTarget.response).error.message})
               break;
             }
+            setLoading(false)
           }else{
             setError({type: '', message: ''})
             let xr = new XMLHttpRequest()
@@ -97,7 +101,7 @@ const Checkout = () => {
               xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
               xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
               xr.send(`invoice_settings[default_payment_method]=${JSON.parse(pm.currentTarget.response).id}`)
-              xr.onload = (e) => {
+              xr.onload = () => {
                 let xr = new XMLHttpRequest()
                 xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
@@ -126,6 +130,7 @@ const Checkout = () => {
                             let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
                             Backendless.UserService.update(user)
                             setModalConfig({type: 'upgrade', title: auth.plan.title})
+                            setLoading(false)
                         }
                     }
                     setPlan(auth.plan.title.toLowerCase())
@@ -138,6 +143,7 @@ const Checkout = () => {
         }
       }else{
         setError({type: 'cvv', message: 'required'})
+        setLoading(false)
       }
     }
 
@@ -145,6 +151,7 @@ const Checkout = () => {
     xr.open('GET', `https://api.stripe.com/v1/customers`, true)
     xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
     xr.send(null)
+    setLoading(true)
     xr.onload = (customers) => {
       if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
         createcard(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
@@ -155,6 +162,7 @@ const Checkout = () => {
         xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
         xr.send(`email=${auth.login}`)
         xr.onload = (customer) => {
+          setLoading(false)
           createcard(JSON.parse(customer.currentTarget.response).id)
         }
       }
@@ -178,6 +186,16 @@ const Checkout = () => {
           <div className={styles.checkout} style={{height: windowHeight+'px'}}>
           {showForm?
           <div className={styles.form}>
+              {loading?
+                  <div className={styles.loading}>
+                      <Lottie
+                          play
+                          loop
+                          animationData={loadData}
+                          style={{ width: 250, height: 250 }}
+                      />
+                  </div>
+              :null}
               <Logo success={false} />
               <div className={styles.googlepay} onMouseDown={paywithgoogle}>
                 Pay with Google

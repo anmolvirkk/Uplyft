@@ -9,6 +9,8 @@ import { useHistory } from 'react-router-dom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import authAtom from './authAtom'
 import { planAtom } from '../Dashboard/allAtoms'
+import Lottie from 'react-lottie-player'
+import loadData from '../loading.json'
 
 const Auth = ({type}) => {
 
@@ -21,6 +23,7 @@ const Auth = ({type}) => {
     const [error, setError] = useState({email: false, password: false})
     const setPlan = useSetRecoilState(planAtom)
     const [auth, setAuth] = useRecoilState(authAtom)
+    const [loading, setLoading] = useState(false)
 
     const onsubmit = () => {
         let form = {
@@ -37,7 +40,9 @@ const Auth = ({type}) => {
                 xhr.open('POST', `https://deepway.backendless.app/api/users/register`, true)
                 xhr.setRequestHeader('Content-Type', 'application/json')
                 xhr.send(JSON.stringify({email: form.email, password: form.password}))
+                setLoading(true)
                 xhr.onload = (e) => {
+                    setLoading(false)
                     if(JSON.parse(e.currentTarget.response).code === undefined){
                         setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                         setPlan(JSON.parse(e.currentTarget.response).plan)
@@ -66,7 +71,9 @@ const Auth = ({type}) => {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: form.email, password: form.password}))
+            setLoading(true)
             xhr.onload = (e) => {
+                setLoading(false)
                 if(JSON.parse(e.currentTarget.response).code === undefined){
                     setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                     setPlan(JSON.parse(e.currentTarget.response).plan)
@@ -91,7 +98,9 @@ const Auth = ({type}) => {
         let xhr = new XMLHttpRequest()
         xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
+        setLoading(true)
         xhr.onload = (e) => {
+            setLoading(false)
             setAuth({...auth, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             setPlan(JSON.parse(e.currentTarget.response).plan)
             history.push(`/${company.subsidiary}/checkout`)
@@ -102,6 +111,16 @@ const Auth = ({type}) => {
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
             <div className={styles.auth} style={{height: windowHeight+'px'}}>
                 <div className={styles.form}>
+                    {loading?
+                        <div className={styles.loading}>
+                            <Lottie
+                                play
+                                loop
+                                animationData={loadData}
+                                style={{ width: 250, height: 250 }}
+                            />
+                        </div>
+                    :null}
                     <div className={styles.title}>
                         <img src='/logos/main.png' alt={company.subsidiary} />
                         <h1>Skyhance</h1>

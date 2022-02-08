@@ -17,6 +17,17 @@
         justify-content: space-between
         padding: 3vh
         border-radius: 10px 10px
+        position: relative
+        .loading
+            height: 100%
+            width: 100%
+            background-color: white
+            position: absolute
+            top: 0
+            left: 0
+            border-radius: 10px 10px
+            z-index: 9
+            +mixins.center
         .title
             +mixins.center
             img

@@ -36,7 +36,7 @@ const App = () => {
             if(document.getElementById('authWrapper')){
                 document.getElementById('authWrapper').style.height = window.innerHeight+'px'
             }
-            if(window.innerHeight <= windowHeight){
+            if(window.innerHeight < windowHeight){
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
                 }
