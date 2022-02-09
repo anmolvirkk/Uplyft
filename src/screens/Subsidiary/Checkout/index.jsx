@@ -39,7 +39,6 @@ const Checkout = () => {
 
     document.getElementsByTagName('html')[0].className = 'light'
     if(auth.plan){
-      console.log(auth.plan)
       if(plan===auth.plan.title.toLowerCase()){
         history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
       }else{

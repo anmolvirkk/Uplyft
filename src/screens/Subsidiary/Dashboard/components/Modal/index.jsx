@@ -126,8 +126,11 @@ const Modal = () => {
         setModalConfig({type: ''})
     }
 
-    const EditJournal = () => (
-        <div className={`${styles.form} ${styles.addHabit} ${styles.habitCustomize}`} id='modalForm'>
+    const EditJournal = ({color, icon}) => {
+        journalDetail.current.color = colors.findIndex(i=>i===color)
+        journalDetail.current.icon = icon
+        return (
+            <div className={`${styles.form} ${styles.addHabit} ${styles.habitCustomize}`} id='modalForm'>
                 <div className={styles.header}>
                     <p>Edit Journal</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
@@ -155,7 +158,8 @@ const Modal = () => {
                     <button className={styles.continueBtn} onClick={editJournal}>Continue</button>
                 </div>
             </div>
-    )
+        )
+    }
 
 
     const addJournal = () => {
@@ -332,7 +336,7 @@ const Modal = () => {
                 : modalConfig.type === 'entry' ? 
                 <RenameEntry /> 
                 : modalConfig.type === 'journal' ?
-                <EditJournal />
+                <EditJournal color={modalConfig.color} icon={modalConfig.icon} />
                 : modalConfig.type === 'prompt' ?
                 <AddPrompt />
                 : modalConfig.type === 'editprompt' ?

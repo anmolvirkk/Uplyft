@@ -7,7 +7,6 @@ import {ArrowDown} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil' 
 
-import openModal from '../../../../functions/openModal'
 import company from '../../../../../../../company'
 
 import { iconsSvg } from '../../../../variables/journalConfig'
@@ -50,10 +49,6 @@ const BookSection = ({ styles, isMobile }) => {
 
         }
 
-    }
-
-    const editJournal = () => {
-        openModal({type: 'journal', setModalConfig: setModalConfig})
     }
 
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
@@ -112,7 +107,7 @@ const BookSection = ({ styles, isMobile }) => {
                             </div>
                         </div>
                     </div>
-                    <MoreMenu items={[{name: "edit", function: editJournal}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: !isMobile?'-2.5vh':'0', top: !isMobile?'3.5vh':'32px'}} />
+                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'journal', color: props.color, icon: props.icon})}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: !isMobile?'-2.5vh':'0', top: !isMobile?'3.5vh':'32px'}} />
                 </NavLink>
             )) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}><p>Add a journal to begin!</p>{!isMobile?<ArrowDown />:null}</div>
             }
