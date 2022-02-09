@@ -44,13 +44,18 @@
             +main.cta
             background-color: transparent
             background-image: none
-            border: 2px solid rgb(var(--text))
             color: rgb(var(--text))
-            transition: 0.2s
-        .loginBtn:hover
             background-color: rgb(var(--text))
-            border-color: rgb(var(--text))
             color: white
+
+    .mobileCta
+        display: flex
+        align-items: center
+        svg
+            height: 24px
+            width: 24px
+            margin-left: 24px
+            color: rgb(var(--titles))
         
 @media screen and (max-width: 1450px)
     .header
@@ -65,8 +70,7 @@
         .cta
             .login
                 display: none
-            .ctaBtn
-                margin-left: 0
+            .ctaBtn, .loginBtn
                 font-size: 16px
                 height: 45px
                 width: 150px
