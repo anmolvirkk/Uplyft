@@ -38,10 +38,15 @@ const Checkout = () => {
   useEffect(()=>{
 
     document.getElementsByTagName('html')[0].className = 'light'
-    if(plan===auth.plan.title.toLowerCase()){
-      history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+    if(auth.plan){
+      console.log(auth.plan)
+      if(plan===auth.plan.title.toLowerCase()){
+        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+      }else{
+        setShowForm(true)
+      }
     }else{
-      setShowForm(true)
+      history.push(`/${company.subsidiary}/pricing`)
     }
 
   }, [auth, history, plan])

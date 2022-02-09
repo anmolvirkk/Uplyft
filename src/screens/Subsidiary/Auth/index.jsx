@@ -44,7 +44,7 @@ const Auth = ({type}) => {
                 xhr.onload = (e) => {
                     setLoading(false)
                     if(JSON.parse(e.currentTarget.response).code === undefined){
-                        setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                        setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                         setPlan(JSON.parse(e.currentTarget.response).plan)
                         if(JSON.parse(e.currentTarget.response).plan === 'free'){
                             history.push(`/${company.subsidiary}/checkout`)
@@ -75,7 +75,7 @@ const Auth = ({type}) => {
             xhr.onload = (e) => {
                 setLoading(false)
                 if(JSON.parse(e.currentTarget.response).code === undefined){
-                    setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                    setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                     setPlan(JSON.parse(e.currentTarget.response).plan)
                     history.push(`/${company.subsidiary}/checkout`)
                 }else{
@@ -101,7 +101,7 @@ const Auth = ({type}) => {
         setLoading(true)
         xhr.onload = (e) => {
             setLoading(false)
-            setAuth({...auth, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+            setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             setPlan(JSON.parse(e.currentTarget.response).plan)
             history.push(`/${company.subsidiary}/checkout`)
         }
