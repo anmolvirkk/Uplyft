@@ -19,7 +19,8 @@ const Header = ({type}) => {
                 </div>
             </div>
             <div className={styles.cta}>
-                {type==='pro'?<div className={`${styles.ctaBtn} ${styles.noneBtn}`} />:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
+                <Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}>Login</Link>
+                {type==='pro'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
             </div>
         </div>
     )

@@ -40,24 +40,17 @@
         .ctaBtn
             +main.cta
             margin-left: 20px
-        .noneBtn
+        .loginBtn
+            +main.cta
             background-color: transparent
-            pointer-events: none
             background-image: none
-        .login
-            color: rgb(var(--titles))
-            cursor: pointer
-            position: relative
-            font-weight: 400
-            border-radius: 7px 7px 
-            height: 5vh
-            +mixins.center
-            transition: 0.1s
-            font-size: 1.5vh
-            padding: 0 1.5vh
-        .login:hover
-            background-color: rgba(var(--primary), 0.1)
-            border-color: rgb(var(--primary))
+            border: 2px solid rgb(var(--text))
+            color: rgb(var(--text))
+            transition: 0.2s
+        .loginBtn:hover
+            background-color: rgb(var(--text))
+            border-color: rgb(var(--text))
+            color: white
         
 @media screen and (max-width: 1450px)
     .header
