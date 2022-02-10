@@ -17,6 +17,7 @@ import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalCo
 import authAtom from './screens/Subsidiary/Auth/authAtom'
 import Pricing from './screens/Subsidiary/Pricing'
 import Checkout from './screens/Subsidiary/Checkout'
+import snacksAtom from './screens/Subsidiary/Dashboard/components/Snackbar/snacksAtom'
 
 const App = () => {
 
@@ -99,6 +100,7 @@ const App = () => {
     const [auth] = useRecoilState(authAtom)
 
     const [plan] = useRecoilState(planAtom)
+    const [snacks, setSnacks] = useRecoilState(snacksAtom)
     
     const batchUpdate = useRecoilCallback(({set})=>(data)=>{
         if(data){
@@ -141,6 +143,7 @@ const App = () => {
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
+                setSnacks([...snacks, 'sync complete'])
             }
         }else if(auth.social === undefined){
             if(window.location.pathname.split('/').length > 2){
@@ -156,9 +159,10 @@ const App = () => {
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
+                setSnacks([...snacks, 'sync complete'])
             }
         }
-    }, [auth, batchUpdate])
+    }, [auth, batchUpdate, setSnacks, snacks])
 
     const updateBackendless = useCallback(() => {
         const recoilData = {
@@ -198,6 +202,7 @@ const App = () => {
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
+                    setSnacks([...snacks, 'saved to cloud'])
                 }
             }else{
                 let xr = new XMLHttpRequest()
@@ -206,12 +211,13 @@ const App = () => {
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
+                    setSnacks([...snacks, 'saved to cloud'])
                 }
             }
         }
 
         saved.current = false
-    }, [allCalendarEvents, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
+    }, [allCalendarEvents, setSnacks, snacks, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if(plan==='pro'){

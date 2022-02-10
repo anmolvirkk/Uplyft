@@ -1,0 +1,50 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+
+.wrapper
+    position: absolute
+    z-index: 9
+    bottom: 80px
+    right: 80px
+    padding: 1.5vh
+    overflow-y: overlay
+    overflow-x: hidden
+    align-items: flex-end
+    justify-content: flex-end
+    .snack
+        display: flex
+        align-items: center
+        color: rgb(var(--titles))
+        background-color: rgb(var(--sideBar))
+        padding: 1.5vh
+        border-radius: 10px 10px
+        width: 45vh
+        justify-content: space-between
+        margin-top: 1.5vh
+        transition: 0.2s
+        svg
+            height: 2.5vh
+        .close
+            cursor: pointer
+        .title
+            display: flex
+            align-items: center
+            p
+                margin-left: 1.5vh
+                
+@media screen and (max-width: 1450px)
+    .wrapper
+        bottom: 80px
+        right: 0
+        padding: 12px
+        width: 100%
+        .snack
+            padding: 12px
+            width: 100%
+            margin-top: 12px
+            svg
+                height: 24px
+            .title
+                p
+                    margin-left: 12px
+                    font-size: 14px

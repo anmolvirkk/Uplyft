@@ -9,6 +9,7 @@ import Construction from './screens/Construction'
 import company from '../../../company'
 import { darkModeAtom, planAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
+import Snackbar from './components/Snackbar'
 
 const Dashboard = ({updateAtoms, updateBackendless}) => {
 
@@ -32,9 +33,9 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const [plan] = useRecoilState(planAtom)
 
     useEffect(()=>{
-        if(plan==='pro'){
-            updateAtoms()
-        }
+        // if(plan==='pro'){
+        //     updateAtoms()
+        // }
     }, [updateAtoms, plan])
 
     return (
@@ -42,6 +43,7 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
             {modalConfig.type!=='' ? 
             <Modal />
             : null}
+            <Snackbar />
             <Switch>
                 <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackendless={updateBackendless} /></Route>
                 <Route path={`/${company.subsidiary}/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" updateBackendless={updateBackendless} /></Route>
