@@ -1,19 +1,13 @@
 import React from 'react'
 import styles from './_sidebar.module.sass'
-import {Power, RefreshCw, Save, Tool} from 'react-feather'
+import {Sliders, Tool} from 'react-feather'
 import { NavLink } from 'react-router-dom'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
-import DarkMode from './components/DarkMode'
 import company from '../../../../../company'
 import isMobileAtom from '../../recoil-atoms/isMobileAtom'
-import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom, planAtom} from '../../allAtoms'
-
-import { useHistory } from 'react-router-dom'
-
-import Backendless from 'backendless'
-import authAtom from '../../../Auth/authAtom'
-import { GoogleLogout } from 'react-google-login'
+import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
+import settingsAtom from './components/Settings/settingsAtom'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -26,7 +20,7 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
     )
 }
 
-const SideBar = ({updateBackendless, updateAtoms}) => {
+const SideBar = () => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
@@ -100,23 +94,7 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
         }
     ]
 
-    const history = useHistory()
-
-    const logout = () => {
-        if(plan==='pro'){
-            updateBackendless()
-            Backendless.UserService.logout().then(()=>{
-                localStorage.clear()
-                history.push(`/${company.subsidiary}`)
-            })
-        }else{
-            history.push(`/${company.subsidiary}`)
-        }
-    }
-
-    const [auth] = useRecoilState(authAtom)
-
-    const [plan] = useRecoilState(planAtom)
+    const [settings, setSettings] = useRecoilState(settingsAtom)
 
     return (
         <aside id='mainSideBar'>
@@ -127,37 +105,11 @@ const SideBar = ({updateBackendless, updateAtoms}) => {
                 return <IconButton {...props} key={props.name} />
             })}
             <div className={styles.options}>
-                <DarkMode />
-                {plan==='pro'?
-                <div className={styles.iconButton} onMouseDown={updateAtoms}>
-                    <RefreshCw />
-                    <p>Sync</p>
+                <div className={styles.iconButton} onMouseDown={()=>setSettings(!settings)} id='settingsBtn'>
+                    <Sliders />
+                    <p>Settings</p>
                 </div>
-                :null}
-                {plan==='pro'?
-                <div className={styles.iconButton} onMouseDown={updateBackendless}>
-                    <Save />
-                    <p>Save</p>
-                </div>
-                :null}
-                {!auth.social?
-                        <div className={styles.iconButton} onMouseDown={logout}>
-                            <Power />
-                            <p>Logout</p>
-                        </div>
-                    :   <GoogleLogout
-                            clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
-                            buttonText="Logout" 
-                            onLogoutSuccess={logout}
-                            render={e=>(
-                                <div className={styles.iconButton} onMouseDown={e.onClick}>
-                                    <Power />
-                                    <p>Logout</p>
-                                </div>
-                            )}  
-                        />
-                }
-                </div>
+            </div>
         </aside>
     )
 }

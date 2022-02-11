@@ -9,6 +9,7 @@ aside
     overflow-y: overlay
     display: grid
     grid-template-rows: 100px 80px 80px 80px 80px 80px
+    z-index: 11
 
 .logo
     height: 45px
@@ -49,11 +50,13 @@ aside
         border-radius: 10px 10px
         background: rgb(var(--sideSlot))
         padding: 13px
+        pointer-events: none
     p
         margin: 0
         padding: 0
         margin-top: 10px
         text-transform: capitalize
+        pointer-events: none
 
 .iconButton:first-child
     margin-top: 3vh

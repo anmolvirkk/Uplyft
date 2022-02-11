@@ -14,6 +14,7 @@ import company from '../../../../../company'
 import MobileHeader from './components/MobileHeader'
 
 import { datesAtom, allRoutesAtom } from '../../allAtoms'
+import Settings from '../../components/SideBar/components/Settings'
 
 const Journals = ({updateBackendless, updateAtoms}) => {
 
@@ -30,7 +31,9 @@ const Journals = ({updateBackendless, updateAtoms}) => {
         <div className={styles.journals}>
             <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/${company.subsidiary}/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/${company.subsidiary}/dashboard/${company.journals}`} />
             
-            <SideBar updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
+            <SideBar />
+
+            <Settings updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
 
             <BookSection styles={styles} isMobile={isMobile} />
 
@@ -40,7 +43,7 @@ const Journals = ({updateBackendless, updateAtoms}) => {
             
             {allRoutes&&allRoutes['book']&&allRoutes[[allRoutes['book']]]?<Calendar isMobile={isMobile} />:null}
 
-            <MobileHeader updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
+            {isMobile?<MobileHeader />:null}
 
         </div>
     )
