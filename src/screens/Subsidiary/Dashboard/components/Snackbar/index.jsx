@@ -2,13 +2,14 @@ import React from 'react'
 import styles from './_snackbar.module.sass'
 import {X} from 'react-feather'
 import checkData from '../Modal/check.json'
+import loadData from '../../../loading.json'
 import Lottie from 'react-lottie-player'
 import { useRecoilState } from 'recoil'
 import snacksAtom from './snacksAtom'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 
-const Snack = React.memo(({text, item, snacks, setSnacks, animate}) => {
+const Snack = React.memo(({text, item, snacks, setSnacks, animate, icon}) => {
     const removeSnack = () => {
         let newSnacks = snacks.map((x,i)=>{
             if(i!==item){
@@ -22,13 +23,22 @@ const Snack = React.memo(({text, item, snacks, setSnacks, animate}) => {
     return (
         <div className={styles.snack}>
             <div className={styles.title}>
+                {icon==='load'?
+                <Lottie
+                    play={animate}
+                    goTo={animate?null:120}
+                    loop={false}
+                    animationData={loadData}
+                    style={{ width: 50, height: 50 }}
+                />
+                :
                 <Lottie
                     play={animate}
                     goTo={animate?null:120}
                     loop={false}
                     animationData={checkData}
                     style={{ width: 50, height: 50 }}
-                />
+                />}
                 <p>{text}</p>
             </div>
             <X className={styles.close} onMouseDown={removeSnack} />
@@ -66,7 +76,7 @@ const Snackbar = React.memo(() => {
         const [snacks] = useRecoilState(snacksAtom)
         return (
             <div className={styles.wrapper} style={{maxHeight: window.innerHeight-80+'px'}}>
-                {snacks.map((item, i)=><Snack key={i} text={item.text} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />)}
+                {snacks.map((item, i)=><Snack key={i} text={item.text} icon={item.icon} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />)}
             </div>
         )
     })

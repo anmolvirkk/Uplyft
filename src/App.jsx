@@ -137,13 +137,14 @@ const App = () => {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+            setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
                     window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
-                setSnacks([...snacks, {animate: true, text: 'sync complete'}])
+                setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
             }
         }else if(auth.social === undefined){
             if(window.location.pathname.split('/').length > 2){
@@ -153,13 +154,14 @@ const App = () => {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
+            setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
                     window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
-                setSnacks([...snacks, {animate: true, text: 'sync complete'}])
+                setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
             }
         }
     }, [auth, batchUpdate, setSnacks, snacks])
@@ -199,19 +201,21 @@ const App = () => {
                 let xr = new XMLHttpRequest()
                 xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
                 xr.send(JSON.stringify({accessToken: auth.accessToken}))
+                setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
-                    setSnacks([...snacks, {animate: true, text: 'saved to cloud'}])
+                    setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
                 }
             }else{
                 let xr = new XMLHttpRequest()
                 xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
                 xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+                setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
-                    setSnacks([...snacks, {animate: true, text: 'saved to cloud'}])
+                    setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
                 }
             }
         }
