@@ -10,10 +10,12 @@ import company from '../../../company'
 import { darkModeAtom, planAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 import Snackbar from './components/Snackbar'
+import snacksAtom from './components/Snackbar/snacksAtom'
+import { useRef } from 'react'
 
 const Dashboard = ({updateAtoms, updateBackendless}) => {
 
-    const [modalConfig] = useRecoilState(modalConfigAtom)
+    const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
     const [darkMode] = useRecoilState(darkModeAtom)
 
@@ -30,13 +32,25 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
         }
     }, [darkMode])
 
+    const [snacks, setSnacks] = useRecoilState(snacksAtom)
     const [plan] = useRecoilState(planAtom)
 
-    useEffect(()=>{
-        // if(plan==='pro'){
-        //     updateAtoms()
-        // }
-    }, [updateAtoms, plan])
+    const updated = useRef({snacks: false, modals: false, atoms: false})
+
+    useEffect(() => {
+        if(!updated.current.snacks){
+            updated.current.snacks = true
+            setSnacks([])
+        }
+        if(!updated.current.modals){
+            updated.current.modals = true
+            setModalConfig({type: ''})
+        }
+        if(plan==='pro' && !updated.current.atoms){
+            updated.current.atoms = true
+            updateAtoms()
+        }
+    }, [modalConfig, snacks, setModalConfig, setSnacks, plan, updateAtoms])
 
     return (
         <div className="container">

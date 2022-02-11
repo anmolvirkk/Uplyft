@@ -26,7 +26,7 @@ const Snack = React.memo(({text, item, snacks, setSnacks, animate, icon}) => {
                 <Lottie
                     play={animate}
                     goTo={animate?null:120}
-                    loop={false}
+                    loop={icon==='load'?true:false}
                     animationData={icon==='load'?loadData:checkData}
                     style={{ width: 50, height: 50 }}
                 />

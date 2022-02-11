@@ -33,7 +33,7 @@ const Checkout = () => {
   const history = useHistory()
   const [auth] = useRecoilState(authAtom)
   const [showForm, setShowForm] = useState(false)
-  const [plan] = useRecoilState(planAtom)
+  const [plan, setPlan] = useRecoilState(planAtom)
   const [loading, setLoading] = useState(false)
   useEffect(()=>{
 
@@ -56,7 +56,6 @@ const Checkout = () => {
     cvv: ''
   })
   const [error, setError] = useState({type: '', message: ''})
-  const setPlan = useSetRecoilState(planAtom)
   const setModalConfig = useSetRecoilState(modalConfigAtom)
   const makepayment = (e) => {
 
@@ -121,6 +120,8 @@ const Checkout = () => {
                           let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
                           Backendless.UserService.update(user)
                           setModalConfig({type: 'upgrade', title: auth.plan.title})
+                          setPlan(auth.plan.title.toLowerCase())
+                          setLoading(false)
                         }
                     }else if(auth.social === undefined){
                         if(window.location.pathname.split('/').length > 2){
@@ -134,10 +135,10 @@ const Checkout = () => {
                             let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
                             Backendless.UserService.update(user)
                             setModalConfig({type: 'upgrade', title: auth.plan.title})
+                            setPlan(auth.plan.title.toLowerCase())
                             setLoading(false)
                         }
                     }
-                    setPlan(auth.plan.title.toLowerCase())
                   }else{
                   }
                 }
