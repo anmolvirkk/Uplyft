@@ -23,22 +23,13 @@ const Snack = React.memo(({text, item, snacks, setSnacks, animate, icon}) => {
     return (
         <div className={styles.snack}>
             <div className={styles.title}>
-                {icon==='load'?
                 <Lottie
                     play={animate}
                     goTo={animate?null:120}
                     loop={false}
-                    animationData={loadData}
+                    animationData={icon==='load'?loadData:checkData}
                     style={{ width: 50, height: 50 }}
                 />
-                :
-                <Lottie
-                    play={animate}
-                    goTo={animate?null:120}
-                    loop={false}
-                    animationData={checkData}
-                    style={{ width: 50, height: 50 }}
-                />}
                 <p>{text}</p>
             </div>
             <X className={styles.close} onMouseDown={removeSnack} />
