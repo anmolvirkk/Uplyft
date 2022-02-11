@@ -38,9 +38,13 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const updated = useRef({snacks: false, modals: false, atoms: false})
 
     useEffect(() => {
-        if(!updated.current.snacks){
-            updated.current.snacks = true
+        if(snacks.length > 0 && !updated.current.snacks){
             setSnacks([])
+            let timeout
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                updated.current.snacks = true
+            }, 3000)
         }
         if(plan==='pro' && !updated.current.atoms){
             updated.current.atoms = true

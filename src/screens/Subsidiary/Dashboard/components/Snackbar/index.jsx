@@ -44,29 +44,34 @@ const Snackbar = React.memo(() => {
     const timeout = useRef(null)
     
     useEffect(()=>{
-        clearTimeout(timeout.current)
-        timeout.current = setTimeout(()=>{
-            if(document.getElementsByClassName(styles.snack)[0]){
-                document.getElementsByClassName(styles.snack)[0].style.opacity = 0
-                setTimeout(()=>{
-                    let newSnacks = [...snacks.filter((x,i)=>i!==0)]
-                    newSnacks = newSnacks.map((item)=>{
-                        let newItem = {...item}
-                        newItem.animate = false
-                        return newItem
-                    })
-                    setSnacks([...newSnacks])
-                }, 200)
-            }else{
-                clearTimeout(timeout.current)
-            }
-        }, 3000)
+            clearTimeout(timeout.current)
+            timeout.current = setTimeout(()=>{
+                if(document.getElementsByClassName(styles.snack)[0]){
+                    document.getElementsByClassName(styles.snack)[0].style.opacity = 0
+                    setTimeout(()=>{
+                        let newSnacks = [...snacks.filter((x,i)=>i!==0)]
+                        newSnacks = newSnacks.map((item)=>{
+                            let newItem = {...item}
+                            newItem.animate = false
+                            if(newItem.icon === 'load'){
+                                return null
+                            }else{
+                                return newItem
+                            }
+                        }).filter(i=>i!==null)
+                        setSnacks([...newSnacks])
+                    }, 200)
+                }else{
+                    clearTimeout(timeout.current)
+                    timeout.current = null
+                }
+            }, 3000)
     }, [snacks, setSnacks])
 
     const Container = () => {
         return (
             <div className={styles.wrapper} style={{maxHeight: window.innerHeight-80+'px'}}>
-                {snacks.map((item, i)=><Snack key={i} text={item.text} icon={item.icon} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />)}
+                {snacks?snacks.map((item, i)=><Snack key={i} text={item.text} icon={item.icon} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />):null}
             </div>
         )
     }
