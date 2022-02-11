@@ -8,8 +8,7 @@ import snacksAtom from './snacksAtom'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 
-const Snack = ({text, item}) => {
-    const [snacks, setSnacks] = useRecoilState(snacksAtom)
+const Snack = React.memo(({text, item, snacks, setSnacks, animate}) => {
     const removeSnack = () => {
         let newSnacks = snacks.map((x,i)=>{
             if(i!==item){
@@ -24,7 +23,8 @@ const Snack = ({text, item}) => {
         <div className={styles.snack}>
             <div className={styles.title}>
                 <Lottie
-                    play
+                    play={animate}
+                    goTo={animate?null:120}
                     loop={false}
                     animationData={checkData}
                     style={{ width: 50, height: 50 }}
@@ -34,24 +34,27 @@ const Snack = ({text, item}) => {
             <X className={styles.close} onMouseDown={removeSnack} />
         </div>
     )
-}
+})
 
-const Snackbar = () => {
+const Snackbar = React.memo(() => {
 
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
 
-    let timeout = useRef(null)
+    const timeout = useRef(null)
     
     useEffect(()=>{
-        if(document.getElementById('mainSideBar')){
-            document.getElementById('mainSideBar').onmousedown = () => setSnacks([...snacks, 0])
-        }
         clearTimeout(timeout.current)
         timeout.current = setTimeout(()=>{
             if(document.getElementsByClassName(styles.snack)[0]){
                 document.getElementsByClassName(styles.snack)[0].style.opacity = 0
                 setTimeout(()=>{
-                    setSnacks([...snacks.filter((x,i)=>i!==0)])
+                    let newSnacks = [...snacks.filter((x,i)=>i!==0)]
+                    newSnacks = newSnacks.map((item)=>{
+                        let newItem = {...item}
+                        newItem.animate = false
+                        return newItem
+                    })
+                    setSnacks([...newSnacks])
                 }, 200)
             }else{
                 clearTimeout(timeout.current)
@@ -59,20 +62,20 @@ const Snackbar = () => {
         }, 3000)
     }, [snacks, setSnacks])
 
-    const Container = () => {
+    const Container = React.memo(() => {
         const [snacks] = useRecoilState(snacksAtom)
         return (
             <div className={styles.wrapper} style={{maxHeight: window.innerHeight-80+'px'}}>
-                {snacks.map((item, i)=><Snack key={i} text={item} item={i} />)}
+                {snacks.map((item, i)=><Snack key={i} text={item.text} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />)}
             </div>
         )
-    }
+    })
 
     return (
         <div>
             <Container />
         </div>
     )
-}
+})
 
 export default Snackbar

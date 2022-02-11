@@ -143,7 +143,7 @@ const App = () => {
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
-                setSnacks([...snacks, 'sync complete'])
+                setSnacks([...snacks, {animate: true, text: 'sync complete'}])
             }
         }else if(auth.social === undefined){
             if(window.location.pathname.split('/').length > 2){
@@ -159,7 +159,7 @@ const App = () => {
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
-                setSnacks([...snacks, 'sync complete'])
+                setSnacks([...snacks, {animate: true, text: 'sync complete'}])
             }
         }
     }, [auth, batchUpdate, setSnacks, snacks])
@@ -202,7 +202,7 @@ const App = () => {
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
-                    setSnacks([...snacks, 'saved to cloud'])
+                    setSnacks([...snacks, {animate: true, text: 'saved to cloud'}])
                 }
             }else{
                 let xr = new XMLHttpRequest()
@@ -211,7 +211,7 @@ const App = () => {
                 xr.onload = (loggedInUser) => {
                     let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
                     Backendless.UserService.update(user)
-                    setSnacks([...snacks, 'saved to cloud'])
+                    setSnacks([...snacks, {animate: true, text: 'saved to cloud'}])
                 }
             }
         }
