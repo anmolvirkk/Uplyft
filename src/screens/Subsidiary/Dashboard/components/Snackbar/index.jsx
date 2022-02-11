@@ -63,14 +63,13 @@ const Snackbar = React.memo(() => {
         }, 3000)
     }, [snacks, setSnacks])
 
-    const Container = React.memo(() => {
-        const [snacks] = useRecoilState(snacksAtom)
+    const Container = () => {
         return (
             <div className={styles.wrapper} style={{maxHeight: window.innerHeight-80+'px'}}>
                 {snacks.map((item, i)=><Snack key={i} text={item.text} icon={item.icon} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />)}
             </div>
         )
-    })
+    }
 
     return (
         <div>

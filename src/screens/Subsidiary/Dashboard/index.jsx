@@ -42,10 +42,6 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
             updated.current.snacks = true
             setSnacks([])
         }
-        if(!updated.current.modals){
-            updated.current.modals = true
-            setModalConfig({type: ''})
-        }
         if(plan==='pro' && !updated.current.atoms){
             updated.current.atoms = true
             updateAtoms()
