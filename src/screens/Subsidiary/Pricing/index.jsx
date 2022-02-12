@@ -205,7 +205,7 @@ const Pricing = () => {
 
   return (
     <div className={`${styles.pricing} light`} style={{height: window.innerHeight+'px'}}>
-        <Header type='pro' />
+        <Header type='pricing' />
         <div className={styles.title}>
           <h1>Ready to start with <span>{company.subsidiary}</span>?</h1>
           <p>Choose the plan that suits you.</p>
@@ -216,7 +216,7 @@ const Pricing = () => {
             return <Plan {...item} interval={month?'month':'year'} key={i} month={month} />
           })}
         </div>
-        <Footer type='pro' />
+        <Footer type='pricing' />
     </div>
   )
 }

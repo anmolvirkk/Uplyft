@@ -22,12 +22,12 @@ const Header = ({type}) => {
             </div>
             {isMobile?
             <div className={styles.mobileCta}>
-                {type==='pro'?<Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}><LogIn /></Link>:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}><UserPlus /></Link>}
+                {type==='pricing'?<Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}><LogIn /></Link>:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}><UserPlus /></Link>}
             </div>
             :
             <div className={styles.cta}>
                 <Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}>Login</Link>
-                {type==='pro'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
+                {type==='pricing'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
             </div>}
         </div>
     )
