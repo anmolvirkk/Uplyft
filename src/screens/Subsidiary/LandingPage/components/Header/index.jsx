@@ -26,8 +26,7 @@ const Header = ({type}) => {
             </div>
             :
             <div className={styles.cta}>
-                <Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}>Login</Link>
-                {type==='pricing'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
+                {type==='pricing'?<Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}>Login</Link>:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
             </div>}
         </div>
     )
