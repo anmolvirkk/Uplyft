@@ -16,6 +16,7 @@ import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideC
 
 const Settings = ({updateBackendless, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
+    const [auth] = useRecoilState(authAtom)
     const Toggle = ({state, setState}) => {
         return (
             <div className={`${styles.toggle} ${state?styles.active:''}`} onMouseDown={()=>setState(!state)}>
@@ -29,7 +30,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                 {title?<div className={styles.title}>{title}</div>:null}
                 {blocks?blocks.map((item, i)=>{
                     return (
-                        <div key={i} className={styles.block} style={{cursor: item.type==='button'?'pointer':'default'}} onMouseDown={item.func?item.func:null}>
+                        <div key={i} className={`${styles.block} ${auth.plan.title===item.text.toLowerCase()?styles.currentPlan:''}`} style={{cursor: item.type==='button'?'pointer':'default'}} onMouseDown={item.func?item.func:null}>
                             <div className={styles.text}>
                                 {item.icon?item.icon:null}
                                 {item.lottie?
@@ -65,7 +66,6 @@ const Settings = ({updateBackendless, updateAtoms}) => {
         }
     }
 
-    const [auth] = useRecoilState(authAtom)
     const [settings, setSettings] = useRecoilState(settingsAtom)
 
     const closeSettings = (e) => {
@@ -77,7 +77,6 @@ const Settings = ({updateBackendless, updateAtoms}) => {
     return (
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
-                {plan!=='pro'?<Blocks blocks={[{lottie:premium, text:'Upgrade to pro', type:'button'}]} />:null}
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
                 {plan==='pro'?<Blocks title='Data Management' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
                 {plan!=='starter'?<Blocks title='Change Plan' blocks={[{lottie:premium, text: 'Pro', type: 'button'},{lottie: plus, text: 'Plus', type: 'button'},{icon: <Package />, text: 'Starter', type: 'button'}]} />:null}
