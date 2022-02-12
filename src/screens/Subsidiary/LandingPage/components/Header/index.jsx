@@ -2,9 +2,9 @@ import React from 'react'
 import styles from './_header.module.sass'
 import company from '../../../../../company'
 import { Link } from 'react-router-dom'
-import {LogIn, UserPlus} from 'react-feather'
+import {UserPlus} from 'react-feather'
 
-const Header = ({type}) => {
+const Header = () => {
     const isMobile = window.innerWidth < 1450
     return (
         <div className={styles.header}>
@@ -22,13 +22,12 @@ const Header = ({type}) => {
             </div>
             {isMobile?
             <div className={styles.mobileCta}>
-                <Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}><LogIn /></Link>
-                {type==='pro'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}><UserPlus /></Link>}
+                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}><UserPlus /></Link>
             </div>
             :
             <div className={styles.cta}>
                 <Link className={styles.loginBtn} to={`/${company.subsidiary}/login`}>Login</Link>
-                {type==='pro'?null:<Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>}
+                <Link className={styles.ctaBtn} to={`/${company.subsidiary}/pricing`}>Get Started</Link>
             </div>}
         </div>
     )
