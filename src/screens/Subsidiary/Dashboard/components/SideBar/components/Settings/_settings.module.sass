@@ -2,7 +2,7 @@
 @use 'src/styles/_variables'
 
 .settings
-    width: 250px
+    width: 500px
     height: 100%
     position: absolute
     background: rgb(var(--background))
@@ -12,22 +12,30 @@
     z-index: 8
     border-right: 1px solid rgb(var(--border))
     --primary: 75, 209, 255
-    transform: translateX(calc(0px - 250px - 80px))
+    transform: translateX(calc(0px - 500px - 80px))
     transition: 0.2s
+    overflow-x: hidden
+    overflow-y: overlay
+    padding: 0 1vh
 
 .show
     transform: translateX(0%)
 
+.container
+    .title
+        margin-bottom: 1.5vh
+        margin-top: 1.5vh
+        font-size: 1.5vh
 
 .block
     background-color: rgb(var(--activeSlot))
-    margin: 1vh
     padding: 1.5vh
     display: flex
     justify-content: space-between
     align-items: center
     height: 80px
-    .title
+    margin: 1vh 0
+    .text
         display: flex
         align-items: center
         p
@@ -66,5 +74,14 @@
         left: 0
         top: 60px
         height: calc( 100% - 60px - 80px )
+        padding: 0 12px
     .show
         transform: translateX(0%)
+    .container
+        .title
+            margin-bottom: 12px
+            margin-top: 12px
+            font-size: 14px
+    .block
+        padding: 12px
+        margin: 12px 0

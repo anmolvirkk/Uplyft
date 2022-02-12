@@ -1,9 +1,10 @@
 import React from 'react'
-import { LogOut, Moon, RefreshCw, Save, Sun, Tool } from 'react-feather'
+import { LogOut, Moon, RefreshCw, Save, Package, Key, Mail, LifeBuoy, AlertTriangle, Send } from 'react-feather'
 import { useRecoilState } from 'recoil'
 import { darkModeAtom, planAtom } from '../../../../allAtoms'
 import styles from './_settings.module.sass'
 import premium from './premium.json'
+import plus from './plus.json'
 import Lottie from 'react-lottie-player'
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
@@ -22,22 +23,29 @@ const Settings = ({updateBackendless, updateAtoms}) => {
             </div>
         )
     }
-    const Block = ({icon, title, type, state, setState, lottie, func}) => {
+    const Blocks = ({title, blocks}) => {
         return (
-            <div className={styles.block} style={{cursor: type==='button'?'pointer':'default'}} onMouseDown={func?func:null}>
-                <div className={styles.title}>
-                    {icon?icon:null}
-                    {lottie?
-                        <Lottie
-                            play
-                            loop
-                            animationData={lottie}
-                            style={{ width: 40, height: 40, marginLeft: -7, marginRight: -8 }}
-                        />
-                    :null}
-                    <p>{title}</p>
-                </div>
-                {type==='toggle'?<Toggle state={state} setState={setState} />:null}
+            <div className={styles.container}>
+                {title?<div className={styles.title}>{title}</div>:null}
+                {blocks?blocks.map((item, i)=>{
+                    return (
+                        <div key={i} className={styles.block} style={{cursor: item.type==='button'?'pointer':'default'}} onMouseDown={item.func?item.func:null}>
+                            <div className={styles.text}>
+                                {item.icon?item.icon:null}
+                                {item.lottie?
+                                    <Lottie
+                                        play
+                                        loop
+                                        animationData={item.lottie}
+                                        style={{ width: 40, height: 40, marginLeft: -7, marginRight: -8 }}
+                                    />
+                                :null}
+                                <p>{item.text}</p>
+                            </div>
+                            {item.type==='toggle'?<Toggle state={item.state} setState={item.setState} />:null}
+                        </div>
+                    )
+                }):null}
             </div>
         )
     }
@@ -69,20 +77,21 @@ const Settings = ({updateBackendless, updateAtoms}) => {
     return (
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
-                {darkMode?<Block icon={<Moon />} title='Dark Mode' type='toggle' state={darkMode} setState={setDarkMode} />:<Block icon={<Sun />} title='Dark Mode' type='toggle' state={darkMode} setState={setDarkMode} />}
-                {plan==='pro'?<Block icon={<RefreshCw />} title='Sync' type='button' func={updateAtoms} />:null}
-                {plan==='pro'?<Block icon={<Save />} title='Save' type='button' func={updateBackendless} />:null}
-                {plan!=='pro'?<Block lottie={premium} title='Upgrade' type='button' />:null}
-                {plan!=='starter'?<Block icon={<Tool />} title='Change Plan' type='button' />:null}
+                {plan!=='pro'?<Blocks blocks={[{lottie:premium, text:'Upgrade to pro', type:'button'}]} />:null}
+                <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
+                {plan==='pro'?<Blocks title='Data Management' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
+                {plan!=='starter'?<Blocks title='Change Plan' blocks={[{lottie:premium, text: 'Pro', type: 'button'},{lottie: plus, text: 'Plus', type: 'button'},{icon: <Package />, text: 'Starter', type: 'button'}]} />:null}
+                <Blocks title='Account' blocks={[{icon: <Mail />, text: 'change email', type: 'button'},{icon: <Key />, text: 'change password', type: 'button'},{icon: <AlertTriangle />, text: 'delete account', type: 'button'}]} />
+                <Blocks title='Support' blocks={[{icon: <LifeBuoy />, text: 'fAQ', type: 'button'},{icon: <Send />, text: 'Contact', type: 'button'}]} />
                 {!auth.social?
-                    <Block icon={<LogOut />} title='Logout' type='button' func={logout} />
-                    :   
+                    <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
+                :
                     <GoogleLogout
                         clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
                         buttonText="Logout" 
                         onLogoutSuccess={logout}
                         render={e=>(
-                            <Block icon={<LogOut />} title='Logout' type='button' func={e.onClick} />
+                            <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: e.onClick}]} />
                         )}  
                     />
                 }
