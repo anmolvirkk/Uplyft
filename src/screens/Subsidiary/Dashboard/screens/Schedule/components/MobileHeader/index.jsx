@@ -7,7 +7,7 @@ import company from '../../../../../../../company'
 import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, scheduleHeaderAtom } from '../../../../allAtoms'
 import settingsAtom from '../../../../components/SideBar/components/Settings/settingsAtom'
 
-const MobileHeader = ({updateBackendless, updateAtoms}) => {
+const MobileHeader = () => {
     const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
 
     const [allRoutes] = useRecoilState(allRoutesAtom)
