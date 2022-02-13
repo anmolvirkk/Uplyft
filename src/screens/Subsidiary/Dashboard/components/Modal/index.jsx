@@ -310,7 +310,7 @@ const Modal = () => {
         return (
             <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
                 <div className={styles.header}>
-                    <p>Upgraded to {title} plan</p>
+                    <p>{title==='Pro'?'Upgraded':'Switched'} to {title} plan</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <div className={styles.checkWrapper}>

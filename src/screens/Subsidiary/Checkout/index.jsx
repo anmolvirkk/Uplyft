@@ -14,9 +14,7 @@ import modalConfigAtom from '../Dashboard/recoil-atoms/modalConfigAtom'
 import { windowHeight } from '../Dashboard/variables/mobileHeights'
 import Lottie from 'react-lottie-player'
 import loadData from '../loading.json'
-
-// const stripeSecret = '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'
-const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
+import { stripeSecret } from '../Pricing/components/Plan'
 
 const Logo = ({success}) => {
   const [auth] = useRecoilState(authAtom)
@@ -24,7 +22,7 @@ const Logo = ({success}) => {
     <div className={styles.title}>
         <img src='/logos/subsidiary.png' alt={company.subsidiary} />
         <h1>{company.subsidiary}</h1>
-        {success?<p>Successfully Upgraded</p>:<p>Unlock {auth.plan.title.toLowerCase()} plan</p>}
+        {success?<p>Successfully Upgraded</p>:<p>Unlock {auth.plan.title} plan</p>}
     </div>
   )
 }
@@ -39,7 +37,7 @@ const Checkout = () => {
 
     document.getElementsByTagName('html')[0].className = 'light'
     if(auth.plan){
-      if(plan===auth.plan.title.toLowerCase()){
+      if(plan===auth.plan.title){
         history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
       }else{
         setShowForm(true)
@@ -106,43 +104,58 @@ const Checkout = () => {
               xr.send(`invoice_settings[default_payment_method]=${JSON.parse(pm.currentTarget.response).id}`)
               xr.onload = () => {
                 let xr = new XMLHttpRequest()
-                xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
+                xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                 xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
+                xr.send(null)
                 xr.onload = (sub) => {
-                  if(!JSON.parse(sub.currentTarget.response).error){
-                      if(auth.social){
-                        let xhr = new XMLHttpRequest()
-                        xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
-                        xhr.send(JSON.stringify({accessToken: auth.accessToken}))
-                        xhr.onload = (loggedInUser) => {
-                          let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
-                          Backendless.UserService.update(user)
-                          setModalConfig({type: 'upgrade', title: auth.plan.title})
-                          setPlan(auth.plan.title.toLowerCase())
-                          setLoading(false)
+                  JSON.parse(sub.currentTarget.response).data.forEach((item)=>{
+                    let xr = new XMLHttpRequest()
+                    xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
+                    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    xr.send(null)
+                  })
+                  let xr = new XMLHttpRequest()
+                  xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
+                  xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                  xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                  xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
+                  xr.onload = (sub) => {
+                      if(!JSON.parse(sub.currentTarget.response).error){
+                          if(auth.social){
+                            let xhr = new XMLHttpRequest()
+                            xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+                            xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+                            xhr.onload = (loggedInUser) => {
+                              let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card}}
+                              Backendless.UserService.update(user)
+                              setModalConfig({type: 'upgrade', title: auth.plan.title})
+                              setPlan(auth.plan.title)
+                              setLoading(false)
+                              history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                            }
+                        }else if(auth.social === undefined){
+                            if(window.location.pathname.split('/').length > 2){
+                                window.location.replace(`/${company.subsidiary}`)
+                            }
+                        }else{
+                            let xr = new XMLHttpRequest()
+                            xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+                            xr.send(JSON.stringify({login: auth.login, password: auth.password}))
+                            xr.onload = (loggedInUser) => {
+                                let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card}}
+                                Backendless.UserService.update(user)
+                                setModalConfig({type: 'upgrade', title: auth.plan.title})
+                                setPlan(auth.plan.title)
+                                setLoading(false)
+                                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                            }
                         }
-                    }else if(auth.social === undefined){
-                        if(window.location.pathname.split('/').length > 2){
-                            window.location.replace(`/${company.subsidiary}`)
-                        }
-                    }else{
-                        let xr = new XMLHttpRequest()
-                        xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                        xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                        xr.onload = (loggedInUser) => {
-                            let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title.toLowerCase(), card: {...card}}
-                            Backendless.UserService.update(user)
-                            setModalConfig({type: 'upgrade', title: auth.plan.title})
-                            setPlan(auth.plan.title.toLowerCase())
-                            setLoading(false)
-                        }
+                      }
                     }
-                  }else{
                   }
                 }
-              }
             }
           }
         }

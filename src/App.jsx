@@ -223,7 +223,7 @@ const App = () => {
     }, [allCalendarEvents, setSnacks, snacks, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
-        if(plan==='pro'){
+        if(plan==='Pro'){
             if (document.visibilityState === 'hidden' && !saved.current) {
                 saved.current = true
                 updateBackendless()
@@ -232,14 +232,14 @@ const App = () => {
     }
     
     window.onbeforeunload = () => {
-        if(plan==='pro'){
+        if(plan==='Pro'){
             updateBackendless()
             return false
         }
     }
 
     window.onpagehide = () => {
-        if(plan==='pro'){
+        if(plan==='Pro'){
             updateBackendless()
         }
     }
