@@ -30,6 +30,7 @@ import { plans } from '../../../Pricing'
 import company from '../../../../../company'
 
 import loadData from '../../../loading.json'
+import authAtom from '../../../Auth/authAtom'
 
 const Modal = () => {
 
@@ -43,6 +44,7 @@ const Modal = () => {
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
     const setPlan = useSetRecoilState(planAtom)
+    const [auth, setAuth] = useRecoilState(authAtom)
 
     const closeModal = (e) => {
         const modalForm = document.getElementById('modalForm');
@@ -345,8 +347,9 @@ const Modal = () => {
         )
     }
 
+    const [loading, setLoading] = useState(false)
+
     const Subscription = ({amount}) => {
-        const [loading, setLoading] = useState(false)
         const Loading = () => {
             return (
                 <div className={styles.loading}>
@@ -398,7 +401,6 @@ const Modal = () => {
                 xr.send(null)
                 setLoading(true)
                 xr.onload = (sub) => {
-                    console.log(JSON.parse(sub.currentTarget.response))
                   JSON.parse(sub.currentTarget.response).data.forEach((item, i)=>{
                     let xr = new XMLHttpRequest()
                     xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
@@ -409,6 +411,7 @@ const Modal = () => {
                         xr.onload = () => {
                             setLoading(null)
                             setPlan('Starter')
+                            setAuth({...auth, plan: {...plans[0]}})
                         }
                     }
                   })
@@ -418,7 +421,7 @@ const Modal = () => {
                 return (
                     <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
                         <div className={styles.header}>
-                            <p>Are you sure you want to cancel your subscription?</p>
+                            <p>{loading?'Cancelling Subscription':'Are you sure you want to cancel your subscription?'}</p>
                             <X onClick={()=>setModalConfig({type: ''})} />
                         </div>
                         {loading?<Loading />:
@@ -492,6 +495,13 @@ const Modal = () => {
         const UpgradeSubscription = () => {
             let plus = plans[1].features
             let pro = plans[2].features
+            const UpgradeButton = ({title}) => {
+                return (
+                    <div className={styles.upgradeBtn}>
+                        <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
+                    </div>
+                )
+            }
             return (
                 <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
                     <div className={styles.header}>
@@ -522,7 +532,7 @@ const Modal = () => {
                                                             </div>
                                                         )
                                                     })}
-                                                    <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> Plus</button>
+                                                    <UpgradeButton title='Plus' />
                                                 </div>
                                                 <div className={styles.column}>
                                                     {pro[item].map((item, i)=>{
@@ -538,7 +548,7 @@ const Modal = () => {
                                                             </div>
                                                         )
                                                     })}
-                                                    <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> Pro</button>
+                                                    <UpgradeButton title='Pro' />
                                                 </div>
                                             </div>
                                         </div>
