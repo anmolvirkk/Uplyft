@@ -128,7 +128,7 @@ const Checkout = () => {
                             xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
                             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
                             xhr.onload = (loggedInUser) => {
-                              let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card}}
+                              let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card.current}}
                               Backendless.UserService.update(user)
                               setModalConfig({type: 'upgrade', title: auth.plan.title})
                               setPlan(auth.plan.title)
@@ -144,7 +144,7 @@ const Checkout = () => {
                             xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
                             xr.send(JSON.stringify({login: auth.login, password: auth.password}))
                             xr.onload = (loggedInUser) => {
-                                let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card}}
+                                let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card.current}}
                                 Backendless.UserService.update(user)
                                 setModalConfig({type: 'upgrade', title: auth.plan.title})
                                 setPlan(auth.plan.title)

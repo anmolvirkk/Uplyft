@@ -347,6 +347,80 @@ const Modal = () => {
         )
     }
 
+    
+    const UpgradeSubscription = () => {
+        let plus = plans[1].features
+        let pro = plans[2].features
+        const UpgradeButton = ({title}) => {
+            return (
+                <div className={styles.upgradeBtn}>
+                    <div className={styles.interval}>
+                        {console.log(plans)}
+                        <div>Monthly</div>
+                    </div>
+                    <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
+                </div>
+            )
+        }
+        return (
+            <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
+                <div className={styles.header}>
+                    <p>You're currently on starter plan</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                <div className={styles.features}>
+                    <h1>Upgrade to gain the full experience</h1>
+                    <h3>What you will get</h3>
+                    <div className={styles.container}>
+                        <div className={styles.column}>
+                            {Object.keys(plus).map((item, i)=>{
+                                return (
+                                    <div className={styles.category} key={i}>
+                                        <div className={styles.title}><img src={`/logos/${item}.png`} alt={company[item]} />{company[item]}</div>
+                                        <div className={styles.content}>
+                                            <div className={styles.column}>
+                                                {plus[item].map((item, i)=>{
+                                                    return (
+                                                        <div key={i} className={styles.feature}>
+                                                            <Lottie
+                                                                play
+                                                                loop={false}
+                                                                animationData={checkData}
+                                                                style={{ width: 50, height: 50 }}
+                                                            />
+                                                            <p>{item}</p>
+                                                        </div>
+                                                    )
+                                                })}
+                                                <UpgradeButton title='Plus' />
+                                            </div>
+                                            <div className={styles.column}>
+                                                {pro[item].map((item, i)=>{
+                                                    return (
+                                                        <div key={i} className={styles.feature}>
+                                                            <Lottie
+                                                                play
+                                                                loop={false}
+                                                                animationData={checkData}
+                                                                style={{ width: 50, height: 50 }}
+                                                            />
+                                                            <p>{item}</p>
+                                                        </div>
+                                                    )
+                                                })}
+                                                <UpgradeButton title='Pro' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     const [loading, setLoading] = useState(false)
 
     const Subscription = ({amount}) => {
@@ -491,74 +565,6 @@ const Modal = () => {
             }else{
                 return <Cancelled />
             }
-        }
-        const UpgradeSubscription = () => {
-            let plus = plans[1].features
-            let pro = plans[2].features
-            const UpgradeButton = ({title}) => {
-                return (
-                    <div className={styles.upgradeBtn}>
-                        <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
-                    </div>
-                )
-            }
-            return (
-                <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
-                    <div className={styles.header}>
-                        <p>You're already on starter plan</p>
-                        <X onClick={()=>setModalConfig({type: ''})} />
-                    </div>
-                    <div className={styles.features}>
-                        <h1>Upgrade to gain the full experience</h1>
-                        <h3>What you will get</h3>
-                        <div className={styles.container}>
-                            <div className={styles.column}>
-                                {Object.keys(plus).map((item, i)=>{
-                                    return (
-                                        <div className={styles.category} key={i}>
-                                            <div className={styles.title}><img src={`/logos/${item}.png`} alt={company[item]} />{company[item]}</div>
-                                            <div className={styles.content}>
-                                                <div className={styles.column}>
-                                                    {plus[item].map((item, i)=>{
-                                                        return (
-                                                            <div key={i} className={styles.feature}>
-                                                                <Lottie
-                                                                    play
-                                                                    loop={false}
-                                                                    animationData={checkData}
-                                                                    style={{ width: 50, height: 50 }}
-                                                                />
-                                                                <p>{item}</p>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                    <UpgradeButton title='Plus' />
-                                                </div>
-                                                <div className={styles.column}>
-                                                    {pro[item].map((item, i)=>{
-                                                        return (
-                                                            <div key={i} className={styles.feature}>
-                                                                <Lottie
-                                                                    play
-                                                                    loop={false}
-                                                                    animationData={checkData}
-                                                                    style={{ width: 50, height: 50 }}
-                                                                />
-                                                                <p>{item}</p>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                    <UpgradeButton title='Pro' />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )
         }
         if(amount!==0){
             return <CancelSubscripton />

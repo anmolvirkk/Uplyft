@@ -129,6 +129,7 @@ const App = () => {
             set(tasksAtom, data.tasks)
             set(eventTagsAtom, data.eventTags)
             set(tagsAtom, data.tags)
+            set(planAtom, data.plan)
         }
     }, [])
 
@@ -193,7 +194,8 @@ const App = () => {
             scheduleSideMenu: scheduleSideMenu,
             tasks: tasks,
             eventTags: eventTags,
-            tags: tags
+            tags: tags,
+            plan: plan
         }
 
         if(Object.keys(auth).length > 0){
@@ -220,7 +222,7 @@ const App = () => {
             }
         }
         saved.current = false
-    }, [allCalendarEvents, setSnacks, snacks, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
+    }, [allCalendarEvents, plan, setSnacks, snacks, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if(plan==='Pro'){
