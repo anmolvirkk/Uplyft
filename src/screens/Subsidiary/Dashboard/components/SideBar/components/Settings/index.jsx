@@ -42,10 +42,13 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                     xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                     xr.send(null)
                     xr.onload = (prices) => {
-                        let amount = JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.amount
-                        if(amount === 2500 || amount === 27500){
-                            if(currentOption !== JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly'){
-                                setCurrentOption(JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly')
+                        console.log(JSON.parse(prices.currentTarget.response))
+                        if(JSON.parse(prices.currentTarget.response).data[0]){
+                            let amount = JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.amount
+                            if(amount === 2500 || amount === 27500){
+                                if(currentOption !== JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly'){
+                                    setCurrentOption(JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly')
+                                }
                             }
                         }
                     }
@@ -56,10 +59,12 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                     xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                     xr.send(null)
                     xr.onload = (prices) => {
-                        let amount = JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.amount
-                        if(amount === 2000 || amount === 22000){
-                            if(currentOption !== JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly'){
-                                setCurrentOption(JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly')
+                        if(JSON.parse(prices.currentTarget.response).data[0]){
+                            let amount = JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.amount
+                            if(amount === 2000 || amount === 22000){
+                                if(currentOption !== JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly'){
+                                    setCurrentOption(JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.interval+'ly')
+                                }
                             }
                         }
                     }

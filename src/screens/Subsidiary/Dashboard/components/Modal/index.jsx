@@ -342,92 +342,169 @@ const Modal = () => {
         )
     }
 
-    const CancelSubscription = ({amount}) => {
-        let plan = 'Pro'
-        let price = amount/100
-        if(price === 25 || price === 275){
-            plan = 'Pro'
-        }else if(price === 20 || price === 220){
-            plan = 'Plus'
-        }
-        let features = plans.filter(i=>i.title===plan)[0].features
-        let starter = plans[0].features
-        const cancel = () => {
-            let xr = new XMLHttpRequest()
-            xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
-            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-            xr.send(null)
-            xr.onload = (sub) => {
-              JSON.parse(sub.currentTarget.response).data.forEach((item)=>{
+    const Subscription = ({amount}) => {
+        const CancelSubscripton = () => {
+            let plan = 'Pro'
+            let price = amount/100
+            if(price === 25 || price === 275){
+                plan = 'Pro'
+            }else if(price === 20 || price === 220){
+                plan = 'Plus'
+            }
+            let features = plans.filter(i=>i.title===plan)[0].features
+            let starter = plans[0].features
+            const cancel = () => {
                 let xr = new XMLHttpRequest()
-                xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
+                xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                 xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                 xr.send(null)
-              })
-              setModalConfig({type: ''})
+                xr.onload = (sub) => {
+                  JSON.parse(sub.currentTarget.response).data.forEach((item)=>{
+                    let xr = new XMLHttpRequest()
+                    xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
+                    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    xr.send(null)
+                  })
+                  setModalConfig({type: ''})
+                }
             }
-        }
-        return (
-            <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
-                <div className={styles.header}>
-                    <p>Are you sure you want to cancel your subscription?</p>
-                    <X onClick={()=>setModalConfig({type: ''})} />
-                </div>
-                <Feedback />
-                <div className={styles.features}>
-                    <h3>What you will be missing out on</h3>
-                    <div className={styles.container}>
-                        <div className={styles.column}>
-                            {Object.keys(features).map((item, i)=>{
-                                return (
-                                    <div className={styles.category} key={i}>
-                                        <div className={styles.title}><img src={`/logos/${item}.png`} alt={company[item]} />{company[item]}</div>
-                                        <div className={styles.content}>
-                                            <div className={styles.column}>
-                                                {features[item].map((item, i)=>{
-                                                    return (
-                                                        <div key={i} className={styles.feature}>
-                                                            <Lottie
-                                                                play
-                                                                loop={false}
-                                                                animationData={checkData}
-                                                                style={{ width: 50, height: 50 }}
-                                                            />
-                                                            <p>{item}</p>
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                            <div className={styles.column}>
-                                                {starter[item].map((item, i)=>{
-                                                    return (
-                                                        <div key={i} className={styles.feature}>
-                                                            <Lottie
-                                                                play
-                                                                loop={false}
-                                                                animationData={down}
-                                                                style={{ width: 50, height: 50 }}
-                                                            />
-                                                            <p>{item}</p>
-                                                        </div>
-                                                    )
-                                                })}
+            return (
+                <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
+                    <div className={styles.header}>
+                        <p>Are you sure you want to cancel your subscription?</p>
+                        <X onClick={()=>setModalConfig({type: ''})} />
+                    </div>
+                    <Feedback />
+                    <div className={styles.features}>
+                        <h3>What you will be missing out on</h3>
+                        <div className={styles.container}>
+                            <div className={styles.column}>
+                                {Object.keys(features).map((item, i)=>{
+                                    return (
+                                        <div className={styles.category} key={i}>
+                                            <div className={styles.title}><img src={`/logos/${item}.png`} alt={company[item]} />{company[item]}</div>
+                                            <div className={styles.content}>
+                                                <div className={styles.column}>
+                                                    {features[item].map((feature, i)=>{
+                                                        if(feature!==starter[item][i]){
+                                                            return (
+                                                                <div key={i} className={styles.feature}>
+                                                                    <Lottie
+                                                                        play
+                                                                        loop={false}
+                                                                        animationData={checkData}
+                                                                        style={{ width: 50, height: 50 }}
+                                                                    />
+                                                                    <p>{feature}</p>
+                                                                </div>
+                                                            )
+                                                        }else{
+                                                            return null
+                                                        }
+                                                    })}
+                                                </div>
+                                                <div className={styles.column}>
+                                                    {starter[item].map((feature, i)=>{
+                                                        if(feature!==features[item][i]){
+                                                            return (
+                                                                <div key={i} className={styles.feature}>
+                                                                    <Lottie
+                                                                        play
+                                                                        loop={false}
+                                                                        animationData={down}
+                                                                        style={{ width: 50, height: 50 }}
+                                                                    />
+                                                                    <p>{feature}</p>
+                                                                </div>
+                                                            )
+                                                        }else{
+                                                            return null
+                                                        }
+                                                    })}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </div>
                     </div>
+                    <div className={styles.footer}>
+                        <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                        <button className={styles.continueBtn} onClick={cancel}>Continue</button>
+                    </div>
                 </div>
-                <div className={styles.footer}>
-                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
-                    <button className={styles.continueBtn} onClick={cancel}>Continue</button>
+            )
+        }
+        const UpgradeSubscription = () => {
+            let plus = plans[1].features
+            let pro = plans[2].features
+            return (
+                <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
+                    <div className={styles.header}>
+                        <p>You're already on starter plan</p>
+                        <X onClick={()=>setModalConfig({type: ''})} />
+                    </div>
+                    <div className={styles.features}>
+                        <h3>What you will get</h3>
+                        <div className={styles.container}>
+                            <div className={styles.column}>
+                                {Object.keys(plus).map((item, i)=>{
+                                    return (
+                                        <div className={styles.category} key={i}>
+                                            <div className={styles.title}><img src={`/logos/${item}.png`} alt={company[item]} />{company[item]}</div>
+                                            <div className={styles.content}>
+                                                <div className={styles.column}>
+                                                    {plus[item].map((item, i)=>{
+                                                        return (
+                                                            <div key={i} className={styles.feature}>
+                                                                <Lottie
+                                                                    play
+                                                                    loop={false}
+                                                                    animationData={checkData}
+                                                                    style={{ width: 50, height: 50 }}
+                                                                />
+                                                                <p>{item}</p>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                <div className={styles.column}>
+                                                    {pro[item].map((item, i)=>{
+                                                        return (
+                                                            <div key={i} className={styles.feature}>
+                                                                <Lottie
+                                                                    play
+                                                                    loop={false}
+                                                                    animationData={checkData}
+                                                                    style={{ width: 50, height: 50 }}
+                                                                />
+                                                                <p>{item}</p>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.footer}>
+                        <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                        <button className={styles.continueBtn} onClick={null}>Continue</button>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+        if(amount!==0){
+            return <CancelSubscripton />
+        }else{
+            return <UpgradeSubscription />
+        }
     }
 
     return (
@@ -462,7 +539,7 @@ const Modal = () => {
                 : modalConfig.type === 'upgrade' ?
                 <Upgrade title={modalConfig.title} />
                 : modalConfig.type === 'cancelSubscription' ?
-                <CancelSubscription amount={modalConfig.amount} />
+                <Subscription amount={modalConfig.amount} />
                 : null
                 }
             </div>
