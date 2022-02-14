@@ -827,6 +827,33 @@
     width: 100%
     +mixins.center
 
+.upgradeBtn
+    margin-top: 2vh
+    .interval
+        width: 90%
+        margin: 0 5%
+        border: 1px solid rgb(var(--border))
+        color: rgb(var(--titles))
+        font-weight: 500
+        cursor: pointer
+        height: 5vh
+        border-radius: 5px 5px
+        +mixins.center
+        flex-flow: row
+        font-size: 1.5vh
+        font-weight: 400
+        div
+            width: 50%
+    .active
+        all: unset
+        background-color: #2CDA94
+        color: white
+        font-weight: 500
+        height: 4vh
+        margin: 0.25vh
+        border-radius: 5px 5px
+        +mixins.center
+        
 .cancelSubscription
     color: rgba(var(--text), 0.5)
     h3
@@ -868,17 +895,17 @@
                             background-image: linear-gradient(200deg, rgb(var(--secondary)), rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, rgb(var(--primary)) 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, rgb(var(--secondary)), rgb(var(--primary)))
                             color: white
                             font-weight: 500
-                            border-radius: 5px 5px
                             cursor: pointer
                             width: 90%
                             margin: 0 5%
                             height: 5vh
+                            border-radius: 5px 5px
                             +mixins.center
                             flex-flow: row
                             font-size: 1.5vh
                             pointer-events: all
-                            margin-top: 3vh
                             margin-bottom: 2vh
+                            margin-top: 1vh
                             span
                                 text-transform: capitalize
                     .feature

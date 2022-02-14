@@ -31,6 +31,8 @@ import company from '../../../../../company'
 
 import loadData from '../../../loading.json'
 import { useCallback } from 'react'
+import authAtom from '../../../Auth/authAtom'
+import { useHistory } from 'react-router-dom'
 
 const Modal = () => {
 
@@ -355,18 +357,57 @@ const Modal = () => {
 
     
     const UpgradeSubscription = () => {
+
         let plus = plans[1].features
         let pro = plans[2].features
+
         const UpgradeButton = ({title}) => {
+            const [isYear, setIsYear] = useState(true)
+            const [auth, setAuth] = useRecoilState(authAtom)
+            const history = useHistory()
+
+            const setPlan = () => {
+
+                let price = 27500
+
+                if(title === 'Plus'){
+                    if(isYear){
+                        price = 22000
+                    }else{
+                        price = 2000
+                    }
+                }else if(title === 'Pro'){
+                    if(isYear){
+                        price = 27500
+                    }else{
+                        price = 2500
+                    }
+                }
+
+                let xr = new XMLHttpRequest()
+                xr.open('GET', `https://api.stripe.com/v1/prices`, true)
+                xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                xr.send(null)
+                xr.onload = (prices) => {
+                    if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price)){
+                        setAuth({...auth, plan: {...plans.filter(i=>i.title===title)[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
+                        history.push(`/${company.subsidiary}/checkout`)
+                    }
+                }
+            }
+
             return (
                 <div className={styles.upgradeBtn}>
                     <div className={styles.interval}>
-                        <div>Monthly</div>
+                        <div className={!isYear?styles.active:null} onMouseDown={()=>setIsYear(false)}>Monthly</div>
+                        <div className={isYear?styles.active:null} onMouseDown={()=>setIsYear(true)}>Yearly</div>
                     </div>
-                    <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
+                    <button onMouseDown={setPlan}>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
                 </div>
             )
         }
+
         return (
             <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
                 <div className={styles.header}>
@@ -428,7 +469,7 @@ const Modal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const Subscription = ({updateBackendless}) => {
+    const Subscription = () => {
         const Loading = () => {
             return (
                 <div className={styles.loading}>
@@ -609,7 +650,7 @@ const Modal = () => {
                 : modalConfig.type === 'upgrade' ?
                 <Upgrade amount={modalConfig.amount} />
                 : modalConfig.type === 'cancelSubscription' ?
-                <Subscription updateBackendless={modalConfig.updateBackendless} />
+                <Subscription />
                 : null
                 }
             </div>
