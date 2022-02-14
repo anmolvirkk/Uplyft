@@ -1,6 +1,6 @@
 import React from 'react'
 import { LogOut, Moon, RefreshCw, Save, Package, Key, Mail, LifeBuoy, AlertTriangle, Send, ChevronRight } from 'react-feather'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, planAtom } from '../../../../allAtoms'
 import styles from './_settings.module.sass'
 import premium from './premium.json'
@@ -17,6 +17,7 @@ import { plans } from '../../../../../Pricing'
 import { stripeSecret } from '../../../../../Pricing/components/Plan'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
 
 const Settings = ({updateBackendless, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
@@ -135,16 +136,29 @@ const Settings = ({updateBackendless, updateAtoms}) => {
         }
     }
 
+    const setModalConfig = useSetRecoilState(modalConfigAtom)
+
     const setPlan = (plan, price) => {
-        let xr = new XMLHttpRequest()
-        xr.open('GET', `https://api.stripe.com/v1/prices`, true)
-        xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-        xr.send(null)
-        xr.onload = (prices) => {
-            if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price)){
-                setAuth({...auth, plan: {...plans.filter(i=>i.title===plan)[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
-                history.push(`/${company.subsidiary}/checkout`)
+        if(price!==0){
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/prices`, true)
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (prices) => {
+                if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price)){
+                    setAuth({...auth, plan: {...plans.filter(i=>i.title===plan)[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
+                    history.push(`/${company.subsidiary}/checkout`)
+                }
+            }
+        }else{
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (e) => {
+                setModalConfig({type: 'cancelSubscription', amount: JSON.parse(e.currentTarget.response).data[0].plan.amount})
             }
         }
     }
@@ -154,7 +168,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
                 {plan==='Pro'?<Blocks title='Data Management' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
-                <Blocks title='Change Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', select: [{text: 'yearly', func: ()=>setPlan('Pro', 27500)}, {text: 'monthly', func: ()=>setPlan('Pro', 2500)}]},{lottie: plus, text: 'Plus', type: 'select', select: [{text: 'yearly', func: ()=>setPlan('Plus', 22000)}, {text: 'monthly', func: ()=>setPlan('Plus', 2000)}]},{icon: <Package />, text: 'Starter', type: 'button', func: (product)=>setPlan('Starter', product)}]} />
+                <Blocks title='Change Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', select: [{text: 'yearly', func: ()=>setPlan('Pro', 27500)}, {text: 'monthly', func: ()=>setPlan('Pro', 2500)}]},{lottie: plus, text: 'Plus', type: 'select', select: [{text: 'yearly', func: ()=>setPlan('Plus', 22000)}, {text: 'monthly', func: ()=>setPlan('Plus', 2000)}]},{icon: <Package />, text: 'Starter', type: 'button', func: ()=>setPlan('Starter', 0)}]} />
                 <Blocks title='Account' blocks={[{icon: <Mail />, text: 'change email', type: 'button'},{icon: <Key />, text: 'change password', type: 'button'},{icon: <AlertTriangle />, text: 'delete account', type: 'button'}]} />
                 <Blocks title='Support' blocks={[{icon: <LifeBuoy />, text: 'fAQ', type: 'button'},{icon: <Send />, text: 'Contact', type: 'button'}]} />
                 {!auth.social?
