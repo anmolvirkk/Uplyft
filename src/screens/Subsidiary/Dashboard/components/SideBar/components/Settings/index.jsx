@@ -93,7 +93,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                 {title?<div className={styles.title}>{title}</div>:null}
                 {blocks?blocks.map((item, i)=>{
                     return (
-                        <div key={i} className={`${styles.block} ${auth.plan.title===item.text?styles.currentPlan:''}`} style={{cursor: item.type==='button'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
+                        <div key={i} className={`${styles.block} ${plan===item.text?styles.currentPlan:''}`} style={{cursor: item.type==='button'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
                             <div className={styles.text}>
                                 {item.icon?item.icon:null}
                                 {item.lottie?
