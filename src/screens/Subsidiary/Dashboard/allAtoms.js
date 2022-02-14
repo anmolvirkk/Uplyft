@@ -788,6 +788,6 @@ export const tasksAtom = atom({
 
 export const planAtom = atom({
     key: 'plan',
-    default: 'starter',
+    default: 'Starter',
     effects_UNSTABLE: [persistAtom]
 })

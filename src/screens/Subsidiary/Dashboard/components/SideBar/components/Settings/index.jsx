@@ -42,7 +42,6 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                     xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                     xr.send(null)
                     xr.onload = (prices) => {
-                        console.log(JSON.parse(prices.currentTarget.response))
                         if(JSON.parse(prices.currentTarget.response).data[0]){
                             let amount = JSON.parse(prices.currentTarget.response).data[0].items.data[0].plan.amount
                             if(amount === 2500 || amount === 27500){
@@ -163,7 +162,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
             xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(null)
             xr.onload = (e) => {
-                setModalConfig({type: 'cancelSubscription', amount: JSON.parse(e.currentTarget.response).data[0].plan.amount})
+                setModalConfig({type: 'cancelSubscription', amount: JSON.parse(e.currentTarget.response).data[0]?JSON.parse(e.currentTarget.response).data[0].plan.amount:0})
             }
         }
     }

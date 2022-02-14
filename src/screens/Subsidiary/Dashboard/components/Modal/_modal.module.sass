@@ -823,14 +823,24 @@
     .footer
         margin-top: 3vh
 
+.loading
+    width: 100%
+    +mixins.center
+
 .cancelSubscription
-    color: rgba(var(--text), 0.35)
+    color: rgba(var(--text), 0.5)
     h3
         font-weight: 400
         font-size: 1.5vh
         text-align: left
         margin-top: 1.5vh
+        margin-bottom: 1.5vh
     .features
+        h1
+            font-size: 3vh
+            text-align: left
+            font-weight: 400
+            color: rgb(var(--text))
         .container
             display: flex
             .category
@@ -841,6 +851,7 @@
                     font-size: 2vh
                     text-transform: capitalize
                     color: rgb(var(--text))
+                    font-weight: 500
                     img
                         width: 6vh
                         border-radius: 10px 10px
@@ -851,6 +862,25 @@
                     justify-content: space-between
                     .column
                         width: 100%
+                        button
+                            all: unset
+                            background-color: rgb(var(--primary))
+                            background-image: linear-gradient(200deg, rgb(var(--secondary)), rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, rgb(var(--primary)) 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, rgb(var(--secondary)), rgb(var(--primary)))
+                            color: white
+                            font-weight: 500
+                            border-radius: 5px 5px
+                            cursor: pointer
+                            width: 90%
+                            margin: 0 5%
+                            height: 5vh
+                            +mixins.center
+                            flex-flow: row
+                            font-size: 1.5vh
+                            pointer-events: all
+                            margin-top: 3vh
+                            margin-bottom: 2vh
+                            span
+                                text-transform: capitalize
                     .feature
                         margin-top: 1.5vh
                         display: flex
