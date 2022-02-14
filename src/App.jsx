@@ -129,7 +129,6 @@ const App = () => {
             set(tasksAtom, data.tasks)
             set(eventTagsAtom, data.eventTags)
             set(tagsAtom, data.tags)
-            set(planAtom, data.plan)
         }
     }, [])
 
@@ -194,8 +193,7 @@ const App = () => {
             scheduleSideMenu: scheduleSideMenu,
             tasks: tasks,
             eventTags: eventTags,
-            tags: tags,
-            plan: plan
+            tags: tags
         }
 
         if(Object.keys(auth).length > 0){
@@ -215,7 +213,7 @@ const App = () => {
                 xr.send(JSON.stringify({login: auth.login, password: auth.password}))
                 setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
                 xr.onload = (loggedInUser) => {
-                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
+                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}, plan: plan}
                     Backendless.UserService.update(user)
                     setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
                 }

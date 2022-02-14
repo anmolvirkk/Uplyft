@@ -30,7 +30,7 @@ import { plans } from '../../../Pricing'
 import company from '../../../../../company'
 
 import loadData from '../../../loading.json'
-import authAtom from '../../../Auth/authAtom'
+import { useCallback } from 'react'
 
 const Modal = () => {
 
@@ -43,8 +43,7 @@ const Modal = () => {
     const [slots, setSlots] = useRecoilState(slotsAtom)
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
-    const setPlan = useSetRecoilState(planAtom)
-    const [auth, setAuth] = useRecoilState(authAtom)
+    const [plan] = useRecoilState(planAtom)
 
     const closeModal = (e) => {
         const modalForm = document.getElementById('modalForm');
@@ -303,7 +302,14 @@ const Modal = () => {
             </div>
     )
 
-    const Upgrade = ({title}) => {
+    const Upgrade = ({amount}) => {
+        
+        let title = ''
+        if(amount === 2000 || amount === 22000){
+            title = 'Plus'
+        }else if(amount === 2500 || amount === 27500){
+            title = 'Pro'
+        }
 
         useEffect(()=>{
             let elem = document.getElementById('modalForm')
@@ -355,7 +361,6 @@ const Modal = () => {
             return (
                 <div className={styles.upgradeBtn}>
                     <div className={styles.interval}>
-                        {console.log(plans)}
                         <div>Monthly</div>
                     </div>
                     <button>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
@@ -423,7 +428,7 @@ const Modal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const Subscription = ({amount}) => {
+    const Subscription = ({updateBackendless}) => {
         const Loading = () => {
             return (
                 <div className={styles.loading}>
@@ -458,16 +463,15 @@ const Modal = () => {
             )
         }
         const CancelSubscripton = () => {
-            let plan = 'Pro'
-            let price = amount/100
-            if(price === 25 || price === 275){
-                plan = 'Pro'
-            }else if(price === 20 || price === 220){
-                plan = 'Plus'
+            let planTitle = ''
+            if(plan === 2000 || plan === 22000){
+                planTitle = 'Plus'
+            }else if(plan === 2500 || plan === 27500){
+                planTitle = 'Pro'
             }
-            let features = plans.filter(i=>i.title===plan)[0].features
+            let features = plans.filter(i=>i.title===planTitle)[0].features
             let starter = plans[0].features
-            const cancel = () => {
+            const cancel = useCallback(() => {
                 let xr = new XMLHttpRequest()
                 xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
@@ -484,13 +488,11 @@ const Modal = () => {
                     if(i === JSON.parse(sub.currentTarget.response).data.length-1){
                         xr.onload = () => {
                             setLoading(null)
-                            setPlan('Starter')
-                            setAuth({...auth, plan: {...plans[0]}})
                         }
                     }
                   })
                 }
-            }
+            }, [])
             if(loading !== null){
                 return (
                     <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
@@ -556,17 +558,19 @@ const Modal = () => {
                                 </div>
                             </div>
                         </div>}
-                        <div className={styles.footer}>
-                            <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
-                            <button className={styles.continueBtn} onClick={cancel}>Continue</button>
-                        </div>
+                        {!loading?
+                            <div className={styles.footer}>
+                                <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                                <button className={styles.continueBtn} onClick={cancel}>Continue</button>
+                            </div>
+                        :null}
                     </div>
                 )
             }else{
                 return <Cancelled />
             }
         }
-        if(amount!==0){
+        if(plan!==0){
             return <CancelSubscripton />
         }else{
             return <UpgradeSubscription />
@@ -603,9 +607,9 @@ const Modal = () => {
                 : modalConfig.type === 'editEvent' ?
                 <AddEvent icons={iconsSvg} type="edit" currentEvent={modalConfig.event} />
                 : modalConfig.type === 'upgrade' ?
-                <Upgrade title={modalConfig.title} />
+                <Upgrade amount={modalConfig.amount} />
                 : modalConfig.type === 'cancelSubscription' ?
-                <Subscription amount={modalConfig.amount} />
+                <Subscription updateBackendless={modalConfig.updateBackendless} />
                 : null
                 }
             </div>

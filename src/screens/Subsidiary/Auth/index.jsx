@@ -6,9 +6,8 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import { useHistory } from 'react-router-dom'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import authAtom from './authAtom'
-import { planAtom } from '../Dashboard/allAtoms'
 import Lottie from 'react-lottie-player'
 import loadData from '../loading.json'
 
@@ -21,7 +20,6 @@ const Auth = ({type}) => {
     }, [])
 
     const [error, setError] = useState({email: false, password: false})
-    const setPlan = useSetRecoilState(planAtom)
     const [auth, setAuth] = useRecoilState(authAtom)
     const [loading, setLoading] = useState(false)
 
@@ -44,8 +42,7 @@ const Auth = ({type}) => {
                 xhr.onload = (e) => {
                     setLoading(false)
                     if(JSON.parse(e.currentTarget.response).code === undefined){
-                        setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                        setPlan(JSON.parse(e.currentTarget.response).plan)
+                        setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                         if(JSON.parse(e.currentTarget.response).plan === 'free'){
                             history.push(`/${company.subsidiary}/checkout`)
                         }else{
@@ -75,8 +72,7 @@ const Auth = ({type}) => {
             xhr.onload = (e) => {
                 setLoading(false)
                 if(JSON.parse(e.currentTarget.response).code === undefined){
-                    setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                    setPlan(JSON.parse(e.currentTarget.response).plan)
+                    setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
                     history.push(`/${company.subsidiary}/checkout`)
                 }else{
                     switch (JSON.parse(e.currentTarget.response).code) {
@@ -101,8 +97,7 @@ const Auth = ({type}) => {
         setLoading(true)
         xhr.onload = (e) => {
             setLoading(false)
-            setAuth({...auth, plan: {title: JSON.parse(e.currentTarget.response).plan}, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-            setPlan(JSON.parse(e.currentTarget.response).plan)
+            setAuth({...auth, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
             history.push(`/${company.subsidiary}/checkout`)
         }
     }

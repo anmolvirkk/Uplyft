@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
 import Modal from './components/Modal'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../../company'
@@ -12,6 +12,8 @@ import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 import Snackbar from './components/Snackbar'
 import snacksAtom from './components/Snackbar/snacksAtom'
 import { useRef } from 'react'
+import authAtom from '../Auth/authAtom'
+import { stripeSecret } from '../Pricing/components/Plan'
 
 const Dashboard = ({updateAtoms, updateBackendless}) => {
 
@@ -36,21 +38,39 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const [plan] = useRecoilState(planAtom)
 
     const updated = useRef({snacks: false, modals: false, atoms: false})
+    const [auth] = useRecoilState(authAtom)
+    const setPlan = useSetRecoilState(planAtom)
 
     useEffect(() => {
-        if(snacks.length > 0 && !updated.current.snacks){
-            setSnacks([])
-            let timeout
-            clearTimeout(timeout)
-            timeout = setTimeout(()=>{
-                updated.current.snacks = true
-            }, 3000)
+        if(Object.keys(auth).length === 0){
+            window.location.replace(`/${company.subsidiary}`)
+        }else{
+            if(snacks.length > 0 && !updated.current.snacks){
+                setSnacks([])
+                let timeout
+                clearTimeout(timeout)
+                timeout = setTimeout(()=>{
+                    updated.current.snacks = true
+                }, 3000)
+            }
+            if(snacks.length === 0 && plan==='Pro' && !updated.current.atoms){
+                updateAtoms()
+                updated.current.atoms = true
+            }
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (sub) => {
+                if(JSON.parse(sub.currentTarget.response).data[0]){
+                    setPlan(JSON.parse(sub.currentTarget.response).data[0].plan.amount)
+                }else{
+                    setPlan(0)
+                }
+            }
         }
-        if(plan==='pro' && !updated.current.atoms){
-            updated.current.atoms = true
-            updateAtoms()
-        }
-    }, [modalConfig, snacks, setModalConfig, setSnacks, plan, updateAtoms])
+    }, [modalConfig, snacks, setModalConfig, setSnacks, plan, updateAtoms, auth, setPlan])
 
     return (
         <div className="container">

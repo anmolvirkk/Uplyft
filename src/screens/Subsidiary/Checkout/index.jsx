@@ -8,7 +8,6 @@ import { useRef } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import Backendless from 'backendless'
 import { planAtom } from '../Dashboard/allAtoms'
 import modalConfigAtom from '../Dashboard/recoil-atoms/modalConfigAtom'
 import { windowHeight } from '../Dashboard/variables/mobileHeights'
@@ -31,19 +30,27 @@ const Checkout = () => {
   const history = useHistory()
   const [auth] = useRecoilState(authAtom)
   const [showForm, setShowForm] = useState(false)
-  const [plan, setPlan] = useRecoilState(planAtom)
+  const [plan] = useRecoilState(planAtom)
   const [loading, setLoading] = useState(false)
   useEffect(()=>{
 
     document.getElementsByTagName('html')[0].className = 'light'
-    if(auth.plan){
-      if(plan===auth.plan.title){
-        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-      }else{
-        setShowForm(true)
-      }
-    }else{
+    
+    if(Object.keys(auth).length === 0){
       history.push(`/${company.subsidiary}/pricing`)
+    }else{
+      let xr = new XMLHttpRequest()
+      xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+      xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+      xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+      xr.send(null)
+      xr.onload = (sub) => {
+        if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === auth.plan.product){
+          history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+        }else{
+          setShowForm(true)
+        }
+      }
     }
 
   }, [auth, history, plan])
@@ -122,37 +129,9 @@ const Checkout = () => {
                   xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                   xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
                   xr.onload = (sub) => {
-                      if(!JSON.parse(sub.currentTarget.response).error){
-                          if(auth.social){
-                            let xhr = new XMLHttpRequest()
-                            xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
-                            xhr.send(JSON.stringify({accessToken: auth.accessToken}))
-                            xhr.onload = (loggedInUser) => {
-                              let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card.current}}
-                              Backendless.UserService.update(user)
-                              setModalConfig({type: 'upgrade', title: auth.plan.title})
-                              setPlan(auth.plan.title)
-                              setLoading(false)
-                              history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-                            }
-                        }else if(auth.social === undefined){
-                            if(window.location.pathname.split('/').length > 2){
-                                window.location.replace(`/${company.subsidiary}`)
-                            }
-                        }else{
-                            let xr = new XMLHttpRequest()
-                            xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
-                            xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                            xr.onload = (loggedInUser) => {
-                                let user = {...JSON.parse(loggedInUser.currentTarget.response), plan: auth.plan.title, card: {...card.current}}
-                                Backendless.UserService.update(user)
-                                setModalConfig({type: 'upgrade', title: auth.plan.title})
-                                setPlan(auth.plan.title)
-                                setLoading(false)
-                                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-                            }
-                        }
-                      }
+                      setModalConfig({type: 'upgrade', amount: JSON.parse(sub.currentTarget.response).plan.amount})
+                      setLoading(false)
+                      history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
                     }
                   }
                 }
