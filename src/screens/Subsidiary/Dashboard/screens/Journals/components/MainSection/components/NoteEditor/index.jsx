@@ -7,7 +7,7 @@ import {useRecoilState} from 'recoil'
 import { windowHeight } from '../../../../../../variables/mobileHeights'
 import { allRoutesAtom, allPromptsAtom } from '../../../../../../allAtoms'
 
-const TextEditor = ({prompt, value, editorData, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
+const TextEditor = ({prompt, value, setEditorData, setNote, id, name, category, allPrompts, isMobile}) => {
 
   const editorBody = useRef(value)
   const textEditor = useRef()
