@@ -504,6 +504,8 @@ const Modal = () => {
             )
         }
         const CancelSubscripton = () => {
+            const [auth] = useRecoilState(authAtom)
+            const setPlan = useSetRecoilState(planAtom)
             let planTitle = ''
             if(plan === 2000 || plan === 22000){
                 planTitle = 'Plus'
@@ -514,26 +516,34 @@ const Modal = () => {
             let starter = plans[0].features
             const cancel = useCallback(() => {
                 let xr = new XMLHttpRequest()
-                xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+                xr.open('GET', `https://api.stripe.com/v1/customers`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                 xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                 xr.send(null)
                 setLoading(true)
-                xr.onload = (sub) => {
-                  JSON.parse(sub.currentTarget.response).data.forEach((item, i)=>{
+                xr.onload = (customers) => {
                     let xr = new XMLHttpRequest()
-                    xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
+                    xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                     xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                     xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                    xr.send(null)
-                    if(i === JSON.parse(sub.currentTarget.response).data.length-1){
-                        xr.onload = () => {
-                            setLoading(null)
+                    xr.send(`customer=${JSON.parse(customers.currentTarget.response).data.filter(i=>i.email===auth.login)[0].id}`)
+                    xr.onload = (sub) => {
+                      JSON.parse(sub.currentTarget.response).data.forEach((item, i)=>{
+                        let xr = new XMLHttpRequest()
+                        xr.open('DELETE', `https://api.stripe.com/v1/subscriptions/${item.id}`, true)
+                        xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                        xr.send(null)
+                        if(i === JSON.parse(sub.currentTarget.response).data.length-1){
+                            xr.onload = () => {
+                                setPlan(0)
+                                setLoading(null)
+                            }
                         }
+                      })
                     }
-                  })
                 }
-            }, [])
+            }, [auth, setPlan])
             if(loading !== null){
                 return (
                     <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
