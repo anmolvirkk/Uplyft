@@ -41,36 +41,56 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const [auth] = useRecoilState(authAtom)
     const setPlan = useSetRecoilState(planAtom)
 
+    let planTitle = ''
+    if(plan === 2000 || plan === 22000){
+        planTitle = 'Plus'
+    }else if(plan === 2500 || plan === 27500){
+        planTitle = 'Pro'
+    }
+
     useEffect(() => {
-        if(Object.keys(auth).length === 0){
-            window.location.replace(`/${company.subsidiary}`)
-        }else{
-            if(snacks.length > 0 && !updated.current.snacks){
-                setSnacks([])
-                let timeout
-                clearTimeout(timeout)
-                timeout = setTimeout(()=>{
-                    updated.current.snacks = true
-                }, 3000)
-            }
-            if(snacks.length === 0 && plan==='Pro' && !updated.current.atoms){
-                updateAtoms()
-                updated.current.atoms = true
-            }
+        if(snacks.length > 0 && !updated.current.snacks){
+            setSnacks([])
+            let timeout
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                updated.current.snacks = true
+            }, 100)
+        }
+        if(snacks.length === 0 && planTitle==='Pro' && !updated.current.atoms){
+            updateAtoms()
+            updated.current.atoms = true
+        }
+    }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms])
+
+    useEffect(()=>{
+        if(auth.login){
             let xr = new XMLHttpRequest()
-            xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+            xr.open('GET', `https://api.stripe.com/v1/customers`, true)
             xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
             xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(null)
-            xr.onload = (sub) => {
-                if(JSON.parse(sub.currentTarget.response).data[0]){
-                    setPlan(JSON.parse(sub.currentTarget.response).data[0].plan.amount)
-                }else{
-                    setPlan(0)
+            xr.onload = (customer) => {
+                if(JSON.parse(customer.currentTarget.response).data.filter(i=>i.email===auth.login)[0]){
+                    let xr = new XMLHttpRequest()
+                    xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+                    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    xr.send(null)
+                    xr.onload = (sub) => {
+                        let customerId = JSON.parse(customer.currentTarget.response).data.filter(i=>i.email===auth.login)[0].id
+                        if(JSON.parse(sub.currentTarget.response).data.filter(i=>i.customer===customerId)[0]){
+                            setPlan(JSON.parse(sub.currentTarget.response).data.filter(i=>i.customer===customerId)[0].plan.amount)
+                        }else{
+                            setPlan(0)
+                        }
+                    }
                 }
             }
+        }else{
+            window.location.replace(`/${company.subsidiary}`)
         }
-    }, [modalConfig, snacks, setModalConfig, setSnacks, plan, updateAtoms, auth, setPlan])
+    }, [auth, setPlan])
 
     return (
         <div className="container">

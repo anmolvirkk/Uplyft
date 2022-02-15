@@ -21,6 +21,7 @@ const Plan = (props) => {
     const [auth, setAuth] = useRecoilState(authAtom)
     const submit = {
         starter: () => {
+            setAuth({plan: {...props}})
             history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
         },
         plus: () => {

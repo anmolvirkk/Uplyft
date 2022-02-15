@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 import {windowHeight} from '../Dashboard/variables/mobileHeights'
 import InputBox from './components/InputBox'
 import { useHistory } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import authAtom from './authAtom'
 import Lottie from 'react-lottie-player'
 import loadData from '../loading.json'
@@ -20,7 +20,7 @@ const Auth = ({type}) => {
     }, [])
 
     const [error, setError] = useState({email: false, password: false})
-    const [auth, setAuth] = useRecoilState(authAtom)
+    const setAuth = useSetRecoilState(authAtom)
     const [loading, setLoading] = useState(false)
 
     const onsubmit = () => {
@@ -42,12 +42,8 @@ const Auth = ({type}) => {
                 xhr.onload = (e) => {
                     setLoading(false)
                     if(JSON.parse(e.currentTarget.response).code === undefined){
-                        setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                        if(JSON.parse(e.currentTarget.response).plan === 'free'){
-                            history.push(`/${company.subsidiary}/checkout`)
-                        }else{
-                            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
-                        }
+                        setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
                     }else{
                         switch (JSON.parse(e.currentTarget.response).code) {
                             case 3006:
@@ -72,8 +68,8 @@ const Auth = ({type}) => {
             xhr.onload = (e) => {
                 setLoading(false)
                 if(JSON.parse(e.currentTarget.response).code === undefined){
-                    setAuth({...auth, login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-                    history.push(`/${company.subsidiary}/checkout`)
+                    setAuth({login: form.email, password: form.password, social: false, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+                    history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
                 }else{
                     switch (JSON.parse(e.currentTarget.response).code) {
                         case 3006:
@@ -97,8 +93,8 @@ const Auth = ({type}) => {
         setLoading(true)
         xhr.onload = (e) => {
             setLoading(false)
-            setAuth({...auth, accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
-            history.push(`/${company.subsidiary}/checkout`)
+            setAuth({accessToken: social.accessToken, login: JSON.parse(e.currentTarget.response).email, social: true, objectId: JSON.parse(e.currentTarget.response).objectId, userToken: JSON.parse(e.currentTarget.response)['user-token']})
+            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
         }
     }
 

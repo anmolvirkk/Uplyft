@@ -36,22 +36,20 @@ const Checkout = () => {
 
     document.getElementsByTagName('html')[0].className = 'light'
     
-    if(Object.keys(auth).length === 0){
-      history.push(`/${company.subsidiary}/pricing`)
-    }else{
       let xr = new XMLHttpRequest()
       xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
       xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
       xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
       xr.send(null)
       xr.onload = (sub) => {
+        console.log(JSON.parse(sub.currentTarget.response).data[0].plan.id)
+        console.log(auth.plan)
         if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === auth.plan.product){
           history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
         }else{
           setShowForm(true)
         }
       }
-    }
 
   }, [auth, history, plan])
   const card = useRef({
@@ -109,12 +107,12 @@ const Checkout = () => {
               xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
               xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
               xr.send(`invoice_settings[default_payment_method]=${JSON.parse(pm.currentTarget.response).id}`)
-              xr.onload = () => {
+              xr.onload = (cus) => {
                 let xr = new XMLHttpRequest()
                 xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                 xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                xr.send(null)
+                xr.send(`customer=${JSON.parse(cus.currentTarget.response).id}`)
                 xr.onload = (sub) => {
                   JSON.parse(sub.currentTarget.response).data.forEach((item)=>{
                     let xr = new XMLHttpRequest()
