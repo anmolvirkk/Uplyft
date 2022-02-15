@@ -41,7 +41,7 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const [auth] = useRecoilState(authAtom)
     const setPlan = useSetRecoilState(planAtom)
 
-    let planTitle = ''
+    let planTitle = 'Starter'
     if(plan === 2000 || plan === 22000){
         planTitle = 'Plus'
     }else if(plan === 2500 || plan === 27500){

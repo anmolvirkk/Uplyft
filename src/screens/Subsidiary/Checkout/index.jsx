@@ -26,7 +26,7 @@ const Logo = ({success}) => {
   )
 }
 
-const Checkout = () => {
+const Checkout = ({updateBackendless}) => {
   const history = useHistory()
   const [auth] = useRecoilState(authAtom)
   const [showForm, setShowForm] = useState(false)
@@ -138,9 +138,18 @@ const Checkout = () => {
                   xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                   xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
                   xr.onload = (sub) => {
-                      setModalConfig({type: 'upgrade', amount: JSON.parse(sub.currentTarget.response).plan.amount})
-                      setLoading(false)
-                      history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                      console.log(JSON.parse(sub.currentTarget.response).plan.amount)
+                      setModalConfig({type: 'upgrade', amount: JSON.parse(sub.currentTarget.response).plan.amount})  
+                      if(JSON.parse(sub.currentTarget.response).plan.amount === 27500 || JSON.parse(sub.currentTarget.response).plan.amount === 2500){
+                        updateBackendless()
+                        setTimeout(()=>{
+                          setLoading(false)
+                          history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                        }, 500)
+                      }else{
+                        setLoading(false)
+                        history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+                      }
                     }
                   }
                 }

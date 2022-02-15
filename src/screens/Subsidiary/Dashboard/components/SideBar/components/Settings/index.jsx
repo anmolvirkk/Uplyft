@@ -74,7 +74,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                         })
                     }
                     return (
-                        <div key={i} id={`block${item.text}`} className={`${styles.block} ${plan===activePrice?styles.currentPlan:item.text==='Starter'&&plan===0?styles.currentPlan:''}`} style={{cursor: item.type==='button'||item.type==='select'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
+                        <div key={i} id={`block${item.text}`} className={`${styles.block} ${plan===activePrice?styles.currentPlan:item.text==='Starter'?plan==='Starter'||plan===0?styles.currentPlan:'':''}`} style={{cursor: item.type==='button'||item.type==='select'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
                             <div className={styles.text}>
                                 {item.icon?item.icon:null}
                                 {item.lottie?
@@ -123,7 +123,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
-    let planTitle = ''
+    let planTitle = 'Starter'
     if(plan === 2000 || plan === 22000){
         planTitle = 'Plus'
     }else if(plan === 2500 || plan === 27500){

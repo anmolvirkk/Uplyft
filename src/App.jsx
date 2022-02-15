@@ -258,7 +258,7 @@ const App = () => {
                 <Route exact path={`/${company.subsidiary}/pricing`}><Pricing /></Route>
                 <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>
                 <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
-                <Route exact path={`/${company.subsidiary}/checkout`}><Checkout /></Route>
+                <Route exact path={`/${company.subsidiary}/checkout`}><Checkout updateBackendless={updateBackendless} /></Route>
                 <Route path={`/${company.subsidiary}/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
             </Switch>
         </Router>

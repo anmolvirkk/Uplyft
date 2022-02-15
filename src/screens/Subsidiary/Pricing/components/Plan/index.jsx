@@ -21,8 +21,12 @@ const Plan = (props) => {
     const [auth, setAuth] = useRecoilState(authAtom)
     const submit = {
         starter: () => {
-            setAuth({plan: {...props}})
-            history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            const authSet = async () => {
+                setAuth({plan: {...props}})
+            }
+            authSet().then(()=>{
+                history.push(`/${company.subsidiary}/dashboard/${company.journals}`)
+            })
         },
         plus: () => {
             let xr = new XMLHttpRequest()
