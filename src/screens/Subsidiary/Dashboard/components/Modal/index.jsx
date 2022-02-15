@@ -504,7 +504,7 @@ const Modal = () => {
             )
         }
         const CancelSubscripton = () => {
-            const [auth] = useRecoilState(authAtom)
+            const [auth, setAuth] = useRecoilState(authAtom)
             const setPlan = useSetRecoilState(planAtom)
             let planTitle = ''
             if(plan === 2000 || plan === 22000){
@@ -536,14 +536,17 @@ const Modal = () => {
                         xr.send(null)
                         if(i === JSON.parse(sub.currentTarget.response).data.length-1){
                             xr.onload = () => {
-                                setPlan(0)
                                 setLoading(null)
+                                setTimeout(()=>{
+                                    setPlan(0)
+                                    setAuth({...auth, ...plans[0]})
+                                }, 3000)
                             }
                         }
                       })
                     }
                 }
-            }, [auth, setPlan])
+            }, [auth, setPlan, setAuth])
             if(loading !== null){
                 return (
                     <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>

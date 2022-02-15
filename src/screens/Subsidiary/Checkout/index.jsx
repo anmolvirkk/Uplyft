@@ -54,6 +54,15 @@ const Checkout = () => {
       }
 
   }, [auth, history, plan])
+
+
+  useEffect(()=>{
+    if(!auth.login){
+      history.push(`/${company.subsidiary}/login`)
+    }
+  }, [auth.login, history])
+
+
   const card = useRef({
     num: '',
     mm: '',
@@ -144,26 +153,26 @@ const Checkout = () => {
       }
     }
 
-    let xr = new XMLHttpRequest()
-    xr.open('GET', `https://api.stripe.com/v1/customers`, true)
-    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-    xr.send(null)
-    setLoading(true)
-    xr.onload = (customers) => {
-      if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
-        createcard(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
-      }else{
-        let xr = new XMLHttpRequest()
-        xr.open('POST', `https://api.stripe.com/v1/customers`, true)
-        xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-        xr.send(`email=${auth.login}`)
-        xr.onload = (customer) => {
-          setLoading(false)
-          createcard(JSON.parse(customer.currentTarget.response).id)
+      let xr = new XMLHttpRequest()
+      xr.open('GET', `https://api.stripe.com/v1/customers`, true)
+      xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+      xr.send(null)
+      setLoading(true)
+      xr.onload = (customers) => {
+        if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
+          createcard(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
+        }else{
+          let xr = new XMLHttpRequest()
+          xr.open('POST', `https://api.stripe.com/v1/customers`, true)
+          xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+          xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+          xr.send(`email=${auth.login}`)
+          xr.onload = (customer) => {
+            setLoading(false)
+            createcard(JSON.parse(customer.currentTarget.response).id)
+          }
         }
       }
-    }
 
   }
 

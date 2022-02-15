@@ -87,7 +87,8 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
                     }
                 }
             }
-        }else{
+        }
+        if(Object.keys(auth).length === 0){
             window.location.replace(`/${company.subsidiary}`)
         }
     }, [auth, setPlan])
