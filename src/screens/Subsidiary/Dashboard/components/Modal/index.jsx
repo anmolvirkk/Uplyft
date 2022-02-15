@@ -46,6 +46,7 @@ const Modal = () => {
     const [allPrompts, setAllPrompts] = useRecoilState(allPromptsAtom)
     const [books, setBooks] = useRecoilState(booksAtom)
     const [plan] = useRecoilState(planAtom)
+    const [auth, setAuth] = useRecoilState(authAtom)
 
     const closeModal = (e) => {
         const modalForm = document.getElementById('modalForm');
@@ -346,15 +347,6 @@ const Modal = () => {
         )
     }
 
-    const Feedback = () => {
-        return (
-            <div className={styles.feedback}>
-                <h3>Please send us your feedback to improve our service</h3>
-                <textarea />
-            </div>
-        )
-    }
-
     
     const UpgradeSubscription = () => {
 
@@ -363,7 +355,6 @@ const Modal = () => {
 
         const UpgradeButton = ({title}) => {
             const [isYear, setIsYear] = useState(true)
-            const [auth, setAuth] = useRecoilState(authAtom)
             const history = useHistory()
 
             const setPlan = () => {
@@ -470,6 +461,7 @@ const Modal = () => {
     const [loading, setLoading] = useState(false)
 
     const Subscription = () => {
+
         const Loading = () => {
             return (
                 <div className={styles.loading}>
@@ -482,6 +474,7 @@ const Modal = () => {
                 </div>
             )
         }
+
         const Cancelled = () => {
             return (
                 <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
@@ -503,8 +496,26 @@ const Modal = () => {
                 </div>
             )
         }
+
+        const feedback = useRef('')
+
+        const Feedback = () => {
+            return (
+                <div className={styles.feedback}>
+                    <h3>Please send us your feedback to improve our service</h3>
+                    <textarea onChange={(e)=>feedback.current=e.target.value} />
+                </div>
+            )
+        }
+
+        const sendFeedback = () => {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
+        }
+
         const CancelSubscripton = () => {
-            const [auth, setAuth] = useRecoilState(authAtom)
             const setPlan = useSetRecoilState(planAtom)
             let planTitle = 'Starter'
             if(plan === 2000 || plan === 22000){
@@ -515,6 +526,7 @@ const Modal = () => {
             let features = plans.filter(i=>i.title===planTitle)[0].features
             let starter = plans[0].features
             const cancel = useCallback(() => {
+                sendFeedback()
                 let xr = new XMLHttpRequest()
                 xr.open('GET', `https://api.stripe.com/v1/customers`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
@@ -546,7 +558,7 @@ const Modal = () => {
                       })
                     }
                 }
-            }, [auth, setPlan, setAuth])
+            }, [setPlan])
             if(loading !== null){
                 return (
                     <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>

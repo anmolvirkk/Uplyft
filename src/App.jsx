@@ -19,6 +19,9 @@ import Pricing from './screens/Subsidiary/Pricing'
 import Checkout from './screens/Subsidiary/Checkout'
 import snacksAtom from './screens/Subsidiary/Dashboard/components/Snackbar/snacksAtom'
 
+export const APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
+export const API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+
 const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
@@ -250,8 +253,6 @@ const App = () => {
     }
 
     window.onload = () => {
-        let APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-        let API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
         Backendless.initApp(APP_ID, API_KEY)
     }
 
