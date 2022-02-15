@@ -23,12 +23,17 @@ const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
     const setIsMobile = useSetRecoilState(isMobileAtom)
+    const windowWidth = useRef(window.innerWidth)
 
     window.onresize = () => {
         if(window.innerWidth < 1450){
             setIsMobile(true)
         }else{
             setIsMobile(false)
+        }
+        if(windowWidth.current !== window.innerWidth){
+            setForceUpdate(!forceUpdate)
+            windowWidth.current = window.innerWidth
         }
         if(window.innerWidth < 1450){
             if(document.getElementById('modalContainer')){
