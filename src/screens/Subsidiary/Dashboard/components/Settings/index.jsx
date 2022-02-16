@@ -1,37 +1,37 @@
 import React from 'react'
 import { LogOut, Moon, RefreshCw, Save, Package, Key, Mail, AlertTriangle, Send, ChevronRight } from 'react-feather'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { darkModeAtom, planAtom } from '../../../../allAtoms'
+import { darkModeAtom, planAtom } from '../../allAtoms'
 import styles from './_settings.module.sass'
 import premium from './premium.json'
 import plus from './plus.json'
 import Lottie from 'react-lottie-player'
 import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
-import company from '../../../../../../../company'
-import authAtom from '../../../../../Auth/authAtom'
+import company from '../../../../../company'
+import authAtom from '../../../Auth/authAtom'
 import { GoogleLogout } from 'react-google-login'
 import settingsAtom from './settingsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
-import { plans } from '../../../../../Pricing'
-import { stripeSecret } from '../../../../../Pricing/components/Plan'
+import { plans } from '../../../Pricing'
+import { stripeSecret } from '../../../Pricing/components/Plan'
 import { useState } from 'react'
-import modalConfigAtom from '../../../../recoil-atoms/modalConfigAtom'
+import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import { useEffect } from 'react'
 
-const Settings = ({updateBackendless, updateAtoms}) => {
+const Settings = React.memo(({updateBackendless, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
     const [auth, setAuth] = useRecoilState(authAtom)
-    const Toggle = ({state, setState}) => {
+    const Toggle = React.memo(({state, setState}) => {
         return (
             <div className={`${styles.toggle} ${state?styles.active:''}`} onMouseDown={()=>setState(!state)}>
                 <hr />
             </div>
         )
-    }
-    const Blocks = ({title, blocks}) => {
+    })
+    const Blocks = React.memo(({title, blocks}) => {
 
-        const Select = ({item, interval, blockId}) => {
+        const Select = React.memo(({item, interval, blockId}) => {
             const [openDropDown, setOpenDropDown] = useState(false)
             useEffect(()=>{
                 if(document.getElementById(blockId) && !document.getElementById(blockId).onmousedown){
@@ -57,7 +57,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                     :null}
                 </div>
             )
-        }
+        })
 
         return (
             <div className={styles.container}>
@@ -96,7 +96,7 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                 }):null}
             </div>
         )
-    }
+    })
 
     const [plan] = useRecoilState(planAtom)
     const history = useHistory()
@@ -152,8 +152,8 @@ const Settings = ({updateBackendless, updateAtoms}) => {
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
-                {planTitle==='Pro'?<Blocks title='Data Management' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
-                <Blocks title='Change Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
+                {planTitle==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
+                <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
                 {auth.login?<Blocks title='Account' blocks={[{icon: <Mail />, text: 'change email', type: 'button'},{icon: <Key />, text: 'change password', type: 'button'},{icon: <AlertTriangle />, text: 'delete account', type: 'button'}]} />:null}
                 {!auth.social?
                     <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
@@ -167,10 +167,10 @@ const Settings = ({updateBackendless, updateAtoms}) => {
                         )}  
                     />
                 }
-                <Blocks title='Share your thoughts' blocks={[{icon: <Send />, text: 'Feedback', type: 'button'}]} />
+                <Blocks title='Share' blocks={[{icon: <Send />, text: 'Feedback', type: 'button'}]} />
             </div>
         </OutsideClickHandler>
     )
-}
+})
 
 export default Settings

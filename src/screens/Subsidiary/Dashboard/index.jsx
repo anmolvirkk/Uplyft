@@ -15,7 +15,7 @@ import { useRef } from 'react'
 import authAtom from '../Auth/authAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
 
-const Dashboard = ({updateAtoms, updateBackendless}) => {
+const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
@@ -37,7 +37,7 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
     const [plan] = useRecoilState(planAtom)
 
-    const updated = useRef({snacks: false, modals: false, atoms: false})
+    const updated = useRef({snacks: false, atoms: false})
     const [auth] = useRecoilState(authAtom)
     const setPlan = useSetRecoilState(planAtom)
 
@@ -51,11 +51,7 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
     useEffect(() => {
         if(snacks.length > 0 && !updated.current.snacks){
             setSnacks([])
-            let timeout
-            clearTimeout(timeout)
-            timeout = setTimeout(()=>{
-                updated.current.snacks = true
-            }, 100)
+            updated.current.snacks = true
         }
         if(snacks.length === 0 && planTitle==='Pro' && !updated.current.atoms){
             updateAtoms()
@@ -107,7 +103,7 @@ const Dashboard = ({updateAtoms, updateBackendless}) => {
                 <Route path={`/${company.subsidiary}/dashboard/${company.schedule}`}><Schedule updateBackendless={updateBackendless} updateAtoms={updateAtoms} /></Route>
             </Switch>
         </div>
-)
-}
+    )
+})
 
 export default Dashboard

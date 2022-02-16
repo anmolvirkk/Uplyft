@@ -34,7 +34,7 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
-const Modal = () => {
+const Modal = React.memo(() => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
     const setOpenBook = useSetRecoilState(openBookAtom)
@@ -306,7 +306,7 @@ const Modal = () => {
     )
 
     const Upgrade = React.memo(({amount}) => {
-        
+
         let title = ''
         if(amount === 2000 || amount === 22000){
             title = 'Plus'
@@ -326,19 +326,25 @@ const Modal = () => {
             })
         }, [])
 
+        const AnimCheck = React.memo(() => {
+            return (
+                <Lottie
+                    play
+                    loop={false}
+                    animationData={checkData}
+                    style={{ width: 250, height: 250 }}
+                />
+            )
+        })
+
         return (
             <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
                 <div className={styles.header}>
-                    <p>{title==='Pro'?'Upgraded':'Switched'} to {title} plan</p>
+                    <p>{title==='Pro'?'Upgraded to pro plan':'Switched to plus plan'}</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <div className={styles.checkWrapper}>
-                    <Lottie
-                        play
-                        loop={false}
-                        animationData={checkData}
-                        style={{ width: 250, height: 250 }}
-                    />
+                    <AnimCheck />
                 </div>
                 <div className={styles.footer}>
                     <button className={styles.continueBtn} onClick={()=>setModalConfig({type: ''})}>Continue</button>
@@ -348,12 +354,12 @@ const Modal = () => {
     })
 
     
-    const UpgradeSubscription = () => {
+    const UpgradeSubscription = React.memo(() => {
 
         let plus = plans[1].features
         let pro = plans[2].features
 
-        const UpgradeButton = ({title}) => {
+        const UpgradeButton = React.memo(({title}) => {
             const [isYear, setIsYear] = useState(true)
             const history = useHistory()
 
@@ -397,7 +403,7 @@ const Modal = () => {
                     <button onMouseDown={setPlan}>Upgrade to <span>&nbsp;{company.subsidiary}&nbsp;</span> {title}</button>
                 </div>
             )
-        }
+        })
 
         return (
             <div className={`${styles.form} ${styles.cancelSubscription}`} id='modalForm'>
@@ -456,13 +462,12 @@ const Modal = () => {
                 </div>
             </div>
         )
-    }
+    })
 
     const [loading, setLoading] = useState(false)
 
-    const Subscription = () => {
-
-        const Loading = () => {
+    const Subscription = React.memo(() => {
+        const Loading = React.memo(() => {
             return (
                 <div className={styles.loading}>
                     <Lottie
@@ -473,9 +478,9 @@ const Modal = () => {
                       />
                 </div>
             )
-        }
+        })
 
-        const Cancelled = () => {
+        const Cancelled = React.memo(() => {
             return (
                 <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
                     <div className={styles.header}>
@@ -495,18 +500,18 @@ const Modal = () => {
                     </div>
                 </div>
             )
-        }
+        })
 
         const feedback = useRef('')
 
-        const Feedback = () => {
+        const Feedback = React.memo(() => {
             return (
                 <div className={styles.feedback}>
                     <h3>Please send us your feedback to improve our service</h3>
                     <textarea onChange={(e)=>feedback.current=e.target.value} />
                 </div>
             )
-        }
+        })
 
         const sendFeedback = () => {
             if(feedback.current !== ''){
@@ -517,7 +522,7 @@ const Modal = () => {
             }
         }
 
-        const CancelSubscripton = () => {
+        const CancelSubscripton = React.memo(() => {
             const setPlan = useSetRecoilState(planAtom)
             let planTitle = 'Starter'
             if(plan === 2000 || plan === 22000){
@@ -637,16 +642,18 @@ const Modal = () => {
             }else{
                 return <Cancelled />
             }
-        }
+        })
+
         if(plan!==0&&plan!=='Starter'){
             return <CancelSubscripton />
         }else{
             return <UpgradeSubscription />
         }
-    }
 
-    return (
-        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:styles[modalConfig.type+'var']}`} onMouseDown={(e)=>closeModal(e)}>
+    })
+
+    const Wrapper = React.memo(()=>{
+        return (
             <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
                 {modalConfig.type === 'addjournal' ? 
                 <AddJournal /> 
@@ -681,8 +688,14 @@ const Modal = () => {
                 : null
                 }
             </div>
+        )
+    })
+
+    return (
+        <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:styles[modalConfig.type+'var']}`} onMouseDown={(e)=>closeModal(e)}>
+            <Wrapper />
         </div>
     )
-}
+})
 
 export default Modal

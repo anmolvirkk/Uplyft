@@ -14,9 +14,9 @@ import company from '../../../../../company'
 import MobileHeader from './components/MobileHeader'
 
 import { datesAtom, allRoutesAtom } from '../../allAtoms'
-import Settings from '../../components/SideBar/components/Settings'
+import Settings from '../../components/Settings'
 
-const Journals = ({updateBackendless, updateAtoms}) => {
+const Journals = React.memo(({updateBackendless, updateAtoms}) => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates, setDates] = useRecoilState(datesAtom)
@@ -47,6 +47,6 @@ const Journals = ({updateBackendless, updateAtoms}) => {
 
         </div>
     )
-}
+})
 
 export default Journals

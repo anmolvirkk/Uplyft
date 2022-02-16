@@ -7,7 +7,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil'
 import company from '../../../../../company'
 import isMobileAtom from '../../recoil-atoms/isMobileAtom'
 import {scheduleSideMenuAtom, scheduleHeaderAtom, currentMobileSectionAtom, allRoutesAtom} from '../../allAtoms'
-import settingsAtom from './components/Settings/settingsAtom'
+import settingsAtom from '../Settings/settingsAtom'
 
 const IconButton = ({name, icon, link, underConstruction, func}) => {
     return (
@@ -20,7 +20,7 @@ const IconButton = ({name, icon, link, underConstruction, func}) => {
     )
 }
 
-const SideBar = () => {
+const SideBar = React.memo(() => {
     const [allRoutes] = useRecoilState(allRoutesAtom)
     const setCurrentMobileSection = useSetRecoilState(currentMobileSectionAtom)
     const setScheduleHeader = useSetRecoilState(scheduleHeaderAtom)
@@ -112,6 +112,6 @@ const SideBar = () => {
             </div>
         </aside>
     )
-}
+})
 
 export default SideBar

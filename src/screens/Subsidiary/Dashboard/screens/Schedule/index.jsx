@@ -14,9 +14,9 @@ import MoreMenu from '../../components/MoreMenu'
 import CheckBtn from './components/ScheduleSection/components/Habits/HabitDetails/components/CheckBtn'
 import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, habitsAtom, allCalendarEventsAtom, projectsAtom, eventsAtom, scheduleHeaderAtom } from '../../allAtoms'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
-import Settings from '../../components/SideBar/components/Settings'
+import Settings from '../../components/Settings'
 
-const Schedule = ({updateBackendless, updateAtoms}) => {
+const Schedule = React.memo(({updateBackendless, updateAtoms}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const isMobile = (window.innerWidth < 1450)
     const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
@@ -284,6 +284,6 @@ const Schedule = ({updateBackendless, updateAtoms}) => {
             </div>
         </div>
     )
-}
+})
 
 export default Schedule

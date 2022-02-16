@@ -42,7 +42,7 @@ const Snackbar = React.memo(() => {
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
 
     const timeout = useRef(null)
-    
+
     useEffect(()=>{
             clearTimeout(timeout.current)
             timeout.current = setTimeout(()=>{
@@ -68,13 +68,13 @@ const Snackbar = React.memo(() => {
             }, 3000)
     }, [snacks, setSnacks])
 
-    const Container = () => {
+    const Container = React.memo(() => {
         return (
             <div className={styles.wrapper} style={{maxHeight: window.innerHeight-80+'px'}}>
                 {snacks?snacks.map((item, i)=><Snack key={i} text={item.text} icon={item.icon} item={i} snacks={snacks} setSnacks={setSnacks} animate={item.animate} />):null}
             </div>
         )
-    }
+    })
 
     return (
         <div>

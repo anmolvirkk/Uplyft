@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { Redirect } from 'react-router-dom'
 import company from '../../../../../../../company'
 import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, scheduleHeaderAtom } from '../../../../allAtoms'
-import settingsAtom from '../../../../components/SideBar/components/Settings/settingsAtom'
+import settingsAtom from '../../../../components/Settings/settingsAtom'
 
 const MobileHeader = () => {
     const setScheduleAddDropDown = useSetRecoilState(scheduleAddDropDownAtom)
