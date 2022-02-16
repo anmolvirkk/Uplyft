@@ -305,7 +305,7 @@ const Modal = () => {
             </div>
     )
 
-    const Upgrade = ({amount}) => {
+    const Upgrade = React.memo(({amount}) => {
         
         let title = ''
         if(amount === 2000 || amount === 22000){
@@ -345,7 +345,7 @@ const Modal = () => {
                 </div>
             </div>
         )
-    }
+    })
 
     
     const UpgradeSubscription = () => {
@@ -509,10 +509,12 @@ const Modal = () => {
         }
 
         const sendFeedback = () => {
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
-            xhr.setRequestHeader('Content-Type', 'application/json')
-            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
+            if(feedback.current !== ''){
+                let xhr = new XMLHttpRequest()
+                xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
+            }
         }
 
         const CancelSubscripton = () => {
