@@ -71,6 +71,7 @@ const Checkout = ({updateBackendless}) => {
   })
   const [error, setError] = useState({type: '', message: ''})
   const setModalConfig = useSetRecoilState(modalConfigAtom)
+
   const makepayment = (e) => {
 
     e.preventDefault()
@@ -184,6 +185,12 @@ const Checkout = ({updateBackendless}) => {
 
   }
 
+  const payonenter = (e) => {
+    if(e.key === 'Enter'){
+      makepayment(e)
+    }
+  }
+
   const paywithgoogle = () => {
     let xr = new XMLHttpRequest()
     xr.open('POST', `https://api.stripe.com/v1/payment_methods`, true)
@@ -220,12 +227,12 @@ const Checkout = ({updateBackendless}) => {
                   <hr />
               </div>
               <div className={styles.cname}>
-                <InputBox wrapper='checkoutWrapper' error={error.type==='card'||error.type==='all'?error.message:null} type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
+                <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='card'||error.type==='all'?error.message:null} type="number" name='Card number' autoComplete='cc-number' value={card.current.num} onChange={(e)=>card.current.num=e.target.value} />
               </div>
               <div className={styles.time}>
-                <InputBox wrapper='checkoutWrapper' error={error.type==='month'||error.type==='all'?error.message:null} type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
-                <InputBox wrapper='checkoutWrapper' error={error.type==='year'||error.type==='all'?error.message:null} type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
-                <InputBox wrapper='checkoutWrapper' error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
+                <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='month'||error.type==='all'?error.message:null} type='number' name='MM' autoComplete='cc-exp-month' onChange={(e)=>card.current.mm=e.target.value} />
+                <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='year'||error.type==='all'?error.message:null} type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
+                <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
               </div>
               <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
           </div>

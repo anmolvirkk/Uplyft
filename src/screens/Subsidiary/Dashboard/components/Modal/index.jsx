@@ -326,17 +326,6 @@ const Modal = React.memo(() => {
             })
         }, [])
 
-        const AnimCheck = React.memo(() => {
-            return (
-                <Lottie
-                    play
-                    loop={false}
-                    animationData={checkData}
-                    style={{ width: 250, height: 250 }}
-                />
-            )
-        })
-
         return (
             <div className={`${styles.form} ${styles.upgrade}`} id='modalForm'>
                 <div className={styles.header}>
@@ -344,7 +333,12 @@ const Modal = React.memo(() => {
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 <div className={styles.checkWrapper}>
-                    <AnimCheck />
+                    <Lottie
+                        play
+                        loop={false}
+                        animationData={checkData}
+                        style={{ width: 250, height: 250 }}
+                    />
                 </div>
                 <div className={styles.footer}>
                     <button className={styles.continueBtn} onClick={()=>setModalConfig({type: ''})}>Continue</button>

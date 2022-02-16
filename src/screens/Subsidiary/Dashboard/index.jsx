@@ -37,7 +37,7 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
     const [plan] = useRecoilState(planAtom)
 
-    const updated = useRef({snacks: false, atoms: false})
+    const updated = useRef({snacks: false, atoms: false, upgrade: false, modals: false})
     const [auth] = useRecoilState(authAtom)
     const setPlan = useSetRecoilState(planAtom)
 
@@ -56,6 +56,10 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
         if(snacks.length === 0 && planTitle==='Pro' && !updated.current.atoms){
             updateAtoms()
             updated.current.atoms = true
+        }
+        if(modalConfig.type!=='upgrade' && modalConfig.type!=='' && !updated.current.modals){
+            setModalConfig({type: ''})
+            updated.current.modals = true
         }
     }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms])
 
