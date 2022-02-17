@@ -120,6 +120,7 @@
                 position: relative
                 cursor: pointer
                 +mixins.center
+                transform: translateX(40%)
                 div
                     padding: 1.75vh
                     position: absolute
@@ -998,14 +999,19 @@
         button:first-child
             margin-right: 12px
     .form
-        padding: 24px
-        border-radius: 12px 12px
-        max-height: calc(100% - 24px)
-        max-width: calc(100% - 24px)
-        width: calc(100% - 24px)
-        min-width: calc(100% - 24px)
+        padding: 20px
+        border-radius: 0
+        height: 100%
+        max-height: 100%
+        max-width: 100%
+        min-height: 100%
+        width: 100%
+        min-width: 100%
         position: relative
         padding-bottom: 0
+        display: flex
+        flex-flow: column
+        justify-content: space-between
         p
             font-size: 14px
             margin-left: 0
