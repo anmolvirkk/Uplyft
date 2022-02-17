@@ -17,7 +17,6 @@ import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { tagsAtom, allRoutesAtom, projectsAtom, allCalendarEventsAtom } from '../../../../allAtoms'
 
 import InputBox from '../../../../../Auth/components/InputBox'
-import { windowHeight } from '../../../../variables/mobileHeights'
 
 const AddTask = ({type, currentTask, currentActiveTask}) => {
 
@@ -418,10 +417,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         useEffect(()=>{
             window.onresize = () => {
-                if(windowHeight === window.innerHeight){
-                    setTaskFromRef()
-                    setTagsFromRef()
-                }
+                setTaskFromRef()
+                setTagsFromRef()
             }
         }, [setTagsFromRef])
 
