@@ -392,6 +392,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         }
 
         const taskRef = useRef(false)
+
         const setTaskFromRef = () => {
             if(taskRef.current){
                 setActiveTask(taskRef.current.key, taskRef.current.val)
