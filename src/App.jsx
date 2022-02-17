@@ -49,6 +49,9 @@ const App = React.memo(() => {
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'none'
                 }
+                if(document.getElementById('scheduleAddDropDownContainer')){
+                    document.getElementById('scheduleAddDropDownContainer').style.display = 'none'
+                }
                 if(document.getElementById('textEditorHeader')){
                     document.getElementById('textEditorHeader').style.display = 'block'
                     document.getElementById('textEditor').style.height = (window.innerHeight - 60 - 60 - 40 - 20 - 12)+'px'
@@ -58,6 +61,9 @@ const App = React.memo(() => {
             }else{
                 if(document.getElementById('mainSideBar')){
                     document.getElementById('mainSideBar').style.display = 'flex'
+                }
+                if(document.getElementById('scheduleAddDropDownContainer')){
+                    document.getElementById('scheduleAddDropDownContainer').style.display = 'block'
                 }
                 if(document.getElementById('textEditorHeader')){
                     document.getElementById('textEditorHeader').style.display = 'none'
