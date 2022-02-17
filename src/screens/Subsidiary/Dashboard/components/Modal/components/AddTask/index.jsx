@@ -414,10 +414,10 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         window.onresize = () => {
             if(windowHeight === window.innerHeight){
-                if(taskRef.current.key !== 'priority' || taskRef.current.key !== 'timeRequired' || taskRef.current.key !== 'effortRequired' || taskRef.current.key !== 'tags'){
-                    setTaskFromRef()
-                }else{
+                if(taskRef.current.key === 'priority' || taskRef.current.key === 'timeRequired' || taskRef.current.key === 'effortRequired' || taskRef.current.key === 'tags'){
                     setTagsFromRef()
+                }else{
+                    setTaskFromRef()
                 }
             }
         }
