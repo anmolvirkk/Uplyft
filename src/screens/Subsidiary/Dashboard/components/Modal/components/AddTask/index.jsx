@@ -392,20 +392,26 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         }
 
         const taskRef = useRef(false)
-        const setTaskFromRef = (key, val) => {
-            setActiveTask(key, val)
-            taskRef.current = false
+        const setTaskFromRef = () => {
+            if(taskRef.current){
+                setActiveTask(taskRef.current.key, taskRef.current.val)
+                taskRef.current = false
+            }
         }
+
+        useEffect(()=>{
+            setTaskFromRef()
+        }, [])
 
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={()=>setTaskFromRef('name', taskRef.current)} onTouchEnd={()=>setTaskFromRef('name', taskRef.current)} onChange={(e)=>taskRef.current=e.target.value} onFocus={(e)=>taskRef.current=e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                            <InputBox onBlur={setTaskFromRef} onTouchEnd={setTaskFromRef} onChange={(e)=>taskRef.current={key: 'name', val: e.target.value}} onFocus={(e)=>taskRef.current={key: 'name', val: e.target.value}} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={()=>setTaskFromRef('details', taskRef.current)} onTouchEnd={()=>setTaskFromRef('details', taskRef.current)} onChange={(e)=>taskRef.current=e.target.value} onFocus={(e)=>taskRef.current=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                            <InputBox onBlur={setTaskFromRef} onTouchEnd={setTaskFromRef} onChange={(e)=>taskRef.current={key: 'details', val: e.target.value}} onFocus={(e)=>taskRef.current={key: 'details', val: e.target.value}} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
