@@ -381,7 +381,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     document.getElementsByClassName('form-control')[i].readOnly = true
                 }
             }
-        })
+        }, [])
 
         const setSlider = (key, val) => {
             activeTask[key] = {...activeTask[key], value: val}
@@ -410,8 +410,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     appendTagWithValue(taskRef.current.key, taskRef.current.val)
                 }
                 taskRef.current = false
-            }else{
-                resetAddTagBtn()
             }
         }, [appendTag, appendTagWithValue])
 
