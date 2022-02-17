@@ -315,25 +315,34 @@
     display: flex
     align-items: center
     color: rgba(var(--text), 0.35)
-    padding: 0 1vh 0 1.5vh
+    padding: 0 1vh 0 0
     overflow-x: auto
+    overflow-y: hidden
     height: 80px
     --primary: 49,173,254
+    border-bottom: 1px solid rgb(var(--border))
+    .folder
+        margin: 0 3vh
     .navContent
         display: flex
         align-items: center
         cursor: pointer
-        svg
-            width: 25px
-            height: 25px
-            stroke-width: 1px
+        height: 100%
+        color: rgb(var(--colorTitles))
+        div
+            color: rgb(var(--colorTitles))
         p
             font-size: 1.5vh
             text-transform: lowercase
+            width: fit-content
+            font-weight: 400
+            margin: 0 3vh
     .navContent:last-child
         color: rgba(var(--primary), 1)
         margin-right: 0
         pointer-events: none
+        p
+            margin-right: 1.5vh
 
 .tasksNav::-webkit-scrollbar
         height: 0
@@ -347,6 +356,7 @@
     h3
         font-size: 3vh
         color: rgba(var(--text), 1)
+        margin-top: 1.5vh
     p
         color: rgba(var(--titles))
         margin-top: 0.5vh

@@ -4,6 +4,9 @@ import {useHistory} from 'react-router-dom'
 import company from '../../../../../company'
 import { useRecoilState } from 'recoil'
 import authAtom from '../../../Auth/authAtom'
+import Lottie from 'react-lottie-player'
+import check from '../../../Dashboard/components/Modal/check.json'
+import down from '../../../Dashboard/components/Modal/down.json'
 
 // const stripeSecret = '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'
 export const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
@@ -80,7 +83,18 @@ const Plan = (props) => {
                     </div>
                     <ul>
                         {props.features.journals.map((item, i)=>{
-                            return <li key={i}>{item}</li>
+                            let isStarter = props.price===0||item==='Single device'||item==='Limited customizable options'||item==='Local browser storage'
+                            return (
+                                <li key={i}>
+                                    <Lottie
+                                        play
+                                        loop={false}
+                                        animationData={isStarter?down:check}
+                                        style={{ width: 50, height: 50 }}
+                                    />
+                                    <p>{item}</p>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>
@@ -91,7 +105,18 @@ const Plan = (props) => {
                     </div>
                     <ul>
                         {props.features.schedule.map((item, i)=>{
-                            return <li key={i}>{item}</li>
+                            let isStarter = props.price===0||item==='Single device'||item==='Limited customizable options'||item==='Local browser storage'
+                            return (
+                                <li key={i}>
+                                    <Lottie
+                                        play
+                                        loop={false}
+                                        animationData={isStarter?down:check}
+                                        style={{ width: 50, height: 50 }}
+                                    />
+                                    <p>{item}</p>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>
@@ -102,7 +127,18 @@ const Plan = (props) => {
                     </div>
                     <ul>
                         {props.features.notes.map((item, i)=>{
-                            return <li key={i}>{item}</li>
+                            let isStarter = props.price===0||item==='Single device'||item==='Limited customizable options'||item==='Local browser storage'
+                            return (
+                                <li key={i}>
+                                    <Lottie
+                                        play
+                                        loop={false}
+                                        animationData={isStarter?down:check}
+                                        style={{ width: 50, height: 50 }}
+                                    />
+                                    <p>{item}</p>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>
@@ -113,7 +149,18 @@ const Plan = (props) => {
                     </div>
                     <ul>
                         {props.features.finances.map((item, i)=>{
-                            return <li key={i}>{item}</li>
+                            let isStarter = props.price===0||item==='Single device'||item==='Limited customizable options'||item==='Local browser storage'
+                            return (
+                                <li key={i}>
+                                    <Lottie
+                                        play
+                                        loop={false}
+                                        animationData={isStarter?down:check}
+                                        style={{ width: 50, height: 50 }}
+                                    />
+                                    <p>{item}</p>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>
@@ -124,7 +171,18 @@ const Plan = (props) => {
                     </div>
                     <ul>
                         {props.features.fitness.map((item, i)=>{
-                            return <li key={i}>{item}</li>
+                            let isStarter = props.price===0||item==='Single device'||item==='Limited customizable options'||item==='Local browser storage'
+                            return (
+                                <li key={i}>
+                                    <Lottie
+                                        play
+                                        loop={false}
+                                        animationData={isStarter?down:check}
+                                        style={{ width: 50, height: 50 }}
+                                    />
+                                    <p>{item}</p>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>

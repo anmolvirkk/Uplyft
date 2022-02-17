@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight, ChevronRight, Folder, ArrowUp, ArrowDown, Inbox, CheckSquare } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, Folder, ArrowUp, ArrowDown, Inbox, CheckSquare } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -528,9 +528,9 @@ const TaskDetails = () => {
             <div id='scheduleSlotSectionScroller' className={journalStyles.slotSection} style={{height: !isMobile?'calc(100vh - 80px - 40px)':'calc(100% - 40px)'}}>
                 {openSubtasks.nav.length>0?
                     <div className={styles.tasksNav}>
-                        <div onClick={()=>showSubtasks(false)} className={styles.navContent}><Folder /></div>
+                        <div onClick={()=>showSubtasks(false)} className={`${styles.navContent} ${styles.folder}`}><Folder /></div>
                         {openSubtasks.nav.map((item)=>{
-                            return <div key={item.id} onClick={()=>showSubtasks(item)} className={styles.navContent}><ChevronRight /><p>{item.name}</p></div>
+                            return <div key={item.id} onClick={()=>showSubtasks(item)} className={styles.navContent}><div>/</div><p>{item.name}</p></div>
                         })}
                     </div>
                 :null}

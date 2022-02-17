@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
-import Modal from './components/Modal'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import '../../../_main.sass'
 import Construction from './screens/Construction'
@@ -14,6 +13,7 @@ import snacksAtom from './components/Snackbar/snacksAtom'
 import { useRef } from 'react'
 import authAtom from '../Auth/authAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
+import Modal from './components/Modal'
 
 const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
@@ -37,7 +37,7 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
     const [plan] = useRecoilState(planAtom)
 
-    const updated = useRef({snacks: false, atoms: false, upgrade: false, modals: false})
+    const updated = useRef({snacks: false, atoms: false, upgrade: false})
     const [auth] = useRecoilState(authAtom)
     const setPlan = useSetRecoilState(planAtom)
 
@@ -56,10 +56,6 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
         if(snacks.length === 0 && planTitle==='Pro' && !updated.current.atoms){
             updateAtoms()
             updated.current.atoms = true
-        }
-        if(modalConfig.type!=='upgrade' && modalConfig.type!=='' && !updated.current.modals){
-            setModalConfig({type: ''})
-            updated.current.modals = true
         }
     }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms])
 
@@ -95,9 +91,7 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
     return (
         <div className="container">
-            {modalConfig.type!=='' ? 
-            <Modal />
-            : null}
+            {modalConfig.type!==''?<Modal />:null}
             <Snackbar />
             <Switch>
                 <Route path={`/${company.subsidiary}/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackendless={updateBackendless} /></Route>

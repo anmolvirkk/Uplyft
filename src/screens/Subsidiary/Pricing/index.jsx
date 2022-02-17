@@ -78,8 +78,8 @@ export const plans = [
         'Unlimited journals',
         'Unlimited entries per journal',
         'Unlimited notes per entry',
-        'Local browser storage',
         'Unlocked customizable options',
+        'Local browser storage',
         'Single device'
       ],
       schedule: [
@@ -125,7 +125,7 @@ export const plans = [
         'Water tracking',
         'No food database',
         'No barcode scanner',
-        'Limited customizable options',
+        'Unlocked customizable options',
         'Local browser storage',
         'Single device'
       ]
@@ -162,7 +162,7 @@ export const plans = [
         'Export as PDF',
         'Unlocked customizable options',
         'Cloud storage',
-        'Single device'
+        'Multiple devices'
       ],
       finances: [
         'Automatic budget tracking',
