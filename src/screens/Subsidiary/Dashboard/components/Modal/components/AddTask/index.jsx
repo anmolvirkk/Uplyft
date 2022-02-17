@@ -418,11 +418,13 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
 
         useEffect(()=>{
             window.onresize = () => {
+                alert(taskRef.current.key)
+                alert(taskRef.current.val)
+                alert(windowHeight)
+                alert(window.innerHeight)
                 if(windowHeight === window.innerHeight){
                     setTaskFromRef()
                     setTagsFromRef()
-                    alert(taskRef.current.key)
-                    alert(taskRef.current.val)
                 }
             }
         }, [setTagsFromRef])
