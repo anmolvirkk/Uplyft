@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState, useCallback, useRef} from 'react'
 import "react-datetime/css/react-datetime.css"
 import Datetime from "react-datetime"
 import styles from '../../_modal.module.sass'
@@ -372,7 +372,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             if(!document.getElementsByClassName('form-control')[0].readOnly){
                 for(let i=0; i<document.getElementsByClassName('form-control').length; i++){
                     document.getElementsByClassName('form-control')[i].onmousedown = (e) => {
-                        e.preventDefault()
                         e.target.parentNode.childNodes[1].onmousedown = (e) => {
                             e.preventDefault()
                         }
@@ -392,15 +391,21 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             setActiveTask('tags', [...val])
         }
 
+        const taskRef = useRef(false)
+        const setTaskFromRef = (key, val) => {
+            setActiveTask(key, val)
+            taskRef.current = false
+        }
+
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
                 <form>
                     <div className={styles.taskInput}>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={(e)=>setActiveTask('name', e.target.value)} onTouchEnd={(e)=>setActiveTask('name', e.target.value)} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
+                            <InputBox onBlur={()=>setTaskFromRef('name', taskRef.current)} onTouchEnd={()=>setTaskFromRef('name', taskRef.current)} onChange={(e)=>taskRef.current=e.target.value} onFocus={(e)=>taskRef.current=e.target.value} autoComplete='off' id='taskText' type='text' name='New Task' value={activeTask.name} />
                         </div>
                         <div className={styles.taskInputSection}>
-                            <InputBox onBlur={(e)=>setActiveTask('details', e.target.value)} onTouchEnd={(e)=>setActiveTask('details', e.target.value)} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
+                            <InputBox onBlur={()=>setTaskFromRef('details', taskRef.current)} onTouchEnd={()=>setTaskFromRef('details', taskRef.current)} onChange={(e)=>taskRef.current=e.target.value} onFocus={(e)=>taskRef.current=e.target.value} autoComplete='off' id='taskDetails' icon={<AlignLeft />} type='text' name='Add Details' value={activeTask.details} />
                         </div>
                         <div className={styles.setDates}>
                             <div className={`${styles.inputWithIcon}`}>
