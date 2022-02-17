@@ -65,8 +65,8 @@ const App = React.memo(() => {
                     document.getElementById('textEditor').style.marginBottom = '-3px'
                     document.getElementById('promptsSelector').style.height = (window.innerHeight - 60 - 80 - 60)+'px'
                 }
+                setForceUpdate(!forceUpdate)
             }
-            setForceUpdate(!forceUpdate)
         }else{
             if(document.getElementById('mainSideBar')){
                 document.getElementById('mainSideBar').style.display = 'grid'
