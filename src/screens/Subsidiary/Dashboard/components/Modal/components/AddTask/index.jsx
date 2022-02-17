@@ -17,6 +17,7 @@ import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { tagsAtom, allRoutesAtom, projectsAtom, allCalendarEventsAtom } from '../../../../allAtoms'
 
 import InputBox from '../../../../../Auth/components/InputBox'
+import { windowHeight } from '../../../../variables/mobileHeights'
 
 const AddTask = ({type, currentTask, currentActiveTask}) => {
 
@@ -381,7 +382,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     document.getElementsByClassName('form-control')[i].readOnly = true
                 }
             }
-        }, [])
+        })
 
         const setSlider = (key, val) => {
             activeTask[key] = {...activeTask[key], value: val}
@@ -410,13 +411,17 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     appendTagWithValue(taskRef.current.key, taskRef.current.val)
                 }
                 taskRef.current = false
+            }else{
+                resetAddTagBtn()
             }
         }, [appendTag, appendTagWithValue])
 
         useEffect(()=>{
             window.onresize = () => {
-                setTaskFromRef()
-                setTagsFromRef()
+                if(windowHeight === window.innerHeight){
+                    setTaskFromRef()
+                    setTagsFromRef()
+                }
             }
         }, [setTagsFromRef])
 
