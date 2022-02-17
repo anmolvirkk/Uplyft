@@ -230,6 +230,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
         }
         setModalConfig({type: ''})
     }
+    const taskRef = useRef(false)
 
     const HabitForm = () => {
 
@@ -394,8 +395,6 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             setActiveTask('tags', [...val])
         }
 
-        const taskRef = useRef(false)
-
         const setTaskFromRef = () => {
             if(taskRef.current){
                 setActiveTask(taskRef.current.key, taskRef.current.val)
@@ -410,24 +409,18 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 }else{
                     appendTagWithValue(taskRef.current.key, taskRef.current.val)
                 }
-                taskRef.current = false
-            }else{
-                resetAddTagBtn()
             }
         }, [appendTag, appendTagWithValue])
 
-        useEffect(()=>{
-            window.onresize = () => {
-                if(windowHeight === window.innerHeight){
-                    alert(taskRef.current.key)
-                    alert(taskRef.current.val)
-                    alert(windowHeight)
-                    alert(window.innerHeight)
+        window.onresize = () => {
+            if(windowHeight === window.innerHeight){
+                if(taskRef.current.key !== 'priority' || taskRef.current.key !== 'timeRequired' || taskRef.current.key !== 'effortRequired' || taskRef.current.key !== 'tags'){
                     setTaskFromRef()
+                }else{
                     setTagsFromRef()
                 }
             }
-        }, [setTagsFromRef])
+        }
 
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
@@ -455,7 +448,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                                 {reorderTags(tags.priority).map((item, index)=>{
                                     return <div onClick={(e)=>e.target.nodeName!=='svg'?setActiveTask('priority', item):null} key={index} className={`${styles.tag} ${activeTask.priority.value===item.value?styles.tagActive:null}`}><div>{item.value}</div><span>{item.label}</span><X onClick={(e)=>removeTagWithValue(e.target.parentNode.childNodes, 'priority')} /></div>
                                 })}
-                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)}><span onBlur={setTagsFromRef} onTouchEnd={setTagsFromRef} onInput={(e)=>taskRef.current={key: 'priority', val: e.target.innerText}}></span><div id="priorityTagValue">{activeTask.priority.value}</div><Plus /></div>
+                                <div className={styles.addTag} onClick={(e)=>addTagInputWithValue(e)}><span onInput={(e)=>taskRef.current={key: 'priority', val: e.target.innerText}}></span><div id="priorityTagValue">{activeTask.priority.value}</div><Plus /></div>
                             </div>
                             <input type="range" onChange={(e)=>document.getElementById('priorityTagValue').innerText = e.target.value} defaultValue={activeTask.priority.value} onMouseUp={(e)=>setSlider('priority', parseInt(e.target.value))} onTouchEnd={(e)=>setSlider('priority', parseInt(e.target.value))} />
                         </div>
