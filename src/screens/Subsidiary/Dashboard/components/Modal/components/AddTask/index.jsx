@@ -421,6 +421,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 if(windowHeight === window.innerHeight){
                     setTaskFromRef()
                     setTagsFromRef()
+                    alert(taskRef.current.key)
+                    alert(taskRef.current.val)
                 }
             }
         }, [setTagsFromRef])
