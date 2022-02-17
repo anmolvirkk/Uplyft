@@ -411,6 +411,8 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                     appendTagWithValue(taskRef.current.key, taskRef.current.val)
                 }
                 taskRef.current = false
+            }else{
+                resetAddTagBtn()
             }
         }, [appendTag, appendTagWithValue])
 
