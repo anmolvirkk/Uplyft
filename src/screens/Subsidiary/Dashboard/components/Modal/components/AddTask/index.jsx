@@ -403,7 +403,7 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
             }
         }
 
-        const setTagsFromRef = () => {
+        const setTagsFromRef = useCallback(() => {
             if(taskRef.current){
                 if(taskRef.current.key === 'tags'){
                     appendTag(taskRef.current.key, taskRef.current.val)
@@ -412,14 +412,16 @@ const AddTask = ({type, currentTask, currentActiveTask}) => {
                 }
                 taskRef.current = false
             }
-        }
+        }, [appendTag, appendTagWithValue])
 
-        window.onresize = () => {
-            if(windowHeight === window.innerHeight){
-                setTaskFromRef()
-                setTagsFromRef()
+        useEffect(()=>{
+            window.onresize = () => {
+                if(windowHeight === window.innerHeight){
+                    setTaskFromRef()
+                    setTagsFromRef()
+                }
             }
-        }
+        }, [setTagsFromRef])
 
         return (
             <div className={`${styles.editJournal} ${styles.addHabit}`}>
