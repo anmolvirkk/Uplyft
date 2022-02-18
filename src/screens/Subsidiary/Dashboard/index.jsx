@@ -15,7 +15,7 @@ import authAtom from '../Auth/authAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
 import Modal from './components/Modal'
 
-const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
+const Dashboard = ({updateAtoms, updateBackendless}) => {
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
@@ -102,6 +102,6 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
             </Switch>
         </div>
     )
-})
+}
 
 export default Dashboard
