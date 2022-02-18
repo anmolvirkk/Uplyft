@@ -420,20 +420,26 @@ const TaskDetails = () => {
                     <p><User /><span>Name</span></p>
                     <div className={styles.content}>{task.name}</div>
                 </div>
-                <div className={styles.titleBlock}>
-                    <p><AlignLeft /><span>Details</span></p>
-                    <div className={styles.content}>{task.details}</div>
-                </div>
+                {task.details!==''?
+                    <div className={styles.titleBlock}>
+                        <p><AlignLeft /><span>Details</span></p>
+                        <div className={styles.content}>{task.details}</div>
+                    </div>
+                :null}
                 <div className={styles.time}>
-                    <div className={styles.titleBlock}>
-                        <p><Play /><span>Start</span></p>
-                        <div id="taskDetailStart" className={styles.content}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
-                    </div>
-                    <div className={styles.titleBlock}>
-                        <p><Flag /><span>Deadline</span></p>
-                        <div id="taskDetailDeadline" className={styles.content}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
-                    </div>
-                    <TimeRemaining />
+                    {task.start!==null?
+                        <div className={styles.titleBlock}>
+                            <p><Play /><span>Start</span></p>
+                            <div id="taskDetailStart" className={styles.content}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        </div>
+                    :null}
+                    {task.deadline!==null?
+                        <div className={styles.titleBlock}>
+                            <p><Flag /><span>Deadline</span></p>
+                            <div id="taskDetailDeadline" className={styles.content}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                        </div>
+                    :null}
+                    {task.start!==null&&task.deadline!==null?<TimeRemaining />:null}
                 </div>
                 <div className={styles.metrics}>
                     <div className={styles.titleBlock}>
