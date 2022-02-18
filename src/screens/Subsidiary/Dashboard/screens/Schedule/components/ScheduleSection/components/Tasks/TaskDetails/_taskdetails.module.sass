@@ -299,18 +299,18 @@
         svg
             height: 100%
             margin-right: 1vh
-    .remaining
-        color: rgb(var(--titles))
-        font-weight: 400
-        display: flex
-        justify-content: space-between
-        align-items: center
     .completed
         color: rgb(var(--primary))
         font-weight: 400
         display: flex
         justify-content: space-between
         align-items: center
+.remaining
+    color: rgb(var(--titles))
+    font-weight: 400
+    display: flex
+    justify-content: space-between
+    align-items: center
 .tasksNav
     display: flex
     align-items: center
@@ -321,8 +321,6 @@
     height: 80px
     --primary: 49,173,254
     border-bottom: 1px solid rgb(var(--border))
-    .folder
-        margin: 0 3vh
     .navContent
         display: flex
         align-items: center
@@ -332,11 +330,17 @@
         div
             color: rgb(var(--colorTitles))
         p
-            font-size: 1.5vh
+            font-size: 1.65vh
             text-transform: lowercase
             width: fit-content
             font-weight: 400
-            margin: 0 3vh
+            height: 100%
+            +mixins.center
+            padding: 0 30px
+        svg
+            height: 100%
+            width: 80px
+            padding: 30px
     .navContent:last-child
         color: rgba(var(--primary), 1)
         margin-right: 0
@@ -349,20 +353,37 @@
 
 .taskdetails
     padding: 1.5vh
-    padding-top: 0
     color: rgb(var(--text))
     font-size: 1.5vh
     --primary: 49,173,254
+    .titleBlock
+        margin-top: 1vh
+        margin-bottom: 3vh
+        .content
+            border-bottom: 1px solid rgba(var(--lightTitles), 0.3)
+            padding-bottom: 1vh
+            width: 100%
+            margin-left: 3vh
+            margin-top: 1vh
+            color: rgb(var(--colorTitles))
+        p
+            color: rgb(var(--text))
+            margin-top: 0
+            display: flex
+            align-items: center
+            width: fit-content
+            span
+                margin: 0 12vh 0 1vh
+            svg
+                min-width: 2vh
+                min-height: 2vh
     h3
         font-size: 3vh
-        color: rgba(var(--text), 1)
         margin-top: 1.5vh
-    p
         color: rgba(var(--titles))
+    p
+        color: rgba(var(--timeTitle), 1)
         margin-top: 0.5vh
-    .details
-        font-size: 1.35vh
-        margin-top: 1vh
     .amount
         width: 100%
         text-align: right
@@ -376,15 +397,19 @@
             height: 3px
             background-color: rgb(var(--primary))
     .timer
-        display: flex
-        justify-content: space-between
+        display: grid
+        grid-template-columns: 1fr 1fr
+        margin-bottom: -2vh
+        margin-top: 2vh
         span   
             color: rgba(var(--timeTitle), 0.5)
-            font-size: 1.25vh
+            font-size: 1.5vh
         .timerBlock
+            padding-bottom: 3vh
             div
-                font-size: 2.5vh
-                font-weight: 100
+                font-size: 3vh
+                font-weight: 400
+                margin-bottom: 0.5vh
     .title
         margin-top: 2vh
         margin-bottom: 1vh
@@ -395,10 +420,10 @@
         display: flex
         flex-flow: wrap
     .time
-        margin-top: 3vh
-        margin-bottom: 3vh
+        margin-top: 1.5vh
+        margin-bottom: 1.5vh
     .timeTitle
-        color: rgb(var(--timeTitle))
+        color: rgb(var(--text))
     .tags
         background-color: rgba(var(--tags))
         border-radius: 3px 3px
@@ -413,19 +438,20 @@
         margin: 1.5vh 1.5vh 1.5vh 0
     .metricContainer
         position: relative
+        margin-left: 3vh
     .metricValue
         color: rgba(var(--titles))
     .metricTitle
-        margin-top: 2vh
-        .metricLabel
-            margin-top: 1vh
+        margin-top: 1vh
         p
             display: flex
             justify-content: space-between
             align-items: center
-        p:last-child
-            color: white
-            font-weight: 100
+            width: 100%
+            color: rgb(var(--colorTitles))
+            span
+                margin: 0
+                color: rgb(var(--colorTitles))
 
 .progress
     width: 100%
@@ -453,6 +479,57 @@
         svg
             width: 22px
             height: 22px
+    .taskdetails
+        .titleBlock
+            margin-top: 12px
+            margin-bottom: 30px
+            p
+                font-size: 16px
+                span
+                    margin: 0 24px 0 12px
+                svg
+                    min-width: 22px
+            .content
+                margin-left: 36px
+                margin-top: 12px
+                padding-bottom: 12px
+                font-size: 14px
+            .metricContainer
+                margin-left: 36px
+            .metricTitle
+                margin-top: 12px
+                p
+                    span
+                        margin: 0
+        .tags
+            padding: 0 16px
+            font-size: 16px
+            height: 36px
+            margin: 12px 12px 12px 0
+        .amount
+            font-size: 16px
+        .progress
+            margin-top: 12px
+            height: 4px
+            hr
+                height: 4px
+        .timer
+            display: flex
+            margin-bottom: -12px
+            margin-top: 12px
+            span   
+                color: rgba(var(--timeTitle), 0.5)
+                font-size: 14px
+            .timerBlock
+                display: flex
+                align-items: baseline
+                padding-bottom: 12px
+                margin-right: 12px
+                div
+                    font-size: 14px
+                    font-weight: 400
+                    margin-bottom: 0
+                    margin-right: 3px
     .slotContent
         padding: 0 0 0 14px
         min-width: calc( 100% - 79.5px - 22px - 6px )
@@ -500,3 +577,22 @@
                         p
                             padding: 14px 26px
                             font-size: 14px
+    .tasksNav
+        padding: 0 12px
+        height: 60px
+        .folder
+            padding-right: 24px
+        .navContent
+            p
+                font-size: 14px
+                margin: 0
+                padding: 0 24px
+            div
+                font-size: 16px
+            svg
+                padding: 0
+                width: 22px
+                height: 22px
+        .navContent:last-child
+            p
+                margin-right: 0

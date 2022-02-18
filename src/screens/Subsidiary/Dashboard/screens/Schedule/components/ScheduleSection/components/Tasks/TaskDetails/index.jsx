@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import journalStyles from '../../../../../../Journals/_journal.module.sass'
 import AddButton from '../../../../AddButton'
-import { ChevronUp, ChevronDown, CornerDownRight, Folder, ArrowUp, ArrowDown, Inbox, CheckSquare } from 'react-feather'
+import { ChevronUp, ChevronDown, CornerDownRight, Folder, ArrowUp, ArrowDown, Inbox, CheckSquare, User, AlignLeft, Clock, Flag, Zap, Target, AlertTriangle, Play } from 'react-feather'
 import styles from './_taskdetails.module.sass'
 import OutsideClickHandler from 'react-outside-click-handler-lite'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -377,20 +377,22 @@ const TaskDetails = () => {
             })
             allIntervals.push(startTimer)
             return (
-                <div id="taskDetailtimersection" className={styles.timeTitle}>
-                    <p className={styles.title} id="taskDetailtimer">Time Until Start</p>
-                    <div className={styles.timer}>
-                        <div className={styles.timerBlock}>
-                            <div id="taskDetaildays">0</div><span>Days</span>
-                        </div>
-                        <div className={styles.timerBlock}>
-                            <div id="taskDetailhour">0</div><span>Hours</span>
-                        </div>
-                        <div className={styles.timerBlock}>
-                            <div id="taskDetailmin">0</div><span>Minutes</span>
-                        </div>
-                        <div className={styles.timerBlock}>
-                            <div id="taskDetailsec">0</div><span>Seconds</span>
+                <div className={styles.titleBlock}>
+                    <p><Target /><span id="taskDetailtimer">Time Until Start</span></p>
+                    <div id="taskDetailtimersection" className={styles.content}>
+                        <div className={styles.timer}>
+                            <div className={styles.timerBlock}>
+                                <div id="taskDetaildays">0</div><span>Days</span>
+                            </div>
+                            <div className={styles.timerBlock}>
+                                <div id="taskDetailhour">0</div><span>Hours</span>
+                            </div>
+                            <div className={styles.timerBlock}>
+                                <div id="taskDetailmin">0</div><span>Minutes</span>
+                            </div>
+                            <div className={styles.timerBlock}>
+                                <div id="taskDetailsec">0</div><span>Seconds</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -399,8 +401,6 @@ const TaskDetails = () => {
 
         return (
             <div className={styles.taskdetails}>
-                <h3>{task.name}</h3>
-                <p className={styles.details}>{task.details}</p>
                 <div className={styles.completed}>
                     <div className={styles.amount}>
                         {task.subtasks?Math.round(task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100):task.completed/1*100}% Completed
@@ -408,55 +408,68 @@ const TaskDetails = () => {
                     <div className={styles.progress}>
                         <hr style={{width: `${task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:task.completed/1*100}%`}} />
                     </div>
+                    {task.tags.length>0?
+                        <div className={styles.tagsWrapper}>
+                            <div className={styles.tagsContainer}>
+                                {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                            </div>
+                        </div>
+                    :null}
+                </div>
+                <div className={styles.titleBlock}>
+                    <p><User /><span>Name</span></p>
+                    <div className={styles.content}>{task.name}</div>
+                </div>
+                <div className={styles.titleBlock}>
+                    <p><AlignLeft /><span>Details</span></p>
+                    <div className={styles.content}>{task.details}</div>
                 </div>
                 <div className={styles.time}>
-                    <div>
-                        <p className={styles.title}>Start</p>
-                        <div id="taskDetailStart" className={styles.timeTitle}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                    <div className={styles.titleBlock}>
+                        <p><Play /><span>Start</span></p>
+                        <div id="taskDetailStart" className={styles.content}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
-                    <div>
-                        <p className={styles.title}>Deadline</p>
-                        <div id="taskDetailDeadline" className={styles.timeTitle}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                    <div className={styles.titleBlock}>
+                        <p><Flag /><span>Deadline</span></p>
+                        <div id="taskDetailDeadline" className={styles.content}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
                     </div>
                     <TimeRemaining />
                 </div>
                 <div className={styles.metrics}>
-                    <div className={styles.metricContainer}>
-                        <div className={styles.metricTitle}>
-                            <p>Priority</p>
-                            <p className={styles.metricLabel}><span>{task.priority.label}</span><span className={styles.metricValue}>{task.priority.value}%</span></p>
-                        </div>
-                        <div className={styles.progress}>
-                            <hr style={{width: `${task.priority.value}%`}} />
-                        </div>
-                    </div>
-                    <div className={styles.metricContainer}>
-                        <div className={styles.metricTitle}>
-                            <p>Effort Required</p>
-                            <p><span>{task.effortRequired.label}</span><span className={styles.metricValue}>{task.effortRequired.value}%</span></p>
-                        </div>
-                        <div className={styles.progress}>
-                            <hr style={{width: `${task.effortRequired.value}%`}} />
+                    <div className={styles.titleBlock}>
+                        <p><AlertTriangle /><span>Priority</span></p>
+                        <div className={styles.metricContainer}>
+                            <div className={styles.metricTitle}>
+                                <p><span>{task.priority.label}</span><span className={styles.metricValue}>{task.priority.value}%</span></p>
+                            </div>
+                            <div className={styles.progress}>
+                                <hr style={{width: `${task.priority.value}%`}} />
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.metricContainer}>
-                        <div className={styles.metricTitle}>
-                            <p>Time Required</p>
-                            <p><span>{task.timeRequired.label}</span><span className={styles.metricValue}>{task.timeRequired.value}%</span></p>
+                    <div className={styles.titleBlock}>
+                        <p><Zap /><span>Effort Required</span></p>
+                        <div className={styles.metricContainer}>
+                            <div className={styles.metricTitle}>
+                                <p><span>{task.effortRequired.label}</span><span className={styles.metricValue}>{task.effortRequired.value}%</span></p>
+                            </div>
+                            <div className={styles.progress}>
+                                <hr style={{width: `${task.effortRequired.value}%`}} />
+                            </div>
                         </div>
-                        <div className={styles.progress}>
-                            <hr style={{width: `${task.timeRequired.value}%`}} />
+                    </div>
+                    <div className={styles.titleBlock}>
+                        <p><Clock /><span>Time Required</span></p>
+                        <div className={styles.metricContainer}>
+                            <div className={styles.metricTitle}>
+                                <p><span>{task.timeRequired.label}</span><span className={styles.metricValue}>{task.timeRequired.value}%</span></p>
+                            </div>
+                            <div className={styles.progress}>
+                                <hr style={{width: `${task.timeRequired.value}%`}} />
+                            </div>
                         </div>
                     </div>
                 </div>
-                {task.tags.length>0?
-                    <div className={styles.tagsWrapper}>
-                        <p className={styles.title}>Tags</p>
-                        <div className={styles.tagsContainer}>
-                            {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
-                        </div>
-                    </div>
-                :null}
             </div>
         )
     }
