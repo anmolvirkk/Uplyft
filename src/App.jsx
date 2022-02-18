@@ -22,7 +22,7 @@ import snacksAtom from './screens/Subsidiary/Dashboard/components/Snackbar/snack
 export const APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
 export const API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
 
-const App = React.memo(() => {
+const App = () => {
 
     const [forceUpdate, setForceUpdate] = useState(false)
     const setIsMobile = useSetRecoilState(isMobileAtom)
@@ -269,6 +269,6 @@ const App = React.memo(() => {
             </Switch>
         </Router>
     )
-})
+}
 
 export default App

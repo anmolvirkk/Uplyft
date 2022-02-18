@@ -189,7 +189,7 @@ const Schedule = React.memo(({updateBackendless, updateAtoms}) => {
 
             {isMobile?<MobileHeader updateBackendless={updateBackendless} updateAtoms={updateAtoms} />:null}
             
-            <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:450}px)`, top: document.getElementById('scheduleAddDropDownContainer')?`${window.innerHeight-80-document.getElementById('scheduleAddDropDownContainer').clientHeight}px`:'100vh'}}>
+            <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`, top: document.getElementById('scheduleAddDropDownContainer')?`${window.innerHeight-80-document.getElementById('scheduleAddDropDownContainer').clientHeight}px`:'100vh'}}>
                 <OutsideClickHandler onOutsideClick={(e)=>closeAddMenu(e)}>
                     <button onMouseDown={()=>setModalConfig({type: 'addhabit'})}><RefreshCw /><p>Add Habit</p></button>
                     <button onMouseDown={()=>setModalConfig({type: 'addProject'})}><Folder /><p>Add Project</p></button>
