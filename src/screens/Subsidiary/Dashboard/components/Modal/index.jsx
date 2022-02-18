@@ -34,7 +34,7 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
-const Modal = () => {
+const Modal = React.memo(() => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
     const setOpenBook = useSetRecoilState(openBookAtom)
@@ -690,6 +690,6 @@ const Modal = () => {
             <Wrapper />
         </div>
     )
-}
+})
 
 export default Modal
