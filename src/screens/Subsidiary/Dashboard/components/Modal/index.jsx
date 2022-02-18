@@ -34,7 +34,7 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
-const Modal = React.memo(() => {
+const Modal = () => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
     const setOpenBook = useSetRecoilState(openBookAtom)
@@ -646,7 +646,7 @@ const Modal = React.memo(() => {
 
     })
 
-    const Wrapper = React.memo(()=>{
+    const Wrapper = () => {
         return (
             <div className={styles.modalWrapper} style={{height: windowHeight+'px'}}>
                 {modalConfig.type === 'addjournal' ? 
@@ -683,13 +683,13 @@ const Modal = React.memo(() => {
                 }
             </div>
         )
-    })
+    }
 
     return (
         <div id='modalContainer' style={{height: window.innerHeight+'px'}} className={`${styles.modal} ${modalConfig.type === 'addEvent'||modalConfig.type === 'editEvent'?styles.addEvent:styles[modalConfig.type+'var']}`} onMouseDown={(e)=>closeModal(e)}>
             <Wrapper />
         </div>
     )
-})
+}
 
 export default Modal
