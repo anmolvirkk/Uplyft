@@ -1,6 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 import Dashboard from './screens/Subsidiary/Dashboard'
-import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import LandingPage from './screens/Subsidiary/LandingPage'
 import company from './company'
 import Auth from './screens/Subsidiary/Auth'
@@ -18,6 +18,7 @@ import authAtom from './screens/Subsidiary/Auth/authAtom'
 import Pricing from './screens/Subsidiary/Pricing'
 import Checkout from './screens/Subsidiary/Checkout'
 import snacksAtom from './screens/Subsidiary/Dashboard/components/Snackbar/snacksAtom'
+import Main from './screens/Main'
 
 export const APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
 export const API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
@@ -256,10 +257,14 @@ const App = React.memo(() => {
         Backendless.initApp(APP_ID, API_KEY)
     }
 
+    useEffect(()=>{
+        document.getElementsByTagName('html')[0].className = 'light'
+    }, [])
+
     return (
         <Router>
             <Switch>
-                <Route exact path="/"><Redirect to={`/${company.subsidiary}`} /></Route>
+                <Route exact path="/"><Main /></Route>
                 <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
                 <Route exact path={`/${company.subsidiary}/pricing`}><Pricing /></Route>
                 <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>

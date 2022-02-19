@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Footer from './components/Footer'
@@ -8,9 +8,6 @@ import Trust from './components/Trust'
 import Features from './components/Features'
 
 const LandingPage = () => {
-    useEffect(()=>{
-        document.getElementsByTagName('html')[0].className = 'light'
-    }, [])
     return (
         <div className={styles.container} style={{height: window.innerHeight+'px'}}>
             <Header />

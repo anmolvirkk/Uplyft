@@ -26,10 +26,10 @@ const collection = [
     },
 ]
 
-const About = () => {
+const About = ({type}) => {
     return (
         <div className={styles.about}>
-            <h2>The Collection</h2>
+            {type!=='main'?<h2>The Collection</h2>:null}
             <div className={styles.collection}>
                 {collection.map((item, i)=>{
                     return (
@@ -42,7 +42,7 @@ const About = () => {
                                 </div>
                                 <p>{item.about}</p>
                                 <hr />
-                                <Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Try for free</Link>
+                                {type!=='main'?<Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Try for free</Link>:item.name==='schedule'||item.name==='journals'?<Link className={styles.cta} to={`/${company['subsidiary']}/${company[item.name]}`}>Learn more</Link>:<div className={`${styles.cta} ${styles.comingsoon}`} to={`/${company['subsidiary']}/${company[item.name]}`}>Coming Soon</div>}
                             </div>
                         </div>
                     )
