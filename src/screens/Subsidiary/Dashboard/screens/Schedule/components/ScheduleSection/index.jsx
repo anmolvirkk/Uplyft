@@ -43,17 +43,17 @@ const SideSection = () => {
     )
 }
 
-const DetailSection = ({mobileHeight}) => (
-    
-    <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null} id='scheduleSideSection'>
-        <Switch>
-            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><HabitDetails /></Route>
-            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><TaskDetails /></Route>
-            <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/events`}><EventDetails /></Route>
-        </Switch>
-    </div>
-
-)
+const DetailSection = ({mobileHeight}) => {
+    return (
+        <div className={`${styles.sideSection}`} style={isMobile?{height: mobileHeight}:null} id='scheduleSideSection'>
+            <Switch>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/habits`}><HabitDetails /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/tasks`}><TaskDetails /></Route>
+                <Route path={`/${company.subsidiary}/dashboard/${company.schedule}/events`}><EventDetails /></Route>
+            </Switch>
+        </div>
+    )
+}
 
 const ScheduleSection = () => {
     const mobileHeight = window.innerHeight - 80 - 60

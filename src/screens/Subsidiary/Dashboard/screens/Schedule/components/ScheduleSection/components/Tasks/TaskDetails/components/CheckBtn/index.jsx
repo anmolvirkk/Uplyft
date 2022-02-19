@@ -5,10 +5,11 @@ import { Check } from 'react-feather'
 import { useRecoilState } from 'recoil'
 import { projectsAtom } from '../../../../../../../../../allAtoms'
 
-const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress}) => {
+const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress, setCurrentTask, currentTask}) => {
 
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const completed = task.completed
+    let newCurrentTask = {...currentTask}
 
     const onClick = (e) => {
         const newProjects = projects.map((item)=>{
@@ -52,6 +53,7 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress}) => {
             if(data.tasks){
                 data.tasks = setComplete(data.tasks)
             }
+            newCurrentTask.subtasks = setComplete(currentTask.subtasks)
             if(openSubtasks.subtasks){
                 setOpenSubtasks({nav: setComplete(openSubtasks.nav), subtasks: setComplete(openSubtasks.subtasks)})
             }
@@ -72,6 +74,7 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress}) => {
         }
 
         setProjects([...newProjects])
+        setCurrentTask(newCurrentTask)
     }
 
     return (

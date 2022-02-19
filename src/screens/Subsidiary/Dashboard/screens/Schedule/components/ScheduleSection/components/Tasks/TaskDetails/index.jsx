@@ -14,7 +14,7 @@ import { projectsAtom, allRoutesAtom, allCalendarEventsAtom, completedOpenAtom, 
 const isMobile = window.innerWidth < 1450
 
 const TaskDetails = () => {
-    
+
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [projects, setProjects] = useRecoilState(projectsAtom)
     const [allRoutes] = useRecoilState(allRoutesAtom)
@@ -480,7 +480,7 @@ const TaskDetails = () => {
         )
     }
 
-    const TaskTile = ({task}) => {
+    const TaskTile = ({tasktile}) => {
         
         const addToolTipForTaskTile = (e) => {
             if(e.target.classList.contains(styles.slotContent)){
@@ -494,19 +494,19 @@ const TaskDetails = () => {
 
         return (
             <div className={styles.sideSectionSlot}>
-                <div className={styles.slotContent} data-title={task.name} onMouseEnter={(e)=>addToolTipForTaskTile(e)} onClick={()=>showSubtasks(task)}>
+                <div className={styles.slotContent} data-title={tasktile.name} onMouseEnter={(e)=>addToolTipForTaskTile(e)} onClick={()=>showSubtasks(tasktile)}>
                     <div className={styles.slotText}>
-                        <p>{task.name}</p>
-                        {task.subtasks?
+                        <p>{tasktile.name}</p>
+                        {tasktile.subtasks?
                             <div className={styles.subtasks}>
                                 <CornerDownRight />
-                                <p>{task.subtasks.length}</p>
+                                <p>{tasktile.subtasks.length}</p>
                             </div>
                         :null}
                     </div>
                 </div>
-                <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(task)}, {name: "delete", function: ()=>deleteTask(task.id)}]} id={`scheduleSlotsMoreMenu${task.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
-                <CheckBtn task={task} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} progress={task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:null} />
+                <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(tasktile)}, {name: "delete", function: ()=>deleteTask(tasktile.id)}]} id={`scheduleSlotsMoreMenu${tasktile.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                <CheckBtn task={tasktile} currentTask={currentTask} setCurrentTask={setCurrentTask} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} progress={tasktile.subtasks?tasktile.subtasks.filter(i=>i.completed===true).length/tasktile.subtasks.length*100:null} />
             </div>
         )
     }
@@ -518,7 +518,7 @@ const TaskDetails = () => {
                     {filterTasks(subtasks).map((task)=>{
                         if(task.completed === showCompleted){
                             return (
-                                <TaskTile task={task} key={task.id} />
+                                <TaskTile tasktile={task} key={task.id} />
                             )
                         }else{
                             return null
@@ -574,7 +574,7 @@ const TaskDetails = () => {
                             return filterTasks(item.tasks).map((task)=>{
                                 if(!task.completed){
                                     return (
-                                        <TaskTile task={task} key={task.id} />
+                                        <TaskTile tasktile={task} key={task.id} />
                                     )
                                 }
                                 return null
@@ -600,7 +600,7 @@ const TaskDetails = () => {
                             return filterTasks(item.tasks).map((task)=>{
                                 if(task.completed){
                                     return (
-                                        <TaskTile task={task} key={task.id} />
+                                        <TaskTile tasktile={task} key={task.id} />
                                     )
                                 }
                                 return null
