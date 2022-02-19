@@ -42,7 +42,7 @@ const About = ({type}) => {
                                 </div>
                                 <p>{item.about}</p>
                                 <hr />
-                                {type!=='main'?<Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Try for free</Link>:item.name==='schedule'||item.name==='journals'?<Link className={styles.cta} to={`/${company['subsidiary']}/${company[item.name]}`}>Learn more</Link>:<div className={`${styles.cta} ${styles.comingsoon}`} to={`/${company['subsidiary']}/${company[item.name]}`}>Coming Soon</div>}
+                                {type!=='main'?<Link className={styles.cta} to={`/${company['subsidiary']}/signup`}>Try for free</Link>:item.name==='schedule'||item.name==='journals'?<Link className={styles.cta} to={`/${company[item.name]}`}>Learn more</Link>:<div className={`${styles.cta} ${styles.comingsoon}`}>Coming Soon</div>}
                             </div>
                         </div>
                     )

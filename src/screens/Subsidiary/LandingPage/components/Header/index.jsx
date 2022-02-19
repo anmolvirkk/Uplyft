@@ -14,11 +14,6 @@ const Header = ({type}) => {
                         <img loading='lazy' decoding='async' src="/logos/mainText.png" alt={company.main} />
                     </div>
                 </Link>
-                <div className={styles.navigation}>
-                    <div className={styles.navItem}>Products</div>
-                    <div className={styles.navItem}>Pricing</div>
-                    <div className={styles.navItem}>Resources</div>
-                </div>
             </div>
             {isMobile?
             <div className={styles.mobileCta}>

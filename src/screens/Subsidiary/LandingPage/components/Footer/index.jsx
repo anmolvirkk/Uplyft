@@ -16,13 +16,6 @@ const Footer = ({type}) => {
             <div className={styles.bottom}>
                 <div className={styles.nav}>
                     <img loading='lazy' decoding='async' src = "/logos/main.png" alt = {company.main} />
-                    <div>About</div>
-                    <div>Products</div>
-                    <div>Privacy</div>
-                </div>
-                <div className={styles.nav}>
-                    <div><HelpCircle /><p>Help</p></div>
-                    <div>Choose a language</div>
                 </div>
             </div>
         </div>
