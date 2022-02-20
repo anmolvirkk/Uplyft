@@ -40,19 +40,12 @@
 @media screen and (max-width: 1440px)
     .hero
         padding: 12px 12px 12px 40px
-
-
-@media screen and (max-width: 1000px)
-    .hero
-        flex-flow: column
-        padding: 0
         .heroImg
             height: auto
             width: 100%
         .content
             width: 100%
             padding: 0 12px
-            +mixins.center
             h1
                 font-size: 60px
                 font-weight: 500
@@ -66,12 +59,48 @@
             margin-bottom: 20px
             margin-top: 15px
 
-@media screen and (max-width: 600px)
+@media screen and (max-width: 1200px)
     .hero
+        padding: 12px
+        .heroImg
+            height: auto
+            width: 40%
         .content
+            width: 100%
+            padding: 0 12px
+            h1
+                font-size: 48px
+                font-weight: 500
+            p
+                width: calc(100% - 24px)
+                margin-top: 24px
+                font-size: 18px
+                margin-bottom: 40px
+        .subsidiaryLogo
+            height: 80px
+            margin-bottom: 20px
+            margin-top: 15px
+
+@media screen and (max-width: 640px)
+    .hero
+        flex-flow: column
+        padding: 0
+        .heroImg
+            height: auto
+            width: 100%
+        .content
+            width: 100%
+            padding: 0 12px
+            +mixins.center
             h1
                 font-size: 36px
                 font-weight: 500
             p
                 width: 100%
+                margin-top: 24px
                 font-size: 16px
+                margin-bottom: 40px
+        .subsidiaryLogo
+            height: 80px
+            margin-bottom: 20px
+            margin-top: 15px

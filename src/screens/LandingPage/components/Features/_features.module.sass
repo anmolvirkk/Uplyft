@@ -30,7 +30,7 @@
         .activeIcon
             box-shadow: 0 5px 10px rgba(0,0,0,0.15)
     .features
-        width: 19%
+        min-width: 19%
         .feature
             padding: 1.5vw 1vw
             margin: 1vw 0
@@ -42,8 +42,8 @@
                 display: flex
                 align-items: center
                 svg
-                    height: 1.15vw
-                    width: 1.15vw
+                    min-height: 1.15vw
+                    min-width: 1.15vw
                     color: rgb(var(--primary))
                 h3
                     font-size: 0.8vw
@@ -73,7 +73,6 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.15)
             border-radius: 10px 10px
 
-
 @media screen and (max-width: 1450px)
     .featureSection
         margin-top: 40px
@@ -85,14 +84,16 @@
         margin-top: 37px
         .icons
             width: 100%
-            padding: 12px 150px
+            padding: 12px
             display: flex
             justify-content: space-between
             align-items: center
             div
                 padding: 10px 10px 20px 10px
+                border-radius: 10px 10px
             img
                 width: 100px
+                border-radius: 10px 10px
         .features::-webkit-scrollbar
             height: 0
         .features
@@ -118,19 +119,19 @@
             padding: 12px
             margin-bottom: 12px
 
-@media screen and (max-width: 1050px)
+@media screen and (max-width: 640px)
     .wrapper
         .icons
             padding: 12px 24px
 
-@media screen and (max-width: 750px)
+@media screen and (max-width: 640px)
     .wrapper
         .icons
             padding: 0 12px
             img
                 width: 80px
 
-@media screen and (max-width: 600px)
+@media screen and (max-width: 640px)
     .wrapper
         .icons
             width: 100%

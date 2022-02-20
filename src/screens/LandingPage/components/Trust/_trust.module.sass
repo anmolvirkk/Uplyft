@@ -127,9 +127,10 @@
         flex-flow: column-reverse
         text-align: center
         h3
-            font-size: 6vh
             width: 100%
             margin-top: 100px
+            font-size: 24px
+            color: rgba(var(--text), 0.75)
         ul
             width: 100%
             margin-top: 0
@@ -137,14 +138,14 @@
             padding: 0
             background-color: transparent
             display: grid
-            grid-template-columns: repeat(auto-fill, minmax(40vh, 1fr))
+            grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr))
             grid-gap: 48px
             box-shadow: none
             li
                 margin: 3vh 0
-                box-shadow: 0 2.5px 7px rgba(0,0,0,0.15)
+                box-shadow: 0 3px 12px rgba(0,0,0,0.1)
                 height: 100%
-                min-height: 20vh
+                min-height: 15vh
                 width: 100%
                 +mixins.center
                 border-radius: 7px 7px
@@ -179,7 +180,7 @@
                         height: 36px
                         width: 36px
 
-@media screen and (max-width: 600px)
+@media screen and (max-width: 640px)
     .statement
         h3
             font-size: 36px
