@@ -1,24 +1,25 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react'
-import Dashboard from './screens/Subsidiary/Dashboard'
+import Dashboard from './screens/Dashboard'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
-import LandingPage from './screens/Subsidiary/LandingPage'
+import LandingPage from './screens/LandingPage'
 import company from './company'
-import Auth from './screens/Subsidiary/Auth'
-import {windowHeight} from './screens/Subsidiary/Dashboard/variables/mobileHeights'
+import Auth from './screens/Auth'
+import {windowHeight} from './screens/Dashboard/variables/mobileHeights'
 import { useRecoilCallback, useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSectionAtom, datesAtom, 
  newDateAtom, notesAtom, notesDropDownAtom, openBookAtom, openSlotAtom, slotsAtom, allCalendarEventsAtom,
 completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
-scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom, planAtom } from './screens/Subsidiary/Dashboard/allAtoms'
+scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom, planAtom } from './screens/Dashboard/allAtoms'
 
 import Backendless from 'backendless'
-import isMobileAtom from './screens/Subsidiary/Dashboard/recoil-atoms/isMobileAtom'
-import modalConfigAtom from './screens/Subsidiary/Dashboard/recoil-atoms/modalConfigAtom'
-import authAtom from './screens/Subsidiary/Auth/authAtom'
-import Pricing from './screens/Subsidiary/Pricing'
-import Checkout from './screens/Subsidiary/Checkout'
-import snacksAtom from './screens/Subsidiary/Dashboard/components/Snackbar/snacksAtom'
-import Main from './screens/Main'
+import isMobileAtom from './screens/Dashboard/recoil-atoms/isMobileAtom'
+import modalConfigAtom from './screens/Dashboard/recoil-atoms/modalConfigAtom'
+import authAtom from './screens/Auth/authAtom'
+import Pricing from './screens/Pricing'
+import Checkout from './screens/Checkout'
+import snacksAtom from './screens/Dashboard/components/Snackbar/snacksAtom'
+import Journals from './screens/Journals'
+import Schedule from './screens/Schedule'
 
 export const APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
 export const API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
@@ -149,7 +150,7 @@ const App = React.memo(() => {
             setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
-                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                    window.location.replace(`/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
@@ -157,7 +158,7 @@ const App = React.memo(() => {
             }
         }else if(auth.social === undefined){
             if(window.location.pathname.split('/').length > 2){
-                window.location.replace(`/${company.subsidiary}`)
+                window.location.replace(``)
             }
         }else{
             let xhr = new XMLHttpRequest()
@@ -166,7 +167,7 @@ const App = React.memo(() => {
             setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
                 if(!window.location.pathname.split('/').includes('dashboard')){
-                    window.location.replace(`/${company.subsidiary}/dashboard/${company.journals}`)
+                    window.location.replace(`/dashboard/${company.journals}`)
                 }else if(JSON.parse(loggedInUser.currentTarget.response).data){
                     batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
                 }
@@ -264,13 +265,14 @@ const App = React.memo(() => {
     return (
         <Router>
             <Switch>
-                <Route exact path="/"><Main /></Route>
-                <Route exact path={`/${company.subsidiary}`}><LandingPage /></Route>
-                <Route exact path={`/${company.subsidiary}/pricing`}><Pricing /></Route>
-                <Route exact path={`/${company.subsidiary}/signup`}><Auth type='signup' /></Route>
-                <Route exact path={`/${company.subsidiary}/login`}><Auth type='login' /></Route>
-                <Route exact path={`/${company.subsidiary}/checkout`}><Checkout updateBackendless={updateBackendless} /></Route>
-                <Route path={`/${company.subsidiary}/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
+                <Route exact path="/"><LandingPage /></Route>
+                <Route exact path={`/${company.journals}`}><Journals /></Route>
+                <Route exact path={`/${company.schedule}`}><Schedule /></Route>
+                <Route exact path={`/pricing`}><Pricing /></Route>
+                <Route exact path={`/signup`}><Auth type='signup' /></Route>
+                <Route exact path={`/login`}><Auth type='login' /></Route>
+                <Route exact path={`/checkout`}><Checkout updateBackendless={updateBackendless} /></Route>
+                <Route path={`/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
             </Switch>
         </Router>
     )

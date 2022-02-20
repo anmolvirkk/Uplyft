@@ -1,0 +1,96 @@
+@use 'src/styles/_variables'
+@use 'src/styles/_mixins'
+@use '../../../LandingPage/_main.module'
+
+.footer
+    position: relative
+    pointer-events: none
+    margin-top: 8vh
+    .card
+        color: rgb(var(--text))
+        +mixins.center
+        img
+            height: 9vh
+            margin-bottom: 3vh
+            border-radius: 12px 12px
+        h3
+            font-size: 4.25vh
+            font-weight: 500
+        p
+            font-size: 1.75vh
+            margin: 2vh 0
+            color: rgba(var(--titles), 1)
+            text-transform: none
+        button
+            +main.cta
+            margin-top: 3vh
+        .icons
+            width: 100%
+            margin: 2vh 0
+            img
+                border-radius: 10px 10px
+                margin: 1.5vh
+                height: 8vh
+                width: 8vh
+    .bottom
+        margin-top: 3vh
+        padding: 3vh
+        display: flex
+        background-color: rgba(var(--border), 0.35)
+        color: rgba(var(--titles), 1)
+        align-items: center
+        justify-content: space-between
+        .nav
+            display: flex
+            align-items: center
+            p
+                font-size: inherit
+                white-space: nowrap
+            div
+                margin-right: 3vh
+                display: flex
+                align-items: center
+                font-size: 1.35vh
+                white-space: nowrap
+                svg
+                    margin-right: 0.5vh
+                    height: 2vh
+        img 
+            height: 3.5vh
+            margin-right: 3vh
+
+@media screen and (max-width: 1450px)
+    .footer
+        margin-top: 60px
+        .card
+            h3
+                width: calc( 100% - 24px )
+                font-size: 36px
+            p
+                font-size: 16px
+                margin-top: 24px
+                margin-bottom: 36px
+            img
+                height: 80px
+                width: 80px
+                margin-bottom: 36px
+        .bottom
+            flex-flow: column
+            margin-top: 60px
+            padding: 24px 12px 36px 12px
+            img
+                height: 36px
+                margin-right: 36px
+            .nav
+                div
+                    margin-right: 36px
+                    font-size: 14px
+                    svg
+                        height: 20px
+                        width: 20px
+                        margin-right: 12px
+            .nav:first-child
+                margin-bottom: 24px
+            .nav
+                div:last-child
+                    margin-right: 0
