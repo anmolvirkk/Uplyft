@@ -258,10 +258,6 @@ const App = React.memo(() => {
         Backendless.initApp(APP_ID, API_KEY)
     }
 
-    useEffect(()=>{
-        document.getElementsByTagName('html')[0].className = 'light'
-    }, [])
-
     return (
         <Router>
             <Switch>
