@@ -13,7 +13,7 @@ import company from '../../../../../../company'
 import { allRoutesAtom } from '../../../../allAtoms'
 
 
-const isMobile = window.innerWidth < 1450
+const isMobile = window.innerWidth < 639
 
 const SideSection = () => {
 
