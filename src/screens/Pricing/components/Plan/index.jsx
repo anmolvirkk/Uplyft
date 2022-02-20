@@ -59,22 +59,25 @@ const Plan = (props) => {
     return (
         <div className={`${styles.plan} ${props.title==='Pro'?styles.recommended:null}`}>
             <div className={styles.topcard}>
-                <h1>{props.title}</h1>
-                <h2>{props.subtitle} {props.title!=='Pro'?<span> + xxxxx xxxxxxx + xxxxxxxxxx xxxxxx xxxxxxxx</span>:null}</h2>
+                <div>
+                    <h1>{props.title}</h1>
+                    <h2>{props.subtitle}</h2>
+                </div>
                 <div className={styles.price}>
                     <span className={styles.mainprice}>{`$${halfPrice}`}</span> 
                     <div className={styles.prevPrice}>
+                        &nbsp;
                         {props.price!==0?
                             <div className={styles.prices}>
                                 {monthOffPrice?<strike>{`$${monthOffPrice}`}</strike>:null}
-                                <strike>{`$${orginalPrice}`}</strike>
+                                &nbsp;<strike>{`$${orginalPrice}`}</strike>&nbsp;
                             </div>
                         :null}
                         <span>per {props.interval}</span>
                     </div>
                 </div>
-                <div onMouseDown={submit[props.title.toLowerCase()]} className={styles.cta}>{props.price!==0?'Create Account':'Open Dashboard'}</div>
             </div>
+                <div onMouseDown={submit[props.title.toLowerCase()]} className={styles.cta}>{props.price!==0?'Create Account':'Open Dashboard'}</div>
             <div className={styles.features}>
                 <div className={`${styles.feature}`}>
                     <div className={styles.title}>

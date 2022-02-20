@@ -16,8 +16,8 @@ export const plans = [
         'Up to 4 journals',
         'Up to 10 entries per journal',
         'Up to 6 notes per entry',
-        'Local browser storage',
         'Limited customizable options',
+        'Local browser storage',
         'Single device'
       ],
       schedule: [

@@ -7,6 +7,10 @@
     padding: 3vh
     margin-bottom: 3vh
     box-shadow: 0 5px 25px rgba(0,0,0,0.15)
+    .topcard
+        display: flex
+        justify-content: space-between
+        align-items: center
     h1
         font-size: 3vh
     h2
@@ -14,16 +18,17 @@
         margin-top: 0.5vh
         font-weight: 400
         opacity: 0.7
-        width: 70%
         line-height: 1.65
         span
             opacity: 0
     .price
-        margin-top: 1.5vh
         display: flex
+        align-items: baseline
+        span
+            white-space: nowrap
         .mainprice
-            font-size: 6vh
-            font-weight: 600
+            font-size: 1.5vh
+            font-weight: 500
     .cta
         margin-top: 2vh
         border: 2px solid rgb(var(--text))
@@ -45,25 +50,18 @@
     .cta
         background-color: rgb(var(--text))
         color: white
-    .prices
-        strike
-            color: white
-            text-decoration-color: rgb(var(--primary))
 .prevPrice
     display: flex
-    flex-flow: column
-    justify-content: flex-end
-    padding-left: 1vh
-    padding-bottom: 1.25vh
+    align-items: baseline
+    align-items: center
 
 .prices
     strike
-        font-size: 2.15vh
-        margin-right: 1vh
-        font-weight: 600
-        text-decoration-thickness: 2px
-        color: rgb(var(--text))
-        text-decoration-color: #f19e18
+        font-size: 1.5vh
+        font-weight: 400
+        text-decoration-thickness: 1px
+        color: rgba(var(--text), 0.5)
+        text-decoration-color: rgba(var(--text), 1)
         
 
 .features
@@ -108,6 +106,10 @@
         padding: 24px
         margin: 0
         margin-bottom: 60px
+        .topcard
+            flex-flow: column
+            justify-content: flex-start
+            align-items: flex-start
         h1
             font-size: 36px
         h2
@@ -117,7 +119,7 @@
         .price
             margin-top: 12px
             .mainprice
-                font-size: 60px
+                font-size: 14px
         .cta
             margin-top: 16px
             padding: 18px 0
@@ -125,14 +127,9 @@
     .plan:nth-child(1)
         margin-bottom: 0
 
-    .prevPrice
-        padding-left: 12px
-        padding-bottom: 12px
-
     .prices
         strike
-            font-size: 22px
-            margin-right: 12px
+            font-size: 14px
             
 
     .features
