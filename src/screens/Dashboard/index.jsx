@@ -23,7 +23,7 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
     useEffect(()=>{
         document.getElementsByTagName('html')[0].className = darkMode?'dark':'light'
-        if(window.innerWidth<1450){
+        if(window.innerWidth<=640){
             if(document.getElementById('mainSideBar')){
                 document.getElementById('mainSideBar').style.display = 'flex'
             }

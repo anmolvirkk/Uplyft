@@ -20,7 +20,7 @@ const Journals = React.memo(({updateBackendless, updateAtoms}) => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates, setDates] = useRecoilState(datesAtom)
-    const isMobile = (window.innerWidth < 1450)
+    const isMobile = (window.innerWidth <= 640)
     useEffect(()=>{
         if(allRoutes['book']){
             setDate(allRoutes, setAllRoutes, dates, setDates)

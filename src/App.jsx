@@ -31,7 +31,7 @@ const App = React.memo(() => {
     const windowWidth = useRef(window.innerWidth)
 
     window.onresize = () => {
-        if(window.innerWidth < 640){
+        if(window.innerWidth <= 640){
             setIsMobile(true)
         }else{
             setIsMobile(false)
@@ -40,7 +40,7 @@ const App = React.memo(() => {
             setForceUpdate(!forceUpdate)
             windowWidth.current = window.innerWidth
         }
-        if(window.innerWidth < 1450){
+        if(window.innerWidth <= 640){
             if(document.getElementById('modalContainer')){
                 document.getElementById('modalContainer').style.height = window.innerHeight+'px'
             }
