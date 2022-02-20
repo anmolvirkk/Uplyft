@@ -5,6 +5,9 @@
     padding-top: 12vh
     overflow-x: hidden
     overflow-y: overlay
+    display: flex
+    flex-flow: column
+    align-items: center
     .title
         width: 100%
         +mixins.center
@@ -22,9 +25,17 @@
     grid-template-columns: repeat(auto-fill, minmax(45vh, 1fr))
     grid-gap: 5vh
     padding: 0 5vh
-    width: 100%
+    width: 90%
     justify-content: center
     margin-top: 6vh
+
+@media screen and (max-width: 120vh)
+    .plans
+        padding: 24px
+        margin-top: 48px
+        display: flex
+        flex-flow: column-reverse
+        align-items: center
 
 @media screen and (max-width: 639px)
     .pricing
@@ -37,9 +48,3 @@
             p
                 font-size: 16px
                 margin-top: 14px
-    .plans
-        padding: 24px
-        margin-top: 48px
-        display: flex
-        flex-flow: column-reverse
-        align-items: center
