@@ -18,7 +18,7 @@ const Features = () => {
         <div className={styles.features}>
             <h2>Journaling is a powerful tool for mindfulness</h2>
             <p>Spirit will help you to be more mindful and grateful by journaling about your day, thoughts, feelings or experiences.</p>
-            <div className={styles.features}>
+            <div className={styles.list}>
                 <Feature icon={<Lock />} title="100% Private, Secure and Encrypted" text="Journal with no fear of judgement or being judged from others reading it because your journal is secure and encrypted such that only you have access to it." />
                 <Feature icon={<Smile />} title="Stress-free journaling experience" text="Free from ads, distractions or pressure of being perfect, Spirit will help you be as calm as possible by making space for your feelings in the moment." />
                 <Feature icon={<Sun />} title="Increase Positive Energy" text="Spirit is a safe space to explore, grow and find peace in the comfort of your own thoughts." />

@@ -12,11 +12,7 @@ const Footer = ({type}) => {
                 <p>Get started with Uplyft to uplift yourself</p>
                 <CTA type={type} />
             </div>
-            <div className={styles.bottom}>
-                <div className={styles.nav}>
-                    <img loading='lazy' decoding='async' src = "/logos/main.png" alt = {company.main} />
-                </div>
-            </div>
+            <div className={styles.bottom} />
         </div>
     )
 }
