@@ -50,7 +50,6 @@
         strike
             color: white
             text-decoration-color: rgb(var(--primary))
-
 .prevPrice
     display: flex
     flex-flow: column
@@ -75,14 +74,23 @@
     .title
         display: flex
         align-items: center
+        position: relative
         img
             height: 6vh
             border-radius: 10px 10px
         .titleText
             width: fit-content
-            height: 3.25vh
+            height: 2.75vh
             margin-left: 2.25vh
             border-radius: 0
+        .comingsoon
+            color: black
+            background-color: #FFE87A
+            padding: 1vh 1.5vh
+            position: absolute
+            right: 0
+            border-radius: 7px 7px
+            font-size: 1.5vh
     ul
         padding-left: -1.5vh
         margin-top: 3vh
@@ -132,11 +140,17 @@
     .features
         margin-top: 30px
         .title
+            flex-flow: wrap
             img
                 height: 60px
             .titleText
                 height: 30px
                 margin-left: 24px
+            .comingsoon
+                position: static
+                padding: 12px 24px
+                font-size: 14px
+                margin-top: 14px
         ul
             margin-top: 24px
             li

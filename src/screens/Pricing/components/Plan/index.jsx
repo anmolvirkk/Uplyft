@@ -124,6 +124,9 @@ const Plan = (props) => {
                     <div className={styles.title}>
                         <img src='/logos/notes.png' alt={company.notes} />
                         <img src='/logos/notesText.png' alt={company.journals} className={styles.titleText} />
+                        <div className={styles.comingsoon}>
+                            Coming Soon
+                        </div>
                     </div>
                     <ul>
                         {props.features.notes.map((item, i)=>{
@@ -146,6 +149,9 @@ const Plan = (props) => {
                     <div className={styles.title}>
                         <img src='/logos/finances.png' alt={company.finances} />
                         <img src='/logos/financesText.png' alt={company.journals} className={styles.titleText} />
+                        <div className={styles.comingsoon}>
+                            Coming Soon
+                        </div>
                     </div>
                     <ul>
                         {props.features.finances.map((item, i)=>{
@@ -168,6 +174,9 @@ const Plan = (props) => {
                     <div className={styles.title}>
                         <img src='/logos/fitness.png' alt={company.fitness} />
                         <img src='/logos/fitnessText.png' alt={company.journals} className={styles.titleText} />
+                        <div className={styles.comingsoon}>
+                            Coming Soon
+                        </div>
                     </div>
                     <ul>
                         {props.features.fitness.map((item, i)=>{
