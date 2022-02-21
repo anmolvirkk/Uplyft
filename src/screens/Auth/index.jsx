@@ -97,6 +97,13 @@ const Auth = ({type}) => {
             history.push(`/dashboard/${company.journals}`)
         }
     }
+    
+
+    const onenter = (e) => {
+        if(e.key === 'Enter'){
+            onsubmit()
+        }
+    }
 
     return (
         <div className={styles.wrapper} style={{height: window.innerHeight+'px'}} id='authWrapper'>
@@ -132,8 +139,8 @@ const Auth = ({type}) => {
                         <hr />
                     </div>
                     <div className={styles.input} id='authForm'>
-                        <InputBox error={error.email} id='authEmail' marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
-                        <InputBox id='authPassword' error={error.password} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
+                        <InputBox onKeyDown={(e)=>onenter(e)} error={error.email} id='authEmail' marginBottom={28} wrapper='authWrapper' name="Email" type="text" />
+                        <InputBox onKeyDown={(e)=>onenter(e)} id='authPassword' error={error.password} marginBottom={28} wrapper='authWrapper' name="Password" type="password" />
                         {type==='signup'?<InputBox error={error.password} id='authConfirmPassword' marginBottom={40} wrapper='authWrapper' name="Confirm Password" type="password" />:null}
                         <button onMouseDown={onsubmit}>Continue</button>
                     </div>
