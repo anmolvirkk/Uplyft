@@ -8,9 +8,10 @@
     margin-bottom: 3vh
     box-shadow: 0 5px 25px rgba(0,0,0,0.15)
     .topcard
-        display: flex
-        justify-content: space-between
-        align-items: center
+        div
+            width: 100%
+        .prices
+            width: fit-content
     h1
         font-size: 3vh
     h2
@@ -24,6 +25,7 @@
     .price
         display: flex
         align-items: baseline
+        margin-top: 0.65vh
         span
             white-space: nowrap
         .mainprice
@@ -117,7 +119,7 @@
             margin-top: 6px
             width: 90%
         .price
-            margin-top: 12px
+            margin-top: 9px
             .mainprice
                 font-size: 14px
         .cta
