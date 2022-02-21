@@ -121,12 +121,12 @@ const Auth = ({type}) => {
                     :null}
                     <div className={styles.title}>
                         <img src='/logos/main.png' alt={company.subsidiary} />
-                        <h1>Skyhance</h1>
-                        <p>sign up to continue to Uplyft</p>
+                        <h1>Uplyft</h1>
+                        <p>sign up to continue</p>
                     </div>
                     <div className={styles.social}>
                     <GoogleLogin
-                        clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
+                        clientId="549639525326-vmcir7a4lr9dd9vna0b399p59ddbt6u5.apps.googleusercontent.com"
                         buttonText="Continue with Google"
                         onSuccess={(e)=>onsocial(e)}
                         autoLoad={false}

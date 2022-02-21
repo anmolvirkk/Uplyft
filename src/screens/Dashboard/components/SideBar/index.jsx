@@ -99,7 +99,7 @@ const SideBar = React.memo(() => {
     return (
         <aside id='mainSideBar'>
             <div className={styles.logo}>
-                <img loading='lazy' decoding='async' src='/logos/subsidiary.png' alt="Logo" />
+                <img loading='lazy' decoding='async' src='/logos/main.png' alt="Logo" />
             </div>
             {sidebarButtons.map((props)=>{
                 return <IconButton {...props} key={props.name} />
