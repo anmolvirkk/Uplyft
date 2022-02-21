@@ -11,7 +11,7 @@ import modalStyles from '../../../../../../../components/Modal/_modal.module.sas
 import modalConfigAtom from '../../../../../../../recoil-atoms/modalConfigAtom'
 import { projectsAtom, allRoutesAtom, allCalendarEventsAtom, completedOpenAtom, tagsAtom } from '../../../../../../../allAtoms'
 
-const isMobile = window.innerWidth < 1450
+const isMobile = window.innerWidth <= 640
 
 const TaskDetails = () => {
 

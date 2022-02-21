@@ -18,7 +18,7 @@ import Settings from '../../components/Settings'
 
 const Schedule = React.memo(({updateBackendless, updateAtoms}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
-    const isMobile = (window.innerWidth < 1450)
+    const isMobile = (window.innerWidth <= 640)
     const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
     const setModalConfig = useSetRecoilState(modalConfigAtom)
     const [scheduleSideMenu, setScheduleSideMenu] = useRecoilState(scheduleSideMenuAtom)

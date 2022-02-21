@@ -10,7 +10,7 @@ import {eventsAtom, allRoutesAtom} from '../../../../../../../allAtoms'
 
 let allIntervals = []
 
-const isMobile = window.innerWidth < 1450
+const isMobile = window.innerWidth <= 640
 
 const TimeRemaining = ({activeEvent}) => {
     let sec, min, hour, days
@@ -46,7 +46,7 @@ const TimeRemaining = ({activeEvent}) => {
                 document.getElementById('eventhour').innerText = hour
                 document.getElementById('eventmin').innerText = min
                 document.getElementById('eventsec').innerText = sec
-                if(window.innerWidth < 1450){
+                if(window.innerWidth <= 640){
                     document.getElementById('eventtimersection').style.display = 'flex'
                 }else{
                     document.getElementById('eventtimersection').style.display = 'block'

@@ -59,7 +59,7 @@ const Habits = () => {
     const [dropDownDay, setDropDownDay] = useState({day: date.toLocaleDateString('en-US', {weekday: 'long'}), open: false})
     const [completedOpen, setCompletedOpen] = useRecoilState(completedOpenAtom)
 
-    const isMobile = window.innerWidth < 1450
+    const isMobile = window.innerWidth <= 640
     const mobileHeight = window.innerHeight - 80 - 60
    
     return (

@@ -148,7 +148,7 @@ const HabitDetails = () => {
         )
     }
 
-    const isMobile = window.innerWidth < 1450
+    const isMobile = window.innerWidth <= 640
     return habits.map((item, index)=>{
         if(allRoutes.habit && item.id === allRoutes['habit']){
             return (

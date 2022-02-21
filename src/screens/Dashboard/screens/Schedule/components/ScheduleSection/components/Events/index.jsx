@@ -87,7 +87,7 @@ const Events = () => {
         setAllCalendarEvents([...newAllCalendarEvents])
     }
 
-    const isMobile = window.innerWidth < 1450
+    const isMobile = window.innerWidth <= 640
     const mobileHeight = window.innerHeight - 80 - 60
     return (
         <div style={isMobile?{display: 'none'}:null}>
