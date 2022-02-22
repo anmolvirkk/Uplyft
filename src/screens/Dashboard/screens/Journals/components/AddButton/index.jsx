@@ -11,7 +11,7 @@ import company from '../../../../../../company'
 
 import { openBookAtom, openSlotAtom, slotsAtom, allRoutesAtom } from '../../../../allAtoms'
 
-const AddButton = ({name}) => {
+const AddButton = ({name, type}) => {
     
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [slots, setSlots] = useRecoilState(slotsAtom)
@@ -54,14 +54,23 @@ const AddButton = ({name}) => {
     const openJournalModal = () => {
         openModal({type: 'addjournal', setModalConfig: setModalConfig})
     }
-
-    return (
-        <button className={styles.addButton} id="addButton" >
-            {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}`} />:null}
-            {openSlot?<Redirect to={`/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
-            <div className={styles.clickButton} onClick={name==='journal'?openJournalModal:addNoteSlot}><p>Add {name}</p><Plus /></div>
-        </button>
-    )
+    if(type==='round'){
+        return (
+            <button className={styles.roundButton} id="addButton" >
+                {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}`} />:null}
+                {openSlot?<Redirect to={`/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
+                <div className={styles.clickButton} onClick={name==='journal'?openJournalModal:addNoteSlot}><Plus /></div>
+            </button>
+        )
+    }else{
+        return (
+            <button className={styles.addButton} id="addButton" >
+                {openBook?<Redirect to={allRoutes&&allRoutes[openBook]&&allRoutes[openBook].slot?`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}/${allRoutes[openBook].slot}`:`/dashboard/${company.journals}/${openBook}/${allRoutes['date']}`} />:null}
+                {openSlot?<Redirect to={`/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${openSlot}`} />:null}
+                <div className={styles.clickButton} onClick={name==='journal'?openJournalModal:addNoteSlot}><p>Add {name}</p><Plus /></div>
+            </button>
+        )
+    }
 }
 
 export default AddButton

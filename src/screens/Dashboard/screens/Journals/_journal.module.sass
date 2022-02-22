@@ -46,7 +46,7 @@
     height: 80px
     display: flex
     align-items: center
-    padding: 0 2vh
+    padding: 0 12px 0 24px
     border-bottom: 1px solid rgb(var(--border))
     color: rgb(var(--colorTitles))
 
@@ -57,7 +57,7 @@
     background: rgb(var(--activeSlot))
 
 .bookSection
-    padding: 0 3vh
+    padding: 0 12px
     height: calc( 100vh - 80px )
     border-right: 1px solid rgb(var(--border))
     overflow-x: hidden
@@ -69,9 +69,9 @@
     display: flex
     align-items: center
     justify-content: space-between
-    padding: 0 4vh
+    padding: 0 24px
     border-top: 1px solid rgb(var(--border))
-    font-size: 1.5vh
+    font-size: 14px
     button
         all: unset
         cursor: pointer
@@ -101,12 +101,12 @@
     grid-template-rows: repeat(auto-fill, minmax(40vh, 1fr))
     grid-template-columns: repeat(auto-fill, minmax(30vh, 1fr))
     overflow-y: overlay
-    grid-gap: 2.5vh
-    padding: 2.5vh
+    grid-gap: 24px
+    padding: 24px
 
 .note
     min-height: 40vh
-    border-radius: 1.25vh 1.25vh
+    border-radius: 12px 12px
     background-color: rgb(var(--background))
     text-decoration: none
     color: rgb(var(--noteText))
@@ -119,27 +119,27 @@
         a
             all: unset
         svg
-            height: 2.5vh
-            width: 2.5vh
+            height: 24px
+            width: 24px
         .noteContent
-            padding: 2.5vh
+            padding: 24px
             overflow: hidden
-            height: calc(100% - 8vh)
+            height: calc(100% - 60px)
     .noteBody
         line-height: 1.9
-        margin-top: 1vh
+        margin-top: 12px
         opacity: 0.75
-        font-size: 1.5vh
+        font-size: 14px
         span
             font-size: inherit !important
             line-height: inherit !important
     .noteDate
-        font-weight: 300
+        font-weight: 400
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
         position: absolute
-        bottom: 3.75vh
+        bottom: 24px
     .notePrompt
         line-height: 1.5
         font-size: 3.5vh
@@ -169,17 +169,17 @@
         text-overflow: ellipsis
         pointer-events: none
     svg
-        width: 2vh
+        width: 22px
     .overflownSlot:hover::before
         content: attr(data-title)
         position: absolute
         padding: 10px
         background: rgb(var(--tooltip))
         color: #fff
-        font-size: 1.35vh
+        font-size: 14px
         z-index: 99
-        width: 75%
-        line-height: 1.5
+        width: 85%
+        line-height: 1.7
         top: 70px
         text-align: left
         border-radius: 7px 7px

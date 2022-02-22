@@ -29,7 +29,7 @@ const Journals = React.memo(({updateBackendless, updateAtoms}) => {
 
         return (
         <div className={styles.journals}>
-            <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']&&allRoutes['book']?`/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/dashboard/${company.journals}`} />
+            <Redirect to={Object.entries(allRoutes)&&allRoutes['book']&&allRoutes['date']?`/dashboard/${company.journals}/${allRoutes['book']}/${allRoutes['date']}/${allRoutes[allRoutes['book']][allRoutes['date']]}`:`/dashboard/${company.journals}`} />
             
             <SideBar />
 
