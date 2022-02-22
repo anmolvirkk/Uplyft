@@ -4,41 +4,42 @@
 .plan
     border-radius: 10px 10px
     width: 100%
-    padding: 3vh
-    margin-bottom: 3vh
+    padding: 30px
     box-shadow: 0 5px 25px rgba(0,0,0,0.15)
     .topcard
         div
             width: 100%
         .prices
             width: fit-content
+    p
+        font-size: 16px
     h1
-        font-size: 3vh
+        font-size: 36px
     h2
-        font-size: 1.5vh
-        margin-top: 0.5vh
+        font-size: 16px
+        margin-top: 6px
         font-weight: 400
-        opacity: 0.7
+        opacity: 0.75
         line-height: 1.65
         span
             opacity: 0
     .price
         display: flex
         align-items: baseline
-        margin-top: 0.65vh
+        margin-top: 6px
         span
             white-space: nowrap
         .mainprice
-            font-size: 1.5vh
+            font-size: 16px
             font-weight: 500
     .cta
-        margin-top: 2vh
+        margin-top: 20px
         border: 2px solid rgb(var(--text))
         border-radius: 7px 7px
         color: rgb(var(--text))
         font-weight: 500
         width: 100%
-        padding: 1.5vh 0
+        padding: 16px 0
         +mixins.center
         cursor: pointer
         transition: 0.2s
@@ -59,7 +60,7 @@
 
 .prices
     strike
-        font-size: 1.5vh
+        font-size: 16px
         font-weight: 400
         text-decoration-thickness: 1px
         color: rgba(var(--text), 0.5)
@@ -67,40 +68,40 @@
         
 
 .features
-    margin-top: 3vh
+    margin-top: 30px
     .feature
-        margin-top: 4vh
+        margin-top: 24px
     .title
         display: flex
         align-items: center
         position: relative
         img
-            height: 6vh
+            height: 60px
             border-radius: 10px 10px
         .titleText
             width: fit-content
-            height: 2.75vh
-            margin-left: 2.25vh
+            height: 28px
+            margin-left: 24px
             border-radius: 0
         .comingsoon
             color: black
             background-color: #FFE87A
-            padding: 1vh 1.5vh
+            padding: 14px 24px
             position: absolute
             right: 0
             border-radius: 7px 7px
-            font-size: 1.5vh
+            font-size: 16px
     ul
-        padding-left: -1.5vh
-        margin-top: 3vh
+        padding-left: -12px
+        margin-top: 24px
         list-style: none
         li
-            margin-bottom: 3vh
+            margin-bottom: 30px
             line-height: 1.7
             display: flex
             align-items: center
             p
-                margin-left: 1.5vh
+                margin-left: 12px
 
     
 @media screen and (max-width: 639px)

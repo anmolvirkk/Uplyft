@@ -8,64 +8,64 @@ import Footer from '../LandingPage/components/Footer'
 
 export const plans = [
   {
-    title: 'Starter',
-    subtitle: 'free forever',
-    price: 0,
+    title: 'Pro',
+    subtitle: 'unlocks everything + cloud storage + additional online features',
+    price: 50,
     features: {
       journals: [
-        'Up to 4 journals',
-        'Up to 10 entries per journal',
-        'Up to 6 notes per entry',
-        'Limited customizable options',
-        'Local browser storage',
-        'Single device'
+        'Unlimited journals',
+        'Unlimited entries',
+        'Unlimited notes',
+        'Unlocked customizable options',
+        'Cloud storage',
+        'Multiple devices'
       ],
       schedule: [
-        'Up to 6 habits',
-        'Up to 3 times limit for habits',
-        'Up to 3 projects',
-        'Up to 12 tasks',
-        'One layer of subtasks',
-        'Up to 12 events',
-        'Limited customizable options',
-        'Local browser storage',
-        'Single device'
+        'Unlimited habits',
+        'Unlimited times limit for habits',
+        'Unlimited projects',
+        'Unlimited tasks',
+        'Unlimited layers of subtasks',
+        'Unlimited events',
+        'Unlocked customizable options',
+        'Cloud storage',
+        'Multiple devices'
       ],
       notes: [
-        'Up to 2 folders',
-        'Up to 6 mind maps per folder',
-        'Link upto 2 notes',
-        'No export options',
-        'Limited customizable options',
-        'Local browser storage',
-        'Single device'
+        'Unlimited folders',
+        'Unlimited mind maps per folder',
+        'Link unlimited notes',
+        'Export as PDF',
+        'Unlocked customizable options',
+        'Cloud storage',
+        'Multiple devices'
       ],
       finances: [
-        'Manual budget tracking',
-        'Setting up to 5 financial goals',
-        'Up to 5 custom income and expense categories',
-        'No automatic seperation of bills and subscription',
-        'No stock market investing',
-        'Limited customizable options',
-        'Local browser storage',
-        'Single device'
+        'Automatic budget tracking',
+        'Setting unlimited financial goals',
+        'Unlimited custom income and expense categories',
+        'Automatic seperation of bills and subscriptions',
+        'Investing in the stock market',
+        'Unlocked customizable options',
+        'Cloud storage',
+        'Multiple devices'
       ],
       fitness: [
         'Weight tracking',
         'Gym logs',
-        'Up to 6 custom workout routines',
+        'Unlimited custom workout routines',
         'Calorie tracking',
         'Choose from an extensive list of meal plans',
-        'Up to 6 custom meals',
+        'Unlimited custom meal plans',
         'Choose from an extensive list of recipies',
-        'Up to 6 custom recipies',
+        'Unlimited custom recipies',
         'Groccery list',
         'Water tracking',
-        'No food database',
-        'No barcode scanner',
-        'Limited customizable options',
-        'Local browser storage',
-        'Single device'
+        'Massive food database',
+        'barcode scanner',
+        'Unlocked customizable options',
+        'Cloud storage',
+        'Multiple devices'
       ]
     }
   },
@@ -132,64 +132,64 @@ export const plans = [
     }
   },
   {
-    title: 'Pro',
-    subtitle: 'unlocks everything + cloud storage + additional online features',
-    price: 50,
+    title: 'Starter',
+    subtitle: 'free forever',
+    price: 0,
     features: {
       journals: [
-        'Unlimited journals',
-        'Unlimited entries',
-        'Unlimited notes',
-        'Unlocked customizable options',
-        'Cloud storage',
-        'Multiple devices'
+        'Up to 4 journals',
+        'Up to 10 entries per journal',
+        'Up to 6 notes per entry',
+        'Limited customizable options',
+        'Local browser storage',
+        'Single device'
       ],
       schedule: [
-        'Unlimited habits',
-        'Unlimited times limit for habits',
-        'Unlimited projects',
-        'Unlimited tasks',
-        'Unlimited layers of subtasks',
-        'Unlimited events',
-        'Unlocked customizable options',
-        'Cloud storage',
-        'Multiple devices'
+        'Up to 6 habits',
+        'Up to 3 times limit for habits',
+        'Up to 3 projects',
+        'Up to 12 tasks',
+        'One layer of subtasks',
+        'Up to 12 events',
+        'Limited customizable options',
+        'Local browser storage',
+        'Single device'
       ],
       notes: [
-        'Unlimited folders',
-        'Unlimited mind maps per folder',
-        'Link unlimited notes',
-        'Export as PDF',
-        'Unlocked customizable options',
-        'Cloud storage',
-        'Multiple devices'
+        'Up to 2 folders',
+        'Up to 6 mind maps per folder',
+        'Link upto 2 notes',
+        'No export options',
+        'Limited customizable options',
+        'Local browser storage',
+        'Single device'
       ],
       finances: [
-        'Automatic budget tracking',
-        'Setting unlimited financial goals',
-        'Unlimited custom income and expense categories',
-        'Automatic seperation of bills and subscriptions',
-        'Investing in the stock market',
-        'Unlocked customizable options',
-        'Cloud storage',
-        'Multiple devices'
+        'Manual budget tracking',
+        'Setting up to 5 financial goals',
+        'Up to 5 custom income and expense categories',
+        'No automatic seperation of bills and subscription',
+        'No stock market investing',
+        'Limited customizable options',
+        'Local browser storage',
+        'Single device'
       ],
       fitness: [
         'Weight tracking',
         'Gym logs',
-        'Unlimited custom workout routines',
+        'Up to 6 custom workout routines',
         'Calorie tracking',
         'Choose from an extensive list of meal plans',
-        'Unlimited custom meal plans',
+        'Up to 6 custom meals',
         'Choose from an extensive list of recipies',
-        'Unlimited custom recipies',
+        'Up to 6 custom recipies',
         'Groccery list',
         'Water tracking',
-        'Massive food database',
-        'barcode scanner',
-        'Unlocked customizable options',
-        'Cloud storage',
-        'Multiple devices'
+        'No food database',
+        'No barcode scanner',
+        'Limited customizable options',
+        'Local browser storage',
+        'Single device'
       ]
     }
   }
