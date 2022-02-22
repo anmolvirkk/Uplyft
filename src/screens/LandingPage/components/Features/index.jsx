@@ -224,21 +224,23 @@ const Features = () => {
                         <img src='/logos/fitness.png' alt={company.fitness} onMouseDown={()=>setCurrentFeature({feature: 0, icon: 'fitness'})} />
                     </div>
                 </div>
-                <div className={styles.features}>
-                    {features[currentFeature.icon].map((item, i)=>{
-                        return (
-                            <div key={i} onMouseDown={()=>setCurrentFeature({...currentFeature, feature: i})} className={currentFeature.feature===i?`${styles.activeFeature} ${styles.feature}`:styles.feature}>
-                                <div className={styles.title}>
-                                    {item.icon}
-                                    <h3>{item.title}</h3>
+                <div className={styles.set}>
+                    <div className={styles.features}>
+                        {features[currentFeature.icon].map((item, i)=>{
+                            return (
+                                <div key={i} onMouseDown={()=>setCurrentFeature({...currentFeature, feature: i})} className={currentFeature.feature===i?`${styles.activeFeature} ${styles.feature}`:styles.feature}>
+                                    <div className={styles.title}>
+                                        {item.icon}
+                                        <h3>{item.title}</h3>
+                                    </div>
+                                    <p className={styles.description}>{item.description}</p>
                                 </div>
-                                <p className={styles.description}>{item.description}</p>
-                            </div>
-                        )
-                    })}
-                </div>
-                <div className={styles.content}>
-                    <img src={`/screens/${features[currentFeature.icon][currentFeature.feature].img}${!isMobile?'.png':'Mobile.png'}`} alt='' />
+                            )
+                        })}
+                    </div>
+                    <div className={styles.content}>
+                        <img src={`/screens/${features[currentFeature.icon][currentFeature.feature].img}${!isMobile?'.png':'Mobile.png'}`} alt='' />
+                    </div>
                 </div>
             </div>
         </div>

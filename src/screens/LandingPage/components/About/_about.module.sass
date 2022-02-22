@@ -5,18 +5,19 @@
 .about
     width: 100%
     +mixins.center
-    margin-top: 3vh
+    margin-top: 24px
     h2
-        font-size: 2.5vh
+        font-size: 24px
         color: rgba(var(--text), 0.75)
     
 .collection
     display: grid
     width: 100%
-    grid-template-columns: repeat(auto-fit, minmax(30vh, 1fr))
-    grid-gap: 6vh
-    margin-top: 4vh
-    padding: 0 36vh
+    grid-template-columns: repeat(3, 360px)
+    grid-gap: 40px
+    align-items: center
+    justify-content: center
+    margin-top: 24px
     .card:nth-child(5)
         .background
             object-position: 0 -10vh
@@ -36,29 +37,29 @@
         width: 100%
         height: 100%
         border-radius: 10px 10px
-        box-shadow: 0 0 10px rgba(0,0,0,0.15)
+        border: 1px solid rgb(var(--text), 0.15)
         display: flex
         flex-flow: column
         .content
-            padding: 1.5vh
+            padding: 16px
             display: flex
             flex-flow: column
             hr
                 all: unset
-                margin-bottom: 2vh
+                margin-bottom: 16px
                 width: 100%
                 height: 1px
                 background-color: rgba(var(--text), 0.15)
         p
             text-align: left
             line-height: 1.65
-            font-size: 1.5vh
-            margin-top: 1.5vh
+            font-size: 15px
+            margin-top: 16px
             color: rgba(var(--text), 0.65)
-            height: 10vh
+            height: 90px
         .background
             width: 100%
-            height: 17vh
+            height: 165px
             object-fit: cover
             filter: contrast(120%)
             border-radius: 10px 10px 0 0
@@ -68,25 +69,29 @@
             color: rgb(var(--titles))
             text-transform: capitalize
             .iconText
-                height: 2.5vh
+                height: 26px
+                width: fit-content
             .icon
-                height: 6vh
+                height: 54px
                 border-radius: 10px 10px
-                margin-right: 1.5vh
+                margin-right: 14px
         .cta
             border: none
             outline: none
             background-color: transparent
             color: rgb(var(--text), 0.5)
-            border: 1px solid rgb(var(--border))
-            padding: 1.25vh
+            border: 1px solid rgb(var(--text), 0.15)
+            padding: 12px
             border-radius: 7px 7px
             cursor: pointer
             transition: 0.1s
             font-weight: 500
-            width: 40%
-            margin-left: 60%
-            font-size: 1.5vh
+            margin-left: 100%
+            transform: translateX(-100%)
+            white-space: nowrap
+            width: fit-content
+            padding: 12px 24px
+            font-size: 14px
         .cta:hover
             border: 1px solid transparent
             background-color: rgb(var(--primary))
@@ -103,7 +108,30 @@
             border-color: rgb(var(--primary))
             color: rgb(var(--primary))
 
-@media screen and (max-width: 1440px)
+@media screen and (max-width: 1280px)
+    .about
+        h2
+            font-size: 18px
+
+@media screen and (max-width: 1024px)
+    .collection
+        grid-template-columns: repeat(2, 330px)
+        .card
+            p
+                font-size: 14px
+                height: 64px
+            .background
+                height: 160px
+            .title
+                .iconText
+                    height: 20px
+                .icon
+                    height: 40px
+                    border-radius: 6px 6px
+            .cta
+                border-radius: 6px 6px
+
+@media screen and (max-width: 639px)
     .about
         margin-top: 24px
         h2
@@ -136,12 +164,13 @@
                 font-size: 16px
                 width: 100%
                 margin-left: 0%
+                transform: translateX(0%)
 
-@media screen and (max-width: 1290px)
+@media screen and (max-width: 639px)
     .collection
         grid-template-columns: repeat(auto-fit, minmax(30vh, 1fr))
 
-@media screen and (max-width: 750px)
+@media screen and (max-width: 639px)
     .collection
         grid-template-columns: repeat(auto-fit, minmax(80vw, 1fr))
         .card
