@@ -22,18 +22,18 @@
     padding: 10px
     background: rgb(var(--dropdown))
     color: #fff
-    font-size: 1.35vh
+    font-size: 14px
     z-index: 99
-    width: 75%
+    width: 100%
     line-height: 1.5
-    left: 17px
+    left: 12px
     top: 70px
     text-align: left
     border-radius: 7px 7px
 .overflownSlot:hover::after
     content: ''
     position: absolute
-    left: 17px
+    left: 12px
     top: 50px
     border: 8px solid transparent  
     border-bottom: 8px solid rgb(var(--dropdown))
@@ -68,11 +68,11 @@
     position: relative
 
 .slotContent
-    min-width: calc( 100% - 79.5px - 2vh )
+    min-width: calc( 100% - 79.5px - 24px )
     width: calc( 100% - 100px )
     position: relative
     height: 100%
-    padding: 0 0 0 2vh
+    padding: 0 0 0 12px
     cursor: pointer
     display: flex
     flex-flow: column
@@ -83,8 +83,9 @@
         display: flex
         flex-flow: row
         width: 100%
-        height: 4vh
+        height: 24px
         align-items: center
+        color: rgb(var(--titles))
     .slotTags
         all: unset
         display: flex
@@ -107,22 +108,18 @@
                 margin-right: 0.5vh
     .slotTags::-webkit-scrollbar
         height: 0
-    div
-        border-radius: 100%
-        height: 3vh
-        +mixins.center
-        margin-right: 1vh
-        svg
-            stroke: rgb(var(--titles))
-            width: 3vh
     .subtasks
         all: unset
         +mixins.center
         display: flex
         flex-flow: row
         height: 100%
+        color: rgba(var(--titles), 0.75)
+        p
+            font-size: 16px
         svg
-            width: 2.5vh
+            min-width: 18px
+            margin-right: 5px
 
 .category
     font-size: 1.5vh
@@ -200,30 +197,30 @@
         display: flex
         align-items: center
         justify-content: space-between
-        font-size: 1.5vh
+        font-size: 14px
         background-color: rgb(var(--filter))
         color: rgba(var(--titles), 1)
         border-bottom: 1px solid rgb(var(--border))
-        padding: 1.5vh
+        padding: 12px
         svg
-            width: 2vh
+            width: 22px
     .filterTab
         --primary: 49,173,254
         width: 100%
         position: absolute
         bottom: 40px
         background-color: rgb(var(--filter))
-        padding: 1.5vh
-        max-height: calc(100vh - 4vh - 80px)
+        padding: 12px
+        max-height: calc(100vh - 80px)
         overflow-y: auto
         h3
-            font-size: 1.5vh
+            font-size: 14px
             color: rgb(var(--titles))
             font-weight: 100
-            margin-bottom: 1.5vh
+            margin-bottom: 12px
             text-transform: capitalize
         .filterSection
-            margin-bottom: 1.5vh
+            margin-bottom: 12px
             ul
                 list-style: none
                 padding: 0
@@ -233,14 +230,14 @@
                     background-color: rgba(var(--tags), 1)
                     color: rgba(var(--text), 0.35)
                     +mixins.center
-                    padding: 1vh
-                    font-size: 1.5vh
+                    padding: 12px
+                    font-size: 14px
                     cursor: pointer
                     box-shadow: 0 0 10px rgba(0,0,0,0.1)
                 li:nth-child(n)
-                    margin: 0 0.5vh 1vh 0
+                    margin: 0 6px 12px 0
                 li:nth-child(2n)
-                    margin: 0 0 1vh 0.5vh
+                    margin: 0 0 12px 6px
                 li:nth-last-child(-n+2)
                     margin-bottom: 0
             .activeSort
@@ -254,7 +251,7 @@
             display: flex
             justify-content: space-between
             align-items: center
-            margin-bottom: 1.5vh
+            margin-bottom: 12px
             h3
                 margin-bottom: 0
             .sortSelect
@@ -266,17 +263,18 @@
                     color: rgba(var(--titles))
                     cursor: pointer
                     svg
-                        height: 1.5vh
+                        height: 22px
                 .sortDropDown
                     position: absolute
                     background-color: rgb(var(--moreMenu))
                     color: rgba(var(--moreMenuText))
-                    top: 2.5vh
-                    border-radius: 7px 7px
+                    top: 30px
+                    border-radius: 5px 5px
+                    right: 0
                     p
-                        padding: 1.5vh
+                        padding: 14px 24px
                         border-bottom: 1px solid rgb(var(--moreMenuText), 0.25)
-                        font-size: 1.5vh
+                        font-size: 14px
                         font-weight: 100
                         cursor: pointer
                     p:last-child
@@ -287,10 +285,10 @@
     color: white
 .slotLabel
     --primary: 49,173,254
-    font-size: 1.5vh
+    font-size: 14px
     font-weight: 300
     background-color: rgb(var(--background))
-    padding: 1.5vh
+    padding: 12px
     color: rgb(var(--text))
     cursor: pointer
     p
@@ -298,7 +296,7 @@
         align-items: center
         svg
             height: 100%
-            margin-right: 1vh
+            margin-right: 12px
     .completed
         color: rgb(var(--primary))
         font-weight: 400
@@ -328,42 +326,45 @@
         color: rgb(var(--colorTitles))
         div
             color: rgb(var(--colorTitles))
+            font-weight: 600
         p
-            font-size: 1.65vh
+            font-size: 14px
             text-transform: lowercase
             width: fit-content
             font-weight: 400
             height: 100%
             +mixins.center
-            padding: 0 30px
+            padding: 0 12px
         svg
             height: 100%
             width: 80px
-            padding: 30px
+            padding: 29px
+            margin-right: -12px
+            margin-left: -18px
     .navContent:last-child
         color: rgba(var(--primary), 1)
         margin-right: 0
         pointer-events: none
         p
-            padding-right: 1.5vh
+            padding-right: 12px
 
 .tasksNav::-webkit-scrollbar
         height: 0
 
 .taskdetails
-    padding: 1.5vh
+    padding: 12px
     color: rgb(var(--text))
-    font-size: 1.5vh
+    font-size: 14px
     --primary: 49,173,254
     .titleBlock
-        margin-top: 1vh
-        margin-bottom: 3vh
+        margin-top: 12px
+        margin-bottom: 24px
         .content
             border-bottom: 1px solid rgba(var(--lightTitles), 0.3)
-            padding-bottom: 1vh
-            width: calc( 100% - 1.5vh )
-            margin-left: 3vh
-            margin-top: 1vh
+            padding-bottom: 12px
+            width: calc( 100% - 12px )
+            margin-left: 30px
+            margin-top: 12px
             color: rgb(var(--colorTitles))
             line-height: 1.5
         p
@@ -373,10 +374,10 @@
             align-items: center
             width: fit-content
             span
-                margin: 0 12vh 0 1vh
+                margin: 0 12px
             svg
-                min-width: 2vh
-                min-height: 2vh
+                min-width: 22px
+                min-height: 22px
     h3
         font-size: 3vh
         margin-top: 1.5vh
@@ -390,7 +391,7 @@
         color: rgba(var(--lightTitles))
     .progress
         background-color: rgba(var(--lightTitles), 0.25)
-        margin-top: 1vh
+        margin-top: 12px
         hr
             border: none
             outline: none
@@ -399,17 +400,15 @@
     .timer
         display: grid
         grid-template-columns: 1fr 1fr
-        margin-bottom: -2vh
-        margin-top: 2vh
+        margin-bottom: -12px
         span   
-            color: rgba(var(--timeTitle), 0.5)
-            font-size: 1.5vh
+            color: rgba(var(--timeTitle), 0.75)
+            font-size: 14px
         .timerBlock
-            padding-bottom: 3vh
+            padding-bottom: 24px
             div
-                font-size: 3vh
+                font-size: 28px
                 font-weight: 400
-                margin-bottom: 0.5vh
     .title
         margin-top: 2vh
         margin-bottom: 1vh
@@ -420,29 +419,28 @@
         display: flex
         flex-flow: wrap
     .time
-        margin-top: 1.5vh
-        margin-bottom: 1.5vh
+        margin: 12px 0
     .timeTitle
         color: rgb(var(--text))
     .tags
         background-color: rgba(var(--tags))
         border-radius: 3px 3px
-        padding: 0 1.5vh
-        font-size: 1.5vh
+        padding: 0 12px
+        font-size: 14px
         color: rgba(var(--titles), 1)
         display: flex
         align-items: center
         overflow: hidden
-        height: 3vh
+        height: 32px
         width: fit-content
-        margin: 1.5vh 1.5vh 1.5vh 0
+        margin: 12px 12px 12px 0
     .metricContainer
         position: relative
-        margin-left: 3vh
+        margin-left: 12px
     .metricValue
         color: rgba(var(--titles))
     .metricTitle
-        margin-top: 1vh
+        margin-top: 12px
         p
             display: flex
             justify-content: space-between

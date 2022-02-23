@@ -520,7 +520,7 @@ const TaskDetails = () => {
                         :null}
                     </div>
                 </div>
-                <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(tasktile)}, {name: "delete", function: ()=>deleteTask(tasktile.id)}]} id={`scheduleSlotsMoreMenu${tasktile.id}`} pos={{right: '-5vh', top: '3.5vh'}} />
+                <MoreMenu items={[{name: "edit", function: ()=>editTaskModal(tasktile)}, {name: "delete", function: ()=>deleteTask(tasktile.id)}]} id={`scheduleSlotsMoreMenu${tasktile.id}`} pos={{right: '-40px', top: '32px'}} />
                 <CheckBtn task={tasktile} currentTask={currentTask} setCurrentTask={setCurrentTask} openSubtasks={openSubtasks} setOpenSubtasks={setOpenSubtasks} progress={tasktile.subtasks?tasktile.subtasks.filter(i=>i.completed===true).length/tasktile.subtasks.length*100:null} />
             </div>
         )

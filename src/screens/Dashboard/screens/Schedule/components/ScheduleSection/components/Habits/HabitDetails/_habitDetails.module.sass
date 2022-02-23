@@ -10,30 +10,29 @@
 
 .card
     background-color: rgb(var(--activeSlot))
-    padding: 1.5vh
-    margin: 1vh 1.5vh
+    padding: 12px
+    margin: 12px
     color: rgb(var(--text))
     ul
         display: flex
         justify-content: space-between
         list-style: none
         align-items: center
-        font-size: 1.25vh
+        font-size: 14px
     p
-        font-size: 1.5vh
+        font-size: 14px
 
 .level
     ul:first-child
         li
-            font-size: 1vh
+            font-size: 12px
             font-weight: 100
-            opacity: 0.75
+            opacity: 0.55
     ul:nth-child(2)
-        margin-top: 1vh
-        margin-bottom: 1vh
+        margin: 8px 0
         li
-            font-size: 1.5vh
-            opacity: 0.8
+            font-size: 14px
+            opacity: 1
     .progressList
         svg
             stroke: inherit
@@ -52,7 +51,7 @@
 
 .gradientCard
     color: white
-    font-size: 1.5vh
+    font-size: 14px
     ul
         height: 100%
         width: 100%
@@ -61,21 +60,21 @@
     background-color: rgb(var(--border))
     color: rgb(var(--titles))
     font-size: 1.5vh
-    padding: 1vh
-    margin-top: 1vh
+    padding: 12px
+    margin-top: 12px
 
 .streaks
     ul
         display: flex
         justify-content: space-between
         list-style: none
-        margin: 1.5vh
+        margin: 12px
         li
             background-color: rgb(var(--activeSlot))
             color: rgb(var(--titles))
-            width: calc( 50% - 0.75vh )
+            width: calc( 50% - 12px )
             +mixins.center
-            padding: 1.5vh
+            padding: 12px
             p
                 font-size: 1.25vh
                 text-align: left
@@ -95,16 +94,16 @@
     display: flex
     justify-content: space-between
     align-items: center
-    width: calc( 100% - 3vh )
+    width: calc( 100% - 24px )
     p
         text-align: left
         color: rgba(var(--titles))
-        font-size: 1.25vh
+        font-size: 12px
 
 .successRate
     +mixins.center
     position: relative
-    margin: 1.5vh 0
+    margin: 12px 0
     
     .circlewrap 
         margin: 1vh auto
@@ -112,7 +111,7 @@
         height: 150px
         background: rgba(var(--border), 0.5)
         border-radius: 50%
-        margin-bottom: 2vh
+        margin-bottom: 12px
         --dialpercent: 0deg       
     
 
@@ -139,7 +138,7 @@
             margin-left: 14px
             position: absolute
             font-weight: 100
-            font-size: 3vh
+            font-size: 24px
             color: rgb(var(--text), 0.75)
     
 

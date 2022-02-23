@@ -7,7 +7,7 @@ import styles from './_tasks.module.sass'
 import { Folder } from 'react-feather'
 import MoreMenu from '../../../../../../components/MoreMenu'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
-import { iconsSvg } from '../../../../../../variables/journalConfig'
+import { iconsSvg, colors } from '../../../../../../variables/journalConfig'
 import company from '../../../../../../../../company'
 import { allCalendarEventsAtom, allRoutesAtom, projectsAtom } from '../../../../../../allAtoms'
 import modalConfigAtom from '../../../../../../recoil-atoms/modalConfigAtom'
@@ -77,9 +77,9 @@ const Projects = () => {
                     <div key={item.id} className={styles.projectWrapper}>
                         <NavLink onMouseEnter={(e)=>addToolTipForTasks(e)} data-title={item.name} onClick={()=>setAllRoutes({...allRoutes, project: item.id})} to={`/dashboard/${company.schedule}/tasks/${item.id}`} className={styles.sideSectionSlot} activeClassName={styles.activeSectionSlot}>
                             <div className={styles.slotContent}>
-                                <div className={styles.projectIcon}>{item.icon?iconsSvg[item.icon]:<Folder />}</div>
+                                <div className={styles.projectIcon} style={{color: colors[item.color]}}>{item.icon?iconsSvg[item.icon]:<Folder />}</div>
                                 <p>{item.name}</p>
-                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-5vh', top: '3.5vh'}} /></div>:null} 
+                                {item.id!=='all'&&item.id!=='today'?<div className={styles.moreMenuWrapper}><MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editProject', project: item})}, {name: "delete", function: ()=>deleteProject(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-40px', top: '32px'}} /></div>:null} 
                                 <div className={styles.progressNum}>
                                     {completedTasks}/
                                     {totalTasks}
