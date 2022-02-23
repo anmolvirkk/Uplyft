@@ -53,7 +53,9 @@ const CheckBtn = ({task, openSubtasks, setOpenSubtasks, progress, setCurrentTask
             if(data.tasks){
                 data.tasks = setComplete(data.tasks)
             }
-            newCurrentTask.subtasks = setComplete(currentTask.subtasks)
+            if(newCurrentTask.subtasks){
+                newCurrentTask.subtasks = setComplete(currentTask.subtasks)
+            }
             if(openSubtasks.subtasks){
                 setOpenSubtasks({nav: setComplete(openSubtasks.nav), subtasks: setComplete(openSubtasks.subtasks)})
             }

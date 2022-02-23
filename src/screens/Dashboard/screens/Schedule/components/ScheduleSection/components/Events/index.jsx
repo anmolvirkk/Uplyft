@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import MoreMenu from '../../../../../../components/MoreMenu'
 import journalStyles from '../../../../../Journals/_journal.module.sass'
-import {ArrowDown, ChevronDown, ChevronUp} from 'react-feather'
+import { ChevronDown, ChevronUp} from 'react-feather'
 import { NavLink, Redirect } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -96,10 +96,10 @@ const Events = () => {
                 {events.length!==0 ? filterEvents(events).map((item)=>{
                     return <NavLink onClick={()=>setAllRoutes({...allRoutes, event: item.id})} onMouseEnter={addToolTipForEvents} key={item.id} to={`/dashboard/${company.schedule}/events/${item.id}`} className={`${journalStyles.sideSectionSlot} ${styles.eventSlot}`} activeClassName={journalStyles.activeSectionSlot} data-title={item.name}><p>{item.name}</p>
                     <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'editEvent', event: item})}, {name: "delete", function: ()=>deleteEvent(item.id)}]} id={`scheduleSlotsMoreMenu${item.id}`} pos={{right: '-1.5vh', top: '3.5vh'}} /></NavLink>
-                }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><ArrowDown /></div>}
+                }) : <div className={journalStyles.helperTextAddEntry}><p>Add your first event!</p><AddButton name="event" type="round" onclick={()=>setModalConfig({type: 'addEvent'})} /></div>}
             </div>
             <Filters />
-            <AddButton name="event" onclick={()=>setModalConfig({type: 'addEvent'})} />
+            <AddButton name="event" type="main" onclick={()=>setModalConfig({type: 'addEvent'})} />
         </div>
     )
 }

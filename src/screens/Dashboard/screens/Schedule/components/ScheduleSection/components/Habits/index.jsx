@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import MoreMenu from '../../../../../../components/MoreMenu'
-import {ArrowDown, ChevronDown, ChevronUp, CheckSquare, Inbox} from 'react-feather'
+import { ChevronDown, ChevronUp, CheckSquare, Inbox} from 'react-feather'
 import { NavLink, Redirect } from 'react-router-dom'
 import AddButton from '../../../AddButton'
 
@@ -66,7 +66,7 @@ const Habits = () => {
         <div style={isMobile?{display: 'none'}:null}>
             {allRoutes['habit']?<Redirect to={`/dashboard/${company.schedule}/habits/${allRoutes['habit']}`} />:null}
             <div className={styles.slotSection} style={{height: !isMobile?'calc(100vh - 160px)':mobileHeight}}>
-                {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><ArrowDown /></div> : 
+                {habits.length===0 ? <div className={styles.helperTextAddEntry}><p>Add your first entry!</p><AddButton name="habit" type="round" onclick={openHabitModal} /></div> : 
                 <div>
                     <div className={styles.category}>
                     <OutsideClickHandler onOutsideClick={()=>setDropDownDay({...dropDownDay, open: false})}>
@@ -133,7 +133,7 @@ const Habits = () => {
                 </div>
                 }
             </div>
-            <AddButton name="habit" onclick={openHabitModal} />
+            <AddButton name="habit" type="main" onclick={openHabitModal} />
         </div>
     )
 }

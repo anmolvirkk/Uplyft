@@ -398,86 +398,101 @@ const TaskDetails = () => {
                 </div>
             )
         }
-
-        return (
-            <div className={styles.taskdetails}>
-                <div className={styles.completed}>
-                    <div className={styles.amount}>
-                        {task.subtasks?Math.round(task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100):task.completed/1*100}% Completed
-                    </div>
-                    <div className={styles.progress}>
-                        <hr style={{width: `${task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:task.completed/1*100}%`}} />
-                    </div>
-                    {task.tags.length>0?
-                        <div className={styles.tagsWrapper}>
-                            <div className={styles.tagsContainer}>
-                                {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
-                            </div>
+        if(task.subtasks||task.tags||task.name||task.details||task.start||task.deadline||task.priority||task.effortRequired||task.timeRequired){
+            return (
+                <div className={styles.taskdetails}>
+                    {task.subtasks?
+                    <div className={styles.completed}>
+                        <div className={styles.amount}>
+                            {task.subtasks?Math.round(task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100):task.completed/1*100}% Completed
                         </div>
-                    :null}
-                </div>
-                <div className={styles.titleBlock}>
-                    <p><User /><span>Name</span></p>
-                    <div className={styles.content}>{task.name}</div>
-                </div>
-                {task.details!==''?
-                    <div className={styles.titleBlock}>
-                        <p><AlignLeft /><span>Details</span></p>
-                        <div className={styles.content}>{task.details}</div>
+                        <div className={styles.progress}>
+                            <hr style={{width: `${task.subtasks?task.subtasks.filter(i=>i.completed===true).length/task.subtasks.length*100:task.completed/1*100}%`}} />
+                        </div>
+                        {task.tags&&task.tags.length>0?
+                            <div className={styles.tagsWrapper}>
+                                <div className={styles.tagsContainer}>
+                                    {task.tags.map((item, i)=><div className={styles.tags} key={i}>{item}</div>)}
+                                </div>
+                            </div>
+                        :null}
                     </div>
-                :null}
-                <div className={styles.time}>
-                    {task.start!==null?
+                    :null}
+                    {task.name?
+                    <div className={styles.titleBlock}>
+                        <p><User /><span>Name</span></p>
+                        <div className={styles.content}>{task.name}</div>
+                    </div>
+                    :null}
+                    {task.details?
                         <div className={styles.titleBlock}>
-                            <p><Play /><span>Start</span></p>
-                            <div id="taskDetailStart" className={styles.content}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                            <p><AlignLeft /><span>Details</span></p>
+                            <div className={styles.content}>{task.details}</div>
                         </div>
                     :null}
-                    {task.deadline!==null?
+                    {task.start||task.deadline?
+                    <div className={styles.time}>
+                        {task.start?
+                            <div className={styles.titleBlock}>
+                                <p><Play /><span>Start</span></p>
+                                <div id="taskDetailStart" className={styles.content}>{new Date(task.start).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                            </div>
+                        :null}
+                        {task.deadline?
+                            <div className={styles.titleBlock}>
+                                <p><Flag /><span>Deadline</span></p>
+                                <div id="taskDetailDeadline" className={styles.content}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
+                            </div>
+                        :null}
+                        {task.start&&task.deadline?<TimeRemaining />:null}
+                    </div>
+                    :null}
+                    <div className={styles.metrics}>
+                        {task.priority?
                         <div className={styles.titleBlock}>
-                            <p><Flag /><span>Deadline</span></p>
-                            <div id="taskDetailDeadline" className={styles.content}>{new Date(task.deadline).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit'})}</div>
-                        </div>
-                    :null}
-                    {task.start!==null&&task.deadline!==null?<TimeRemaining />:null}
-                </div>
-                <div className={styles.metrics}>
-                    <div className={styles.titleBlock}>
-                        <p><AlertTriangle /><span>Priority</span></p>
-                        <div className={styles.metricContainer}>
-                            <div className={styles.metricTitle}>
-                                <p><span>{task.priority.label}</span><span className={styles.metricValue}>{task.priority.value}%</span></p>
-                            </div>
-                            <div className={styles.progress}>
-                                <hr style={{width: `${task.priority.value}%`}} />
+                            <p><AlertTriangle /><span>Priority</span></p>
+                            <div className={styles.metricContainer}>
+                                <div className={styles.metricTitle}>
+                                    <p><span>{task.priority.label}</span><span className={styles.metricValue}>{task.priority.value}%</span></p>
+                                </div>
+                                <div className={styles.progress}>
+                                    <hr style={{width: `${task.priority.value}%`}} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className={styles.titleBlock}>
-                        <p><Zap /><span>Effort Required</span></p>
-                        <div className={styles.metricContainer}>
-                            <div className={styles.metricTitle}>
-                                <p><span>{task.effortRequired.label}</span><span className={styles.metricValue}>{task.effortRequired.value}%</span></p>
-                            </div>
-                            <div className={styles.progress}>
-                                <hr style={{width: `${task.effortRequired.value}%`}} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.titleBlock}>
-                        <p><Clock /><span>Time Required</span></p>
-                        <div className={styles.metricContainer}>
-                            <div className={styles.metricTitle}>
-                                <p><span>{task.timeRequired.label}</span><span className={styles.metricValue}>{task.timeRequired.value}%</span></p>
-                            </div>
-                            <div className={styles.progress}>
-                                <hr style={{width: `${task.timeRequired.value}%`}} />
+                        :null}
+                        {task.effortRequired?
+                        <div className={styles.titleBlock}>
+                            <p><Zap /><span>Effort Required</span></p>
+                            <div className={styles.metricContainer}>
+                                <div className={styles.metricTitle}>
+                                    <p><span>{task.effortRequired.label}</span><span className={styles.metricValue}>{task.effortRequired.value}%</span></p>
+                                </div>
+                                <div className={styles.progress}>
+                                    <hr style={{width: `${task.effortRequired.value}%`}} />
+                                </div>
                             </div>
                         </div>
+                        :null}
+                        {task.timeRequired?
+                        <div className={styles.titleBlock}>
+                            <p><Clock /><span>Time Required</span></p>
+                            <div className={styles.metricContainer}>
+                                <div className={styles.metricTitle}>
+                                    <p><span>{task.timeRequired.label}</span><span className={styles.metricValue}>{task.timeRequired.value}%</span></p>
+                                </div>
+                                <div className={styles.progress}>
+                                    <hr style={{width: `${task.timeRequired.value}%`}} />
+                                </div>
+                            </div>
+                        </div>
+                        :null}
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }else{
+            return null
+        }
     }
 
     const TaskTile = ({tasktile}) => {
