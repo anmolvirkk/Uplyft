@@ -30,11 +30,11 @@
 
 .form
     background: rgb(var(--background))
-    padding: 2.5vh
-    border-radius: 1.25vh 1.25vh
+    padding: 24px
+    border-radius: 10px 10px
     max-height: 95%
-    min-width: 70vh
-    max-width: 70vh
+    width: fit-content
+    max-width: 700px
     overflow: hidden
     overflow-y: overlay
     position: relative
@@ -42,13 +42,13 @@
     p
         font-weight: 500
         color: rgb(var(--text))
-        font-size: 2vh
+        font-size: 18px
         text-align: left
         line-height: 1.5
     svg
         color: rgba(var(--text), 0.5)
-        width: 2.5vh
-        height: 2.5vh
+        width: 22px
+        height: 22px
 
 .addEvent
     .footer
@@ -60,24 +60,24 @@
     display: flex
     justify-content: space-between
     align-items: center
-    margin-bottom: 3vh
+    margin-bottom: 24px
     svg
         cursor: pointer
 
 .footer
     display: flex
     justify-content: flex-end
-    margin-top: 2vh
+    margin-top: 24px
     button
         all: unset
         border: 1px solid rgba(var(--border))
-        padding: 1vh 2vh
-        font-size: 1.35vh
-        border-radius: 0.5vh 0.5vh
+        padding: 12px 24px
+        font-size: 14px
+        border-radius: 5px 5px
         cursor: pointer
         color: rgb(var(--titles))
     button:first-child
-        margin-right: 0.75vh
+        margin-right: 12px
     .continueBtn:hover
         background-color: rgb(var(--primary))
         border-color: transparent
@@ -92,8 +92,8 @@
         list-style: nones
         svg
             color: rgb(var(--titles))
-            width: 2.5vh
-            height: 2.5vh
+            width: 22px
+            height: 22px
             padding: 0
         p
             line-height: 2
@@ -101,28 +101,26 @@
             font-weight: 300
             width: 100%
             text-align: left
-            font-size: 1.5vh
-        .colors
-            margin-bottom: 1.5vh
+            font-size: 14px
         ol
             padding: 0
             margin: 0
-            margin-top: 1.5vh
+            margin-top: 16px
             list-style: none
             display: grid
-            grid-template-columns: repeat(auto-fill, minmax(4vh, 1fr))
-            grid-gap: 2vh
+            grid-template-columns: repeat(auto-fill, minmax(22px, 1fr))
+            grid-gap: 22px
             position: relative
             li
-                height: 2.5vh
-                width: 2.5vh
+                height: 24px
+                width: 24px
                 border-radius: 100%
                 position: relative
                 cursor: pointer
                 +mixins.center
                 transform: translateX(40%)
                 div
-                    padding: 1.75vh
+                    padding: 18px
                     position: absolute
                     border-radius: 100%
                     border: 3px solid rgba(var(--primary), 1)
@@ -156,7 +154,7 @@
     z-index: 99
 
 .habitCards
-    margin-top: 2vh
+    margin-top: 24px
     width: calc( 100% + 2.5vh )
     position: relative
     .habitCardArrows
@@ -205,29 +203,29 @@
         cursor: pointer
         display: flex
         align-items: center
-        height: 6vh
-        padding: 0 0.5vh
+        height: 60px
+        padding: 0 6px
         border-radius: 10px 10px
-        margin-bottom: 1.5vh
-        min-width: 15vh
-        width: 15vh
-        margin-right: 1.5vh
+        margin-bottom: 12px
+        min-width: 160px
+        width: 160px
+        margin-right: 12px
         scroll-snap-align: start
     .habitCard:last-child
-        margin-right: 2.5vh
+        margin-right: 12px
     span
         pointer-events: none
-        padding: 0.5vh
         border-radius: 100%
-        width: 3vh
-        height: 3vh
+        width: 22px
+        height: 22px
         +mixins.center
+        margin: 0 6px
     svg
-        width: 2vh
-        height: 2vh
+        width: 22px
+        height: 22px
         stroke: white
     p
-        font-size: 1.5vh
+        font-size: 14px
         font-weight: 400
         text-align: left
         line-height: 1.5
@@ -285,27 +283,27 @@
         list-style: none
         width: 100%
         .tabselect
-            height: 4vh
+            height: 48px
             +mixins.center
             flex-flow: row
             justify-content: space-between
-            margin-top: 3vh
-            margin-bottom: 1.5vh
+            margin-top: 24px
+            margin-bottom: 12px
             div
                 height: 100%
                 width: 100%
                 +mixins.center
                 color: rgb(var(--text))
                 cursor: pointer
-                font-size: 1.5vh
+                font-size: 16px
                 border-bottom: 2px solid transparent
-                margin-bottom: 1.5vh
+                margin-bottom: 12px
                 opacity: 0.5
                 p
                     text-align: center
             svg
-                height: 2vh
-                width: 2vh
+                height: 22px
+                width: 22px
             .activeTab
                 border-color: rgb(var(--primary))
                 opacity: 1
@@ -316,7 +314,7 @@
             align-items: center
     
 .habitFooter
-    padding: 1vh 0.5vh
+    padding: 24px 12px
     z-index: 9
     background-color: rgb(var(--background))
     width: 100%
@@ -378,11 +376,11 @@
 .times
     display: flex
     align-items: center
-    margin-top: 3vh
+    margin-top: 12px
     .removeTime
         all: unset
         cursor: pointer
-        margin-left: 1.5vh
+        margin-left: 24px
         stroke: rgb(var(--titles))
         stroke-width: 2
     .time
@@ -390,16 +388,16 @@
         display: flex
         justify-content: space-between
         background-color: rgba(var(--tags), 0.25)
-        margin: 1vh 0
+        margin: 12px 0
         border-radius: 10px 10px
-        padding: 0.5vh 2vh
+        padding: 12px 24px
         p
             color: rgb(var(--text))
         input[type=time]
             all: unset 
             border: none
             color: rgb(var(--titles))
-            font-size: 1.5vh
+            font-size: 14px
             width: 140px
             margin: 12px 0
 
@@ -452,11 +450,11 @@
 .daySelect
     display: flex
     flex-flow: wrap
-    font-size: 1.5vh
+    font-size: 14px
     justify-content: space-between
     div
-        height: 7vh
-        width: 7vh
+        height: 60px
+        width: 60px
         margin: 0
         +mixins.center
         background-color: rgb(var(--tags), 0.5)
@@ -469,19 +467,19 @@
 
 .addTime
     cursor: pointer
-    margin-top: 1vh
+    margin-top: 12px
 
 .habitNum
     display: flex
     justify-content: space-between
     align-items: center
-    margin-top: 2vh
+    margin-top: 12px
     .habitTimes
         display: flex
         align-items: center
         color: rgb(var(--titles))
-        margin-left: 3vh
-        margin-right: 1vh
+        margin-left: 12px
+        margin-right: 12px
         span
             white-space: nowrap
         input
@@ -489,12 +487,12 @@
             color: rgb(var(--titles))
             +mixins.center
             text-align: center
-            padding: 1.5vh
-            width: 5vh
+            padding: 12px
+            width: 40px
             border-radius: 5px 5px
             border: none
     input
-        margin-right: 1vh
+        margin-right: 8px
         color: rgb(var(--text))
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button
@@ -504,18 +502,19 @@
         -moz-appearance: textfield
 
 .habitCustomize
-    margin-top: 2vh
-    margin-bottom: 2vh
+    margin-top: 12px
+    margin-bottom: 12px
     ul
         display: flex
         justify-content: space-between
         li:first-child
             ol
-                width: 10vh
-                margin-right: 5vh
+                width: 120px
+                margin-right: 36px
         li:last-child
             ol
-                width: 50vh
+                width: 450px
+                margin-right: 12px
     .eventColors
         width: 100%
         .colors
@@ -538,10 +537,10 @@
 
 .addTask
     .header
-        margin-bottom: 2.5vh
+        margin-bottom: 12px
     .habitCustomize
         margin: 0
-        margin-top: 2vh
+        margin-top: 12px
 
 .roles
     ul
@@ -579,8 +578,8 @@
         font-size: 1.25vh
 
 .taskInputSection
-    margin-top: 3vh
-    margin-bottom: 3vh
+    margin-top: 12px
+    margin-bottom: 24px
     input[type="range"]
         all: unset
         -webkit-appearance: none
@@ -606,8 +605,8 @@
     .addSubTask
         cursor: pointer
         svg
-            height: 2vh
-            margin: 0 1vh 0 0
+            height: 22px
+            margin: 0 12px 0 0
     .addSubTask:hover
         svg
             stroke: rgba(var(--text), 1)
@@ -615,37 +614,37 @@
     position: relative
     display: flex
     flex-flow: wrap
-    max-width: 70vh
+    max-width: 700px
     .tag
         background-color: rgba(var(--primary), 0.1)
         border-radius: 5px 5px
-        padding: 0 0.5vh
-        font-size: 1.5vh
+        padding: 0 12px
+        font-size: 14px
         color: rgb(var(--titles), 1)
         cursor: pointer
         display: flex
         align-items: center
         overflow: hidden
-        height: 3vh
+        height: 30px
         width: fit-content
-        margin: 0 1.5vh 1.5vh 0
+        margin: 0 12px 12px 0
         div
-            padding: 1vh 0
+            padding: 12px 0
             line-height: 0
             color: rgba(var(--titles), 0.7)
         span
             height: 100%
             width: fit-content
             +mixins.center
-            padding: 1vh 0
+            padding: 12px 0
             text-transform: lowercase
             pointer-events: none
             line-height: 0
-            margin: 0 1vh
+            margin: 0 8px
         svg
             stroke: rgb(var(--primary))
             stroke-width: 2
-            width: 1.5vh
+            width: 18px
             height: fit-content
     .tag::-webkit-scrollbar
         height: 0 !important
@@ -661,7 +660,7 @@
     .addTag
         display: flex
         width: fit-content
-        height: 3vh
+        height: 30px
         border-radius: 5px 5px
         cursor: pointer
         transition: 0.1s
@@ -681,24 +680,24 @@
             color: rgb(var(--primary))
             height: 100%
             +mixins.center
-            padding: 0.5vh
+            padding: 12px
             pointer-events: none
-            font-size: 1.5vh
+            font-size: 14px
             border-radius: 5px 0 0 5px
         svg
             stroke: rgb(var(--primary))
-            width: 1.5vh
+            width: 18px
             height: fit-content
             stroke-width: 2
             pointer-events: none
             display: block
-            margin-right: 0.25vh
+            margin: 0 4px 0 3px
     .tagInput
         span
-            min-width: 3vh
+            min-width: 12px
             width: fit-content
             height: fit-content
-            padding: 0.5vh
+            padding: 12px
             border: none
         div
             display: none
@@ -708,10 +707,10 @@
 .taskInputSection, .roles, .projects
     position: relative
     p
-        font-size: 1.5vh
+        font-size: 14px
         font-weight: 100
         text-align: left
-        margin-bottom: 1.5vh
+        margin-bottom: 12px
         display: flex
         align-items: center
         svg
@@ -736,14 +735,15 @@
     align-items: center
     background-color: rgba(var(--text), 0.025)
     width: fit-content
-    padding: 1vh
-    border-radius: 7px 7px
+    padding: 10px
+    border-radius: 5px 5px
     svg
         stroke: rgba(var(--text), 0.15)
-        height: 2vh
+        height: 22px
     p
-        font-size: 1.5vh
-        margin-left: 0.5vh
+        font-size: 14px
+        margin-left: 8px
+        line-height: 1
         text-transform: capitalize
         font-weight: 400
         color: rgba(var(--text), 0.35)
@@ -756,7 +756,7 @@
 .taskNavigation
     display: flex
     align-items: center
-    max-width: 70vh
+    max-width: 700px
     overflow-x: overlay
     padding-bottom: 30vh
     margin-bottom: -28vh
@@ -768,10 +768,10 @@
     align-items: center
     margin-left: 1vh
     svg
-        height: 2vh
-        margin-right: 1vh
+        height: 22px
+        margin: 0 6px
     .navContent
-        font-size: 1.5vh
+        font-size: 14px
         font-weight: 100
         display: flex
         align-items: center
@@ -787,31 +787,31 @@
             justify-content: center
             background-color: rgba(var(--text), 0.05)
             border-radius: 4px 4px
-            margin-top: 0.5vh
-            height: 2vh
+            margin-top: 6px
+            height: 30px
         svg
             margin: 0
-            width: 2vh
+            width: 22px
         .subTaskNum
-            font-size: 1.25vh
-            margin-right: 1.25vh
-            margin: 0 0.5vh
+            font-size: 14px
+            margin-right: 12px
+            margin: 0 10px
     .taskDropDown
         background-color: rgb(var(--dropdown))
-        padding: 0 1vh 1vh 1vh
+        padding: 0 12px 12px 12px
         border-radius: 5px 5px
         position: absolute
-        top: 5.5vh
+        top: 60px
         z-index: 9
         ul
             list-style: none
-            width: 12vh
+            width: 100px
             max-height: 25vh
             overflow-y: overlay
             overflow-x: hidden
             li
                 border-bottom: 1px solid rgba(var(--border), 1)
-                padding: 1vh 0
+                padding: 10px 0
                 color: rgb(var(--titles))
 
 .activeTaskNav
@@ -1004,7 +1004,7 @@
         height: fit-content
         max-height: fit-content
         max-width: 100%
-        min-height: fit-content
+        min-height: 100%
         width: 100%
         min-width: 100%
         position: relative

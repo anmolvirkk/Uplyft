@@ -106,7 +106,7 @@ const BookSection = ({ styles, isMobile }) => {
                             </div>
                         </div>
                     </div>
-                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'journal', color: props.color, icon: props.icon})}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: !isMobile?'-2.5vh':'0', top: !isMobile?'3.5vh':'32px'}} />
+                    <MoreMenu items={[{name: "edit", function: ()=>setModalConfig({type: 'journal', color: props.color, icon: props.icon})}, {name: "delete", function: deleteJournal}]} id={`journalMoreMenu${props.id}`} pos={{right: '0', top: '32px'}} />
                 </NavLink>
             )) : <div className={styles.helperTextAddEntry} style={isMobile?{height: `${window.innerHeight - 80 - 60}px`}:null}><p>Add a journal to begin!</p><AddButton type="round" allRoutes={allRoutes} setAllRoutes={setAllRoutes} name="journal" books={books} setBooks={setBooks} /></div>
             }
