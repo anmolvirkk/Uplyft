@@ -8,55 +8,53 @@
 
 .textEditor:empty:before
     content: attr(data-placeholder)
-    opacity: 0.3
+    opacity: 0.35
 
 .textEditor
-    height: calc(100vh - 80px - 2vh)
+    height: calc(100vh - 80px)
     background-color: rgb(var(--textEditor))
-    margin: 0 2.5vh
-    padding: 3vh
-    padding-top: 10vh
+    margin: 0 14px
+    padding: 18px
+    padding-top: 80px
     box-sizing: border-box
     border: none
     outline: none
     overflow: hidden
     overflow-y: overlay
     color: rgb(var(--titles))
-    font-size: 1.5vh
+    font-size: 14px
     line-height: 2
     -webkit-user-select: text
     user-select: text
-    width: calc( 100% - 5vh )
+    width: calc( 100% - 24px - 3px )
     display: inline-block
     *
         pointer-events: none
     span
         font-size: inherit !important
     p  
-        font-size: 1.5vh
+        font-size: 14px
         margin: 0
         span
             font-size: inherit !important
     h1
-        line-height: 1.25
-        font-size: 6vh
-        margin-left: -1vh
+        line-height: 1.5
+        font-size: 48px
         margin: 0
         span
             font-size: inherit !important
         li
-            margin-left: 4.5vh
+            margin-left: 40px
     h3
         line-height: 1.5
-        font-size: 3vh
-        margin-left: -0.25vh
+        font-size: 24px
         margin: 0
         span
             font-size: inherit !important
         li
-            margin-left: 2.65vh
+            margin-left: 28px
     li
-        margin-left: 2vh
+        margin-left: 24px
 
 .saveStatus
     position: absolute

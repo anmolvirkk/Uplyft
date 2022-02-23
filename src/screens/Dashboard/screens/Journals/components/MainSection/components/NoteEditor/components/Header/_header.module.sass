@@ -5,8 +5,10 @@
     display: flex
     align-items: center
     justify-content: space-between 
-    margin: 1.5vh 3vh
+    margin: 12px
     background-color: rgb(var(--background))
+    overflow-x: overlay
+    overflow-y: hidden
 
 .textOptions
     display: flex
@@ -19,16 +21,16 @@
         display: flex
         justify-content: space-between
         align-items: center
-        height: 5vh
-        font-size: 1.5vh
+        height: 45px
+        font-size: 14px
         color: rgb(var(--titles))
         border-bottom: 1px solid rgb(var(--border))
         white-space: nowrap
-        width: 12vh
+        width: 120px
         svg
-            min-width: 3vh
+            min-width: 22px
             position: absolute
-            right: -5px
+            right: -3px
     ul
         list-style: none
         position: absolute
@@ -41,29 +43,29 @@
         li:first-child
             border-top: 1px solid rgba(var(--border), 0.15)
         li
-            height: 5vh
-            padding: 4vh 2vh
+            height: 30px
+            padding: 36px 24px
             border-bottom: 1px solid rgba(var(--border), 0.15)
             display: flex
             justify-content: space-between
             align-items: center
             h1
-                font-size: 6vh
-                margin-right: 2.5vh
+                font-size: 56px
+                margin-right: 24px
             h3
-                font-size: 3vh
+                font-size: 28px
             span
-                font-size: 1.5vh
+                font-size: 14px
 
 .textStyleOptions
     display: flex
     list-style: none
     padding: 0
     margin: 0
-    margin-left: 2vh
+    margin-left: 24px
     li
-        height: 5vh
-        width: 5vh
+        height: 45px
+        width: 45px
         border-left: none
         +mixins.center
         cursor: pointer
@@ -74,10 +76,10 @@
         svg
             stroke: white
 .list
-    margin-left: 2vh
-    height: 5vh
-    width: 5vh
-    padding: 1.25vh
+    margin-left: 12px
+    height: 45px
+    width: 45px
+    padding: 12px
     +mixins.center
     cursor: pointer
     stroke: rgb(var(--titles))
@@ -85,14 +87,19 @@
 .colors
     list-style: none
     display: flex
-    overflow-x: overlay
     max-width: fit-content
     li
-        height: 3vh
-        min-width: 3vh
-        margin-left: 2vh
+        height: 30px
+        min-width: 30px
+        margin-left: 12px
         border-radius: 100%
         cursor: pointer
+
+.textOptions
+    .currentColor
+        display: none
+    .allColors
+        display: none
 
 @media screen and (max-width: 639px)
     .colors
@@ -118,6 +125,7 @@
             margin-left: 8px
             width: 28px
             height: 100%
+            display: block
             .circleWrapper
                 +mixins.center
                 background-color: rgb(var(--background))
@@ -128,6 +136,7 @@
                 width: 28px
                 border-radius: 100%
         .allColors
+            display: block
             position: absolute
             bottom: calc( 28px + 6px )
             right: 12px
