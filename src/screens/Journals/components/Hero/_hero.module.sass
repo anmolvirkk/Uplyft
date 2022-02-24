@@ -5,13 +5,13 @@
 .hero
     width: 100%
     color: rgb(var(--text))
-    display: flex
-    justify-content: space-between
     padding: 0 5vw
     align-items: center
-    background-color: #FFA9AE
-    height: 100%
     position: relative
+    margin-bottom: 48px
+    .main
+        display: flex
+        justify-content: space-between
     .content
         +mixins.center
         text-align: left
@@ -35,22 +35,18 @@
             text-transform: uppercase
     .heroImg
         height: 31vw
-        transform: scale(0.9)
+        transform: scale(0.9) translateX(10%)
         filter: contrast(120%) hue-rotate(-25deg)
     .subsidiaryLogo
         height: 30px
         margin: 24px 0
-    .hero_bg
-        background-color: #FFA9AE
-        position: absolute
-        right: 0
-        top: 0
-        height: 100%
-        overflow: hidden
-        transition: opacity 1.2s cubic-bezier(.19,1,.22,1)
-        pointer-events: none
-        z-index: 0
-        filter: hue-rotate(-30deg)
+    .slider
+        z-index: 9
+        width: 100%
+        img
+            width: 100%
+            border-radius: 10px 10px
+            box-shadow: 5px 10px 30px rgba(0,0,0,0.2)
     
 @media screen and (max-width: 1440px)
     .hero
@@ -59,12 +55,14 @@
 
 @media screen and (max-width: 1000px)
     .hero
-        flex-flow: column
         padding: 0
+        .main
+            flex-flow: column
         .heroImg
             height: auto
             width: 100%
             margin-top: 36px
+            transform: scale(0.9) translateX(20%)
         .content
             width: 100%
             padding: 0 12px
