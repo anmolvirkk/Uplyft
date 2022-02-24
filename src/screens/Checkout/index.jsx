@@ -19,7 +19,7 @@ const Logo = ({success}) => {
   const [auth] = useRecoilState(authAtom)
   return (
     <div className={styles.title}>
-        <img src='/logos/subsidiary.png' alt={company.subsidiary} />
+        <img src='/logos/main.png' alt={company.subsidiary} />
         <h1>{company.subsidiary}</h1>
         {success?<p>Successfully Upgraded</p>:<p>Unlock {auth.plan.title} plan</p>}
     </div>

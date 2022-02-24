@@ -10,8 +10,8 @@
     width: 100%
     +mixins.center
     .form
-        width: 50vh
-        padding: 3vh
+        width: 500px
+        padding: 24px
         box-shadow: 0 0 15px rgba(0,0,0,0.075)
         border-radius: 10px 10px
         position: relative
@@ -27,32 +27,35 @@
             +mixins.center
         .title
             +mixins.center
-            margin-bottom: 4vh
+            margin-bottom: 24px
             img
-                width: 7vh
+                width: 80px
             h1
-                font-size: 3.5vh
-                margin-top: 0.5vh
+                font-size: 36px
+                margin-top: 12px
                 text-transform: capitalize
             p
-                font-size: 1.5vh
-                margin-top: 1vh
+                font-size: 14px
+                margin-top: 12px
                 opacity: 0.65
                 text-transform: initial
         .cname
-            margin-bottom: 2.5vh
+            margin-bottom: 24px
             width: 100%
         .time
             display: flex
             div
-                margin-right: 3vh
+                margin-right: 24px
             div:last-child
                 margin-right: 0
         .cta
             all: unset
             +main.cta
-            margin-top: 4vh
+            margin-top: 36px
             width: 100%
+            font-size: 16px
+            font-weight: 400
+            padding: 3px 0
             
         input::-webkit-outer-spin-button,input::-webkit-inner-spin-button
             -webkit-appearance: none
@@ -80,17 +83,17 @@
         background-color: rgba(var(--border), 1)
         border: none
     p
-        margin: 0 1vh
+        margin: 0 12px
         text-transform: lowercase
         color: rgba(var(--titles), 0.75)
 
 .googlepay
     background-color: black
     color: white
-    font-size: 1.5vh
-    padding: 1.5vh
+    font-size: 16px
+    padding: 16px
     border-radius: 5px 5px
-    margin-bottom: 4vh
+    margin-bottom: 36px
             
 
 @media screen and (max-width: 639px)

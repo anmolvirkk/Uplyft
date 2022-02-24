@@ -6,11 +6,14 @@ import CTA from '../../../LandingPage/components/CTA'
 const Hero = () => {
     return (
         <div className={styles.hero}>
+            <div className={styles.hero_bg}>
+                <img src="https://sketch-cdn.imgix.net/assets/pages/home-relaunch/bg-hero.png?ixlib=rb-4.0.1&amp;fm=png&amp;auto=format&amp;s=9dd898f72ca9cc295fe6637505504f42" alt="" />
+            </div>
             <div className={styles.content}>
                 <img className={styles.subsidiaryLogo} src='/logos/journalsText.png' alt={company.subsidiary} />
                 <h1>Your private 100% customizable online journal</h1>
                 <p>Sanctuary for your mind and soul, spirit will help increase your positive energy, be more grateful and a calmer mind by building healthy thinkings through journaling.</p>
-                <CTA type='main' />
+                <CTA type='main' color="linear-gradient(200deg, #FF31B2, rgba(142, 97, 255, 0) 34%), radial-gradient(circle farthest-corner at 0% -100%, #FA4B62 20%, rgba(205, 219, 248, 0) 51%), linear-gradient(180deg, #FF31B2, #FA4B62)" />
             </div>
             <img loading='lazy' decoding='async' className={styles.heroImg} src = '/decor/journals.png' alt={company.subsidiary} />
         </div>

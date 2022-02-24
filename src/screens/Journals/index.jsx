@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import Header from '../LandingPage/components/Header'
-import Footer from './components/Footer'
 import styles from './_journals.module.sass'
 import Hero from './components/Hero'
 import Features from './components/Features'
+import Footer from '../LandingPage/components/Footer'
 
 const Journals = () => {
 
