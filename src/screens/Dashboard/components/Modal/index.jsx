@@ -34,6 +34,8 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
+console.log(plans)
+
 const Modal = React.memo(() => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
@@ -524,8 +526,9 @@ const Modal = React.memo(() => {
             }else if(plan === 2500 || plan === 27500){
                 planTitle = 'Pro'
             }
+            console.log(plans)
             let features = plans.filter(i=>i.title===planTitle)[0].features
-            let starter = plans[0].features
+            let starter = plans.filter(i=>i.title==='Starter')[0].features
             const cancel = useCallback(() => {
                 sendFeedback()
                 let xr = new XMLHttpRequest()
@@ -552,7 +555,7 @@ const Modal = React.memo(() => {
                                 setLoading(null)
                                 setTimeout(()=>{
                                     setPlan(0)
-                                    setAuth({...auth, ...plans[0]})
+                                    setAuth({...auth, ...plans.filter(i=>i.title==='Starter')[0]})
                                 }, 3000)
                             }
                         }
