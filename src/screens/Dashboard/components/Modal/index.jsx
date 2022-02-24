@@ -339,7 +339,7 @@ const Modal = React.memo(() => {
                         play
                         loop={false}
                         animationData={checkData}
-                        style={{ width: 250, height: 250 }}
+                        style={{ width: 500, height: 300 }}
                     />
                 </div>
                 <div className={styles.footer}>
@@ -470,7 +470,7 @@ const Modal = React.memo(() => {
                           play
                           loop
                           animationData={loadData}
-                          style={{ width: 250, height: 250 }}
+                          style={{ width: 500, height: 300 }}
                       />
                 </div>
             )
@@ -488,7 +488,7 @@ const Modal = React.memo(() => {
                             play
                             loop={false}
                             animationData={checkData}
-                            style={{ width: 250, height: 250 }}
+                            style={{ width: 500, height: 300 }}
                         />
                     </div>
                     <div className={styles.footer}>
