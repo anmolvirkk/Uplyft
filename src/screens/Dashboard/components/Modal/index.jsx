@@ -34,8 +34,6 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
-console.log(plans)
-
 const Modal = React.memo(() => {
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
