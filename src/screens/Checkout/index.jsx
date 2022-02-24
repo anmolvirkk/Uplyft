@@ -32,36 +32,32 @@ const Checkout = ({updateBackendless}) => {
   const [showForm, setShowForm] = useState(false)
   const [plan] = useRecoilState(planAtom)
   const [loading, setLoading] = useState(false)
+  
   useEffect(()=>{
-
-    document.getElementsByTagName('html')[0].className = 'light'
+      document.getElementsByTagName('html')[0].className = 'light'
     
-      let xr = new XMLHttpRequest()
-      xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
-      xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-      xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-      xr.send(null)
-      xr.onload = (sub) => {
-        if(JSON.parse(sub.currentTarget.response).data[0]){
-          if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === auth.plan.product){
-            history.push(`/dashboard/${company.journals}`)
+      if(!auth.login){
+        history.push(`/login`)
+      }else{
+        let xr = new XMLHttpRequest()
+        xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+        xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        xr.send(null)
+        xr.onload = (sub) => {
+          if(JSON.parse(sub.currentTarget.response).data[0]){
+            if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === auth.plan.product){
+              history.push(`/dashboard/${company.journals}`)
+            }else{
+              setShowForm(true)
+            }
           }else{
             setShowForm(true)
           }
-        }else{
-          setShowForm(true)
         }
       }
 
   }, [auth, history, plan])
-
-
-  useEffect(()=>{
-    if(!auth.login){
-      history.push(`/login`)
-    }
-  }, [auth.login, history])
-
 
   const card = useRef({
     num: '',
