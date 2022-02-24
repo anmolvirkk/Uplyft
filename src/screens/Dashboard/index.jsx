@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import '../../_main.sass'
 import Construction from './screens/Construction'
 import company from '../../company'
@@ -16,6 +16,36 @@ import { stripeSecret } from '../Pricing/components/Plan'
 import Modal from './components/Modal'
 
 const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
+
+    const [auth] = useRecoilState(authAtom)
+    const [plan, setPlan] = useRecoilState(planAtom)
+
+    useEffect(()=>{
+        if(auth.login){
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/customers`, true)
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.send(null)
+            xr.onload = (customers) => {
+                if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
+                    let xr = new XMLHttpRequest()
+                    xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+                    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    xr.send(`customer=${customers[0]}`)
+                    xr.onload = (sub) => {
+                        if(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount>0){
+                            setPlan(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount)
+                        }else{
+                            setPlan(0)
+                        }
+                    }
+                }
+            }
+        }else{
+            window.location.replace(`/`)
+        }
+    }, [auth.login, setPlan, plan])
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
@@ -35,11 +65,8 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
     }, [darkMode])
 
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
-    const [plan] = useRecoilState(planAtom)
 
     const updated = useRef({snacks: false, atoms: false, upgrade: false})
-    const [auth] = useRecoilState(authAtom)
-    const setPlan = useSetRecoilState(planAtom)
 
     let planTitle = 'Starter'
     if(plan === 2000 || plan === 22000){
@@ -58,36 +85,6 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
             updated.current.atoms = true
         }
     }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms])
-
-    useEffect(()=>{
-        if(auth.login){
-            let xr = new XMLHttpRequest()
-            xr.open('GET', `https://api.stripe.com/v1/customers`, true)
-            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-            xr.send(null)
-            xr.onload = (customer) => {
-                if(JSON.parse(customer.currentTarget.response).data.filter(i=>i.email===auth.login)[0]){
-                    let xr = new XMLHttpRequest()
-                    xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
-                    xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                    xr.send(null)
-                    xr.onload = (sub) => {
-                        let customerId = JSON.parse(customer.currentTarget.response).data.filter(i=>i.email===auth.login)[0].id
-                        if(JSON.parse(sub.currentTarget.response).data.filter(i=>i.customer===customerId)[0]){
-                            setPlan(JSON.parse(sub.currentTarget.response).data.filter(i=>i.customer===customerId)[0].plan.amount)
-                        }else{
-                            setPlan(0)
-                        }
-                    }
-                }
-            }
-        }
-        if(Object.keys(auth).length === 0){
-            window.location.replace(`/`)
-        }
-    }, [auth, setPlan])
 
     return (
         <div className="container">

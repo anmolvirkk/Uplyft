@@ -97,11 +97,22 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
         )
     })
 
-    const [plan] = useRecoilState(planAtom)
     const history = useHistory()
+    const [plan] = useRecoilState(planAtom)
+    
+    const planTitle = (price) => {
+        let planTitle = 'Starter'
+        let planPrice = price?price:plan
+        if(planPrice === 2000 || planPrice === 22000){
+            planTitle = 'Plus'
+        }else if(planPrice === 2500 || planPrice === 27500){
+            planTitle = 'Pro'
+        }
+        return planTitle
+    }
     
     const logout = () => {
-        if(planTitle==='Pro'){
+        if(planTitle()==='Pro'){
             updateBackendless()
             Backendless.UserService.logout().then(()=>{
                 localStorage.clear()
@@ -122,13 +133,6 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
 
-    let planTitle = 'Starter'
-    if(plan === 2000 || plan === 22000){
-        planTitle = 'Plus'
-    }else if(plan === 2500 || plan === 27500){
-        planTitle = 'Pro'
-    }
-
     const setPlan = (price) => {
         if(price!==0){
             let xr = new XMLHttpRequest()
@@ -138,7 +142,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
             xr.send(null)
             xr.onload = (prices) => {
                 if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price)){
-                    setAuth({...auth, plan: {...plans.filter(i=>i.title===planTitle)[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
+                    setAuth({...auth, plan: {...plans.filter(i=>i.title===planTitle(price))[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
                     history.push(`/checkout`)
                 }
             }
@@ -151,7 +155,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
-                {planTitle==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
+                {planTitle()==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
                 <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
                 {auth.login?<Blocks title='Account' blocks={[{icon: <Mail />, text: 'change email', type: 'button'},{icon: <Key />, text: 'change password', type: 'button'},{icon: <AlertTriangle />, text: 'delete account', type: 'button'}]} />:null}
                 {!auth.social?
