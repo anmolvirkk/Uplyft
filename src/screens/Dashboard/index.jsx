@@ -42,10 +42,10 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
                     }
                 }
             }
-        }else{
+        }else if(Object.keys(auth).length === 0){
             window.location.replace(`/`)
         }
-    }, [auth.login, setPlan, plan])
+    }, [auth, setPlan, plan])
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
