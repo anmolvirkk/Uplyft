@@ -1,7 +1,7 @@
 import React from 'react'
 import NoteEditor from './components/NoteEditor'
 import { Switch, Route, Link } from 'react-router-dom'
-import {ArrowDown, Edit, Trash2} from 'react-feather'
+import {ArrowDown, Edit, Trash2, Plus} from 'react-feather'
 
 import {useRecoilState, useSetRecoilState} from 'recoil'
 import company from '../../../../../../company'
@@ -25,6 +25,15 @@ const MainSection = ({styles, isMobile}) => {
     const addNoteDropDown = (category) => {
         addNote(category)
         setNotesDropDown(false)
+    }
+
+    const AddButton = () => {
+        return (
+            <button className={styles.addButton}>
+                <p>Add Note</p>
+                <div className={styles.clickButton} onClick={()=>setNotesDropDown(true)}><Plus /></div>
+            </button>
+        )
     }
 
     const setNote = (id, body, prompt) => {
@@ -124,8 +133,8 @@ const MainSection = ({styles, isMobile}) => {
                                                 }
                                             </div>
                 
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
-                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}><p>Add a note!</p>{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}>{!isMobile?<p>Add a note!</p>:<AddButton name="entry" type='round' />}{!isMobile?<ArrowDown />:null}</div>
+                                        : <div className={styles.helperTextAddNote} style={isMobile?{height: `${mobileHeight}px`}:null}>{!isMobile?<p>Add a note!</p>:<AddButton name="entry" type='round' />}{!isMobile?<ArrowDown />:null}</div>
                                         
                                     }
                                     <div className={styles.noteSelect}>

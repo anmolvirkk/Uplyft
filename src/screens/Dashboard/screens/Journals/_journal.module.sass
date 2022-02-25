@@ -277,6 +277,28 @@
         +mixins.center
         margin-right: 3vh
 
+.addButton
+    all: unset
+    +mixins.center
+    p
+        font-size: 12px
+
+.clickButton
+    all: unset
+    color: white
+    background-color: rgb(var(--primary))
+    font-size: 24px
+    height: 45px
+    width: 45px
+    border-radius: 100%
+    cursor: pointer
+    +mixins.center
+    margin-top: 8px
+    div
+        width: 100%
+        height: 100%
+        +mixins.center
+
 @media screen and (max-width: 639px)
     .journals
         flex-flow: column-reverse
