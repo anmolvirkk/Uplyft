@@ -937,6 +937,18 @@
         color: rgb(var(--titles))
         outline: none
 
+.feedbackModal
+    textarea
+        min-width: 100%
+        max-width: 100%
+        height: 20vh
+        padding: 12px
+        background-color: transparent
+        border: 1px solid rgb(var(--border))
+        color: rgb(var(--titles))
+        outline: none
+        font-size: 14px
+
 
 @media screen and (max-width: 639px)
     .renameEntry
@@ -1229,6 +1241,11 @@
             height: 150px
             padding: 12px
 
+    .feedbackModal
+        textarea
+            height: 70vh
+            padding: 12px
+
 
     .upgradeBtn
         margin-top: 12px
@@ -1273,7 +1290,7 @@
                                 font-size: 14px
                                 margin-left: 6px
 
-@media screen and (max-width: 600px)
+@media screen and (max-width: 639px)
     .daySelect
         display: grid
         grid-template-columns: repeat(auto-fill, minmax(60px, 1fr))
