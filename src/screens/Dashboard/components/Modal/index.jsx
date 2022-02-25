@@ -458,7 +458,72 @@ const Modal = React.memo(() => {
         )
     })
 
-    const [loading, setLoading] = useState(false)
+    const feedback = useRef('')
+
+    const Feedback = React.memo(() => {
+        return (
+            <div className={styles.feedback}>
+                <h3>Please send us your feedback to improve our service</h3>
+                <textarea onChange={(e)=>feedback.current=e.target.value} />
+            </div>
+        )
+    })
+
+    const sendFeedback = () => {
+        if(feedback.current !== ''){
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
+        }
+    }
+
+    const [loading, setLoading] = useState(null)
+
+    const sendFeedbackWithModal = () => {
+        if(feedback.current !== ''){
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
+            setLoading(true)
+            xhr.onload = () => {
+                setLoading(false)
+            }
+        }
+    }
+
+    const FeedbackModal = React.memo(()=>{
+        return (
+            <div className={`${styles.form} ${styles.feedbackModal}`} id='modalForm'>
+                <div className={styles.header}>
+                    <p style={{marginRight: '24px'}}>Please send us your feedback to improve our service</p>
+                    <X onClick={()=>setModalConfig({type: ''})} />
+                </div>
+                {loading===null?
+                <div className={styles.feedback}>
+                    <textarea onChange={(e)=>feedback.current=e.target.value} />
+                </div>
+                :loading?
+                <Lottie
+                    play
+                    loop={false}
+                    animationData={loadData}
+                    style={{ width: 500, height: 300 }}
+                />:
+                <Lottie
+                    play
+                    loop={false}
+                    animationData={checkData}
+                    style={{ width: 500, height: 300 }}
+                />}
+                <div className={styles.footer}>
+                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
+                    <button className={styles.continueBtn} onClick={loading===null?sendFeedbackWithModal:()=>setModalConfig({type: ''})}>Continue</button>
+                </div>
+            </div>
+        )
+    })
 
     const Subscription = React.memo(() => {
         const Loading = React.memo(() => {
@@ -496,26 +561,6 @@ const Modal = React.memo(() => {
             )
         })
 
-        const feedback = useRef('')
-
-        const Feedback = React.memo(() => {
-            return (
-                <div className={styles.feedback}>
-                    <h3>Please send us your feedback to improve our service</h3>
-                    <textarea onChange={(e)=>feedback.current=e.target.value} />
-                </div>
-            )
-        })
-
-        const sendFeedback = () => {
-            if(feedback.current !== ''){
-                let xhr = new XMLHttpRequest()
-                xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
-                xhr.setRequestHeader('Content-Type', 'application/json')
-                xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
-            }
-        }
-
         const CancelSubscripton = React.memo(() => {
             const setPlan = useSetRecoilState(planAtom)
             let planTitle = 'Starter'
@@ -524,7 +569,6 @@ const Modal = React.memo(() => {
             }else if(plan === 2500 || plan === 27500){
                 planTitle = 'Pro'
             }
-            console.log(plans)
             let features = plans.filter(i=>i.title===planTitle)[0].features
             let starter = plans.filter(i=>i.title==='Starter')[0].features
             const cancel = useCallback(() => {
@@ -680,6 +724,8 @@ const Modal = React.memo(() => {
                 <Upgrade amount={modalConfig.amount} />
                 : modalConfig.type === 'cancelSubscription' ?
                 <Subscription />
+                : modalConfig.type === 'feedback' ?
+                <FeedbackModal />
                 : null
                 }
             </div>

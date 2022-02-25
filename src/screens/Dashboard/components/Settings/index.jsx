@@ -170,7 +170,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
                         )}  
                     />
                 }
-                <Blocks title='Share' blocks={[{icon: <Send />, text: 'Feedback', type: 'button'}]} />
+                <Blocks title='Share' blocks={[{icon: <Send />, text: 'Feedback', type: 'button', func: ()=>setModalConfig({type: 'feedback'})}]} />
             </div>
         </OutsideClickHandler>
     )
