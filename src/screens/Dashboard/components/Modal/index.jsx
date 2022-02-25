@@ -502,7 +502,7 @@ const Modal = React.memo(() => {
                 </div>
                 {loading===null?
                 <div className={styles.feedback}>
-                    <textarea onChange={(e)=>feedback.current=e.target.value} style={{height: windowHeight*75/100}} />
+                    <textarea onChange={(e)=>feedback.current=e.target.value} style={{height: windowHeight*65/100}} />
                 </div>
                 :loading?
                 <Lottie
