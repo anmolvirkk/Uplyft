@@ -5,7 +5,8 @@ import meditate from '../../../../lottie/meditate.json'
 import webdesign from '../../../../lottie/webdesign.json'
 import design from '../../../../lottie/design.json'
 
-const Features = () => {
+
+const SubHero = ({title, lottie, items}) => {
     const Feature = ({title, text}) => {
         return (
             <div className={styles.feature}>
@@ -16,26 +17,27 @@ const Features = () => {
             </div>
         )
     }
-    const SubHero = ({title, lottie, items}) => {
-        return (
-            <div className={styles.subhero}>
-                <div className={styles.content}>
-                    <h2>{title}</h2>
-                    {items.map((item)=>{
-                        return (
-                            <Feature {...item} />
-                        )
-                    })}
-                </div>
-                <Lottie
-                    play
-                    loop
-                    animationData={lottie}
-                    style={{ minWidth: 500 }}
-                />
+    return (
+        <div className={styles.subhero}>
+            <div className={styles.content}>
+                <h2>{title}</h2>
+                {items.map((item)=>{
+                    return (
+                        <Feature {...item} />
+                    )
+                })}
             </div>
-        )
-    }
+            <Lottie
+                play
+                loop
+                animationData={lottie}
+                style={{ minWidth: '45vw', width: '45vw' }}
+            />
+        </div>
+    )
+}
+
+const Features = () => {
     return (
         <div className={styles.features}>
             <SubHero title="Journaling is a powerful tool for mindfulness" lottie={meditate} items={[{ title:"Stress-free journaling experience", text:"Free from ads, distractions or pressure of being perfect, Spirit will help you be as calm as possible by making space for your feelings in the moment."}, {title:"Build Healthy Thinking", text:"Journaling is proven to help reduce stress, anxiety and depression."}, {title:"Increase Positive Energy", text:"Spirit is a safe space to explore, grow and find peace in the comfort of your own thoughts."}]} />

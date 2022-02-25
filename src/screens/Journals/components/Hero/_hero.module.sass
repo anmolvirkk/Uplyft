@@ -8,10 +8,10 @@
     padding: 0 5vw
     align-items: center
     position: relative
-    margin-bottom: 48px
     .main
         display: flex
         justify-content: space-between
+        align-items: center
     .content
         +mixins.center
         text-align: left
@@ -22,7 +22,7 @@
             font-size: 3.15vw
             font-weight: 600
         p
-            width: 70%
+            width: 80%
             margin-top: 24px
             font-size: 16px
             line-height: 1.75
@@ -34,23 +34,17 @@
         p:first-letter
             text-transform: uppercase
     .heroImg
-        height: 31vw
+        width: 40vw
+        height: fit-content
         transform: scale(0.9) translateX(10%)
         filter: contrast(120%) hue-rotate(-25deg)
     .subsidiaryLogo
-        height: 30px
+        height: 24px
         margin: 24px 0
-    .slider
-        z-index: 9
-        width: 100%
-        img
-            width: 100%
-            border-radius: 10px 10px
-            box-shadow: 5px 10px 30px rgba(0,0,0,0.2)
-    
-@media screen and (max-width: 1440px)
-    .hero
-        padding: 12px 12px 12px 40px
+.heroDemo
+    width: 100%
+    border-radius: 10px 10px
+    box-shadow: 5px 10px 30px rgba(0,0,0,0.2)
 
 
 @media screen and (max-width: 1000px)

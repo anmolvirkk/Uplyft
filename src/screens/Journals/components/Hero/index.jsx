@@ -4,13 +4,6 @@ import company from '../../../../company'
 import CTA from '../../../LandingPage/components/CTA'
 
 const Hero = () => {
-    const Slider = () => {
-        return (
-            <div className={styles.slider}>
-                <img src='/screens/multipleJournals.png' alt='' />
-            </div>
-        )
-    }
     return (
         <div className={styles.hero}>
             <div className={styles.main}>
@@ -22,7 +15,7 @@ const Hero = () => {
                 </div>
                 <img loading='lazy' decoding='async' className={styles.heroImg} src = '/decor/journals.png' alt={company.subsidiary} />
             </div>
-            <Slider />
+            <img src='/screens/multipleJournals.png' alt='' className={styles.heroDemo} />
         </div>
     )
 }
