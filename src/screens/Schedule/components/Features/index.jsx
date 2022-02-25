@@ -30,7 +30,7 @@ const SubHero = ({title, lottie, items}) => {
                 play
                 loop
                 animationData={lottie}
-                style={{ minWidth: '45vw', width: '45vw' }}
+                className={styles.lottie}
             />
         </div>
     )
