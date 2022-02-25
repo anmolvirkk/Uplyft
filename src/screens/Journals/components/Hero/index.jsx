@@ -4,6 +4,7 @@ import company from '../../../../company'
 import CTA from '../../../LandingPage/components/CTA'
 
 const Hero = () => {
+    const isMobile = window.innerWidth < 640
     return (
         <div className={styles.hero}>
             <div className={styles.main}>
@@ -15,7 +16,7 @@ const Hero = () => {
                 </div>
                 <img loading='lazy' decoding='async' className={styles.heroImg} src = '/decor/journals.png' alt={company.subsidiary} />
             </div>
-            <img src='/screens/multipleJournals.png' alt='' className={styles.heroDemo} />
+            <img src={isMobile?'/screens/multipleJournalsMobile.png':'/screens/multipleJournals.png'} alt='' className={styles.heroDemo} />
         </div>
     )
 }
