@@ -1242,8 +1242,12 @@
             padding: 12px
 
     .feedbackModal
+        +mixins.center
+        justify-content: space-between
         textarea
             height: 60vh
+            width: calc( 100vw - 40px )
+            min-width: 100%
             padding: 12px
             margin-top: 24px
 
