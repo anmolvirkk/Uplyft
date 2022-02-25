@@ -494,6 +494,11 @@ const Modal = React.memo(() => {
     }
 
     const FeedbackModal = React.memo(()=>{
+        const sendonenter = (e) => {
+            if(e.key==='Enter'){
+                sendFeedbackWithModal()
+            }
+        }
         return (
             <div className={`${styles.form} ${styles.feedbackModal}`} id='modalForm'>
                 <div className={styles.header}>
@@ -502,7 +507,7 @@ const Modal = React.memo(() => {
                 </div>
                 {loading===null?
                 <div className={styles.feedback}>
-                    <textarea onChange={(e)=>feedback.current=e.target.value} style={{height: windowHeight*65/100}} />
+                    <textarea onKeyDown={(e)=>sendonenter(e)} onChange={(e)=>feedback.current=e.target.value} style={{height: windowHeight*65/100}} />
                 </div>
                 :loading?
                 <Lottie
