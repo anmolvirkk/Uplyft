@@ -1,5 +1,5 @@
 import React from 'react'
-import { LogOut, Moon, RefreshCw, Save, Package, Key, Mail, AlertTriangle, Send, ChevronRight } from 'react-feather'
+import { LogOut, Moon, RefreshCw, Save, Package, Send, ChevronRight } from 'react-feather'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { darkModeAtom, planAtom } from '../../allAtoms'
 import styles from './_settings.module.sass'
@@ -157,7 +157,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
                 {planTitle()==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
                 <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
-                {auth.login?<Blocks title='Account' blocks={[{icon: <Mail />, text: 'change email', type: 'button'},{icon: <Key />, text: 'change password', type: 'button'},{icon: <AlertTriangle />, text: 'delete account', type: 'button'}]} />:null}
+                <Blocks title='Account' blocks={[{icon: <Send />, text: 'Feedback', type: 'button', func: ()=>setModalConfig({type: 'feedback'})}]} />
                 {!auth.social?
                     <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
                 :
@@ -170,7 +170,6 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
                         )}  
                     />
                 }
-                <Blocks title='Share' blocks={[{icon: <Send />, text: 'Feedback', type: 'button', func: ()=>setModalConfig({type: 'feedback'})}]} />
             </div>
         </OutsideClickHandler>
     )
