@@ -10,10 +10,10 @@ import { darkModeAtom, planAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 import Snackbar from './components/Snackbar'
 import snacksAtom from './components/Snackbar/snacksAtom'
-import { useRef } from 'react'
 import authAtom from '../Auth/authAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
 import Modal from './components/Modal'
+import updatedAtom from './updatedAtom'
 
 const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
@@ -66,8 +66,6 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
 
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
 
-    const updated = useRef({snacks: false, atoms: false, upgrade: false})
-
     let planTitle = 'Starter'
     if(plan === 2000 || plan === 22000){
         planTitle = 'Plus'
@@ -75,16 +73,18 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
         planTitle = 'Pro'
     }
 
+    const [updated, setUpdated] = useRecoilState(updatedAtom)
+
     useEffect(() => {
-        if(snacks.length > 0 && !updated.current.snacks){
+        if(snacks.length > 0 && !updated.snacks){
             setSnacks([])
-            updated.current.snacks = true
+            setUpdated({...updated, snacks: true})
         }
-        if(snacks.length === 0 && planTitle==='Pro' && !updated.current.atoms){
+        if(snacks.length === 0 && planTitle==='Pro' && !updated.atoms){
             updateAtoms()
-            updated.current.atoms = true
+            setUpdated({...updated, atoms: true})
         }
-    }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms])
+    }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms, updated, setUpdated])
 
     return (
         <div className="container">
