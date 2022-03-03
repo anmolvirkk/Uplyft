@@ -472,7 +472,7 @@ const Modal = React.memo(() => {
     const sendFeedback = () => {
         if(feedback.current !== ''){
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+            xhr.open('POST', `https://primeyard.backendless.app/api/data/feedback`, true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
         }
@@ -483,7 +483,7 @@ const Modal = React.memo(() => {
     const sendFeedbackWithModal = () => {
         if(feedback.current !== ''){
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/data/Feedback`, true)
+            xhr.open('POST', `https://primeyard.backendless.app/api/data/feedback`, true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
             setLoading(true)

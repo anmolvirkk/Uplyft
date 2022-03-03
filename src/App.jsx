@@ -21,8 +21,8 @@ import snacksAtom from './screens/Dashboard/components/Snackbar/snacksAtom'
 import Journals from './screens/Journals'
 import Schedule from './screens/Schedule'
 
-export const APP_ID = 'DB0DCF25-9468-8FAB-FFC0-F3BAE974FB00'
-export const API_KEY = '5CE4C303-32CB-498B-8645-DC70AD54F770'
+export const APP_ID = '21743368-82CC-44DC-FF43-55E586E7BE00'
+export const API_KEY = '0A16099B-72B2-40F6-B956-3BFA19D04584'
 
 const App = React.memo(() => {
 
@@ -145,7 +145,7 @@ const App = React.memo(() => {
     const updateAtoms = useCallback(() => {
         if(auth.social){
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+            xhr.open('POST', `https://primeyard.backendless.app/api/users/oauth/googleplus/login`, true)
             xhr.send(JSON.stringify({accessToken: auth.accessToken}))
             setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
@@ -162,7 +162,7 @@ const App = React.memo(() => {
             }
         }else{
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xhr.open('POST', `https://primeyard.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
             setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
             xhr.onload = (loggedInUser) => {
@@ -209,7 +209,7 @@ const App = React.memo(() => {
         if(Object.keys(auth).length > 0){
             if(auth.social){
                 let xr = new XMLHttpRequest()
-                xr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+                xr.open('POST', `https://primeyard.backendless.app/api/users/oauth/googleplus/login`, true)
                 xr.send(JSON.stringify({accessToken: auth.accessToken}))
                 setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
                 xr.onload = (loggedInUser) => {
@@ -219,7 +219,7 @@ const App = React.memo(() => {
                 }
             }else{
                 let xr = new XMLHttpRequest()
-                xr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+                xr.open('POST', `https://primeyard.backendless.app/api/users/login`, true)
                 xr.send(JSON.stringify({login: auth.login, password: auth.password}))
                 setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
                 xr.onload = (loggedInUser) => {

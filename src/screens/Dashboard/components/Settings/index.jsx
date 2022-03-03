@@ -17,6 +17,7 @@ import { stripeSecret } from '../../../Pricing/components/Plan'
 import { useState } from 'react'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import { useEffect } from 'react'
+import updatedAtom from '../../updatedAtom'
 
 const Settings = React.memo(({updateBackendless, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
@@ -110,6 +111,8 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
         }
         return planTitle
     }
+
+    const setUpdated = useSetRecoilState(updatedAtom)
     
     const logout = () => {
         if(planTitle()==='Pro'){
@@ -121,6 +124,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
         }else{
             history.push(``)
         }
+        setUpdated({snacks: false, atoms: false, upgrade: false})
     }
 
     const [settings, setSettings] = useRecoilState(settingsAtom)

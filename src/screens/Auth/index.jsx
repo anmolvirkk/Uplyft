@@ -35,7 +35,7 @@ const Auth = ({type}) => {
                     setError({...error, password: false})
                 }
                 let xhr = new XMLHttpRequest()
-                xhr.open('POST', `https://deepway.backendless.app/api/users/register`, true)
+                xhr.open('POST', `https://primeyard.backendless.app/api/users/register`, true)
                 xhr.setRequestHeader('Content-Type', 'application/json')
                 xhr.send(JSON.stringify({email: form.email, password: form.password}))
                 setLoading(true)
@@ -62,7 +62,7 @@ const Auth = ({type}) => {
             }
         }else{
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://deepway.backendless.app/api/users/login`, true)
+            xhr.open('POST', `https://primeyard.backendless.app/api/users/login`, true)
             xhr.send(JSON.stringify({login: form.email, password: form.password}))
             setLoading(true)
             xhr.onload = (e) => {
@@ -88,7 +88,7 @@ const Auth = ({type}) => {
 
     const onsocial = (social) => {
         let xhr = new XMLHttpRequest()
-        xhr.open('POST', `https://deepway.backendless.app/api/users/oauth/googleplus/login`, true)
+        xhr.open('POST', `https://primeyard.backendless.app/api/users/oauth/googleplus/authorize`, true)
         xhr.send(JSON.stringify({accessToken: social.accessToken}))
         setLoading(true)
         xhr.onload = (e) => {
