@@ -76,16 +76,13 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
     const [updated, setUpdated] = useRecoilState(updatedAtom)
 
     useEffect(() => {
-        console.log('update')
         if(snacks.length > 0 && !updated.snacks){
             setSnacks([])
             setUpdated({...updated, snacks: true})
-            console.log('update snacks')
         }
         if(snacks.length === 0 && planTitle==='Pro' && !updated.atoms){
             updateAtoms()
             setUpdated({...updated, atoms: true})
-            console.log('update atoms')
         }
     }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms, updated, setUpdated])
 

@@ -35,7 +35,6 @@ const Checkout = ({updateBackendless}) => {
   
   useEffect(()=>{
       document.getElementsByTagName('html')[0].className = 'light'
-    
       if(!auth.login){
         history.push(`/login`)
       }else{
