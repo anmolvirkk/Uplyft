@@ -34,7 +34,12 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
+import { supabase } from '../../../../App'
+import dataAtom from '../../dataAtom'
+
 const Modal = React.memo(() => {
+
+    const [data] = useRecoilState(dataAtom)
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
     const setOpenBook = useSetRecoilState(openBookAtom)
@@ -470,26 +475,22 @@ const Modal = React.memo(() => {
     })
 
     const sendFeedback = () => {
-        if(feedback.current !== ''){
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://primeyard.backendless.app/api/data/feedback`, true)
-            xhr.setRequestHeader('Content-Type', 'application/json')
-            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
-        }
+        supabase.from('data').update({feedback: feedback.current}).match({email: data.email})
     }
 
     const [loading, setLoading] = useState(null)
 
     const sendFeedbackWithModal = () => {
+        setLoading(true)
         if(feedback.current !== ''){
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://primeyard.backendless.app/api/data/feedback`, true)
-            xhr.setRequestHeader('Content-Type', 'application/json')
-            xhr.send(JSON.stringify({feedback: {text: feedback.current, login: auth.login}}))
-            setLoading(true)
-            xhr.onload = () => {
-                setLoading(false)
-            }
+            supabase.from('data').select().match({email: data.email}).then((res)=>{
+                let feedbacks = res.data[0].feedback?res.data[0].feedback:[]
+                supabase.from('data').update({feedback: [...feedbacks, feedback.current]}).match({email: data.email}).then(()=>{
+                    setLoading(false)
+                })
+            })
+        }else{
+            setLoading(false)
         }
     }
 
@@ -497,7 +498,7 @@ const Modal = React.memo(() => {
         return (
             <div className={`${styles.form} ${styles.feedbackModal}`} id='modalForm'>
                 <div className={styles.header}>
-                    <p style={{marginRight: '24px'}}>Please send us your feedback to improve our service</p>
+                    <p style={{marginRight: '24px'}}>{loading===null?'Please send us your feedback to improve our service':loading?'Sending Feedback':'Feedback Sent'}</p>
                     <X onClick={()=>setModalConfig({type: ''})} />
                 </div>
                 {loading===null?

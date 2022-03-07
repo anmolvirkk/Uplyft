@@ -10,42 +10,59 @@ import { darkModeAtom, planAtom } from './allAtoms'
 import modalConfigAtom from './recoil-atoms/modalConfigAtom'
 import Snackbar from './components/Snackbar'
 import snacksAtom from './components/Snackbar/snacksAtom'
-import authAtom from '../Auth/authAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
 import Modal from './components/Modal'
 import updatedAtom from './updatedAtom'
+import { supabase } from '../../App'
+import dataAtom from './dataAtom'
+import isGuestAtom from '../Pricing/isGuestAtom'
 
-const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
+const Dashboard = React.memo(({updateAtoms, updateBackend}) => {
 
-    const [auth] = useRecoilState(authAtom)
     const [plan, setPlan] = useRecoilState(planAtom)
+    const [data, setData] = useRecoilState(dataAtom)
+    const [isGuest] = useRecoilState(isGuestAtom)
 
     useEffect(()=>{
-        if(auth.login){
+        if(!isGuest){
+            supabase.from('data').select().eq('email', supabase.auth.user().email).then((res)=>{
+                setData(res.data[0])
+            })
+        }
+    }, [setData, isGuest])
+
+    useEffect(()=>{
+        if(supabase.auth.user()){
             let xr = new XMLHttpRequest()
             xr.open('GET', `https://api.stripe.com/v1/customers`, true)
             xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
             xr.send(null)
             xr.onload = (customers) => {
-                if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
+                if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===data.email)){
                     let xr = new XMLHttpRequest()
                     xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
                     xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                     xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                     xr.send(`customer=${customers[0]}`)
                     xr.onload = (sub) => {
-                        if(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount>0){
-                            setPlan(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount)
+                        if(JSON.parse(sub.currentTarget.response).data.length > 0){
+                            if(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount>0){
+                                setPlan(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount)
+                            }else{
+                                setPlan(0)
+                            }
                         }else{
                             setPlan(0)
                         }
                     }
+                }else{
+                    setPlan(0)
                 }
             }
-        }else if(Object.keys(auth).length === 0){
+        }else if(!isGuest){
             window.location.replace(`/`)
         }
-    }, [auth, setPlan, plan])
+    }, [setPlan, plan, data.email, isGuest])
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 
@@ -91,11 +108,11 @@ const Dashboard = React.memo(({updateAtoms, updateBackendless}) => {
             {modalConfig.type!==''?<Modal />:null}
             <Snackbar />
             <Switch>
-                <Route path={`/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackendless={updateBackendless} /></Route>
-                <Route path={`/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" updateBackendless={updateBackendless} /></Route>
-                <Route path={`/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" updateBackendless={updateBackendless} /></Route>
-                <Route path={`/dashboard/${company.journals}`}><Journals updateBackendless={updateBackendless} updateAtoms={updateAtoms} /></Route>
-                <Route path={`/dashboard/${company.schedule}`}><Schedule updateBackendless={updateBackendless} updateAtoms={updateAtoms} /></Route>
+                <Route path={`/dashboard/${company.fitness}`}><Construction color="linear-gradient(90deg,#42D104,#FFE500)" updateBackend={updateBackend} /></Route>
+                <Route path={`/dashboard/${company.finances}`}><Construction color="linear-gradient(90deg,#FE3200,#FF914D)" updateBackend={updateBackend} /></Route>
+                <Route path={`/dashboard/${company.notes}`}><Construction color="linear-gradient(90deg,#3A1582,#A400FE)" updateBackend={updateBackend} /></Route>
+                <Route path={`/dashboard/${company.journals}`}><Journals updateBackend={updateBackend} updateAtoms={updateAtoms} /></Route>
+                <Route path={`/dashboard/${company.schedule}`}><Schedule updateBackend={updateBackend} updateAtoms={updateAtoms} /></Route>
             </Switch>
         </div>
     )

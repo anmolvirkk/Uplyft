@@ -16,7 +16,7 @@ import { allRoutesAtom, scheduleAddDropDownAtom, scheduleSideMenuAtom, habitsAto
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import Settings from '../../components/Settings'
 
-const Schedule = React.memo(({updateBackendless, updateAtoms}) => {
+const Schedule = React.memo(({updateBackend, updateAtoms}) => {
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const isMobile = (window.innerWidth <= 640)
     const [scheduleAddDropDown, setScheduleAddDropDown] = useRecoilState(scheduleAddDropDownAtom)
@@ -182,12 +182,12 @@ const Schedule = React.memo(({updateBackendless, updateAtoms}) => {
             
             <SideBar />
 
-            <Settings updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
+            <Settings updateBackend={updateBackend} updateAtoms={updateAtoms} />
 
             <ScheduleSection />
             <MainCalendar isMobile={isMobile} />
 
-            {isMobile?<MobileHeader updateBackendless={updateBackendless} updateAtoms={updateAtoms} />:null}
+            {isMobile?<MobileHeader updateBackend={updateBackend} updateAtoms={updateAtoms} />:null}
             
             {isMobile?
                 <div id='scheduleAddDropDownContainer' className={styles.scheduleAddDropDown} style={{transform: `translateY(${scheduleAddDropDown?0:150}%)`}}>

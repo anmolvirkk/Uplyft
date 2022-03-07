@@ -6,22 +6,19 @@ import styles from './_settings.module.sass'
 import premium from './premium.json'
 import plus from './plus.json'
 import Lottie from 'react-lottie-player'
-import Backendless from 'backendless'
 import { useHistory } from 'react-router-dom'
-import authAtom from '../../../Auth/authAtom'
-import { GoogleLogout } from 'react-google-login'
 import settingsAtom from './settingsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
-import { plans } from '../../../Pricing'
 import { stripeSecret } from '../../../Pricing/components/Plan'
 import { useState } from 'react'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
 import { useEffect } from 'react'
 import updatedAtom from '../../updatedAtom'
+import priceAtom from '../../../Checkout/priceAtom'
+import { supabase } from '../../../../App'
 
-const Settings = React.memo(({updateBackendless, updateAtoms}) => {
+const Settings = React.memo(({updateBackend, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
-    const [auth, setAuth] = useRecoilState(authAtom)
     const Toggle = React.memo(({state, setState}) => {
         return (
             <div className={`${styles.toggle} ${state?styles.active:''}`} onMouseDown={()=>setState(!state)}>
@@ -115,15 +112,9 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
     const setUpdated = useSetRecoilState(updatedAtom)
     
     const logout = () => {
-        if(planTitle()==='Pro'){
-            updateBackendless()
-            Backendless.UserService.logout().then(()=>{
-                localStorage.clear()
-                history.push(``)
-            })
-        }else{
+        supabase.auth.signOut().then(()=>{
             history.push(``)
-        }
+        })
         setUpdated({snacks: false, atoms: false, upgrade: false})
     }
 
@@ -136,6 +127,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
     }
 
     const setModalConfig = useSetRecoilState(modalConfigAtom)
+    const setPrice = useSetRecoilState(priceAtom)
 
     const setPlan = (price) => {
         if(price!==0){
@@ -146,7 +138,7 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
             xr.send(null)
             xr.onload = (prices) => {
                 if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price)){
-                    setAuth({...auth, plan: {...plans.filter(i=>i.title===planTitle(price))[0], product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id}})
+                    setPrice(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===price).id)
                     history.push(`/checkout`)
                 }
             }
@@ -159,21 +151,10 @@ const Settings = React.memo(({updateBackendless, updateAtoms}) => {
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
-                {planTitle()==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackendless}]} />:null}
+                {planTitle()==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackend}]} />:null}
                 <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
                 <Blocks title='Account' blocks={[{icon: <Send />, text: 'Feedback', type: 'button', func: ()=>setModalConfig({type: 'feedback'})}]} />
-                {!auth.social?
-                    <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
-                :
-                    <GoogleLogout
-                        clientId="617480862173-k9bvrokkossadseq442ee6e5oatfj5os.apps.googleusercontent.com"
-                        buttonText="Logout" 
-                        onLogoutSuccess={logout}
-                        render={e=>(
-                            <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: e.onClick}]} />
-                        )}  
-                    />
-                }
+                <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
             </div>
         </OutsideClickHandler>
     )

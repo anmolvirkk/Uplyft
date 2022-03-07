@@ -16,7 +16,7 @@ import MobileHeader from './components/MobileHeader'
 import { datesAtom, allRoutesAtom } from '../../allAtoms'
 import Settings from '../../components/Settings'
 
-const Journals = React.memo(({updateBackendless, updateAtoms}) => {
+const Journals = React.memo(({updateBackend, updateAtoms}) => {
 
     const [allRoutes, setAllRoutes] = useRecoilState(allRoutesAtom)
     const [dates, setDates] = useRecoilState(datesAtom)
@@ -33,7 +33,7 @@ const Journals = React.memo(({updateBackendless, updateAtoms}) => {
             
             <SideBar />
 
-            <Settings updateBackendless={updateBackendless} updateAtoms={updateAtoms} />
+            <Settings updateBackend={updateBackend} updateAtoms={updateAtoms} />
 
             <BookSection styles={styles} isMobile={isMobile} />
 

@@ -11,18 +11,20 @@ import { darkModeAtom, allPromptsAtom, allRoutesAtom, booksAtom, currentMobileSe
 completedOpenAtom, dropDownDayAtom, eventsAtom, habitsAtom, projectsAtom, routinesAtom, scheduleAddDropDownAtom, scheduleHeaderAtom,
 scheduleSideMenuAtom, tasksAtom, eventTagsAtom, tagsAtom, planAtom } from './screens/Dashboard/allAtoms'
 
-import Backendless from 'backendless'
 import isMobileAtom from './screens/Dashboard/recoil-atoms/isMobileAtom'
 import modalConfigAtom from './screens/Dashboard/recoil-atoms/modalConfigAtom'
-import authAtom from './screens/Auth/authAtom'
 import Pricing from './screens/Pricing'
 import Checkout from './screens/Checkout'
 import snacksAtom from './screens/Dashboard/components/Snackbar/snacksAtom'
 import Journals from './screens/Journals'
 import Schedule from './screens/Schedule'
 
-export const APP_ID = '21743368-82CC-44DC-FF43-55E586E7BE00'
-export const API_KEY = '0A16099B-72B2-40F6-B956-3BFA19D04584'
+import {createClient} from '@supabase/supabase-js'
+import dataAtom from './screens/Dashboard/dataAtom'
+
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpaGl0Z2FueXNpamV2eHJ1c2tmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYyNzU1NTAsImV4cCI6MTk2MTg1MTU1MH0.dKE82H1KReuzJ9ug-PTP2OsT-DdX1geP2tNNITL6TMg'
+const SUPABASE_URL = "https://hihitganysijevxruskf.supabase.co"
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 const App = React.memo(() => {
 
@@ -107,7 +109,6 @@ const App = React.memo(() => {
     const [tags] = useRecoilState(tagsAtom)
 
     const saved = useRef(false)
-    const [auth] = useRecoilState(authAtom)
 
     const [plan] = useRecoilState(planAtom)
     const [snacks, setSnacks] = useRecoilState(snacksAtom)
@@ -140,43 +141,23 @@ const App = React.memo(() => {
             set(eventTagsAtom, data.eventTags)
             set(tagsAtom, data.tags)
         }
+        setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
     }, [])
 
+    const [data] = useRecoilState(dataAtom)
+
     const updateAtoms = useCallback(() => {
-        if(auth.social){
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://primeyard.backendless.app/api/users/oauth/googleplus/login`, true)
-            xhr.send(JSON.stringify({accessToken: auth.accessToken}))
+        if(data){
             setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
-            xhr.onload = (loggedInUser) => {
-                if(!window.location.pathname.split('/').includes('dashboard')){
-                    window.location.replace(`/dashboard/${company.journals}`)
-                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
-                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
-                }
-                setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
-            }
-        }else if(auth.social === undefined){
+            batchUpdate(data.data)
+        }else{
             if(window.location.pathname.split('/').length > 2){
                 window.location.replace(``)
             }
-        }else{
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', `https://primeyard.backendless.app/api/users/login`, true)
-            xhr.send(JSON.stringify({login: auth.login, password: auth.password}))
-            setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
-            xhr.onload = (loggedInUser) => {
-                if(!window.location.pathname.split('/').includes('dashboard')){
-                    window.location.replace(`/dashboard/${company.journals}`)
-                }else if(JSON.parse(loggedInUser.currentTarget.response).data){
-                    batchUpdate(JSON.parse(loggedInUser.currentTarget.response).data)
-                }
-                setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
-            }
         }
-    }, [auth, batchUpdate, setSnacks, snacks])
+    }, [data, batchUpdate, setSnacks, snacks])
 
-    const updateBackendless = useCallback(() => {
+    const updateBackend = useCallback(() => {
         const recoilData = {
             darkMode: darkMode,
             allPrompts: allPrompts,
@@ -205,57 +186,33 @@ const App = React.memo(() => {
             eventTags: eventTags,
             tags: tags
         }
-
-        if(Object.keys(auth).length > 0){
-            if(auth.social){
-                let xr = new XMLHttpRequest()
-                xr.open('POST', `https://primeyard.backendless.app/api/users/oauth/googleplus/login`, true)
-                xr.send(JSON.stringify({accessToken: auth.accessToken}))
-                setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
-                xr.onload = (loggedInUser) => {
-                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}}
-                    Backendless.UserService.update(user)
-                    setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
-                }
-            }else{
-                let xr = new XMLHttpRequest()
-                xr.open('POST', `https://primeyard.backendless.app/api/users/login`, true)
-                xr.send(JSON.stringify({login: auth.login, password: auth.password}))
-                setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
-                xr.onload = (loggedInUser) => {
-                    let user = {...JSON.parse(loggedInUser.currentTarget.response), data: {...recoilData}, plan: plan}
-                    Backendless.UserService.update(user)
-                    setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
-                }
-            }
-        }
+        setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
+        supabase.from('data').update({data: recoilData}).match({email: data.email}).then((res)=>{
+            setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
+        })
         saved.current = false
-    }, [allCalendarEvents, plan, setSnacks, snacks, allPrompts, allRoutes, auth, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
+    }, [allCalendarEvents, data.email, setSnacks, snacks, allPrompts, allRoutes, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if(plan==='Pro'){
             if (document.visibilityState === 'hidden' && !saved.current) {
                 saved.current = true
-                updateBackendless()
+                updateBackend()
             }
         }
     }
     
     window.onbeforeunload = () => {
         if(plan==='Pro'){
-            updateBackendless()
+            updateBackend()
             return false
         }
     }
 
     window.onpagehide = () => {
         if(plan==='Pro'){
-            updateBackendless()
+            updateBackend()
         }
-    }
-
-    window.onload = () => {
-        Backendless.initApp(APP_ID, API_KEY)
     }
 
     return (
@@ -267,8 +224,8 @@ const App = React.memo(() => {
                 <Route exact path={`/pricing`}><Pricing /></Route>
                 <Route exact path={`/signup`}><Auth type='signup' /></Route>
                 <Route exact path={`/login`}><Auth type='login' /></Route>
-                <Route exact path={`/checkout`}><Checkout updateBackendless={updateBackendless} /></Route>
-                <Route path={`/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackendless={updateBackendless} /></Route>
+                <Route exact path={`/checkout`}><Checkout updateBackend={updateBackend} /></Route>
+                <Route path={`/dashboard`}><Dashboard updateAtoms={updateAtoms} updateBackend={updateBackend} /></Route>
             </Switch>
         </Router>
     )

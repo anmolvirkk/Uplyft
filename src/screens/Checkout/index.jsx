@@ -1,6 +1,5 @@
 import React from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import authAtom from '../Auth/authAtom'
 import styles from './_checkout.module.sass'
 import InputBox from '../Auth/components/InputBox'
 import company from '../../company'
@@ -14,28 +13,30 @@ import { windowHeight } from '../Dashboard/variables/mobileHeights'
 import Lottie from 'react-lottie-player'
 import loadData from '../loading.json'
 import { stripeSecret } from '../Pricing/components/Plan'
+import priceAtom from './priceAtom'
+import dataAtom from '../Dashboard/dataAtom'
 
 const Logo = ({success}) => {
-  const [auth] = useRecoilState(authAtom)
   return (
     <div className={styles.title}>
         <img src='/logos/main.png' alt={company.subsidiary} />
         <h1>{company.subsidiary}</h1>
-        {success?<p>Successfully Upgraded</p>:<p>Unlock {auth.plan.title} plan</p>}
+        {success?<p>Successfully Upgraded</p>:<p>Unlock plan</p>}
     </div>
   )
 }
 
-const Checkout = ({updateBackendless}) => {
+const Checkout = ({updateBackend}) => {
   const history = useHistory()
-  const [auth] = useRecoilState(authAtom)
   const [showForm, setShowForm] = useState(false)
   const [plan] = useRecoilState(planAtom)
   const [loading, setLoading] = useState(false)
+  const [price] = useRecoilState(priceAtom)
+  const [data] = useRecoilState(dataAtom)
   
   useEffect(()=>{
       document.getElementsByTagName('html')[0].className = 'light'
-      if(!auth.login){
+      if(!data.email){
         history.push(`/login`)
       }else{
         let xr = new XMLHttpRequest()
@@ -45,7 +46,7 @@ const Checkout = ({updateBackendless}) => {
         xr.send(null)
         xr.onload = (sub) => {
           if(JSON.parse(sub.currentTarget.response).data[0]){
-            if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === auth.plan.product){
+            if(JSON.parse(sub.currentTarget.response).data[0]&&JSON.parse(sub.currentTarget.response).data[0].plan.id === price){
               history.push(`/dashboard/${company.journals}`)
             }else{
               setShowForm(true)
@@ -56,7 +57,7 @@ const Checkout = ({updateBackendless}) => {
         }
       }
 
-  }, [auth, history, plan])
+  }, [history, plan, data.email, price])
 
   const card = useRef({
     num: '',
@@ -132,17 +133,16 @@ const Checkout = ({updateBackendless}) => {
                   xr.open('POST', `https://api.stripe.com/v1/subscriptions`, true)
                   xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
                   xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                  xr.send(`customer=${customer};items[0][price]=${auth.plan.product}`)
+                  xr.send(`customer=${customer};items[0][price]=${price}`)
                   xr.onload = (sub) => {
+                      console.log(JSON.parse(sub.currentTarget.response))
                       setModalConfig({type: 'upgrade', amount: JSON.parse(sub.currentTarget.response).plan.amount})  
                       if(JSON.parse(sub.currentTarget.response).plan.amount === 27500 || JSON.parse(sub.currentTarget.response).plan.amount === 2500){
-                        updateBackendless()
+                        updateBackend()
                         setTimeout(()=>{
-                          setLoading(false)
                           history.push(`/dashboard/${company.journals}`)
                         }, 500)
                       }else{
-                        setLoading(false)
                         history.push(`/dashboard/${company.journals}`)
                       }
                     }
@@ -163,16 +163,15 @@ const Checkout = ({updateBackendless}) => {
       xr.send(null)
       setLoading(true)
       xr.onload = (customers) => {
-        if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login)){
-          createcard(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===auth.login).id)
+        if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===data.email)){
+          createcard(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===data.email).id)
         }else{
           let xr = new XMLHttpRequest()
           xr.open('POST', `https://api.stripe.com/v1/customers`, true)
           xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
           xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-          xr.send(`email=${auth.login}`)
+          xr.send(`email=${data.email}`)
           xr.onload = (customer) => {
-            setLoading(false)
             createcard(JSON.parse(customer.currentTarget.response).id)
           }
         }
@@ -229,7 +228,7 @@ const Checkout = ({updateBackendless}) => {
                 <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='year'||error.type==='all'?error.message:null} type='number' name='YY' autoComplete='cc-exp-year' onChange={(e)=>card.current.yy=e.target.value} />
                 <InputBox onKeyDown={(e)=>payonenter(e)} wrapper='checkoutWrapper' error={error.type==='cvv'||error.type==='all'?error.message:null} type='number' name='CVC' autocomplete='cc-csc' onChange={(e)=>card.current.cvv=e.target.value} />
               </div>
-              <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start {auth.plan.title} Plan</div>
+              <div className={styles.cta} onMouseDown={(e)=>makepayment(e)}>Start Plan</div>
           </div>
           :null}
           </div>

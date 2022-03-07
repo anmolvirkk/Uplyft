@@ -2,11 +2,12 @@ import React from 'react'
 import styles from './_plan.module.sass'
 import {useHistory} from 'react-router-dom'
 import company from '../../../../company'
-import { useRecoilState } from 'recoil'
-import authAtom from '../../../Auth/authAtom'
+import { useSetRecoilState } from 'recoil'
 import Lottie from 'react-lottie-player'
 import check from '../../../Dashboard/components/Modal/check.json'
 import down from '../../../Dashboard/components/Modal/down.json'
+import isGuestAtom from '../../isGuestAtom'
+import priceAtom from '../../../Checkout/priceAtom'
 
 // const stripeSecret = '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'
 export const stripeSecret = 'sk_test_51J8IyuSHTJXUmRdNymi4GuLOt0bleHsf5zshqzLFoFzoEaKPAM6OEFOIhCrC6GxCkk8FUqS7duj0CIDzXqx3WFAs00ZQGRHWu7'
@@ -21,11 +22,13 @@ const Plan = (props) => {
         halfPrice = monthOffPrice/2
     }
     const history = useHistory()
-    const [auth, setAuth] = useRecoilState(authAtom)
+    const setIsGuest = useSetRecoilState(isGuestAtom)
+    const setPrice = useSetRecoilState(priceAtom)
     const submit = {
         starter: () => {
             const authSet = async () => {
-                setAuth({plan: {...props}})
+                setIsGuest(true)
+                setPrice(false)
             }
             authSet().then(()=>{
                 history.push(`/dashboard/${company.journals}`)
@@ -39,7 +42,8 @@ const Plan = (props) => {
             xr.send(null)
             xr.onload = (prices) => {
                 if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100)){
-                    setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id}})
+                    setIsGuest(false)
+                    setPrice(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id)
                     history.push(`/signup`)
                 }
             }
@@ -51,8 +55,11 @@ const Plan = (props) => {
             xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xr.send(null)
             xr.onload = (prices) => {
-              setAuth({...auth, plan: {...props, product: JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id}})
-              history.push(`/signup`)
+                if(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100)){
+                    setIsGuest(false)
+                    setPrice(JSON.parse(prices.currentTarget.response).data.find(i=>i.unit_amount===halfPrice*100).id)
+                    history.push(`/signup`)
+                }
             }
         }
     }
