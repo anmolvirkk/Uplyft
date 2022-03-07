@@ -141,21 +141,18 @@ const App = React.memo(() => {
             set(eventTagsAtom, data.eventTags)
             set(tagsAtom, data.tags)
         }
-        setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
     }, [])
 
-    const [data] = useRecoilState(dataAtom)
+    const [data, setData] = useRecoilState(dataAtom)
 
     const updateAtoms = useCallback(() => {
-        if(data){
-            setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
-            batchUpdate(data.data)
-        }else{
-            if(window.location.pathname.split('/').length > 2){
-                window.location.replace(``)
-            }
-        }
-    }, [data, batchUpdate, setSnacks, snacks])
+        setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
+        supabase.from('data').select().eq('email', supabase.auth.user().email).then((res)=>{
+            setData(res.data[0])
+            batchUpdate(res.data[0].data)
+            setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
+        })
+    }, [batchUpdate, setSnacks, snacks, setData])
 
     const updateBackend = useCallback(() => {
         const recoilData = {
