@@ -8,10 +8,12 @@ import InputBox from './components/InputBox'
 import { useHistory } from 'react-router-dom'
 import Lottie from 'react-lottie-player'
 import loadData from '../loading.json'
-import { supabase } from '../../App'
 import dataAtom from '../Dashboard/dataAtom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import priceAtom from '../Checkout/priceAtom'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { db } from '../../firebase'
+import { setDoc, doc } from 'firebase/firestore'
 
 const Auth = ({type}) => {
 
@@ -37,50 +39,78 @@ const Auth = ({type}) => {
             if(form.password === form.confirm){
                 if(error.password){
                     setError({...error, password: false})
-                }
-                supabase.auth.signUp({email: form.email, password: form.password}).then((res)=>{
-                    if(res.error){
-                        setError({...error, email: res.error.message})
-                        setLoading(false)
-                    }else{
-                        supabase.from('data').insert([{email: form.email}]).then((res)=>{
-                            setData(res.data[0])
+                }else{
+                    const auth = getAuth()
+                    createUserWithEmailAndPassword(auth, form.email, form.password).then((e)=>{
+                        setDoc(doc(db, 'users', e.user.uid), {}).then(()=>{
+                            setData({
+                                email: form.email,
+                                uid: e.user.uid
+                            })
                             if(price){
                                 history.push(`/checkout`)
                             }else{
                                 history.push(`/dashboard/${company.journals}`)
                             }
+                        }).catch(err=>{
+                            setError({...error, email: JSON.parse(JSON.stringify(err)).code.replaceAll('auth/', '').replaceAll('-', ' ')})
+                            setLoading(false)
                         })
-                    }
-                })
+                    }).catch(err=>{
+                        if(Object.keys(JSON.parse(JSON.stringify(err))).length !== 0){
+                            setError({...error, email: JSON.parse(JSON.stringify(err)).code.replaceAll('auth/', '').replaceAll('-', ' ')})
+                        }else{
+                            setError({...error, email: 'unknown error occured, please try again later'})
+                        }
+                        setLoading(false)
+                    })
+                }
             }else{
                 setError({...error, password: 'Password Mismatch'})
                 setLoading(false)
             }
         }else{
-            supabase.auth.signIn({email: form.email, password: form.password}).then((res)=>{
-                if(res.error){
-                    setError({...error, email: res.error.message})
-                    setLoading(false)
-                }else{
-                    supabase.from('data').select().eq('email', form.email).then((res)=>{
-                        setData(res.data[0])
-                        history.push(`/dashboard/${company.journals}`)
+            const auth = getAuth()
+            signInWithEmailAndPassword(auth, form.email, form.password).then(e=>{
+                setDoc(doc(db, 'users', e.user.uid), {}).then(()=>{
+                    setData({
+                        email: form.email,
+                        uid: e.user.uid
                     })
+                    history.push(`/dashboard/${company.journals}`)
+                }).catch(err=>{
+                    setError({...error, email: JSON.parse(JSON.stringify(err)).code.replaceAll('auth/', '').replaceAll('-', ' ')})
+                    setLoading(false)
+                })
+            }).catch(err=>{
+                if(Object.keys(JSON.parse(JSON.stringify(err))).length !== 0){
+                    setError({...error, email: JSON.parse(JSON.stringify(err)).code.replaceAll('auth/', '').replaceAll('-', ' ')})
+                }else{
+                    setError({...error, email: 'unknown error occured, please try again later'})
                 }
+                setLoading(false)
             })
         }
     }
 
     const onsocial = () => {
         setLoading(true)
-        supabase.auth.signIn({
-            provider: 'google'
-        }).then((res)=>{
-            supabase.from('data').insert([{email: res.email}]).then(()=>{
+        const auth = getAuth()
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider).then(e => {
+            setDoc(doc(db, 'users', e.user.uid), {}).then(()=>{
+                setData({
+                    email: e.user.email,
+                    uid: e.user.uid
+                })
                 history.push(`/dashboard/${company.journals}`)
+            }).catch(err=>{
+                setError({...error, email: JSON.parse(JSON.stringify(err)).code.replaceAll('auth/', '').replaceAll('-', ' ')})
                 setLoading(false)
             })
+          }).catch((error) => {
+            setError({...error, email: error.message})
+            setLoading(false)
         })
     }
     

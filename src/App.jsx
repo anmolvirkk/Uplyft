@@ -19,12 +19,10 @@ import snacksAtom from './screens/Dashboard/components/Snackbar/snacksAtom'
 import Journals from './screens/Journals'
 import Schedule from './screens/Schedule'
 
-import {createClient} from '@supabase/supabase-js'
 import dataAtom from './screens/Dashboard/dataAtom'
 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpaGl0Z2FueXNpamV2eHJ1c2tmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYyNzU1NTAsImV4cCI6MTk2MTg1MTU1MH0.dKE82H1KReuzJ9ug-PTP2OsT-DdX1geP2tNNITL6TMg'
-const SUPABASE_URL = "https://hihitganysijevxruskf.supabase.co"
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+import {doc, getDoc, updateDoc} from 'firebase/firestore'
+import { db } from './firebase'
 
 const App = React.memo(() => {
 
@@ -143,52 +141,56 @@ const App = React.memo(() => {
         }
     }, [])
 
-    const [data, setData] = useRecoilState(dataAtom)
+    const [data] = useRecoilState(dataAtom)
 
     const updateAtoms = useCallback(() => {
         setSnacks([...snacks, {animate: true, text: 'syncing', icon: 'load'}])
-        supabase.from('data').select().eq('email', supabase.auth.user().email).then((res)=>{
-            setData(res.data[0])
-            batchUpdate(res.data[0].data)
-            setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
+        const docRef = doc(db, 'users', data.uid)
+        getDoc(docRef).then(e=>{
+            if(e.exists()){
+                batchUpdate(e.data())
+                setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
+            }
         })
-    }, [batchUpdate, setSnacks, snacks, setData])
+    }, [batchUpdate, setSnacks, snacks, data])
 
     const updateBackend = useCallback(() => {
         const recoilData = {
-            darkMode: darkMode,
-            allPrompts: allPrompts,
-            allRoutes: allRoutes,
-            books: books,
-            currentMobileSection: currentMobileSection,
-            dates: dates,
-            modalConfig: modalConfig,
-            newDate: newDate,
-            notes: notes,
-            notesDropDown: notesDropDown,
-            openBook: openBook,
-            openSlot: openSlot,
-            slots: slots,
-            allCalendarEvents: allCalendarEvents,
-            completedOpen: completedOpen,
-            dropDownDay: dropDownDay,
-            events: events,
-            habits: habits,
-            projects: projects,
-            routines: routines,
-            scheduleAddDropDown: scheduleAddDropDown,
-            scheduleHeader: scheduleHeader,
-            scheduleSideMenu: scheduleSideMenu,
-            tasks: tasks,
-            eventTags: eventTags,
-            tags: tags
+            darkMode: darkMode?darkMode:null,
+            allPrompts: allPrompts?allPrompts:null,
+            allRoutes: allRoutes?allRoutes:null,
+            books: books?books:null,
+            currentMobileSection: currentMobileSection?currentMobileSection:null,
+            dates: dates?dates:null,
+            modalConfig: modalConfig?modalConfig:null,
+            newDate: newDate?newDate:null,
+            notes: notes?notes:null,
+            notesDropDown: notesDropDown?notesDropDown:null,
+            openBook: openBook?openBook:null,
+            openSlot: openSlot?openSlot:null,
+            slots: slots?slots:null,
+            allCalendarEvents: allCalendarEvents?allCalendarEvents:null,
+            completedOpen: completedOpen?completedOpen:null,
+            dropDownDay: dropDownDay?dropDownDay:null,
+            events: events?events:null,
+            habits: habits?habits:null,
+            projects: projects?projects:null,
+            routines: routines?routines:null,
+            scheduleAddDropDown: scheduleAddDropDown?scheduleAddDropDown:null,
+            scheduleHeader: scheduleHeader?scheduleHeader:null,
+            scheduleSideMenu: scheduleSideMenu?scheduleSideMenu:null,
+            tasks: tasks?tasks:null,
+            eventTags: eventTags?eventTags:null,
+            tags: tags?tags:null
         }
+        const docRef = doc(db, 'users', data.uid)
         setSnacks([...snacks, {animate: true, text: 'saving', icon: 'load'}])
-        supabase.from('data').update({data: recoilData}).match({email: data.email}).then((res)=>{
+        const recoilString = JSON.parse(JSON.stringify(recoilData).replace('undefined', 'null'))
+        updateDoc(docRef, {...recoilString}).then(()=>{
             setSnacks([...snacks, {animate: true, text: 'saved to cloud', icon: 'check'}])
         })
         saved.current = false
-    }, [allCalendarEvents, data.email, setSnacks, snacks, allPrompts, allRoutes, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
+    }, [allCalendarEvents, data, setSnacks, snacks, allPrompts, allRoutes, books, completedOpen, currentMobileSection, darkMode, dates, dropDownDay, eventTags, events, habits, modalConfig, newDate, notes, notesDropDown, openBook, openSlot, projects, routines, scheduleAddDropDown, scheduleHeader, scheduleSideMenu, slots, tags, tasks])
 
     document.onvisibilitychange = () => {
         if(plan==='Pro'){

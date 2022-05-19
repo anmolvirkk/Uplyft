@@ -1,7 +1,7 @@
-import React from 'react'
-import { LogOut, Moon, RefreshCw, Save, Package, Send, ChevronRight } from 'react-feather'
+import React, { useState, useEffect } from 'react'
+import { LogOut, Moon, RefreshCw, Save, Package, ChevronRight } from 'react-feather'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { darkModeAtom, planAtom } from '../../allAtoms'
+import { darkModeAtom } from '../../allAtoms'
 import styles from './_settings.module.sass'
 import premium from './premium.json'
 import plus from './plus.json'
@@ -10,12 +10,10 @@ import { useHistory } from 'react-router-dom'
 import settingsAtom from './settingsAtom'
 import OutsideClickHandler from 'react-outside-click-handler-lite/build/OutsideClickHandler'
 import { stripeSecret } from '../../../Pricing/components/Plan'
-import { useState } from 'react'
 import modalConfigAtom from '../../recoil-atoms/modalConfigAtom'
-import { useEffect } from 'react'
 import updatedAtom from '../../updatedAtom'
 import priceAtom from '../../../Checkout/priceAtom'
-import { supabase } from '../../../../App'
+import { getAuth, signOut } from 'firebase/auth'
 
 const Settings = React.memo(({updateBackend, updateAtoms}) => {
     const [darkMode, setDarkMode] = useRecoilState(darkModeAtom)
@@ -60,18 +58,9 @@ const Settings = React.memo(({updateBackend, updateAtoms}) => {
             <div className={styles.container}>
                 {title?<div className={styles.title}>{title}</div>:null}
                 {blocks?blocks.map((item, i)=>{
-                    let activePrice = null
                     let activeInterval = ''
-                    if(item.price && Object.keys(item.price).length > 0){
-                        Object.keys(item.price).forEach((interval)=>{
-                            if(item.price[interval] === plan){
-                                activePrice = plan
-                                activeInterval = interval
-                            }
-                        })
-                    }
                     return (
-                        <div key={i} id={`block${item.text}`} className={`${styles.block} ${plan===activePrice?styles.currentPlan:item.text==='Starter'?plan==='Starter'||plan===0?styles.currentPlan:'':''}`} style={{cursor: item.type==='button'||item.type==='select'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
+                        <div key={i} id={`block${item.text}`} className={`${styles.block} ${item.active?styles.currentPlan:''}`} style={{cursor: item.type==='button'||item.type==='select'?'pointer':'default'}} onMouseDown={item.func&&item.type!=='select'?item.func:null}>
                             <div className={styles.text}>
                                 {item.icon?item.icon:null}
                                 {item.lottie?
@@ -96,26 +85,50 @@ const Settings = React.memo(({updateBackend, updateAtoms}) => {
     })
 
     const history = useHistory()
-    const [plan] = useRecoilState(planAtom)
-    
-    const planTitle = (price) => {
-        let planTitle = 'Starter'
-        let planPrice = price?price:plan
-        if(planPrice === 2000 || planPrice === 22000){
-            planTitle = 'Plus'
-        }else if(planPrice === 2500 || planPrice === 27500){
-            planTitle = 'Pro'
+
+    const [planTitle, setPlanTitle] = useState('')
+
+    const [price] = useRecoilState(priceAtom)
+
+    useEffect(()=>{
+        if(planTitle === ''){
+            let xr = new XMLHttpRequest()
+            xr.open('GET', `https://api.stripe.com/v1/prices`, true)
+            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            xr.send(null)
+            xr.onload = (prices) => {
+                if(JSON.parse(prices.currentTarget.response).data.find(i=>i.id===price)){
+                    switch (JSON.parse(prices.currentTarget.response).data.find(i=>i.id===price).unit_amount) {
+                        case 2000:
+                            setPlanTitle('Plus')
+                        break
+                        case 22000:
+                            setPlanTitle('Plus')
+                        break
+                        case 2500:
+                            setPlanTitle('Pro')
+                        break
+                        case 27500:
+                            setPlanTitle('Pro')
+                        break
+                        default:
+                            setPlanTitle('Starter')
+                        break
+                    }
+                }
+            }
         }
-        return planTitle
-    }
+    }, [price, planTitle])
 
     const setUpdated = useSetRecoilState(updatedAtom)
     
     const logout = () => {
-        supabase.auth.signOut().then(()=>{
-            history.push(``)
+        const auth = getAuth()
+        signOut(auth).then(()=>{
+            setUpdated({snacks: false, atoms: false, upgrade: false})
+            history.push('')
         })
-        setUpdated({snacks: false, atoms: false, upgrade: false})
     }
 
     const [settings, setSettings] = useRecoilState(settingsAtom)
@@ -151,9 +164,8 @@ const Settings = React.memo(({updateBackend, updateAtoms}) => {
         <OutsideClickHandler onOutsideClick={(e)=>closeSettings(e)}>
             <div className={`${styles.settings} ${settings?styles.show:''}`}>
                 <Blocks blocks={[{icon:<Moon />, text:'Dark Mode', type:'toggle', state:darkMode, setState:setDarkMode}]} />
-                {planTitle()==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackend}]} />:null}
-                <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', func: ()=>setPlan(0)}]} />
-                <Blocks title='Account' blocks={[{icon: <Send />, text: 'Feedback', type: 'button', func: ()=>setModalConfig({type: 'feedback'})}]} />
+                {planTitle==='Pro'?<Blocks title='Data' blocks={[{icon: <RefreshCw />, text: 'Sync', type: 'button', func:updateAtoms},{icon: <Save />, text: 'Save', type: 'button', func: updateBackend}]} />:null}
+                <Blocks title='Plan' blocks={[{lottie:premium, text: 'Pro', type: 'select', active: planTitle==='Pro', price: {yearly: 27500, monthly: 2500}, select: [{text: 'yearly', func: ()=>setPlan(27500)}, {text: 'monthly', func: ()=>setPlan(2500)}]},{lottie: plus, text: 'Plus', active: planTitle==='Plus', type: 'select', price: {yearly: 22000, monthly: 2000}, select: [{text: 'yearly', func: ()=>setPlan(22000)}, {text: 'monthly', func: ()=>setPlan(2000)}]},{icon: <Package />, text: 'Starter', price: 0, type: 'button', active: planTitle==='Starter', func: ()=>setPlan(0)}]} />
                 <Blocks blocks={[{icon:<LogOut />, text: 'Logout', type: 'button', func: logout}]} />
             </div>
         </OutsideClickHandler>

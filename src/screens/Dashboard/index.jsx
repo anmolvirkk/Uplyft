@@ -13,56 +13,52 @@ import snacksAtom from './components/Snackbar/snacksAtom'
 import { stripeSecret } from '../Pricing/components/Plan'
 import Modal from './components/Modal'
 import updatedAtom from './updatedAtom'
-import { supabase } from '../../App'
 import dataAtom from './dataAtom'
 import isGuestAtom from '../Pricing/isGuestAtom'
+import { getDoc, doc } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 const Dashboard = React.memo(({updateAtoms, updateBackend}) => {
 
     const [plan, setPlan] = useRecoilState(planAtom)
-    const [data, setData] = useRecoilState(dataAtom)
+    const [data] = useRecoilState(dataAtom)
     const [isGuest] = useRecoilState(isGuestAtom)
 
     useEffect(()=>{
-        if(!isGuest){
-            supabase.from('data').select().eq('email', supabase.auth.user().email).then((res)=>{
-                setData(res.data[0])
-            })
-        }
-    }, [setData, isGuest])
-
-    useEffect(()=>{
-        if(supabase.auth.user()){
-            let xr = new XMLHttpRequest()
-            xr.open('GET', `https://api.stripe.com/v1/customers`, true)
-            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-            xr.send(null)
-            xr.onload = (customers) => {
-                if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===data.email)){
+            const docRef = doc(db, 'users', data.uid)
+            getDoc(docRef).then(e=>{
+                if(e.exists){
                     let xr = new XMLHttpRequest()
-                    xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+                    xr.open('GET', `https://api.stripe.com/v1/customers`, true)
                     xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
-                    xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                    xr.send(`customer=${customers[0]}`)
-                    xr.onload = (sub) => {
-                        if(JSON.parse(sub.currentTarget.response).data.length > 0){
-                            if(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount>0){
-                                setPlan(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount)
-                            }else{
-                                setPlan(0)
+                    xr.send(null)
+                    xr.onload = (customers) => {
+                        if(JSON.parse(customers.currentTarget.response).data.find(i=>i.email===data.email)){
+                            let xr = new XMLHttpRequest()
+                            xr.open('GET', `https://api.stripe.com/v1/subscriptions`, true)
+                            xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
+                            xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                            xr.send(`customer=${customers[0]}`)
+                            xr.onload = (sub) => {
+                                if(JSON.parse(sub.currentTarget.response).data.length > 0){
+                                    if(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount>0){
+                                        setPlan(JSON.parse(sub.currentTarget.response).data[0].items.data[0].price.unit_amount)
+                                    }else{
+                                        setPlan(0)
+                                    }
+                                }else{
+                                    setPlan(0)
+                                }
                             }
                         }else{
                             setPlan(0)
                         }
                     }
-                }else{
-                    setPlan(0)
-                }
+                }else if(!isGuest){
+                    window.location.replace(`/`)
             }
-        }else if(!isGuest){
-            window.location.replace(`/`)
-        }
-    }, [setPlan, plan, data.email, isGuest])
+        })
+    }, [setPlan, plan, data, isGuest])
 
     const [modalConfig, setModalConfig] = useRecoilState(modalConfigAtom)
 

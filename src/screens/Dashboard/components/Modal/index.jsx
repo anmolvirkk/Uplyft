@@ -34,12 +34,7 @@ import { useCallback } from 'react'
 import authAtom from '../../../Auth/authAtom'
 import { useHistory } from 'react-router-dom'
 
-import { supabase } from '../../../../App'
-import dataAtom from '../../dataAtom'
-
 const Modal = React.memo(() => {
-
-    const [data] = useRecoilState(dataAtom)
 
     const setAllRoutes = useSetRecoilState(allRoutesAtom)
     const setOpenBook = useSetRecoilState(openBookAtom)
@@ -463,68 +458,7 @@ const Modal = React.memo(() => {
         )
     })
 
-    const feedback = useRef('')
-
-    const Feedback = React.memo(() => {
-        return (
-            <div className={styles.feedback}>
-                <h3>Please send us your feedback to improve our service</h3>
-                <textarea onChange={(e)=>feedback.current=e.target.value} />
-            </div>
-        )
-    })
-
-    const sendFeedback = () => {
-        supabase.from('data').update({feedback: feedback.current}).match({email: data.email})
-    }
-
     const [loading, setLoading] = useState(null)
-
-    const sendFeedbackWithModal = () => {
-        setLoading(true)
-        if(feedback.current !== ''){
-            supabase.from('data').select().match({email: data.email}).then((res)=>{
-                let feedbacks = res.data[0].feedback?res.data[0].feedback:[]
-                supabase.from('data').update({feedback: [...feedbacks, feedback.current]}).match({email: data.email}).then(()=>{
-                    setLoading(false)
-                })
-            })
-        }else{
-            setLoading(false)
-        }
-    }
-
-    const FeedbackModal = React.memo(()=>{
-        return (
-            <div className={`${styles.form} ${styles.feedbackModal}`} id='modalForm'>
-                <div className={styles.header}>
-                    <p style={{marginRight: '24px'}}>{loading===null?'Please send us your feedback to improve our service':loading?'Sending Feedback':'Feedback Sent'}</p>
-                    <X onClick={()=>setModalConfig({type: ''})} />
-                </div>
-                {loading===null?
-                <div className={styles.feedback}>
-                    <textarea onChange={(e)=>feedback.current=e.target.value} style={{height: windowHeight*65/100}} />
-                </div>
-                :loading?
-                <Lottie
-                    play
-                    loop={false}
-                    animationData={loadData}
-                    style={{ width: 500, height: 300 }}
-                />:
-                <Lottie
-                    play
-                    loop={false}
-                    animationData={checkData}
-                    style={{ width: 500, height: 300 }}
-                />}
-                <div className={styles.footer}>
-                    <button onClick={()=>setModalConfig({type: ''})} className={styles.cancelBtn}>Cancel</button>
-                    <button className={styles.continueBtn} onClick={loading===null?sendFeedbackWithModal:()=>setModalConfig({type: ''})}>Continue</button>
-                </div>
-            </div>
-        )
-    })
 
     const Subscription = React.memo(() => {
         const Loading = React.memo(() => {
@@ -573,7 +507,6 @@ const Modal = React.memo(() => {
             let features = plans.filter(i=>i.title===planTitle)[0].features
             let starter = plans.filter(i=>i.title==='Starter')[0].features
             const cancel = useCallback(() => {
-                sendFeedback()
                 let xr = new XMLHttpRequest()
                 xr.open('GET', `https://api.stripe.com/v1/customers`, true)
                 xr.setRequestHeader('Authorization', 'Bearer '+stripeSecret )
@@ -615,7 +548,6 @@ const Modal = React.memo(() => {
                         </div>
                         {loading?<Loading />:
                         <div>
-                            <Feedback />
                             <div className={styles.features}>
                                 <h3>What you will be missing out on</h3>
                                 <div className={styles.container}>
@@ -725,8 +657,6 @@ const Modal = React.memo(() => {
                 <Upgrade amount={modalConfig.amount} />
                 : modalConfig.type === 'cancelSubscription' ?
                 <Subscription />
-                : modalConfig.type === 'feedback' ?
-                <FeedbackModal />
                 : null
                 }
             </div>

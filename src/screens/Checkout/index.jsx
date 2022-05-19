@@ -135,7 +135,6 @@ const Checkout = ({updateBackend}) => {
                   xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                   xr.send(`customer=${customer};items[0][price]=${price}`)
                   xr.onload = (sub) => {
-                      console.log(JSON.parse(sub.currentTarget.response))
                       setModalConfig({type: 'upgrade', amount: JSON.parse(sub.currentTarget.response).plan.amount})  
                       if(JSON.parse(sub.currentTarget.response).plan.amount === 27500 || JSON.parse(sub.currentTarget.response).plan.amount === 2500){
                         updateBackend()
