@@ -52,12 +52,16 @@
             +mixins.center
             flex-flow: row
             height: 50px
-            div
-                background-color: transparent !important
-                margin: 0 !important
-            span
-                font-size: 16px
-                font-weight: 400 !important
+            color: rgb(var(--tooltip), 0.75)
+            font-size: 16px
+            font-weight: 400 !important
+            display: flex
+            align-items: center
+            position: relative
+            cursor: pointer
+            svg
+                position: absolute
+                left: 5%
 
     .divide
         display: flex
@@ -120,8 +124,8 @@
         .social
             button
                 height: 45px
-                span
-                    font-size: 14px
+                font-size: 14px
+                width: calc( 100vw - 24px - 48px )
 
         .divide
             p

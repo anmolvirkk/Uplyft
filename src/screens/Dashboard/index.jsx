@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Schedule from './screens/Schedule'
 import Journals from './screens/Journals'
@@ -98,6 +98,15 @@ const Dashboard = React.memo(({updateAtoms, updateBackend}) => {
             setUpdated({...updated, atoms: true})
         }
     }, [modalConfig, snacks, setModalConfig, setSnacks, planTitle, updateAtoms, updated, setUpdated])
+
+    const initialUpdateAtoms = useRef(false)
+
+    useEffect(()=>{
+        if(!initialUpdateAtoms.current){
+            initialUpdateAtoms.current = true
+            updateAtoms()
+        }
+    }, [initialUpdateAtoms, updateAtoms])
 
     return (
         <div className="container">

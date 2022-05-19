@@ -148,7 +148,9 @@ const App = React.memo(() => {
         const docRef = doc(db, 'users', data.uid)
         getDoc(docRef).then(e=>{
             if(e.exists()){
-                batchUpdate(e.data())
+                if(Object.keys(e.data()).length > 0){
+                    batchUpdate(e.data())
+                }
                 setSnacks([...snacks, {animate: true, text: 'sync complete', icon: 'check'}])
             }
         })
